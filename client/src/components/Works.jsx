@@ -8,7 +8,7 @@ import Workcomp from "./work-comp";
 const Works = ({ img, head, desc }) => {
   return (
     <div className="mt-20">
-      <h1 className="text-[12px] ml-[14px] font-poppins font-[700]">
+      <h1 className="text-[12px] ml-[14px]  font-poppins font-[700]">
         How It Works
       </h1>
       <div className="allComp">

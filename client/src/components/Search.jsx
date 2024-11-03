@@ -6,7 +6,7 @@ const Search = () => {
       <IoSearch className="h-[20px] w-[20px] ml-[25px] text-gray-500" />
       <input
         placeholder="Search Shearwani"
-        className="bg-transparent  pl-[20px] outline-none font-poppins text-[11px] leading-[15px]"
+        className="bg-transparent w-full pl-[20px] outline-none font-poppins text-[11px] leading-[15px]"
         type="text"
       />
     </div>

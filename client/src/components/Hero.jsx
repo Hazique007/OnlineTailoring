@@ -3,7 +3,7 @@ import img from "../assets/images/Hero.png";
 
 const Hero = () => {
   return (
-    <div className="h-[182px] w-full  rounded-[5px] mt-[11px]">
+    <div className="h-[182px] w-full rounded-[5px] mt-[11px]">
       <img
         src={img}
         className="h-[182px] w-full rounded-[5px]"

@@ -9,6 +9,7 @@ import KidsStyling from "../../components/kidsStyling";
 import Trending from "../../components/Trending";
 import Works from "../../components/Works";
 import WhatsApp from "../../components/whats";
+import Fashion from "../../components/fashionStyling";
 const LandingPage = () => {
   return (
     <div className="pb-20">
@@ -25,6 +26,7 @@ const LandingPage = () => {
       </div>
       <Trending />
       <Works />
+      <Fashion />
       <Navbar />
     </div>
   );
