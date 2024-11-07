@@ -18,7 +18,6 @@ const LandingPage = () => {
       <TopNav />
       <div className="w-[100vw] justify-center px-[13px] pt-[11px] items-center ">
         <Search />
-
         <div>
           <Hero />
         </div>
