@@ -8,7 +8,6 @@ const Search = () => {
   const { isSearch, setIsSearch } = useContext(SearchContext);
   const handleSearch = () => {
     setIsSearch(!isSearch);
-    navigate("/search");
   };
 
   return (

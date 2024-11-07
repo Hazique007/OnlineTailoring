@@ -18,17 +18,20 @@ const LandingPage = () => {
       <TopNav />
       <div className="w-[100vw] justify-center px-[13px] pt-[11px] items-center ">
         <Search />
-        <Hero />
+
+        <div>
+          <Hero />
+        </div>
+        <MenStyle />
+        <WomenStyling />
+        <KidsStyling />
+        <div className="w-[100vw] flex justify-center items-center ">
+          <WhatsApp />
+        </div>
+        <Trending />
+        <Works />
+        <Fashion />
       </div>
-      <MenStyle />
-      <WomenStyling />
-      <KidsStyling />
-      <div className="w-[100vw] flex justify-center items-center ">
-        <WhatsApp />
-      </div>
-      <Trending />
-      <Works />
-      <Fashion />
       <Navbar />
     </div>
   );
