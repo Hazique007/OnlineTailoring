@@ -10,6 +10,8 @@ import Trending from "../../components/Trending";
 import Works from "../../components/Works";
 import WhatsApp from "../../components/whats";
 import Fashion from "../../components/fashionStyling";
+import { useContext } from "react";
+import { SearchContext } from "../../Context Api/searchContext";
 const LandingPage = () => {
   return (
     <div className="pb-20">
