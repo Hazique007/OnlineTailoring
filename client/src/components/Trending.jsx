@@ -6,40 +6,32 @@ import image4 from "../assets/images/images (1).png";
 
 const Trending = () => {
   return (
-    <div className="px-[15px] mt-10 h-[390px] rounded-[10px]">
-      <h1 className="font-poppins ml-[6px] font-[700] text-[12px] leading-[18px]">
+    <div className="px-4 mt-10 h-auto rounded-lg">
+      <h1 className="font-poppins ml-1 font-bold text-lg leading-[18px]">
         Trending
       </h1>
 
-      <div className="images flex-col justify-between items-center">
-        <div className="row1 mt-4 flex justify-between items-center">
-          <img
-            className="h-[30vh] w-[43vw] object-cover rounded-[10px]"
-            src={image1}
-            alt=""
-            srcSet=""
-          />
-          <img
-            className="h-[30vh] w-[43vw] object-cover rounded-[10px]"
-            src={image2}
-            alt=""
-            srcSet=""
-          />
-        </div>
-        <div className="row2 mt-4 flex justify-between items-center">
-          <img
-            className="h-[30vh] w-[43vw] object-cover rounded-[10px]"
-            src={image3}
-            alt=""
-            srcSet=""
-          />
-          <img
-            className="h-[30vh] w-[43vw] object-cover rounded-[10px]"
-            src={image4}
-            alt=""
-            srcSet=""
-          />
-        </div>
+      <div className="grid grid-cols-2 gap-4 mt-4">
+        <img
+          className="h-[30vh] w-full object-cover rounded-lg"
+          src={image1}
+          alt="Anime T-shirts"
+        />
+        <img
+          className="h-[30vh] w-full object-cover rounded-lg"
+          src={image2}
+          alt="Men's Menu Banner"
+        />
+        <img
+          className="h-[30vh] w-full object-cover rounded-lg"
+          src={image3}
+          alt="Men's Page 1"
+        />
+        <img
+          className="h-[30vh] w-full object-cover rounded-lg"
+          src={image4}
+          alt="Additional Trending Image"
+        />
       </div>
     </div>
   );

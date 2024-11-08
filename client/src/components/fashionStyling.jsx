@@ -17,13 +17,13 @@ const Fashion = () => {
       <div className="images flex-col justify-between items-center">
         <div className="row1 mt-4 flex justify-between items-center">
           <img
-            className="h-[30vh] w-[43vw] object-cover rounded-[10px]"
+            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
             src={images7}
             alt=""
             srcSet=""
           />
           <img
-            className="h-[30vh] w-[43vw] object-cover rounded-[10px]"
+            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
             src={image4}
             alt=""
             srcSet=""
@@ -31,13 +31,13 @@ const Fashion = () => {
         </div>
         <div className="row2 mt-4 flex justify-between items-center">
           <img
-            className="h-[30vh] w-[43vw] object-cover rounded-[10px]"
+            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
             src={image1}
             alt=""
             srcSet=""
           />
           <img
-            className="h-[30vh] w-[43vw] object-cover rounded-[10px]"
+            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
             src={image2}
             alt=""
             srcSet=""
@@ -45,13 +45,13 @@ const Fashion = () => {
         </div>
         <div className="row3 mt-4 flex justify-between items-center">
           <img
-            className="h-[30vh] w-[43vw] object-cover rounded-[10px]"
+            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
             src={image3}
             alt=""
             srcSet=""
           />
           <img
-            className="h-[30vh] w-[43vw] object-cover rounded-[10px]"
+            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
             src={image4}
             alt=""
             srcSet=""
@@ -59,13 +59,13 @@ const Fashion = () => {
         </div>
         <div className="row4 mt-4 flex justify-between items-center">
           <img
-            className="h-[30vh] w-[43vw] object-cover rounded-[10px]"
+            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
             src={images5}
             alt=""
             srcSet=""
           />
           <img
-            className="h-[30vh] w-[43vw] object-cover rounded-[10px]"
+            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
             src={images6}
             alt=""
             srcSet=""

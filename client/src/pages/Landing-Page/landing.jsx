@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navbar from "../../components/Navbar";
 import TopNav from "../../components/TopNav";
 import Search from "../../components/Search";
@@ -10,21 +10,18 @@ import Trending from "../../components/Trending";
 import Works from "../../components/Works";
 import WhatsApp from "../../components/whats";
 import Fashion from "../../components/fashionStyling";
-import { useContext } from "react";
-import { SearchContext } from "../../Context Api/searchContext";
+
 const LandingPage = () => {
   return (
     <div className="pb-20">
       <TopNav />
-      <div className="w-[100vw] justify-center px-[13px] pt-[11px] items-center ">
+      <div className="w-full justify-center px-4 pt-3">
         <Search />
-        <div>
-          <Hero />
-        </div>
+        <Hero />
         <MenStyle />
         <WomenStyling />
         <KidsStyling />
-        <div className="w-[100vw] flex justify-center items-center ">
+        <div className="flex justify-center items-center">
           <WhatsApp />
         </div>
         <Trending />
