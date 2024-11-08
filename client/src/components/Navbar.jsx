@@ -30,6 +30,7 @@ const Navbar = () => {
   return (
     <div className="Navigation h-[62px] bottom-0 fixed flex items-center justify-evenly bg-[#FAF1F1] w-full">
       <TopNavIcon
+        onClick={() => navigate("/Home")}
         label={"Home"}
         image={<IoHome className="h-[25px] w-[25px]" />}
       />
@@ -39,6 +40,7 @@ const Navbar = () => {
         onClick={handleSearch}
       />
       <TopNavIcon
+        onClick={() => navigate("/product")}
         label={"Shop"}
         image={<PiSquaresFourBold className="h-[25px] w-[25px]" />}
       />
