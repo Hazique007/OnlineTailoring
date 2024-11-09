@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 const images = [image2, image3, image1];
 
 const FabricCart = ({ label, price = 500, FabricName = "FabricName" }) => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const imageBoxRef = useRef(null);
@@ -58,6 +59,7 @@ const FabricCart = ({ label, price = 500, FabricName = "FabricName" }) => {
         >
           {images.map((image, index) => (
             <img
+              onClick={() => navigate("/customize")}
               key={index}
               className="h-full w-full flex-shrink-0 object-cover rounded-lg snap-center cursor-pointer"
               src={image}

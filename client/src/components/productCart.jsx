@@ -15,12 +15,15 @@ function SimpleDialog({ open, onClose }) {
   const handleClose = () => {
     onClose();
   };
-  if (wantFabric == "Fabric") {
-    navigate("/fabric");
-  }
-  if (wantFabric == "NoFabric") {
-    navigate("/customize");
-  }
+  useEffect(() => {
+    if (wantFabric === "Fabric") {
+      navigate("/fabric");
+      onClose();
+    } else if (wantFabric === "NoFabric") {
+      navigate("/customize");
+      onClose();
+    }
+  }, [wantFabric, navigate, onClose]);
   return (
     <Dialog
       onClose={handleClose}
