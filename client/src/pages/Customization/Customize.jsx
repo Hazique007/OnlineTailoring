@@ -113,28 +113,30 @@ const Customize = () => {
               ))}
             </div>
           ) : (
-            <div className="w-full  flex flex-col gap-4 ">
+            <div className="w-full flex flex-col gap-4">
               {config.map(({ label, key }) => (
                 <div
                   key={key}
-                  className="w-full flex justify-between items-center mb-1"
+                  className="w-full flex items-center justify-between mb-1 gap-2"
                 >
-                  <label className="font-poppins font-[400] text-[12px] text-[#737373]">
+                  <label className="font-poppins font-[400] text-[12px] text-[#737373] w-1/3">
                     {label}
                   </label>
-                  <select
-                    className="bg-[#FAF1F1] h-[24px] w-[233px] pl-2 text-[#737373] text-[12px] font-poppins font-[400]"
-                    value={formValues[key]}
-                    onChange={(e) => handleSelectChange(key, e.target.value)}
-                  >
-                    <option value="">{label}</option>
-                    {options[key].map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  <BiSolidCommentDetail className="text-gray-400" />
+                  <div className="flex items-center w-2/3">
+                    <select
+                      className="bg-[#FAF1F1] h-[24px] w-full pl-2 text-[#737373] text-[12px] font-poppins font-[400] rounded-md"
+                      value={formValues[key]}
+                      onChange={(e) => handleSelectChange(key, e.target.value)}
+                    >
+                      <option value="">{label}</option>
+                      {options[key].map((option, index) => (
+                        <option key={index} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                    <BiSolidCommentDetail className="text-gray-400 ml-2" />
+                  </div>
                 </div>
               ))}
             </div>
