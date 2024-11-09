@@ -7,59 +7,9 @@ import image3 from "../assets/images/Lettering-T-shirts.png";
 import DialogImage from "../assets/images/dialog-image.png";
 import { useNavigate } from "react-router-dom";
 
-const images = [image1, image2, image3];
+const images = [image2, image3, image1];
 
-function SimpleDialog({ open, onClose }) {
-  const navigate = useNavigate();
-  const [wantFabric, setWantFabric] = useState("");
-  const handleClose = () => {
-    onClose();
-  };
-  if (wantFabric == "Fabric") {
-    navigate("/fabric");
-  }
-  if (wantFabric == "NoFabric") {
-    navigate("/");
-  }
-  return (
-    <Dialog
-      onClose={handleClose}
-      open={open}
-      classes={{ paper: "p-4 rounded-lg text-center" }}
-    >
-      <div className="flex flex-col items-center space-y-4">
-        <img
-          className="h-14 w-14 object-cover rounded-full"
-          src={DialogImage}
-          alt="Dialog Image"
-        />
-        <DialogTitle className="font-bold text-lg text-gray-800">
-          Would you like to proceed with Fabric Selection?
-        </DialogTitle>
-        <p className="text-gray-600 text-sm px-6">
-          Click ‘Yes’ if you want to buy the cloth as well. Click ‘No’ if you
-          already have the fabric, which we’ll pick up during measurements.
-        </p>
-        <div className="flex flex-col space-y-4">
-          <button
-            onClick={() => setWantFabric("Fabric")}
-            className="px-6 py-2 bg-[#C65647] text-white rounded-md font-medium shadow hover:bg-[#b2463d]"
-          >
-            ‘Yes’ I want to purchase the fabric
-          </button>
-          <button
-            onClick={() => setWantFabric("NoFabric")}
-            className="px-6 py-2 text-[#1043F9] border-none rounded-md font-medium  hover:bg-blue-50"
-          >
-            ‘No’, I already have the fabric
-          </button>
-        </div>
-      </div>
-    </Dialog>
-  );
-}
-
-const ProductCart = ({ label, price = 500, styleName = "StyleName" }) => {
+const FabricCart = ({ label, price = 500, FabricName = "FabricName" }) => {
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const imageBoxRef = useRef(null);
@@ -108,7 +58,6 @@ const ProductCart = ({ label, price = 500, styleName = "StyleName" }) => {
         >
           {images.map((image, index) => (
             <img
-              onClick={handleOnclick}
               key={index}
               className="h-full w-full flex-shrink-0 object-cover rounded-lg snap-center cursor-pointer"
               src={image}
@@ -128,14 +77,15 @@ const ProductCart = ({ label, price = 500, styleName = "StyleName" }) => {
           ))}
         </div>
         <div className="text flex flex-col gap-2">
-          <h2 className="text-[12px] font-semibold">{styleName}</h2>
+          <h2 className="text-[12px] font-semibold">{FabricName}</h2>
           <p className="text-[12px] text-gray-600">Price: {price}</p>
-          <h2 className="text-[12px] text-yellow-600">Men > Shirts > Formal</h2>
+          <h2 className="text-[12px] text-yellow-600">
+            Men > Shirts > Formal >Fabric
+          </h2>
         </div>
       </div>
-      <SimpleDialog open={open} onClose={handleClose} />
     </div>
   );
 };
 
-export default ProductCart;
+export default FabricCart;
