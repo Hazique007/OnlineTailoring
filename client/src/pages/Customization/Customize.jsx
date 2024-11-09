@@ -2,25 +2,78 @@ import React, { useState } from "react";
 import TopNav from "../../components/TopNav";
 import styleImage from "../../assets/images/Anime-T-shirts.png";
 import Navbar from "../../components/Navbar";
+import { BiSolidCommentDetail } from "react-icons/bi";
 
 const Customize = () => {
-  const [pocket, setPocket] = useState("Single Pocket");
-  const [sleeves, setSleeves] = useState("Full Sleeves");
-  const [thread, setThread] = useState("White");
-  const [collarStyle, setCollarStyle] = useState("Regular");
-  const [collarStiffness, setCollarStiffness] = useState("Medium");
-  const [collarButtons, setCollarButtons] = useState("Yes");
-  const [buttonColor, setButtonColor] = useState("Black");
-  const [cuffStyle, setCuffStyle] = useState("Round");
-  const [cuffStiffness, setCuffStiffness] = useState("Soft");
-  const [shirtLength, setShirtLength] = useState("Regular");
+  const [formValues, setFormValues] = useState({
+    pocket: "Single Pocket",
+    sleeves: "Full Sleeves",
+    thread: "White",
+    collarStyle: "Regular",
+    collarStiffness: "Medium",
+    collarButton: "Zero",
+    neckButton: "Yes",
+    buttonColor: "Black",
+    threadColor: "White",
+    placket: "Standard",
+    cuffStyle: "Round",
+    cuffStiffness: "Soft",
+    bottomCut: "Straight",
+    shirtLength: "Regular",
+  });
   const [show, setShow] = useState(false);
+
+  const options = {
+    collarStyle: [
+      "Spread Collar",
+      "Prince Charlie",
+      "Madmen",
+      "Bandhgala",
+      "Polo",
+      "Mandarin",
+    ],
+    collarStiffness: ["Soft", "Medium", "Stiff"],
+    neckButton: ["Yes", "No"],
+    collarButton: ["Zero", "One", "Two"],
+    buttonColor: ["Black", "White", "Red", "Blue"],
+    threadColor: ["White", "Black", "Gray", "Blue"],
+    placket: ["Standard", "Hidden", "Covered"],
+    pockets: ["No Pocket", "Single Pocket", "Double Pocket"],
+    sleeves: ["Full Sleeves", "Half Sleeves"],
+    cuffStyle: ["Single Button Cuff", "French Cuff", "Double Button Cuff"],
+    cuffStiffness: ["Soft", "Stiff", "Double Stiff"],
+    bottomCut: ["Straight", "Curved"],
+    shirtLength: ["Short", "Regular", "Long"],
+  };
+
+  const config = [
+    { label: "Collar Style", key: "collarStyle" },
+    { label: "Collar Stiffness", key: "collarStiffness" },
+    { label: "Neck Button", key: "neckButton" },
+    { label: "Collar Button", key: "collarButton" },
+    { label: "Button Color", key: "buttonColor" },
+    { label: "Thread Color", key: "threadColor" },
+    { label: "Placket", key: "placket" },
+    { label: "Pockets", key: "pockets" },
+    { label: "Sleeves", key: "sleeves" },
+    { label: "Cuff Style", key: "cuffStyle" },
+    { label: "Cuff Stiffness", key: "cuffStiffness" },
+    { label: "Bottom Cut", key: "bottomCut" },
+    { label: "Shirt Length", key: "shirtLength" },
+  ];
+
+  const handleSelectChange = (key, value) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [key]: value,
+    }));
+  };
 
   return (
     <div>
       <TopNav />
 
-      <div className="px-[11px] mt-[17px] pb-28">
+      <div className="px-[11px] mt-[17px] pb-24">
         <h1 className="font-poppins font-[700] text-[14px] text-[#737373] ">
           Men > Formal Shirts > Style Name
         </h1>
@@ -34,105 +87,68 @@ const Customize = () => {
             alt="Customize clothing"
           />
         </div>
-        <div className="h-[331px] mt-[31px] bg-[#F1F1F180] rounded-[10px] p-4">
+        <div className=" mt-[31px] bg-[#F1F1F180] rounded-[10px] p-4">
           <div className="flex w-full justify-between ">
-            <h1 className="text-[16px] font-[700] font-poppins">
+            <h1 className="text-[16px] font-[700] font-poppins mb-2">
               Decide Your Style
             </h1>
             <span
               onClick={() => setShow(!show)}
-              className="text-[12px] text-[#1043F9] font-[400] font-poppins"
+              className={`text-[12px] text-[#1043F9] font-[400] font-poppins cursor-pointer`}
             >
               Edit Details
             </span>
           </div>
           {!show ? (
-            <div className="details grid grid-cols-3 gap-5 mt-[24px] ">
-              <p className="flex flex-col gap-y-2">
-                <h2 className="font-[400] text-[12px] font-poppins">Pockets</h2>
-                <span className="text-[#DA3A3A] font-[400] text-[12px] font-poppins">
-                  {pocket}
-                </span>
-              </p>
-              <p className="flex flex-col gap-y-2">
-                <h2 className="font-[400] text-[12px] font-poppins">Sleeves</h2>
-                <span className="text-[#DA3A3A] font-[400] text-[12px] font-poppins">
-                  {sleeves}
-                </span>
-              </p>
-              <p className="flex flex-col gap-y-2">
-                <h2 className="font-[400] text-[12px] font-poppins">
-                  Thread Colour
-                </h2>
-                <span className="text-[#DA3A3A] font-[400] text-[12px] font-poppins">
-                  {thread}
-                </span>
-              </p>
-              <p className="flex flex-col gap-y-2">
-                <h2 className="font-[400] text-[12px] font-poppins">
-                  Collar Style
-                </h2>
-                <span className="text-[#DA3A3A] font-[400] text-[12px] font-poppins">
-                  {collarStyle}
-                </span>
-              </p>
-              <p className="flex flex-col gap-y-2">
-                <h2 className="font-[400] text-[12px] font-poppins">
-                  Collar Stiffness
-                </h2>
-                <span className="text-[#DA3A3A] font-[400] text-[12px] font-poppins">
-                  {collarStiffness}
-                </span>
-              </p>
-              <p className="flex flex-col gap-y-2">
-                <h2 className="font-[400] text-[12px] font-poppins">
-                  Collar Buttons
-                </h2>
-                <span className="text-[#DA3A3A] font-[400] text-[12px] font-poppins">
-                  {collarButtons}
-                </span>
-              </p>
-              <p className="flex flex-col gap-y-2">
-                <h2 className="font-[400] text-[12px] font-poppins">
-                  Button Colour
-                </h2>
-                <span className="text-[#DA3A3A] font-[400] text-[12px] font-poppins">
-                  {buttonColor}
-                </span>
-              </p>
-              <p className="flex flex-col gap-y-2">
-                <h2 className="font-[400] text-[12px] font-poppins">
-                  Cuff Style
-                </h2>
-                <span className="text-[#DA3A3A] font-[400] text-[12px] font-poppins">
-                  {cuffStyle}
-                </span>
-              </p>
-              <p className="flex flex-col gap-y-2">
-                <h2 className="font-[400] text-[12px] font-poppins">
-                  Cuff Stiffness
-                </h2>
-                <span className="text-[#DA3A3A] font-[400] text-[12px] font-poppins">
-                  {cuffStiffness}
-                </span>
-              </p>
-              <p className="flex flex-col gap-y-2">
-                <h2 className="font-[400] text-[12px] font-poppins">
-                  Shirt Length
-                </h2>
-                <span className="text-[#DA3A3A] font-[400] text-[12px] font-poppins">
-                  {shirtLength}
-                </span>
-              </p>
+            <div className="details grid grid-cols-3 gap-5 mt-[24px]  ">
+              {config.map(({ label, key }) => (
+                <p key={key} className="flex flex-col gap-y-2">
+                  <h2 className="font-[400] text-[12px] font-poppins">
+                    {label}
+                  </h2>
+                  <span className="text-[#DA3A3A] font-[400] text-[12px] font-poppins">
+                    {formValues[key]}
+                  </span>
+                </p>
+              ))}
             </div>
-          ) : null}
+          ) : (
+            <div className="w-full  flex flex-col gap-4 ">
+              {config.map(({ label, key }) => (
+                <div
+                  key={key}
+                  className="w-full flex justify-between items-center mb-1"
+                >
+                  <label className="font-poppins font-[400] text-[12px] text-[#737373]">
+                    {label}
+                  </label>
+                  <select
+                    className="bg-[#FAF1F1] h-[24px] w-[233px] pl-2 text-[#737373] text-[12px] font-poppins font-[400]"
+                    value={formValues[key]}
+                    onChange={(e) => handleSelectChange(key, e.target.value)}
+                  >
+                    <option value="">{label}</option>
+                    {options[key].map((option, index) => (
+                      <option key={index} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                  <BiSolidCommentDetail className="text-gray-400" />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-        <div className="w-full flex justify-center mt-9">
-          <button className=" bg-gradient-to-r from-[#9C3FE4]  to-[#C65647] text-white font-poppins text-[17px] font-[500] rounded-[15px] w-[314px] h-[50px] text-center">
+        <div
+          className={`w-full flex justify-center ${show ? "mt-10" : "mt-10"}`}
+        >
+          <button className="bg-gradient-to-r from-[#9C3FE4] to-[#C65647] text-white font-poppins text-[17px] font-[500] rounded-[15px] w-[314px] h-[50px] text-center">
             Proceed
           </button>
         </div>
       </div>
+
       <Navbar />
     </div>
   );
