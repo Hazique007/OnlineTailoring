@@ -22,7 +22,9 @@ const Customize = () => {
     shirtLength: "Regular",
   });
   const [show, setShow] = useState(false);
-
+  const handleProceed = () => {
+    console.log(formValues);
+  };
   const options = {
     collarStyle: [
       "Spread Collar",
@@ -102,14 +104,14 @@ const Customize = () => {
           {!show ? (
             <div className="details grid grid-cols-3 gap-5 mt-[24px]  ">
               {config.map(({ label, key }) => (
-                <p key={key} className="flex flex-col gap-y-2">
+                <div key={key} className="flex flex-col gap-y-2">
                   <h2 className="font-[400] text-[12px] font-poppins">
                     {label}
                   </h2>
                   <span className="text-[#DA3A3A] font-[400] text-[12px] font-poppins">
                     {formValues[key]}
                   </span>
-                </p>
+                </div>
               ))}
             </div>
           ) : (
@@ -145,7 +147,10 @@ const Customize = () => {
         <div
           className={`w-full flex justify-center ${show ? "mt-10" : "mt-10"}`}
         >
-          <button className="bg-gradient-to-r from-[#9C3FE4] to-[#C65647] text-white font-poppins text-[17px] font-[500] rounded-[15px] w-[314px] h-[50px] text-center">
+          <button
+            onClick={handleProceed}
+            className="bg-gradient-to-r from-[#9C3FE4] to-[#C65647] text-white font-poppins text-[17px] font-[500] rounded-[15px] w-[314px] h-[50px] text-center"
+          >
             Proceed
           </button>
         </div>

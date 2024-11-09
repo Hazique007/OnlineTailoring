@@ -19,7 +19,7 @@ function SimpleDialog({ open, onClose }) {
     navigate("/fabric");
   }
   if (wantFabric == "NoFabric") {
-    navigate("/");
+    navigate("/customize");
   }
   return (
     <Dialog
