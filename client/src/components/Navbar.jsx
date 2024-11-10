@@ -62,7 +62,7 @@ const Navbar = () => {
       />
 
       <IconButton aria-label="cart">
-        <StyledBadge badgeContent={1} color="secondary">
+        <StyledBadge badgeContent={0} color="secondary">
           <TopNavIcon
             label={"Cart"}
             image={<IoCartOutline className=" text-black h-[25px] w-[25px]" />}
