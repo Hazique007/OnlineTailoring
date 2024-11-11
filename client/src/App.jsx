@@ -7,7 +7,7 @@ import LoginPage from "./pages/Authentication/Login/login";
 import AuthLanding from "./pages/Authentication/AuthLanding";
 import FabricPage from "./pages/Fabric-Page/fabric";
 import Customize from "./pages/Customization/Customize";
-import otp from "./pages/Authentication//OtpVerification/otpPage"
+// import otp from "./pages/Authentication//OtpVerification/otpPage"
 
 const App = () => {
   return (
@@ -16,7 +16,7 @@ const App = () => {
         <Routes>
           <Route path="/" Component={AuthLanding}></Route>
           <Route path="/login" Component={LoginPage}></Route>
-          <Route path="/otp" Component={otp}></Route>
+          {/* <Route path="/otp" Component={otp}></Route> */}
           <Route path="/Home" Component={LandingPage}></Route>
           <Route path="/product" Component={ProductPage}></Route>
           <Route path="/fabric" Component={FabricPage}></Route>
