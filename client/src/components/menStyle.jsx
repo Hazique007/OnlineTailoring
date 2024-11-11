@@ -9,3 +9,4 @@ const MenStyle = ({ heading }) => {
 };
 
 export default MenStyle;
+
