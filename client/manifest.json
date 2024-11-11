@@ -1,0 +1,21 @@
+{
+    "short_name": "Doorstep Stitching",
+    "name": "DoorStep Stitching-An Online Tailoring App",
+    "icons": [
+      {
+        "src": "/src/assets/images/sewing.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/assets/images/sewing.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+  }
+  
