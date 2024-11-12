@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import TopNav from "../../components/TopNav";
 import styleImage from "../../assets/images/Anime-T-shirts.png";
 import Navbar from "../../components/Navbar";
 import { BiSolidCommentDetail } from "react-icons/bi";
 
 const Customize = () => {
+  const navigate = useNavigate();
   const [formValues, setFormValues] = useState({
     pocket: "Single Pocket",
     sleeves: "Full Sleeves",
@@ -23,6 +25,8 @@ const Customize = () => {
   });
   const [show, setShow] = useState(false);
   const handleProceed = () => {
+    navigate("/ordersummary");
+
     console.log(formValues);
   };
   const options = {
