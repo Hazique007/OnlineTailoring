@@ -7,15 +7,22 @@ const productSchema = new Schema({
   },
   category: {
     type: String,
-    enum: [
-      "Traditional",
-      "Casual",
-      "Formal",
-      "Party Wear",
-      "Ethnic",
-      "Sportswear",
-    ],
+    enum: ["Shirts", "Pants", "Blazers", "Suits", "Kurta"],
     required: [true, "Category is required"],
+  },
+  subCategory: {
+    type: String,
+    required: function () {
+      return ["Shirts", "Pants", "Blazers", "Suits", "Kurta"].includes(
+        this.category
+      );
+    },
+    enum: ["Casual", "Formal", "Party Wear", "Traditional", "Ethnic"],
+  },
+  gender: {
+    type: [String, "gender must be in String format"],
+    enum: ["Male", "Female", "General"],
+    required: [true, "Must Provide your gender for better experiance"],
   },
   price: {
     type: Number,
