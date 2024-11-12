@@ -6,9 +6,11 @@ import LoginHeading from "../../../components/LoginHeading";
 
 const LoginPage = () => {
   return (
-    <div className="h-[110px] w-full rounded-[5px] pb-78 ">
+    <div className="h-[110px] bg-black px w-full rounded-[5px] pb-78 ">
       <HeaderPhotos />
-      <LoginHeading />
+      <div className="px-3 bg-black">
+        <LoginHeading />
+      </div>
     </div>
   );
 };

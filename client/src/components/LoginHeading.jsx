@@ -6,7 +6,7 @@ import Submit from "../components/submitButton";
 
 const LoginHeading = () => {
   return (
-    <div className="bg-black h-[800px]">
+    <div className="bg-black h-[70vh]">
       <p className="text-white  text-[30px] font-[1000] font-poppins text-center ">
         <div className="pt-10">Doorstep Stitching</div>
       </p>

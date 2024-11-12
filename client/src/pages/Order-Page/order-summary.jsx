@@ -14,8 +14,6 @@ const OrderSummary =() =>{
 
   const handleProceed = () => {
     navigate('/orderSuccessful');
-
-    
   };
 
 
