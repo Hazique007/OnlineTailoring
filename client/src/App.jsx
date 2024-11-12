@@ -7,9 +7,9 @@ import LoginPage from "./pages/Authentication/Login/login";
 import AuthLanding from "./pages/Authentication/AuthLanding";
 import FabricPage from "./pages/Fabric-Page/fabric";
 import Customize from "./pages/Customization/Customize";
-
-import otp from "./pages/Authentication//OtpVerification/otpPage"
-import OrderSummary from "./pages/Order-Page/order-summary"
+import NotFound from "./pages/NotFound/notfound";
+import otp from "./pages/Authentication//OtpVerification/otpPage";
+import OrderSummary from "./pages/Order-Page/order-summary";
 import OrderSuccessful from "./pages/Order-Page/order-successful";
 
 const App = () => {
@@ -29,7 +29,8 @@ const App = () => {
           <Route path="/search" Component={SearchPage}></Route>
           <Route path="/ordersummary" Component={OrderSummary}></Route>
           <Route path="/orderSuccessful" Component={OrderSuccessful}></Route>
-         <Route path="/search" Component={SearchPage}></Route>
+          <Route path="/search" Component={SearchPage}></Route>
+          <Route path="*" Component={NotFound}></Route>
         </Routes>
       </BrowserRouter>
     </>
