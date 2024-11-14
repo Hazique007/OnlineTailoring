@@ -6,11 +6,9 @@ import { LuArrowDownUp } from "react-icons/lu";
 import ProductCart from "../../components/productCart";
 import Navbar from "../../components/Navbar";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 
-const ProductPage = () => {
+const CustomProductPage = ({ gender }) => {
   const [data, setData] = useState([]);
-  let { gender } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +22,7 @@ const ProductPage = () => {
       }
     };
 
-    fetchData();
+    fetchData(); 
   }, [gender]);
 
   return (
@@ -35,9 +33,7 @@ const ProductPage = () => {
       </div>
       <div className="px-[11px]">
         <h1 className="font-[700] text-[14px] mt-[17px] font-poppins text-[#737373]">
-          {`${
-            gender === "Male" ? "Men" : gender === "Female" ? "Women" : "Kids"
-          } > Formal Shirts`}
+          Men > Formal Shirts
         </h1>
         <p className="text-[#898282] font-[400] mt-[13px] text-[12px] pr-3 font-poppins">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
@@ -76,4 +72,4 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;
+export default CustomProductPage;

@@ -30,7 +30,10 @@ const App = () => {
           <Route path="/ordersummary" Component={OrderSummary}></Route>
           <Route path="/orderSuccessful" Component={OrderSuccessful}></Route>
           <Route path="/search" Component={SearchPage}></Route>
+          <Route path="/product/:gender" Component={ProductPage}></Route>
+
           <Route path="*" Component={NotFound}></Route>
+          {/* Home/Men%20Styling/Pants */}
         </Routes>
       </BrowserRouter>
     </>

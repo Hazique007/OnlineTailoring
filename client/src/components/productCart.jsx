@@ -62,7 +62,14 @@ function SimpleDialog({ open, onClose }) {
   );
 }
 
-const ProductCart = ({ label, price = 500, styleName = "StyleName" }) => {
+const ProductCart = ({
+  label,
+  price = 500,
+  styleName = "StyleName",
+  gender,
+  category,
+  subCategory,
+}) => {
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const imageBoxRef = useRef(null);
@@ -133,7 +140,9 @@ const ProductCart = ({ label, price = 500, styleName = "StyleName" }) => {
         <div className="text flex flex-col gap-2">
           <h2 className="text-[12px] font-semibold">{styleName}</h2>
           <p className="text-[12px] text-gray-600">Price: {price}</p>
-          <h2 className="text-[12px] text-yellow-600">Men > Shirts > Formal</h2>
+          <h2 className="text-[12px] text-yellow-600">
+            {gender} > {category} > {subCategory}
+          </h2>
         </div>
       </div>
       <SimpleDialog open={open} onClose={handleClose} />

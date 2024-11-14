@@ -1,10 +1,11 @@
 import express from "express";
-import { getAllProducts } from "../controllers/products";
+import {
+  getAllProducts,
+  getProductsGenderWise,
+} from "../controllers/productController.js";
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send("Hello World").status(200);
-});
-
 router.get("/allProducts", getAllProducts);
+router.get("/allProducts/:gender", getProductsGenderWise);
 
+export default router;
