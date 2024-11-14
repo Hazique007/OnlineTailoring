@@ -37,6 +37,14 @@ export const TopNavIcon = ({ label, image, onClick }) => {
 };
 
 const Navbar = () => {
+  let { setQuery } = useContext(SearchContext);
+  const handleProduct = () => {
+    setQuery({
+      gender: "",
+      category: "",
+    });
+    navigate("/product");
+  };
   const navigate = useNavigate();
   const { isSearch, setIsSearch } = useContext(SearchContext);
   const handleSearch = () => {
@@ -56,13 +64,13 @@ const Navbar = () => {
         onClick={handleSearch}
       />
       <TopNavIcon
-        onClick={() => navigate("/product")}
+        onClick={handleProduct}
         label={"Shop"}
         image={<PiSquaresFourBold className="h-[25px] w-[25px]" />}
       />
 
       <IconButton aria-label="cart">
-        <StyledBadge badgeContent={6} color="secondary">
+        <StyledBadge badgeContent={3} color="secondary">
           <TopNavIcon
             label={"Cart"}
             image={<IoCartOutline className=" text-black h-[25px] w-[25px]" />}

@@ -31,6 +31,10 @@ const App = () => {
           <Route path="/orderSuccessful" Component={OrderSuccessful}></Route>
           <Route path="/search" Component={SearchPage}></Route>
           <Route path="/product/:gender" Component={ProductPage}></Route>
+          <Route
+            path="/product/:gender/:category"
+            Component={ProductPage}
+          ></Route>
 
           <Route path="*" Component={NotFound}></Route>
           {/* Home/Men%20Styling/Pants */}
