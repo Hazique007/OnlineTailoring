@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const SearchStyle = ({ gender }) => {
-  // Dynamic label based on gender
   const Label = gender
     ? `${gender.charAt(0).toUpperCase() + gender.slice(1)}`
     : "Unisex";
@@ -18,20 +17,32 @@ const SearchStyle = ({ gender }) => {
           <ul className=" flex flex-col justify-evenly h-[25vh] pl-[22px] mt-[5px]">
             <Link
               className=" font-poppins font-[400] text-[12px]  hover:text-[#DA3A3A] hover:underline "
-              to="#"
+              to={`/product/${gender}/Shirts/Formal`}
             >
               Formal
             </Link>
-            <Link className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline" to="#">
+            <Link
+              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
+              to={`/product/${gender}/Shirts/Semi-Formal`}
+            >
               Semi-Formal
             </Link>
-            <Link className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline" to="#">
+            <Link
+              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
+              to={`/product/${gender}/Shirts/Casual`}
+            >
               Casual
             </Link>
-            <Link className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline" to="#">
+            <Link
+              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
+              to={`/product/${gender}/Shirts/Mandarin`}
+            >
               Mandarin
             </Link>
-            <Link className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline" to="#">
+            <Link
+              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
+              to={`/product/${gender}/Shirts/Half-Sleeves`}
+            >
               Half-Sleeves
             </Link>
           </ul>
@@ -42,19 +53,34 @@ const SearchStyle = ({ gender }) => {
             Pants
           </h2>
           <ul className=" flex flex-col justify-evenly h-[25vh] pl-[22px] mt-[5px] ">
-            <Link className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline" to="#">
+            <Link
+              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
+              to={`/product/${gender}/Pants/Formal`}
+            >
               Formal
             </Link>
-            <Link className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline" to="#">
+            <Link
+              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
+              to={`/product/${gender}/Pants/Semi-Formal`}
+            >
               Semi-Formal
             </Link>
-            <Link className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline" to="#">
+            <Link
+              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
+              to={`/product/${gender}/Pants/Casual`}
+            >
               Casual
             </Link>
-            <Link className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline" to="#">
+            <Link
+              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
+              to={`/product/${gender}/Pants/Mandarin`}
+            >
               Mandarin
             </Link>
-            <Link className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline" to="#">
+            <Link
+              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
+              to={`/product/${gender}/Pants/Half-Sleeves`}
+            >
               Half-Sleeves
             </Link>
           </ul>

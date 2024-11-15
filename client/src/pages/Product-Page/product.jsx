@@ -7,22 +7,24 @@ import ProductCart from "../../components/productCart";
 import Navbar from "../../components/Navbar";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+
 const ProductPage = () => {
   const [data, setData] = useState([]);
-  const { gender, category } = useParams();
+  const { gender, category, subCategory } = useParams();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
           `http://localhost:3000/api/v1/products/allProducts`,
           {
-            params: { gender, category },
+            params: { gender, category, subCategory },
           }
         );
         setData(response.data.products);
       } catch (error) {
         console.error("Error fetching products:", error.message);
-        setData([]);
+        setData([]); // Ensure data is empty on error
       }
     };
 
@@ -59,18 +61,33 @@ const ProductPage = () => {
             <FaFilter color="#000" fontSize={10} />
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-4 pb-24">
-          {data.map((product, index) => (
-            <ProductCart
-              key={index}
-              styleName={product.name}
-              price={product.price}
-              gender={product.gender}
-              category={product.category}
-              subCategory={product.subCategory}
+
+        {/* Conditional Rendering */}
+        {data.length > 0 ? (
+          <div className="grid grid-cols-2 gap-4 mt-4 pb-24">
+            {data.map((product, index) => (
+              <ProductCart
+                key={index}
+                styleName={product.name}
+                price={product.price}
+                gender={product.gender}
+                category={product.category}
+                subCategory={product.subCategory}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center mt-9">
+            <img
+              src="https://img.freepik.com/free-vector/supermarket-shopping-cart-concept-illustration_114360-22408.jpg?ga=GA1.1.732799867.1719772377&semt=ais_hybrid"
+              alt="No Products"
+              className="h-36 w-36 object-contain"
             />
-          ))}
-        </div>
+            <h2 className="text-xl font-semibold text-gray-600 mt-1">
+              No Products Available
+            </h2>
+          </div>
+        )}
       </div>
       <Navbar />
     </div>

@@ -35,6 +35,10 @@ const App = () => {
             path="/product/:gender/:category"
             Component={ProductPage}
           ></Route>
+          <Route
+            path="/product/:gender/:category/:subCategory"
+            Component={ProductPage}
+          ></Route>
 
           <Route path="*" Component={NotFound}></Route>
           {/* Home/Men%20Styling/Pants */}

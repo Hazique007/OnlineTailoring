@@ -15,8 +15,6 @@ export const DesignStyling = ({ gender }) => {
 };
 
 const Styling = ({ heading, gender }) => {
-  
-
   return (
     <div>
       <div className="pt-5 w-full flex justify-between px-[10px] mt-3">
@@ -25,7 +23,6 @@ const Styling = ({ heading, gender }) => {
         </h1>
         <Link
           className="text-[12px] text-[#1043F9] leading-[15px]"
-          
           to={`/product/${gender}`}
         >
           View All
@@ -33,7 +30,6 @@ const Styling = ({ heading, gender }) => {
       </div>
       <div className="images flex w-full mt-3 px-[19px] justify-between px-13">
         <StylingImageText
-          
           link={`/product/${gender}/Shirts`}
           text="Shirts"
           img={StyleImg1}
@@ -54,7 +50,7 @@ const Styling = ({ heading, gender }) => {
           link={`/product/${gender}/Suits`}
         />
         <StylingImageText
-          link={`/product/${gender}/Kurtas`}
+          link={`/product/${gender}/Kurta`}
           text="Kurtas"
           img={StyleImg}
         />

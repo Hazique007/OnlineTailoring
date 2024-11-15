@@ -12,9 +12,11 @@ const images = [image1, image2, image3];
 function SimpleDialog({ open, onClose }) {
   const navigate = useNavigate();
   const [wantFabric, setWantFabric] = useState("");
+
   const handleClose = () => {
     onClose();
   };
+
   useEffect(() => {
     if (wantFabric === "Fabric") {
       navigate("/fabric");
@@ -24,6 +26,7 @@ function SimpleDialog({ open, onClose }) {
       onClose();
     }
   }, [wantFabric, navigate, onClose]);
+
   return (
     <Dialog
       onClose={handleClose}
@@ -52,7 +55,7 @@ function SimpleDialog({ open, onClose }) {
           </button>
           <button
             onClick={() => setWantFabric("NoFabric")}
-            className="px-6 py-2 text-[#1043F9] border-none rounded-md font-medium  hover:bg-blue-50"
+            className="px-6 py-2 text-[#1043F9] border-none rounded-md font-medium hover:bg-blue-50"
           >
             ‘No’, I already have the fabric
           </button>
@@ -73,6 +76,7 @@ const ProductCart = ({
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const imageBoxRef = useRef(null);
+
   const scrollToImage = (index) => {
     const imageBox = imageBoxRef.current;
     if (imageBox) {
@@ -110,16 +114,22 @@ const ProductCart = ({
 
   return (
     <div>
-      <div className="outer-box h-[32vh] w-[45vw] mb-16 rounded-lg p-2">
+      <div className="outer-box h-[40vh] w-[45vw] mb-16 rounded-lg p-2">
         <div
           ref={imageBoxRef}
-          className="image-box h-[28vh] w-full flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-lg"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+          className="image-box h-[35vh] w-full flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-lg"
         >
           {images.map((image, index) => (
             <img
               onClick={handleOnclick}
               key={index}
-              className="h-full w-full flex-shrink-0 object-cover rounded-lg snap-center cursor-pointer"
+              className={`h-full w-full flex-shrink-0 object-cover rounded-lg snap-center cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
+                currentIndex === index ? "ring-2 ring-blue-500" : ""
+              }`}
               src={image}
               alt={`Product ${index + 1}`}
             />

@@ -29,20 +29,16 @@ export const TopNavIcon = ({ label, image, onClick }) => {
       className="flex flex-col items-center h-[62px] justify-center w-full"
     >
       {image}
-      <h2 className="text-[13px] font-poppins text-black font-[450]">
+      <h2 className="text-[10px] font-poppins text-black font-[450]">
         {label}
       </h2>
     </div>
   );
 };
 
-const Navbar = ({}) => {
+const Navbar = () => {
   let { setQuery } = useContext(SearchContext);
   const handleProduct = () => {
-    setQuery({
-      gender: "",
-      category: "",
-    });
     navigate("/product");
   };
   const navigate = useNavigate();
