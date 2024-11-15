@@ -7,14 +7,17 @@ import ProductCart from "../../components/productCart";
 import Navbar from "../../components/Navbar";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { Audio } from "react-loader-spinner";
 
 const ProductPage = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { gender, category, subCategory } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           `http://localhost:3000/api/v1/products/allProducts`,
           {
@@ -22,6 +25,7 @@ const ProductPage = () => {
           }
         );
         setData(response.data.products);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching products:", error.message);
         setData([]); // Ensure data is empty on error
@@ -30,7 +34,21 @@ const ProductPage = () => {
 
     fetchData();
   }, [gender, category]);
-
+  if (loading) {
+    return (
+      <div className="w-full h-[100vh] flex justify-center items-center">
+        <Audio
+          height="80"
+          width="80"
+          radius="9"
+          color="green"
+          ariaLabel="loading"
+          wrapperStyle
+          wrapperClass
+        />
+      </div>
+    );
+  }
   return (
     <div>
       <TopNav />
