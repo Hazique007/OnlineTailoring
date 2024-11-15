@@ -3,12 +3,10 @@ import { Link } from "react-router-dom";
 import StylingImageText from "./styling-img-text";
 import StyleImg from "../assets/images/t-shirt mockup.png";
 import StyleImg1 from "../assets/images/t-shirt.png";
-import { SearchContext } from "../Context Api/searchContext";
 
 export const DesignStyling = ({ gender }) => {
   return (
     <>
-      {/* Pass specific heading and gender to Styling component */}
       <Styling gender="Male" heading="Men Styling" />
       <Styling gender="Female" heading="Women Styling" />
       <Styling gender="Kids" heading="Kids Styling" />
@@ -17,8 +15,7 @@ export const DesignStyling = ({ gender }) => {
 };
 
 const Styling = ({ heading, gender }) => {
-  let { setQuery, query } = useContext(SearchContext);
-  console.log(query);
+  
 
   return (
     <div>
@@ -28,13 +25,7 @@ const Styling = ({ heading, gender }) => {
         </h1>
         <Link
           className="text-[12px] text-[#1043F9] leading-[15px]"
-          onClick={() =>
-            setQuery((prevQuery) => ({
-              ...prevQuery,
-
-              gender: gender,
-            }))
-          }
+          
           to={`/product/${gender}`}
         >
           View All
@@ -42,40 +33,30 @@ const Styling = ({ heading, gender }) => {
       </div>
       <div className="images flex w-full mt-3 px-[19px] justify-between px-13">
         <StylingImageText
-          onClick={() =>
-            setQuery((prevQuery) => ({
-              ...prevQuery,
-              category: "Shirts",
-              gender: gender,
-            }))
-          }
-          link={`/products/${gender}/Shirts`}
+          
+          link={`/product/${gender}/Shirts`}
           text="Shirts"
           img={StyleImg1}
         />
         <StylingImageText
           text="Pants"
-          onClick={() => setQuery({ category: "Pants", gender })}
           img={StyleImg}
-          link={`/products/${gender}/Pants`}
+          link={`/product/${gender}/Pants`}
         />
         <StylingImageText
           text="Blazers"
-          onClick={() => setQuery({ category: "Blazers", gender })}
-          link={`/products/${gender}/Blazers`}
+          link={`/product/${gender}/Blazers`}
           img={StyleImg}
         />
         <StylingImageText
           text="Suits"
-          onClick={() => setQuery({ category: "Suits", gender })}
           img={StyleImg}
-          link={`/products/${gender}/Suits`}
+          link={`/product/${gender}/Suits`}
         />
         <StylingImageText
-          link={`/products/${gender}/Kurtas`}
+          link={`/product/${gender}/Kurtas`}
           text="Kurtas"
           img={StyleImg}
-          onClick={() => setQuery({ category: "Kurtas", gender })}
         />
       </div>
     </div>

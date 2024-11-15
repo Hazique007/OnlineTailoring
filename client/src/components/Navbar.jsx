@@ -36,7 +36,7 @@ export const TopNavIcon = ({ label, image, onClick }) => {
   );
 };
 
-const Navbar = () => {
+const Navbar = ({}) => {
   let { setQuery } = useContext(SearchContext);
   const handleProduct = () => {
     setQuery({

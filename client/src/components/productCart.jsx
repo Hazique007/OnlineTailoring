@@ -73,7 +73,6 @@ const ProductCart = ({
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const imageBoxRef = useRef(null);
-
   const scrollToImage = (index) => {
     const imageBox = imageBoxRef.current;
     if (imageBox) {

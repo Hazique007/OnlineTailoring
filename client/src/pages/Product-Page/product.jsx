@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import TopNav from "../../components/TopNav";
 import Search from "../../components/Search";
 import { FaFilter } from "react-icons/fa";
@@ -6,25 +6,17 @@ import { LuArrowDownUp } from "react-icons/lu";
 import ProductCart from "../../components/productCart";
 import Navbar from "../../components/Navbar";
 import axios from "axios";
-import { useParams, useSearchParams } from "react-router-dom";
-import { SearchContext } from "../../Context Api/searchContext";
-
-const ProductPage = ({ gender }) => {
+import { useParams } from "react-router-dom";
+const ProductPage = () => {
   const [data, setData] = useState([]);
-  const params = useParams();
-  const { query = { gender: "", category: "" } } = useContext(SearchContext);
-
-  // let { gender } = useParams();
-
+  const { gender, category } = useParams();
   useEffect(() => {
-    console.log(query);
-
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/products/getSpecificProducts`,
+          `http://localhost:3000/api/v1/products/allProducts`,
           {
-            params: { gender: query.gender, category: query.category },
+            params: { gender, category },
           }
         );
         setData(response.data.products);
@@ -35,7 +27,7 @@ const ProductPage = ({ gender }) => {
     };
 
     fetchData();
-  }, [query]);
+  }, [gender, category]);
 
   return (
     <div>
@@ -46,12 +38,12 @@ const ProductPage = ({ gender }) => {
       <div className="px-[11px]">
         <h1 className="font-[700] text-[14px] mt-[17px] font-poppins text-[#737373]">
           {`${
-            gender === "Male" ? "Men" : gender === "Female" ? "Women" : ""
-          } > Formal Shirts`}
+            gender === "Male" ? "Men" : gender === "Female" ? "Women" : "Kids"
+          } > ${category}`}
         </h1>
         <p className="text-[#898282] font-[400] mt-[13px] text-[12px] pr-3 font-poppins">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
-          natus beatae dolor sit amet consectetur adipisicing
+          natus beatae dolor sit amet consectetur adipisicing.
         </p>
         <div className="filter-sort mt-[21px] flex items-center justify-end gap-7 h-[22px] pr-[20px]">
           <div className="flex h-[25px] gap-3 items-center">
@@ -68,7 +60,6 @@ const ProductPage = ({ gender }) => {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4 mt-4 pb-24">
-          {/* Use map to iterate over the data array and render ProductCart components */}
           {data.map((product, index) => (
             <ProductCart
               key={index}
