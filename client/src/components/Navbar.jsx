@@ -1,17 +1,14 @@
 import React, { useContext } from "react";
 import { IoHome, IoCartOutline } from "react-icons/io5";
-// import { IoMdCart } from "react-icons/io";
 
 import { IoSearch } from "react-icons/io5";
 import { PiSquaresFourBold } from "react-icons/pi";
 import { CgProfile } from "react-icons/cg";
 import { SearchContext } from "../Context Api/searchContext";
 import { useNavigate } from "react-router-dom";
-//Badge
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
-// import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -36,8 +33,7 @@ export const TopNavIcon = ({ label, image, onClick }) => {
   );
 };
 
-const Navbar = () => {
-  let { setQuery } = useContext(SearchContext);
+const Navbar = ({label,image,onClick}) => {
   const handleProduct = () => {
     navigate("/product");
   };

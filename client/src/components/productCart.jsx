@@ -1,4 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
+import { SlArrowRight } from "react-icons/sl";
+
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import image1 from "../assets/images/imageNew.png";
@@ -121,7 +123,7 @@ const ProductCart = ({
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="image-box h-[35vh] w-full flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-lg"
+          className="image-box h-[33vh] w-full flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-lg"
         >
           {images.map((image, index) => (
             <img
@@ -150,7 +152,11 @@ const ProductCart = ({
           <h2 className="text-[12px] font-semibold">{styleName}</h2>
           <p className="text-[12px] text-gray-600">Price: {price}</p>
           <h2 className="text-[12px] text-yellow-600">
-            {gender} > {category} > {subCategory}
+            <div className="flex items-center gap-1">
+              {" "}
+              {gender} <SlArrowRight className="text-[8px]" /> {category}{" "}
+              <SlArrowRight className="text-[8px]" /> {subCategory}
+            </div>
           </h2>
         </div>
       </div>

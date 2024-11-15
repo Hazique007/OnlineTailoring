@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import StylingImageText from "./styling-img-text";
 import StyleImg from "../assets/images/t-shirt mockup.png";

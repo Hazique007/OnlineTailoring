@@ -7,7 +7,7 @@ import image4 from "../assets/images/images (1).png";
 const Trending = () => {
   return (
     <div className="px-4 mt-10 h-auto rounded-lg">
-      <h1 className="font-poppins ml-1 font-bold text-lg leading-[18px]">
+      <h1 className="font-poppins ml-1 font-bold text-[14px] leading-[18px]">
         Trending
       </h1>
 

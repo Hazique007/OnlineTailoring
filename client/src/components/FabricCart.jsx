@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
+import { useState, useRef, useEffect } from "react";
+
 import image1 from "../assets/images/imageNew.png";
 import image2 from "../assets/images/images (1).png";
 import image3 from "../assets/images/Lettering-T-shirts.png";
-import DialogImage from "../assets/images/dialog-image.png";
+import { SlArrowRight } from "react-icons/sl";
 import { useNavigate } from "react-router-dom";
 
 const images = [image2, image3, image1];
@@ -24,14 +23,6 @@ const FabricCart = ({ label, price = 500, FabricName = "FabricName" }) => {
       });
       setCurrentIndex(index);
     }
-  };
-
-  const handleOnclick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
   };
 
   useEffect(() => {
@@ -82,7 +73,9 @@ const FabricCart = ({ label, price = 500, FabricName = "FabricName" }) => {
           <h2 className="text-[12px] font-semibold">{FabricName}</h2>
           <p className="text-[12px] text-gray-600">Price: {price}</p>
           <h2 className="text-[12px] text-yellow-600">
-            Men > Shirts > Formal >Fabric
+            Men <SlArrowRight />
+            Shirts <SlArrowRight /> Formal <SlArrowRight />
+            Fabric
           </h2>
         </div>
       </div>

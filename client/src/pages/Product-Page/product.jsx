@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import TopNav from "../../components/TopNav";
 import Search from "../../components/Search";
 import { FaFilter } from "react-icons/fa";
@@ -28,7 +28,7 @@ const ProductPage = () => {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching products:", error.message);
-        setData([]); // Ensure data is empty on error
+        setData([]);
       }
     };
 
@@ -80,7 +80,6 @@ const ProductPage = () => {
           </div>
         </div>
 
-        {/* Conditional Rendering */}
         {data.length > 0 ? (
           <div className="grid grid-cols-2 gap-4 mt-4 pb-24">
             {data.map((product, index) => (
