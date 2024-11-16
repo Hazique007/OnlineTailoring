@@ -1,21 +1,45 @@
-import React from "react";
+import React , { useState }from "react";
 
 
-import { useNavigate } from 'react-router-dom';
-
-
-
+// import { useNavigate } from 'react-router-dom';
 
 
 
-const OtpHeading = ()=>{
-  const navigate = useNavigate();
 
-  const goToHome = () => {
-    navigate('/Home');
+
+
+const OtpHeading = ({confirmationResult})=>{
+
+  const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const verifyOTP = async () => {
+    setError("");
+    if (!otp || otp.length !== 6) {
+      setError("Please enter a valid 6-digit OTP.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await confirmationResult.confirm(otp);
+      setSuccess(true);
+    } catch (err) {
+      setError("Invalid OTP. Try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  if (success) {
+    return <h1 className="text-center text-2xl">Login Successful!</h1>;
+  }
+  
+
     return(
+
 
 
         <div className="bg-black h-[800px]">
@@ -44,6 +68,8 @@ const OtpHeading = ()=>{
               <div className="h-[38px]  bg-[#F6F1F1] rounded-[5px] flex items-center mt-2">
               <input
       placeholder="Enter Otp"
+      value={otp}
+      onChange={(e)=>setOtp(e.target.value)}
       className="bg-transparent  outline-none font-poppins text-[11px] leading-[15px] pl-10"
       type="text"
     />
@@ -63,14 +89,16 @@ const OtpHeading = ()=>{
 
     <div className="flex items-center justify-center mt-10">
         <button
-        onClick={goToHome}
+        onClick={verifyOTP}
+        disabled={loading}
        
           className="bg-gradient-to-r from-[#9C3FE4]  to-[#C65647] hover:bg-blue-700 w-48 text-white font-bold py-2 px-4 rounded transition-transform transform active:scale-95"
          
         >
-          Submit
+         {loading ? "Verifying..." : "Verify OTP"}
           
         </button>
+        {error && <p className="text-red-500 mt-4">{error}</p>}
         </div>
 
 

@@ -7,18 +7,44 @@ import LoginPage from "./pages/Authentication/Login/login";
 import AuthLanding from "./pages/Authentication/AuthLanding";
 import FabricPage from "./pages/Fabric-Page/fabric";
 import Customize from "./pages/Customization/Customize";
-import otp from "./pages/Authentication//OtpVerification/otpPage"
+import Otp from "./pages/Authentication//OtpVerification/otpPage"
 import OrderSummary from "./pages/Order-Page/order-summary"
 import OrderSuccessful from "./pages/Order-Page/order-successful";
 
+
 const App = () => {
+  const [confirmationResult, setConfirmationResult] = useState(null);
   return (
+
+    
+
     <>
       <BrowserRouter>
         <Routes>
           <Route path="/" Component={AuthLanding}></Route>
-          <Route path="/login" Component={LoginPage}></Route>
-          <Route path="/otp" Component={otp}></Route>
+
+           <Route
+          path="/login"
+          element={
+            <LoginPage
+              onOTPRequested={(result) => setConfirmationResult(result)}
+            />
+          }
+        />
+         <Route
+          path="/otp"
+          element={
+            confirmationResult ? (
+              <Otp confirmationResult={confirmationResult} />
+            ) : (
+              <div className="text-center p-8 text-red-500">
+                Please log in first!
+              </div>
+            )
+          }
+        />
+
+
           <Route path="/Home" Component={LandingPage}></Route>
           <Route path="/product" Component={ProductPage}></Route>
           <Route path="/fabric" Component={FabricPage}></Route>
