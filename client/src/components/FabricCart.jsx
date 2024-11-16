@@ -8,7 +8,14 @@ import { useNavigate } from "react-router-dom";
 
 const images = [image2, image3, image1];
 
-const FabricCart = ({ label, price = 500, FabricName = "FabricName" }) => {
+const FabricCart = ({
+  label,
+  price = 500,
+  FabricName = "FabricName",
+  gender = "Men",
+  category = "Shirts",
+  subCategory = "Pants",
+}) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -43,10 +50,10 @@ const FabricCart = ({ label, price = 500, FabricName = "FabricName" }) => {
 
   return (
     <div>
-      <div className="outer-box h-[32vh] w-[45vw] mb-16 rounded-lg p-2">
+      <div className="outer-box h-[40vh] w-[45vw] mb-16 rounded-lg p-2">
         <div
           ref={imageBoxRef}
-          className="image-box h-[28vh] w-full flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-lg"
+          className="image-box h-[33vh] w-full flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-lg"
         >
           {images.map((image, index) => (
             <img
@@ -73,9 +80,11 @@ const FabricCart = ({ label, price = 500, FabricName = "FabricName" }) => {
           <h2 className="text-[12px] font-semibold">{FabricName}</h2>
           <p className="text-[12px] text-gray-600">Price: {price}</p>
           <h2 className="text-[12px] text-yellow-600">
-            Men <SlArrowRight />
-            Shirts <SlArrowRight /> Formal <SlArrowRight />
-            Fabric
+            <div className="flex items-center gap-1">
+              {" "}
+              {gender} <SlArrowRight className="text-[8px]" /> {category}{" "}
+              <SlArrowRight className="text-[8px]" /> {subCategory}
+            </div>
           </h2>
         </div>
       </div>

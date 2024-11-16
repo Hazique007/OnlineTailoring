@@ -7,7 +7,7 @@ const useSchema = new Schema({
   },
   gender: {
     type: [String, "gender must be in String format"],
-    enum: ["Male", "Female"],
+    enum: ["Men", "FeMen"],
     required: [true, "Must Provide your gender for better experiance"],
   },
   role: {

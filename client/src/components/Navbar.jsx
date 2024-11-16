@@ -19,7 +19,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-export const TopNavIcon = ({ label, image, onClick }) => {
+export const TopNavIcon = ({ gender, label, image, onClick }) => {
   return (
     <div
       onClick={onClick}
@@ -33,7 +33,7 @@ export const TopNavIcon = ({ label, image, onClick }) => {
   );
 };
 
-const Navbar = ({label,image,onClick}) => {
+const Navbar = ({ gender, label, image, onClick }) => {
   const handleProduct = () => {
     navigate("/product");
   };

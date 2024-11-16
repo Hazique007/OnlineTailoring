@@ -21,7 +21,7 @@ const productSchema = new mongoose.Schema({
   },
   gender: {
     type: [String, "gender must be in String format"],
-    enum: ["Male", "Female", "General"],
+    enum: ["Men", "Women", "General"],
     required: [true, "Must Provide your gender for better experiance"],
   },
   price: {

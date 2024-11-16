@@ -58,8 +58,14 @@ const ProductPage = () => {
       <div className="px-[11px]">
         <h1 className="font-[700] text-[14px] mt-[17px] font-poppins text-[#737373]">
           {`${
-            gender === "Male" ? "Men" : gender === "Female" ? "Women" : "Kids"
-          } > ${category}`}
+            gender === "Male"
+              ? "Men"
+              : gender === "Female"
+              ? "Women"
+              : gender === "Kids"
+              ? "Kids"
+              : "All available products"
+          } >${category ? category : ""}`}
         </h1>
         <p className="text-[#898282] font-[400] mt-[13px] text-[12px] pr-3 font-poppins">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,

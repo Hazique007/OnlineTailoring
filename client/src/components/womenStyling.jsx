@@ -3,7 +3,7 @@
 // const WomenStyling = ({ heading, gender }) => {
 //   return (
 //     <div>
-//       <Style gender={"Female"} heading={"Women Styling"}></Style>
+//       <Style gender={"FeMen"} heading={"Women Styling"}></Style>
 //     </div>
 //   );
 // };
