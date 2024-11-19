@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import {auth} from "../../../firebase";
+import { auth } from "../../../firebase"
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 // import Input from "../../../components/InputForm"
 import { IoPerson } from "react-icons/io5";

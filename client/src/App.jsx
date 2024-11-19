@@ -10,6 +10,7 @@ import Customize from "./pages/Customization/Customize";
 import Otp from "./pages/Authentication//OtpVerification/otpPage"
 import OrderSummary from "./pages/Order-Page/order-summary"
 import OrderSuccessful from "./pages/Order-Page/order-successful";
+import ProfilePage from "./pages/Profile-Page/profile"
 
 
 const App = () => {
@@ -46,6 +47,7 @@ const App = () => {
 
 
           <Route path="/Home" Component={LandingPage}></Route>
+          <Route path="/profile" Component={ProfilePage}></Route>
           <Route path="/product" Component={ProductPage}></Route>
           <Route path="/fabric" Component={FabricPage}></Route>
           <Route path="/customize" Component={Customize}></Route>
