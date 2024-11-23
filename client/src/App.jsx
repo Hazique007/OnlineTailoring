@@ -14,7 +14,7 @@ import ProfilePage from "./pages/Profile-Page/profile"
 
 
 const App = () => {
-  const [confirmationResult, setConfirmationResult] = useState(null);
+  // const [confirmationResult, setConfirmationResult] = useState(null);
   return (
 
     
@@ -25,24 +25,10 @@ const App = () => {
           <Route path="/" Component={AuthLanding}></Route>
 
            <Route
-          path="/login"
-          element={
-            <LoginPage
-              onOTPRequested={(result) => setConfirmationResult(result)}
-            />
-          }
+          path="/login" Component={LoginPage}
         />
          <Route
-          path="/otp"
-          element={
-            confirmationResult ? (
-              <Otp confirmationResult={confirmationResult} />
-            ) : (
-              <div className="text-center p-8 text-red-500">
-                Please log in first!
-              </div>
-            )
-          }
+          path="/otp" Component={Otp}
         />
 
 

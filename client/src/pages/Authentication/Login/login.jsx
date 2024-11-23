@@ -1,6 +1,6 @@
-import React,{useState} from "react";
-import { auth } from "../../../firebase"
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import React from "react";
+// import { app } from "../../../firebase"
+// import {getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 // import Input from "../../../components/InputForm"
 import { IoPerson } from "react-icons/io5";
 // import { IoSearch } from "react-icons/io5";
@@ -8,49 +8,54 @@ import { IoPerson } from "react-icons/io5";
 import HeaderPhotos from "../../../components/Headerphoto";
 
 
-const LoginPage = ({onOtpRequested}) => {
-  const [phone, setPhone] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+const LoginPage = () => {
+  // const [phone, setPhone] = useState("");
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState("");
 
-  const setupRecaptcha = () => {
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      "recaptcha-container",
-      {
-        size: "invisible",
-        callback: () => {
-          // Recaptcha solved
-        },
-      },
-      auth
-    );
-  };
+  // const auth = getAuth(app);
 
 
-  const requestOTP = async () => {
-    setError("");
-    if (!phone) {
-      setError("Please enter a valid phone number.");
-      return;
-    }
+  // const setupRecaptcha = () => {
+  //   if (!window.recaptchaVerifier) {
+  //     window.recaptchaVerifier = new RecaptchaVerifier(
+  //       "recaptcha-container",
+  //       {
+  //         size: "invisible",
+  //         callback: () => {
+  //           console.log("Recaptcha verified successfully");
+  //         },
+  //       },
+  //       auth
+  //     );
+  //   }
+  // };
 
-    try {
-      setLoading(true);
-      setupRecaptcha();
-      const appVerifier = window.recaptchaVerifier;
-      const confirmationResult = await signInWithPhoneNumber(
-        auth,
-        phone,
-        appVerifier
-      );
-      onOTPRequested(confirmationResult);
-    } catch (err) {
-      setError("Failed to send OTP. Try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
+  // const requestOTP = async () => {
+  //   setError(""); // Clear previous errors
+  //   setLoading(true);
+
+  //   if (!phone || !/^\+\d{10,15}$/.test(phoneNumber)) {
+  //     setError("Please enter a valid phone number with country code (e.g., +1234567890)");
+  //     setLoading(false);
+  //     return;
+  //   }
+
+  //   setupRecaptcha();
+  //   const appVerifier = window.recaptchaVerifier;
+
+  //   try {
+  //     const confirmationResult = await signInWithPhoneNumber(auth, phone, appVerifier);
+  //     window.confirmationResult = confirmationResult; // Save confirmation for OTP verification
+  //     onOtpRequested();
+  //   } catch (err) {
+  //     console.error(err);
+  //     setError("Failed to send OTP. Please check your network and try again.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
 
   return (
@@ -77,8 +82,8 @@ const LoginPage = ({onOtpRequested}) => {
 <IoPerson  className="h-[20px] w-[40px] ml-[25px] text-gray-500" />
 <input
   placeholder="Mobile Number"
-  value={phone}
-  onChange={e=>setPhone(e.target.value)}
+  // value={phone}
+  // onChange={e=>setPhone(e.target.value)}
   className="bg-transparent  outline-none font-poppins text-[11px] leading-[15px]"
   type="text"
 />
@@ -87,18 +92,19 @@ const LoginPage = ({onOtpRequested}) => {
 <div className="pt-40 pb-20">
 <div className="flex items-center justify-center mt-10">
     <button
-    onClick={requestOTP}
-    disabled={loading}
+    // onClick={requestOTP}
+    // disabled={loading}
     
    
       className="bg-gradient-to-r from-[#9C3FE4]  to-[#C65647] hover:bg-blue-700 w-48 text-white font-bold py-2 px-4 rounded transition-transform transform active:scale-95"
      
     >
-   {loading ? "Sending..." : "Send OTP"}
+      Send Otp
+   {/* {loading ? "Sending..." : "Send OTP"} */}
       
     </button>
-    {error && <p className="text-red-500 mt-4">{error}</p>}
-    <div id="recaptcha-container"></div>
+    {/* {error && <p className="text-red-500 mt-4">{error}</p>} */}
+    {/* <div id="recaptcha-container"></div> */}
     </div>
 </div>
 

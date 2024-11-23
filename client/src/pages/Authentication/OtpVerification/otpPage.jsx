@@ -3,33 +3,42 @@ import React , { useState }from "react";
 import HeaderPhotos from "../../../components/Headerphoto"
 // import OtpHeading from "../../../components/OtpHeading"
 
-const Otp = ({confirmationResult})=> {
-    const [otp, setOtp] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState(false);
+const Otp = ()=> {
+    // const [otp, setOtp] = useState("");
+    // const [loading, setLoading] = useState(false);
+    // const [error, setError] = useState("");
+    // const [success, setSuccess] = useState(false);
   
-    const verifyOTP = async () => {
-      setError("");
-      if (!otp || otp.length !== 6) {
-        setError("Please enter a valid 6-digit OTP.");
-        return;
-      }
+    // const verifyOTP = async () => {
+    //   setError("");
+    //   setLoading(true);
+
+    //   const confirmationResult = window.confirmationResult;
+    // if (!confirmationResult) {
+    //   setError("OTP request not found. Please go back and request a new OTP.");
+    //   setLoading(false);
+    //   return;
+    // }
+    //   if (!otp || otp.length !== 6) {
+    //     setError("Please enter a valid 6-digit OTP.");
+    //     return;
+    //   }
   
-      try {
-        setLoading(true);
-        await confirmationResult.confirm(otp);
-        setSuccess(true);
-      } catch (err) {
-        setError("Invalid OTP. Try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    //   try {
+    //     const result = await confirmationResult.confirm(otp);
+    //     console.log("User signed in:", result.user);
+    //     onLoginSuccess(); // Navigate to the home page
+    //   } catch (err) {
+    //     console.error(err);
+    //     setError("Invalid OTP. Please try again.");
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
   
-    if (success) {
-      return <h1 className="text-center text-2xl">Login Successful!</h1>;
-    }
+    // if (success) {
+    //   return <h1 className="text-center text-2xl">Login Successful!</h1>;
+    // }
 
 
 return(
@@ -63,8 +72,7 @@ return(
               <div className="h-[38px]  bg-[#F6F1F1] rounded-[5px] flex items-center mt-2">
               <input
       placeholder="Enter Otp"
-      value={otp}
-      onChange={(e)=>setOtp(e.target.value)}
+     
       className="bg-transparent  outline-none font-poppins text-[11px] leading-[15px] pl-10"
       type="text"
     />
@@ -84,16 +92,15 @@ return(
 
     <div className="flex items-center justify-center mt-10">
         <button
-        onClick={verifyOTP}
-        disabled={loading}
+        
        
           className="bg-gradient-to-r from-[#9C3FE4]  to-[#C65647] hover:bg-blue-700 w-48 text-white font-bold py-2 px-4 rounded transition-transform transform active:scale-95"
          
         >
-         {loading ? "Verifying..." : "Verify OTP"}
+         
           
         </button>
-        {error && <p className="text-red-500 mt-4">{error}</p>}
+        
         </div>
 
 
