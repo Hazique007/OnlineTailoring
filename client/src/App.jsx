@@ -10,26 +10,29 @@ import Customize from "./pages/Customization/Customize";
 import Otp from "./pages/Authentication//OtpVerification/otpPage"
 import OrderSummary from "./pages/Order-Page/order-summary"
 import OrderSuccessful from "./pages/Order-Page/order-successful";
-import ProfilePage from "./pages/Profile-Page/profile"
+import ProfilePage from "./pages/Profile-Page/profile";
+import HelpAndSupport from "./pages/Profile-Page/Profile-Components/helpandsupport";
+import AllAddresses from "./pages/Profile-Page/Profile-Components/allAddresses";
+
 
 
 const App = () => {
-  // const [confirmationResult, setConfirmationResult] = useState(null);
+  
   return (
 
-    
+
 
     <>
       <BrowserRouter>
         <Routes>
           <Route path="/" Component={AuthLanding}></Route>
 
-           <Route
-          path="/login" Component={LoginPage}
-        />
-         <Route
-          path="/otp" Component={Otp}
-        />
+          <Route
+            path="/login" Component={LoginPage}
+          />
+          <Route
+            path="/otp" Component={Otp}
+          />
 
 
           <Route path="/Home" Component={LandingPage}></Route>
@@ -39,7 +42,9 @@ const App = () => {
           <Route path="/customize" Component={Customize}></Route>
           <Route path="/ordersummary" Component={OrderSummary}></Route>
           <Route path="/orderSuccessful" Component={OrderSuccessful}></Route>
-         <Route path="/search" Component={SearchPage}></Route>
+          <Route path="/search" Component={SearchPage}></Route>
+          <Route path="/addresses" Component={AllAddresses}></Route>
+          <Route path="/help-support" Component={HelpAndSupport}></Route>
         </Routes>
       </BrowserRouter>
     </>

@@ -9,7 +9,6 @@ const profileSchema = new mongoose.Schema({
   },
   personalDetails: {
     name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
     phoneNumber: { type: String, required: true },
   },
   addresses: [
@@ -36,14 +35,7 @@ const profileSchema = new mongoose.Schema({
       ],
     },
   ],
-  helpAndSupport: [
-    {
-      ticketId: { type: String, required: true },
-      query: { type: String, required: true },
-      date: { type: Date, default: Date.now },
-      status: { type: String, default: "Open", enum: ["Open", "In Progress", "Resolved"] },
-    },
-  ],
+  
   notifications: [
     {
       message: { type: String, required: true },
@@ -55,6 +47,6 @@ const profileSchema = new mongoose.Schema({
 });
 
 const Profile = mongoose.model("Profile", profileSchema);
-export default Profile;
+module.exports = Profile;
 
 

@@ -14,7 +14,7 @@ const AuthLanding = ()=> {
   useEffect(() => {
     // Set a timer to redirect after 3 seconds
     const timer = setTimeout(() => {
-      navigate('/login'); // Redirect to the desired page
+      navigate('/otp'); // Redirect to the desired page
     }, 3000);
 
     // Cleanup timer on component unmount

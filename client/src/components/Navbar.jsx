@@ -71,6 +71,8 @@ const Navbar = () => {
       </IconButton>
 
       <TopNavIcon
+
+        onClick={() => navigate("/profile")}
         label={"Profile"}
         image={<CgProfile className="h-[25px] w-[25px]" />}
       />

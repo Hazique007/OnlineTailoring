@@ -3,20 +3,33 @@ import mongoose from "mongoose";
 const orderSummarySchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // Reference to the user model
     required: true,
-    ref: "User", // Links the order to a specific user
+  },
+  fabricStyle: {
+    type: String,
+    required: true,
+  },
+  fabricCharges: {
+    type: Number,
+    required: true,
   },
   stitchingCharges: {
     type: Number,
     required: true,
-    default: 0, // Default value if not provided
   },
-  createdAt: {
+  totalAmount: {
+    type: Number,
+    required: true,
+    default: function () {
+      return this.fabricCharges + this.stitchingCharges; // Automatically calculate total
+    },
+  },
+  deliveryDate: {
     type: Date,
-    default: Date.now, // Automatically set the order creation date
+    required: true,
   },
 });
 
 const OrderSummary = mongoose.model("OrderSummary", orderSummarySchema);
-
-export default OrderSummary;
+module.exports =OrderSummary;

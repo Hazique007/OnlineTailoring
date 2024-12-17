@@ -1,8 +1,9 @@
 import express from "express";
 import {
   createOrderSummary,
-  getOrderSummaryByUser,
-  updateStitchingCharges,
+  getOrderSummary,
+  updateOrderSummary,
+  deleteOrderSummary,
 } from "../controllers/ordersummarycontroller";
 
 const router = express.Router();
@@ -11,9 +12,12 @@ const router = express.Router();
 router.post("/", createOrderSummary);
 
 // Get order summary by user ID
-router.get("/:userId", getOrderSummaryByUser);
+router.get("/:userId", getOrderSummary);
 
-// Update stitching charges
-router.put("/:userId", updateStitchingCharges);
+// Update an order summary
+router.put("/:id", updateOrderSummary);
+
+// Delete an order summary
+router.delete("/:id", deleteOrderSummary);
 
 export default router;
