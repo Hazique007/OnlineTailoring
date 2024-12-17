@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TopNav from "../../../components/TopNav";
+import Navbar from "../../../components/Navbar";
 
 const AllAddresses = () => {
   const [addresses, setAddresses] = useState([]); // Store addresses
@@ -225,7 +226,9 @@ const AllAddresses = () => {
             </div>
           </div>
         </div>
+        
       )}
+     
     </div>
   );
 };
