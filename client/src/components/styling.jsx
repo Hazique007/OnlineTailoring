@@ -1,19 +1,42 @@
 import { Link } from "react-router-dom";
+import axios from "axios";
 import StylingImageText from "./styling-img-text";
-import StyleImg from "../assets/images/t-shirt mockup.png";
-import StyleImg1 from "../assets/images/t-shirt.png";
+import { useEffect, useState } from "react";
 
-export const DesignStyling = ({ gender }) => {
+export const DesignStyling = () => {
   return (
     <>
       <Styling gender="Male" heading="Men Styling" />
       <Styling gender="Female" heading="Women Styling" />
-      <Styling gender="Kids" heading="Kids Styling" />
+      {/* <Styling gender="Kids" heading="Kids Styling" /> */}
     </>
   );
 };
 
 const Styling = ({ heading, gender }) => {
+  const [categoryArray, setCategoryArray] = useState([]);
+
+  const getCategory = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/api/v1/category/fetchcategories",
+        {
+          params: { gender },
+        }
+      );
+
+      if (response.data.categories) {
+        setCategoryArray(response.data.categories);
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  useEffect(() => {
+    getCategory();
+  }, [gender]);
+
   return (
     <div>
       <div className="pt-5 w-full flex justify-between px-[10px] mt-3">
@@ -27,32 +50,16 @@ const Styling = ({ heading, gender }) => {
           View All
         </Link>
       </div>
-      <div className="images flex w-full mt-3 px-[19px] justify-between px-13">
-        <StylingImageText
-          link={`/product/${gender}/Shirts`}
-          text="Shirts"
-          img={StyleImg1}
-        />
-        <StylingImageText
-          text="Pants"
-          img={StyleImg}
-          link={`/product/${gender}/Pants`}
-        />
-        <StylingImageText
-          text="Blazers"
-          link={`/product/${gender}/Blazers`}
-          img={StyleImg}
-        />
-        <StylingImageText
-          text="Suits"
-          img={StyleImg}
-          link={`/product/${gender}/Suits`}
-        />
-        <StylingImageText
-          link={`/product/${gender}/Kurta`}
-          text="Kurtas"
-          img={StyleImg}
-        />
+      <div className="images flex w-full mt-3 px-[19px] justify-between">
+        {categoryArray.map((element) => (
+          <StylingImageText
+            key={element._id}
+            link={`/product/${gender}`}
+            text={element.category}
+            img={element.categoryImages}
+            alt={`${element.category} image`}
+          />
+        ))}
       </div>
     </div>
   );

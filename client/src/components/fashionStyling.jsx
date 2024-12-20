@@ -1,76 +1,55 @@
-import React from "react";
-import image1 from "../assets/images/Anime-T-shirts.png";
-import image2 from "../assets/images/men-menu-banner.png";
-import image3 from "../assets/images/men-page-1.png";
-import image4 from "../assets/images/images (1).png";
-import images5 from "../assets/images/Lettering-T-shirts.png";
-import images6 from "../assets/images/imageNew.png";
-import images7 from "../assets/images/imageNew2.png";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Fashion = () => {
+  const [fashionImages, setFashionImages] = useState([]);
+
+  useEffect(() => {
+    const fetchFashionImages = async () => {
+      try {
+        const { data } = await axios.get(
+          "http://localhost:3000/api/v1/landing/getFashionPageImages"
+        );
+
+        const images = data.data[data.data.length - 1].fashionImages;
+
+        while (images.length < 8) {
+          images.push(null);
+        }
+
+        setFashionImages(images);
+      } catch (error) {
+        console.error("Error fetching fashion images", error);
+      }
+    };
+
+    fetchFashionImages();
+  }, []);
+
   return (
-    <div className="px-[15px] mt-10  rounded-[10px]">
+    <div className="px-[15px] mt-10 rounded-[10px]">
       <h1 className="font-poppins ml-[6px] font-[700] text-[12px] leading-[18px]">
         Fashion and Style Highlights
       </h1>
 
-      <div className="images flex-col justify-between items-center">
-        <div className="row1 mt-4 flex justify-between items-center">
-          <img
-            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
-            src={images7}
-            alt=""
-            srcSet=""
-          />
-          <img
-            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
-            src={image4}
-            alt=""
-            srcSet=""
-          />
-        </div>
-        <div className="row2 mt-4 flex justify-between items-center">
-          <img
-            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
-            src={image1}
-            alt=""
-            srcSet=""
-          />
-          <img
-            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
-            src={image2}
-            alt=""
-            srcSet=""
-          />
-        </div>
-        <div className="row3 mt-4 flex justify-between items-center">
-          <img
-            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
-            src={image3}
-            alt=""
-            srcSet=""
-          />
-          <img
-            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
-            src={image4}
-            alt=""
-            srcSet=""
-          />
-        </div>
-        <div className="row4 mt-4 flex justify-between items-center">
-          <img
-            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
-            src={images5}
-            alt=""
-            srcSet=""
-          />
-          <img
-            className="h-[30vh] w-[40vw] object-cover rounded-[10px]"
-            src={images6}
-            alt=""
-            srcSet=""
-          />
-        </div>
+      <div className="images flex flex-wrap justify-between items-center">
+        {fashionImages.length > 0 ? (
+          fashionImages.map((image, index) => (
+            <div key={index} className="w-[48%] mt-4">
+              {image ? (
+                <img
+                  className="h-[30vh] w-full object-cover rounded-[10px]"
+                  src={`http://localhost:3000/uploads/${image}`}
+                  alt={`fashion image ${index + 1}`}
+                />
+              ) : (
+                <div className="h-[30vh] w-full bg-gray-300 rounded-[10px]"></div>
+              )}
+            </div>
+          ))
+        ) : (
+          <p>Loading images...</p>
+        )}
       </div>
     </div>
   );

@@ -6,11 +6,11 @@ const StylingImageText = ({ img, text, onClick, link }) => {
       to={link}
       className="flex-col  rounded-sm items-center justify-center text-center "
     >
-      <div className="bg-gray-200 shadow-md shadow-gray-400  p-2 rounded-md hover:bg-white">
+      <div className="  hover:bg-white">
         <img
           onClick={onClick}
-          className="w-[30px]  h-[30px]"
-          src={img}
+          className="w-[40px]  h-[40px] rounded-sm"
+          src={`http://localhost:3000/uploads/${img}`}
           alt=""
         />
       </div>

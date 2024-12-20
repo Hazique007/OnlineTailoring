@@ -4,6 +4,7 @@ import TopNav from "../../components/TopNav";
 import styleImage from "../../assets/images/Anime-T-shirts.png";
 import Navbar from "../../components/Navbar";
 import { BiSolidCommentDetail } from "react-icons/bi";
+import { MdArrowForwardIos } from "react-icons/md";
 
 const Customize = () => {
   const navigate = useNavigate();
@@ -81,7 +82,8 @@ const Customize = () => {
 
       <div className="px-[11px] mt-[17px] pb-24">
         <h1 className="font-poppins font-[700] text-[14px] text-[#737373] ">
-          Men > Formal Shirts > Style Name
+          Men <MdArrowForwardIos /> Formal Shirts <MdArrowForwardIos /> Style
+          Name
         </h1>
         <div className="w-full text-center mt-[23px] gap-y-3 flex flex-col items-center justify-center">
           <h1 className="text-[17px] font-poppins font-[600] text-[#DA3A3A]">
