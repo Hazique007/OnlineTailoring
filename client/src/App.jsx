@@ -13,7 +13,9 @@ import Customize from "./pages/Customization/Customize";
 import Otp from "./pages/Authentication//OtpVerification/otpPage";
 import OrderSummary from "./pages/Order-Page/order-summary";
 import OrderSuccessful from "./pages/Order-Page/order-successful";
+import CategoryPage from "./components/categoryPage";
 // import ProfilePage from "./pages/Profile-Page/profile";
+
 import { useState } from "react";
 
 const App = () => {
@@ -53,7 +55,7 @@ const App = () => {
           <Route path="/ordersummary" Component={OrderSummary}></Route>
           <Route path="/orderSuccessful" Component={OrderSuccessful}></Route>
           <Route path="/search" Component={SearchPage}></Route>
-          <Route path="/product/:gender" Component={ProductPage}></Route>
+          <Route path="/product/:gender" Component={CategoryPage}></Route>
           <Route
             path="/product/:gender/:category"
             Component={ProductPage}

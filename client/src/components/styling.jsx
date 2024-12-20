@@ -54,7 +54,7 @@ const Styling = ({ heading, gender }) => {
         {categoryArray.map((element) => (
           <StylingImageText
             key={element._id}
-            link={`/product/${gender}`}
+            link={`/product/${gender}/${element._id}`}
             text={element.category}
             img={element.categoryImages}
             alt={`${element.category} image`}
