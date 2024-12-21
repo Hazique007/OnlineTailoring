@@ -1,5 +1,6 @@
 import Fashion from "../models/fashionSchema.js";
 
+// Add fashion images with category and gender
 export const addFashionImages = async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
@@ -9,9 +10,30 @@ export const addFashionImages = async (req, res) => {
       });
     }
 
-    const fashionImages = req.files.map((file) => file.filename);
+    const { category, gender } = req.body;
+    if (!category || !gender) {
+      return res.status(400).json({
+        status: "error",
+        message: "Both category and gender are required for fashion images.",
+      });
+    }
 
-    if (fashionImages.length === 0) {
+    // Ensure that gender is one of the accepted values (Male, Female, Unisex)
+    if (!["Male", "Female", "Unisex"].includes(gender)) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid gender. Accepted values are Male, Female, or Unisex.",
+      });
+    }
+
+    // Create an array of fashion images with category and gender
+    const fashionItems = req.files.map((file) => ({
+      fashionImage: file.filename,
+      category,
+      gender,
+    }));
+
+    if (fashionItems.length === 0) {
       return res.status(400).json({
         status: "error",
         message: "No valid images uploaded. Please upload valid image files.",
@@ -19,18 +41,18 @@ export const addFashionImages = async (req, res) => {
     }
 
     const newFashion = new Fashion({
-      fashionImages,
+      fashionImages: fashionItems,
     });
 
     const savedFashion = await newFashion.save();
 
     res.status(201).json({
       status: "success",
-      message: "Fashion page images added successfully",
-      savedFashion,
+      message: "Fashion images added successfully",
+      data: savedFashion,
     });
   } catch (error) {
-    console.error("Error adding Fashion page images:", error);
+    console.error("Error adding Fashion images:", error);
 
     if (error.name === "ValidationError") {
       return res.status(400).json({
@@ -42,11 +64,12 @@ export const addFashionImages = async (req, res) => {
     res.status(500).json({
       status: "error",
       message:
-        "Server error while adding Fashion page images. Please try again later.",
+        "Server error while adding Fashion images. Please try again later.",
     });
   }
 };
 
+// Fetch all fashion images with categories and gender
 export const getFashionPageImages = async (req, res) => {
   try {
     const fashionData = await Fashion.find({});
@@ -54,20 +77,29 @@ export const getFashionPageImages = async (req, res) => {
     if (!fashionData.length) {
       return res.status(404).json({
         status: "error",
-        message: "No fashion page data found",
+        message: "No fashion data found",
       });
     }
 
+    // Flatten the results to return a simple array of images with categories and gender
+    const imagesWithCategoriesAndGender = fashionData.flatMap((fashionItem) =>
+      fashionItem.fashionImages.map((item) => ({
+        fashionImage: item.fashionImage,
+        category: item.category,
+        gender: item.gender, // Include gender in the response
+      }))
+    );
+
     res.status(200).json({
       status: "success",
-      message: "Successfully fetched fashion page images",
-      data: fashionData,
+      message: "Successfully fetched fashion images",
+      data: imagesWithCategoriesAndGender,
     });
   } catch (error) {
-    console.error("Error fetching Fashion page images:", error);
+    console.error("Error fetching Fashion images:", error);
     res.status(500).json({
       status: "error",
-      message: "Server error while fetching fashion page images",
+      message: "Server error while fetching Fashion images",
     });
   }
 };

@@ -1,5 +1,6 @@
 import Trending from "../models/trendingSchema.js";
 
+// Add trending images with category and gender
 export const addTrendingImages = async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
@@ -9,9 +10,29 @@ export const addTrendingImages = async (req, res) => {
       });
     }
 
-    const trendingImages = req.files.map((file) => file.filename);
+    const { category, gender } = req.body;
+    if (!category || !gender) {
+      return res.status(400).json({
+        status: "error",
+        message: "Both category and gender are required for trending images.",
+      });
+    }
 
-    if (trendingImages.length === 0) {
+    // Ensure that gender is one of the accepted values (Male, Female, Unisex)
+    if (!["Male", "Female", "Unisex"].includes(gender)) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid gender. Accepted values are Male, Female, or Unisex.",
+      });
+    }
+
+    const trendingItems = req.files.map((file) => ({
+      trendingImage: file.filename,
+      category,
+      gender,
+    }));
+
+    if (trendingItems.length === 0) {
       return res.status(400).json({
         status: "error",
         message: "No valid images uploaded. Please upload valid image files.",
@@ -19,7 +40,7 @@ export const addTrendingImages = async (req, res) => {
     }
 
     const newTrending = new Trending({
-      trendingImages,
+      trendingItems,
     });
 
     const savedTrending = await newTrending.save();
@@ -47,6 +68,7 @@ export const addTrendingImages = async (req, res) => {
   }
 };
 
+// Fetch all trending images with their categories and gender
 export const getTrendingPageImages = async (req, res) => {
   try {
     const trendingData = await Trending.find({});
@@ -58,10 +80,18 @@ export const getTrendingPageImages = async (req, res) => {
       });
     }
 
+    const formattedData = trendingData.flatMap((item) =>
+      item.trendingItems.map((trendingItem) => ({
+        trendingImage: trendingItem.trendingImage,
+        category: trendingItem.category,
+        gender: trendingItem.gender, // Include gender in the response
+      }))
+    );
+
     res.status(200).json({
       status: "success",
       message: "Successfully fetched Trending page images",
-      data: trendingData,
+      data: formattedData,
     });
   } catch (error) {
     console.error("Error fetching Trending page images:", error);

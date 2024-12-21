@@ -17,6 +17,7 @@ import CategoryPage from "./components/categoryPage";
 // import ProfilePage from "./pages/Profile-Page/profile";
 
 import { useState } from "react";
+import AllCategory from "./components/allCategory";
 
 const App = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
@@ -64,6 +65,7 @@ const App = () => {
             path="/product/:gender/:category/:subCategory"
             Component={ProductPage}
           ></Route>
+          <Route path="/AllCategory" Component={AllCategory}></Route>
 
           <Route path="*" Component={NotFound}></Route>
         </Routes>

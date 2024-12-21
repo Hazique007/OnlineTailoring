@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
+
   const [landingArray, setLandingArray] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -11,7 +14,7 @@ const Hero = () => {
         "http://localhost:3000/api/v1/landing/getLandingPageImages"
       );
       if (data) {
-        const images = data.data[data.data.length - 1].bannerImages;
+        const images = data.data.flatMap((item) => item.bannerImages);
         setLandingArray(images);
       }
     } catch (error) {
@@ -54,6 +57,9 @@ const Hero = () => {
   const handleIndicatorClick = (index) => {
     setCurrentIndex(index);
   };
+  const handleImageClick = (gender, category) => {
+    navigate(`/product/${gender}/${category}`);
+  };
 
   return (
     <div className="h-[182px] w-full mt-[11px] overflow-hidden">
@@ -68,7 +74,8 @@ const Hero = () => {
             {landingArray.map((image, index) => (
               <div key={index} className="w-full h-[182px] flex-shrink-0">
                 <img
-                  src={`http://localhost:3000/uploads/${image}`}
+                  src={`http://localhost:3000/uploads/${image.image}`}
+                  onClick={() => handleImageClick(image.gender, image.category)}
                   className="h-[182px] w-full rounded-[5px]"
                   alt={`Hero Image ${index + 1}`}
                 />

@@ -6,7 +6,7 @@ import fs from "fs";
 import {
   addLandingPageImages,
   getLandingPageImages,
-  updateLandingPageImages,
+  // updateLandingPageImages,
 } from "../controllers/landingController.js";
 import {
   addTrendingImages,
@@ -40,12 +40,12 @@ const upload = multer({ storage });
 
 router.post(
   "/addLandingPageImages",
-  upload.array("bannerImages", 4),
+  upload.array("image", 4),
   addLandingPageImages
 );
 
 router.get("/getLandingPageImages", getLandingPageImages);
-router.put("/updateLandingPageImages", updateLandingPageImages);
+// router.put("/updateLandingPageImages", updateLandingPageImages);
 
 router.post(
   "/addTrendingImages",

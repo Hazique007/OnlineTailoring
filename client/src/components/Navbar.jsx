@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { IoHome, IoCartOutline } from "react-icons/io5";
-
 import { IoSearch } from "react-icons/io5";
 import { PiSquaresFourBold } from "react-icons/pi";
 import { CgProfile } from "react-icons/cg";
@@ -19,11 +18,11 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-export const TopNavIcon = ({ gender, label, image, onClick }) => {
+export const TopNavIcon = ({ label, image, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className="flex flex-col items-center h-[62px] justify-center w-full"
+      className="flex flex-col items-center h-[62px] justify-center"
     >
       {image}
       <h2 className="text-[10px] font-poppins text-black font-[450]">
@@ -33,18 +32,21 @@ export const TopNavIcon = ({ gender, label, image, onClick }) => {
   );
 };
 
-const Navbar = ({ gender, label, image, onClick }) => {
-  const handleProduct = () => {
-    navigate("/product");
-  };
+const Navbar = () => {
   const navigate = useNavigate();
   const { isSearch, setIsSearch } = useContext(SearchContext);
+
+  const handleProduct = () => {
+    navigate("/Allcategory");
+  };
+
   const handleSearch = () => {
     setIsSearch(!isSearch);
     navigate("/search");
   };
+
   return (
-    <div className="Navigation h-[62px] bottom-0 fixed flex items-center justify-evenly bg-[#FAF1F1] w-full">
+    <div className="Navigation h-[62px] fixed bottom-0 flex justify-between bg-[#FAF1F1] w-full px-4">
       <TopNavIcon
         onClick={() => navigate("/Home")}
         label={"Home"}
@@ -60,16 +62,14 @@ const Navbar = ({ gender, label, image, onClick }) => {
         label={"Shop"}
         image={<PiSquaresFourBold className="h-[25px] w-[25px]" />}
       />
-
       <IconButton aria-label="cart">
         <StyledBadge badgeContent={3} color="secondary">
           <TopNavIcon
             label={"Cart"}
-            image={<IoCartOutline className=" text-black h-[25px] w-[25px]" />}
+            image={<IoCartOutline className="text-black h-[25px] w-[25px]" />}
           />
         </StyledBadge>
       </IconButton>
-
       <TopNavIcon
         label={"Profile"}
         image={<CgProfile className="h-[25px] w-[25px]" />}

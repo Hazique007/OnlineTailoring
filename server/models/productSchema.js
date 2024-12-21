@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema({
     required: [true, "Category is required"],
   },
   subCategory: {
-    type: String,
+    type: [String],
     required: function () {
       return ["Shirts", "Pants", "Blazers", "Suits", "Kurta"].includes(
         this.category

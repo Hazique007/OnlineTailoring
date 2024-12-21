@@ -46,7 +46,7 @@ const CategoryPage = () => {
           categoryArray.map((element) => (
             <div
               key={element._id}
-              onClick={() => handleCategoryClick(element.category)} 
+              onClick={() => handleCategoryClick(element.category)}
               className="cursor-pointer flex flex-col items-center justify-center bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
             >
               <div className="relative w-[100px] h-[100px]">
