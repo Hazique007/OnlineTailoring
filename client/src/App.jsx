@@ -14,6 +14,7 @@ import Otp from "./pages/Authentication//OtpVerification/otpPage";
 import OrderSummary from "./pages/Order-Page/order-summary";
 import OrderSuccessful from "./pages/Order-Page/order-successful";
 import CategoryPage from "./components/categoryPage";
+import { ProductProvider } from "./Context Api/trackProduct";
 // import ProfilePage from "./pages/Profile-Page/profile";
 
 import { useState } from "react";

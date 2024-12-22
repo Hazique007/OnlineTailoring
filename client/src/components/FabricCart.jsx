@@ -1,10 +1,10 @@
-import { useState, useRef, useEffect } from "react";
-
+import { useState, useRef, useEffect, useContext } from "react";
 import image1 from "../assets/images/imageNew.png";
 import image2 from "../assets/images/images (1).png";
 import image3 from "../assets/images/Lettering-T-shirts.png";
 import { SlArrowRight } from "react-icons/sl";
 import { useNavigate } from "react-router-dom";
+import { ProductContext } from "../Context Api/trackProduct";
 
 const images = [image2, image3, image1];
 
@@ -12,14 +12,16 @@ const FabricCart = ({
   label,
   price = 500,
   FabricName = "FabricName",
-  gender = "Men",
-  category = "Shirts",
+  gender,
+  category,
   subCategory = "Pants",
 }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [productData, setProductData] = useState([]);
   const imageBoxRef = useRef(null);
+  const { product } = useContext(ProductContext);
 
   const scrollToImage = (index) => {
     const imageBox = imageBoxRef.current;
@@ -31,6 +33,36 @@ const FabricCart = ({
       setCurrentIndex(index);
     }
   };
+
+  const productItem = JSON.parse(localStorage.getItem("productItem")); // Correct parsing from localStorage
+  console.log(productItem.gender[0]);
+
+  const fetchProductData = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/v1/products/getGenderPlusCategory",
+        {
+          params: {
+            gender: productItem.gender[0],
+            category: productItem.category,
+          },
+        }
+      );
+      const data = await response.json();
+      console.log("data", data);
+
+      if (data && data.products) {
+        setProductData(data.products);
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  // Call API on mount based on current gender and category
+  useEffect(() => {
+    fetchProductData();
+  }, [gender, category]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,11 +113,25 @@ const FabricCart = ({
           <p className="text-[12px] text-gray-600">Price: {price}</p>
           <h2 className="text-[12px] text-yellow-600">
             <div className="flex items-center gap-1">
-              {" "}
-              {gender} <SlArrowRight className="text-[8px]" /> {category}{" "}
-              <SlArrowRight className="text-[8px]" /> {subCategory}
+              {productItem.gender} <SlArrowRight className="text-[8px]" />{" "}
+              {productItem.category} <SlArrowRight className="text-[8px]" />{" "}
+              {subCategory}
             </div>
           </h2>
+        </div>
+        Render fetched products based on gender and category
+        <div className="product-list">
+          {productData.length > 0 ? (
+            productData.map((item, index) => (
+              <div key={index} className="product-item">
+                <h3>{item.name}</h3>
+                <p>{item.description}</p>
+                <p>Price: {item.price}</p>
+              </div>
+            ))
+          ) : (
+            <p>No products found for selected gender and category.</p>
+          )}
         </div>
       </div>
     </div>

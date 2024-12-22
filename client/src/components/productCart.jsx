@@ -1,6 +1,5 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { SlArrowRight } from "react-icons/sl";
-
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import image1 from "../assets/images/imageNew.png";
@@ -8,26 +7,24 @@ import image2 from "../assets/images/images (1).png";
 import image3 from "../assets/images/Lettering-T-shirts.png";
 import DialogImage from "../assets/images/dialog-image.png";
 import { useNavigate } from "react-router-dom";
+import { ProductContext } from "../Context Api/trackProduct"; // Import ProductContext
 
 const images = [image1, image2, image3];
 
-function SimpleDialog({ open, onClose }) {
-  const navigate = useNavigate();
-  const [wantFabric, setWantFabric] = useState("");
-
+function SimpleDialog({ open, onClose, gender, category, onSelection }) {
   const handleClose = () => {
     onClose();
   };
 
+  const handleFabricSelection = (selection) => {
+    onSelection(selection);
+    onClose();
+  };
+
   useEffect(() => {
-    if (wantFabric === "Fabric") {
-      navigate("/fabric");
-      onClose();
-    } else if (wantFabric === "NoFabric") {
-      navigate("/customize");
-      onClose();
+    if (gender && category) {
     }
-  }, [wantFabric, navigate, onClose]);
+  }, [gender, category]);
 
   return (
     <Dialog
@@ -50,13 +47,13 @@ function SimpleDialog({ open, onClose }) {
         </p>
         <div className="flex flex-col space-y-4">
           <button
-            onClick={() => setWantFabric("Fabric")}
+            onClick={() => handleFabricSelection("Fabric")}
             className="px-6 py-2 bg-[#C65647] text-white rounded-md font-medium shadow hover:bg-[#b2463d]"
           >
             ‘Yes’ I want to purchase the fabric
           </button>
           <button
-            onClick={() => setWantFabric("NoFabric")}
+            onClick={() => handleFabricSelection("NoFabric")}
             className="px-6 py-2 text-[#1043F9] border-none rounded-md font-medium hover:bg-blue-50"
           >
             ‘No’, I already have the fabric
@@ -75,9 +72,16 @@ const ProductCart = ({
   category,
   subCategory,
 }) => {
+  // const { setProduct, product } = useContext(ProductContext);
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedFabric, setSelectedFabric] = useState(null);
   const imageBoxRef = useRef(null);
+
+  useEffect(() => {
+    localStorage.setItem("productItem", JSON.stringify({ gender, category }));
+  }, [gender, category]);
 
   const scrollToImage = (index) => {
     const imageBox = imageBoxRef.current;
@@ -91,11 +95,21 @@ const ProductCart = ({
   };
 
   const handleOnclick = () => {
+    // setProduct({ gender, category });
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleFabricSelection = (selection) => {
+    setSelectedFabric(selection);
+    if (selection === "Fabric") {
+      navigate("/fabric");
+    } else if (selection === "NoFabric") {
+      navigate("/customize");
+    }
   };
 
   useEffect(() => {
@@ -153,14 +167,19 @@ const ProductCart = ({
           <p className="text-[12px] text-gray-600">Price: {price}</p>
           <h2 className="text-[12px] text-yellow-600">
             <div className="flex items-center gap-1">
-              {" "}
               {gender} <SlArrowRight className="text-[8px]" /> {category}{" "}
               <SlArrowRight className="text-[8px]" /> {subCategory}
             </div>
           </h2>
         </div>
       </div>
-      <SimpleDialog open={open} onClose={handleClose} />
+      <SimpleDialog
+        open={open}
+        onClose={handleClose}
+        gender={gender}
+        category={category}
+        onSelection={handleFabricSelection}
+      />
     </div>
   );
 };

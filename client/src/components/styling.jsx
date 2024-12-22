@@ -15,7 +15,7 @@ export const DesignStyling = () => {
 
 const Styling = ({ heading, gender }) => {
   const [categoryArray, setCategoryArray] = useState([]);
-
+ 
   const getCategory = async () => {
     try {
       const response = await axios.get(
