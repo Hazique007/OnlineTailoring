@@ -19,7 +19,7 @@ const Styling = ({ heading, gender }) => {
   const getCategory = async () => {
     try {
       const response = await axios.get(
-        "https://online-tailoring-1.onrender.com/api/v1/category/fetchcategories",
+        "http://localhost:3000/api/v1/category/fetchcategories",
         {
           params: { gender },
         }
