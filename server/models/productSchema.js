@@ -11,16 +11,11 @@ const productSchema = new mongoose.Schema({
     required: [true, "Category is required"],
   },
   subCategory: {
-    type: [String],
-    required: function () {
-      return ["Shirts", "Pants", "Blazers", "Suits", "Kurta"].includes(
-        this.category
-      );
-    },
-    enum: ["Casual", "Formal", "Party Wear", "Traditional", "Ethnic"],
+    type: String,
+    required: [true, "sybCategory is required"],
   },
   gender: {
-    type: [String, "gender must be in String format"],
+    type: String,
     enum: ["Men", "Women", "General"],
     required: [true, "Must Provide your gender for better experiance"],
   },

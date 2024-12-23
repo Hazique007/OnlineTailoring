@@ -67,10 +67,11 @@ function SimpleDialog({ open, onClose, gender, category, onSelection }) {
 const ProductCart = ({
   label,
   price = 500,
-  styleName = "StyleName",
+  styleName,
   gender,
   category,
   subCategory,
+  onClick,
 }) => {
   // const { setProduct, product } = useContext(ProductContext);
   const navigate = useNavigate();
@@ -79,9 +80,9 @@ const ProductCart = ({
   const [selectedFabric, setSelectedFabric] = useState(null);
   const imageBoxRef = useRef(null);
 
-  useEffect(() => {
-    localStorage.setItem("productItem", JSON.stringify({ gender, category }));
-  }, [gender, category]);
+  // useEffect(() => {
+  //   localStorage.setItem("productItem", JSON.stringify({ gender, category }));
+  // }, [gender, category]);
 
   const scrollToImage = (index) => {
     const imageBox = imageBoxRef.current;
@@ -130,7 +131,10 @@ const ProductCart = ({
 
   return (
     <div>
-      <div className="outer-box h-[40vh] w-[45vw] mb-16 rounded-lg p-2">
+      <div
+        onClick={onClick}
+        className="outer-box h-[40vh] w-[45vw] mb-16 rounded-lg p-2"
+      >
         <div
           ref={imageBoxRef}
           style={{

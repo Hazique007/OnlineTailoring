@@ -87,60 +87,62 @@ export const getGenderWiseCategory = async (req, res) => {
 
 export const getAllCategoryWithImages = async (req, res) => {
   try {
-    const categoriesWithImages = await Product.aggregate([
-      {
-        $group: {
-          _id: "$category",
-          images: { $push: "$images" },
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          category: "$_id",
-          images: 1,
-        },
-      },
-    ]);
+    const { category } = req.query;
 
-    res.status(200).json({ message: "Got it!! 👌", categoriesWithImages });
+    if (!category) {
+      return res.status(400).json({ message: "Category is required" });
+    }
+
+    const categoriesWithImages = await Product.find(
+      { category },
+      { subCategory: 1, _id: 0 }
+    );
+
+    res.status(200).json({
+      message: "Got it!! 👌",
+      categoriesWithImages,
+    });
   } catch (error) {
     console.error("Error fetching categories with images:", error);
-    res
-      .status(500)
-      .json({ message: "Failed to fetch categories with images", error });
+    res.status(500).json({
+      message: "Failed to fetch categories with images",
+      error,
+    });
   }
 };
 
 export const getSubcategory = async (req, res) => {
-  const { gender } = req.query;
+  const { gender, category } = req.query;
 
   if (!gender) {
-    return res
-      .status(400)
-      .json({ message: "Gender query parameter is required." });
+    return res.status(400).json({
+      message: "Gender query parameter is required.",
+    });
   }
 
   try {
-    const getData = await Product.find(
-      { gender },
-      "category subCategory"
-    ).lean();
-
-    if (!getData || getData.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No data found for the specified gender." });
+    const query = { gender };
+    if (category) {
+      query.category = category;
     }
 
-    const validatedData = getData.map((item) => ({
-      ...item,
-      subCategory: Array.isArray(item.subCategory) ? item.subCategory : [],
-    }));
+    const data = await Product.find(query, {
+      subCategory: 1,
+      _id: 0,
+      gender,
+    }).lean();
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({
+        message: "No subcategories found for the specified query.",
+      });
+    }
+
+    const subCategories = data.map((item) => item.subCategory);
 
     res.status(200).json({
       message: "Subcategories retrieved successfully.",
-      getData: validatedData,
+      subCategories,
     });
   } catch (error) {
     console.error("Error fetching subcategories:", error);
@@ -150,7 +152,6 @@ export const getSubcategory = async (req, res) => {
     });
   }
 };
-
 export const getGenderPlusCategory = async (req, res) => {
   try {
     const { gender, category } = req.query;
@@ -181,6 +182,41 @@ export const getGenderPlusCategory = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "An error occurred while fetching products.",
+      error: error.message,
+    });
+  }
+};
+
+export const getFabricGenderPlusCategory = async (req, res) => {
+  const { gender, category } = req.query;
+
+  if (!gender || !category) {
+    return res
+      .status(400)
+      .json({
+        message: "Both gender and category query parameters are required.",
+      });
+  }
+
+  try {
+    const products = await Product.find({ gender, category }).lean();
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({
+        message: `No products found for gender: ${gender} and category: ${category}.`,
+      });
+    }
+
+    const fabrics = [...new Set(products.map((product) => product))];
+
+    res.status(200).json({
+      message: "Fabrics retrieved successfully.",
+      data: fabrics,
+    });
+  } catch (error) {
+    console.error("Error fetching fabrics:", error);
+    res.status(500).json({
+      message: "An error occurred while fetching fabrics.",
       error: error.message,
     });
   }

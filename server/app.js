@@ -5,6 +5,8 @@ import path from "path";
 import productRouter from "./routes/productRoutes.js";
 import categoryRouter from "./routes/categoryRoutes.js";
 import landingRouter from "./routes/landingRoutes.js";
+import fabricRouter from "./routes/fabricRoutes.js";
+
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 
@@ -27,6 +29,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/landing", landingRouter);
 app.use("/api/v1/category", categoryRouter);
+app.use("/api/v1/fabric", fabricRouter);
 
 app.listen(3000, () => {
   console.log("App is running on port 3000");

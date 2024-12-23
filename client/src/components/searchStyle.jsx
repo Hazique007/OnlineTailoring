@@ -1,89 +1,105 @@
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const SearchStyle = ({ gender }) => {
-  const Label = gender
-    ? `${gender.charAt(0).toUpperCase() + gender.slice(1)}`
-    : "Unisex";
+  const [maleData, setMaleData] = useState([]);
+  const [femaleData, setFemaleData] = useState([]);
+
+  const getSubCategoryMale = async () => {
+    const response = await axios.get(
+      "http://localhost:3000/api/v1/category/getGenderWiseCategory",
+      {
+        params: {
+          gender: "Male",
+        },
+      }
+    );
+    setMaleData(response.data.data);
+    // console.log(response.data.data);
+  };
+
+  const getSubCategoryFemale = async () => {
+    const response = await axios.get(
+      "http://localhost:3000/api/v1/category/getGenderWiseCategory",
+      {
+        params: {
+          gender: "Female",
+        },
+      }
+    );
+    setFemaleData(response.data.data);
+  };
+
+  useEffect(() => {
+    getSubCategoryMale();
+    getSubCategoryFemale();
+  }, [gender]);
+
+  let lab =
+    gender === "Male" ? "Men" : gender === "Female" ? "Women" : "Unisex";
+  const Label = lab
+    ? `${lab.charAt(0).toUpperCase() + lab.slice(1)} Styles`
+    : "Unisex Styles";
+
+  const renderCategory = (data) => {
+    return data.map((item) => {
+      const filteredProducts = item.products.filter(
+        (product) => product.gender === gender
+      );
+
+      const uniqueSubCategories = [
+        ...new Set(filteredProducts.map((product) => product.subCategory)),
+      ];
+
+      return (
+        <div key={item.category} className="mb-6 ">
+          <h2 className="text-[#DA3A3A] font-semibold text-md">
+            {item.category}
+          </h2>
+          <ul className="pl-4 list-none">
+            {uniqueSubCategories.map((subCategory) => (
+              <li key={subCategory} className="mb-2">
+                <Link
+                  className="text-[13px] font-normal text-gray-700 hover:text-[#DA3A3A] hover:underline"
+                  to={`/product/${gender}/${item.category}/${subCategory}`}
+                >
+                  {subCategory}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    });
+  };
 
   return (
-    <div className="pl-[15px] mt-[20px] w-full">
-      <h1 className="font-[700] text-[14px] font-poppins">{Label} Styles</h1>
-      <div className="clothingType flex w-[65vw] mt-[15px] justify-evenly h-[ 30vh]">
-        <div className="col1">
-          <h2 className="text-[#DA3A3A] font-[600] font-poppins text-[13px] ">
-            Shirts
-          </h2>
-          <ul className=" flex flex-col justify-evenly h-[25vh] pl-[22px] mt-[5px]">
-            <Link
-              className=" font-poppins font-[400] text-[12px]  hover:text-[#DA3A3A] hover:underline "
-              to={`/product/${gender}/Shirts/Formal`}
-            >
-              Formal
-            </Link>
-            <Link
-              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
-              to={`/product/${gender}/Shirts/Semi-Formal`}
-            >
-              Semi-Formal
-            </Link>
-            <Link
-              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
-              to={`/product/${gender}/Shirts/Casual`}
-            >
-              Casual
-            </Link>
-            <Link
-              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
-              to={`/product/${gender}/Shirts/Mandarin`}
-            >
-              Mandarin
-            </Link>
-            <Link
-              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
-              to={`/product/${gender}/Shirts/Half-Sleeves`}
-            >
-              Half-Sleeves
-            </Link>
-          </ul>
-        </div>
+    <div className="pl-4 mt-5 w-full">
+      <h1 className="font-bold text-lg">{Label}</h1>
+      <div className="mt-5 flex flex-wrap gap-8">
+        {gender === "Male" && (
+          <div className="w-full grid grid-cols-2 sm:w-1/2 lg:w-1/3">
+            {renderCategory(maleData)}
+          </div>
+        )}
 
-        <div className="col2">
-          <h2 className="text-[#DA3A3A] font-[600] font-poppins text-[13px]">
-            Pants
-          </h2>
-          <ul className=" flex flex-col justify-evenly h-[25vh] pl-[22px] mt-[5px] ">
-            <Link
-              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
-              to={`/product/${gender}/Pants/Formal`}
-            >
-              Formal
-            </Link>
-            <Link
-              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
-              to={`/product/${gender}/Pants/Semi-Formal`}
-            >
-              Semi-Formal
-            </Link>
-            <Link
-              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
-              to={`/product/${gender}/Pants/Casual`}
-            >
-              Casual
-            </Link>
-            <Link
-              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
-              to={`/product/${gender}/Pants/Mandarin`}
-            >
-              Mandarin
-            </Link>
-            <Link
-              className=" font-poppins font-[400] text-[12px] hover:text-[#DA3A3A] hover:underline"
-              to={`/product/${gender}/Pants/Half-Sleeves`}
-            >
-              Half-Sleeves
-            </Link>
-          </ul>
-        </div>
+        {gender === "Female" && (
+          <div className="w-full grid grid-cols-2 sm:w-1/2 lg:w-1/3">
+            {renderCategory(femaleData)}
+          </div>
+        )}
+
+        {gender === "Unisex" && (
+          <>
+            <div className="w-full sm:w-1/2 lg:w-1/3">
+              {renderCategory(maleData)}
+            </div>
+            <div className="w-full sm:w-1/2 lg:w-1/3">
+              {renderCategory(femaleData)}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

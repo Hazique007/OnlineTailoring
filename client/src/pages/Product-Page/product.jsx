@@ -12,6 +12,8 @@ import { Audio } from "react-loader-spinner";
 const ProductPage = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [categoryDescription, setCategoryDescription] = useState();
+  const [subCategoryDescription, setSubCategoryDescription] = useState();
   const { gender, category, subCategory } = useParams();
 
   useEffect(() => {
@@ -24,7 +26,12 @@ const ProductPage = () => {
             params: { gender, category, subCategory },
           }
         );
+        // console.log(response);
+
         setData(response.data.products);
+        setCategoryDescription(response.data.products[0].categoryDescription);
+        setSubCategoryDescription(response.data.products[0].description);
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching products:", error.message);
@@ -65,11 +72,12 @@ const ProductPage = () => {
               : gender === "Kids"
               ? "Kids"
               : "All available products"
-          } >${category ? category : ""}`}
+          }  >  ${category ? category : ""} ${
+            subCategory ? " > " + subCategory : ""
+          }`}
         </h1>
         <p className="text-[#898282] font-[400] mt-[13px] text-[12px] pr-3 font-poppins">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
-          natus beatae dolor sit amet consectetur adipisicing.
+          {subCategory ? subCategoryDescription : categoryDescription}
         </p>
         <div className="filter-sort mt-[21px] flex items-center justify-end gap-7 h-[22px] pr-[20px]">
           <div className="flex h-[25px] gap-3 items-center">
@@ -90,6 +98,9 @@ const ProductPage = () => {
           <div className="grid grid-cols-2 gap-4 mt-4 pb-24">
             {data.map((product, index) => (
               <ProductCart
+                onClick={() =>
+                  localStorage.setItem("productItem", JSON.stringify(product))
+                }
                 key={index}
                 styleName={product.name}
                 price={product.price}

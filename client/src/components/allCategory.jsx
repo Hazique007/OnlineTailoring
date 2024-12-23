@@ -100,7 +100,7 @@ const AllCategory = () => {
                     <img
                       src={`http://localhost:3000/uploads/${category.categoryImages}`}
                       alt={`${category.category}`}
-                      className="w-16 h-16 object-cover mx-auto rounded"
+                      className="w-16 h-16 object-contain mx-auto rounded"
                     />
                     <p className="text-sm font-medium text-gray-700 mt-3 text-center group-hover:text-pink-500">
                       {category.category}
