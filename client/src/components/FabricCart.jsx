@@ -38,8 +38,8 @@ const FabricCart = ({
             <img
               onClick={() => navigate("/customize")}
               key={index}
-              className="h-full w-full flex-shrink-0 object-cover rounded-lg snap-center cursor-pointer"
-              src={image}
+              className="h-full w-full object-fit flex-shrink-0  rounded-lg snap-center cursor-pointer"
+              src={`http://localhost:3000/uploads/${image}`}
               alt={`Fabric ${index + 1}`}
             />
           ))

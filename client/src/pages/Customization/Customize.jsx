@@ -93,7 +93,7 @@ const Customize = () => {
           </h1>
           <img
             className="rounded-[10px] h-[282px] object-fit w-[359px] "
-            src={styleImage}
+            src={`http://localhost:3000/uploads/${productItem.images[0]}`}
             alt="Customize clothing"
           />
         </div>

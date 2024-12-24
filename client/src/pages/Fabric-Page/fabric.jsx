@@ -27,7 +27,7 @@ const FabricPage = () => {
         }
       );
 
-      // console.log(response);
+      console.log(response);
       setFabrics(response.data.data);
 
       // setFabrics(data || []);

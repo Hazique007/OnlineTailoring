@@ -107,6 +107,7 @@ const ProductPage = () => {
                 gender={product.gender}
                 category={product.category}
                 subCategory={product.subCategory}
+                images={product.images}
               />
             ))}
           </div>

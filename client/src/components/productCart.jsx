@@ -7,9 +7,9 @@ import image2 from "../assets/images/images (1).png";
 import image3 from "../assets/images/Lettering-T-shirts.png";
 import DialogImage from "../assets/images/dialog-image.png";
 import { useNavigate } from "react-router-dom";
-import { ProductContext } from "../Context Api/trackProduct"; // Import ProductContext
+import { ProductContext } from "../Context Api/trackProduct";
 
-const images = [image1, image2, image3];
+// const images = [image1, image2, image3];
 
 function SimpleDialog({ open, onClose, gender, category, onSelection }) {
   const handleClose = () => {
@@ -69,6 +69,7 @@ const ProductCart = ({
   price = 500,
   styleName,
   gender,
+  images,
   category,
   subCategory,
   onClick,
@@ -147,10 +148,10 @@ const ProductCart = ({
             <img
               onClick={handleOnclick}
               key={index}
-              className={`h-full w-full flex-shrink-0 object-cover rounded-lg snap-center cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
+              className={`h-full w-full flex-shrink-0 object-fit rounded-lg snap-center cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
                 currentIndex === index ? "ring-2 ring-blue-500" : ""
               }`}
-              src={image}
+              src={`http://localhost:3000/uploads/${image}`}
               alt={`Product ${index + 1}`}
             />
           ))}
