@@ -15,6 +15,8 @@ import OrderSummary from "./pages/Order-Page/order-summary";
 import OrderSuccessful from "./pages/Order-Page/order-successful";
 import CategoryPage from "./components/categoryPage";
 import { ProductProvider } from "./Context Api/trackProduct";
+import ProductCart from "./components/productCart";
+import TrendingProductDetails from "./components/TrendingProductDetails";
 // import ProfilePage from "./pages/Profile-Page/profile";
 
 import { useState } from "react";
@@ -67,6 +69,10 @@ const App = () => {
             Component={ProductPage}
           ></Route>
           <Route path="/AllCategory" Component={AllCategory}></Route>
+          <Route
+            path="/TrendingProductDetails"
+            Component={TrendingProductDetails}
+          ></Route>
 
           <Route path="*" Component={NotFound}></Route>
         </Routes>

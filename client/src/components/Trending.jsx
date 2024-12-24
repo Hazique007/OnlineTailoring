@@ -4,12 +4,13 @@ import axios from "axios";
 
 const Trending = () => {
   const [trendingItems, setTrendingItems] = useState([]);
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
 
   const getTrendingImages = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:3000/api/v1/landing/getTrendingPageImages"
+        "https://online-tailoring-3.onrender.com/api/v1/landing/getTrendingPageImages"
       );
 
       if (data && data.data.length > 0) {
@@ -25,6 +26,21 @@ const Trending = () => {
       console.error("Error fetching trending items:", error);
     }
   };
+
+  // const getProductOnClickTrendingImages = async (gender, category) => {
+  //   const response = await axios.get(
+  //     "https://online-tailoring-3.onrender.com/api/v1/products/getGenderPlusCategory",
+  //     {
+  //       params: { gender, category },
+  //     }
+  //   );
+  //   // console.log(response.data);
+  //   setData(response.data.products);
+  //   console.log(data);
+  // };
+  // useEffect(() => {
+  //   getProductOnClickTrendingImages();
+  // }, [gender, category]);
 
   const handleImageClick = (gender, category) => {
     navigate(`/product/${gender}/${category}`);
@@ -51,7 +67,7 @@ const Trending = () => {
               {item.trendingImage ? (
                 <img
                   className="h-[30vh] w-full object-cover rounded-lg"
-                  src={`http://localhost:3000/uploads/${item.trendingImage}`}
+                  src={`https://online-tailoring-3.onrender.com/uploads/${item.trendingImage}`}
                   alt={`Trending Image ${index + 1} - ${item.category}`}
                 />
               ) : (
