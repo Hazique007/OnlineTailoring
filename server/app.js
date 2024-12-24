@@ -29,6 +29,11 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+app.use(express.static(path.join(__dirname, "../client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
+});
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/v1/products", productRouter);

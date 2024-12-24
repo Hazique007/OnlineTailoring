@@ -13,12 +13,12 @@ const AllCategory = () => {
   const fetchCategories = async () => {
     try {
       const maleResponse = await axios.get(
-        "https://online-tailoring-3.onrender.com/api/v1/category/fetchcategories",
+        "http://localhost:3000/api/v1/category/fetchcategories",
         { params: { gender: "Male" } }
       );
 
       const femaleResponse = await axios.get(
-        "https://online-tailoring-3.onrender.com/api/v1/category/fetchcategories",
+        "http://localhost:3000/api/v1/category/fetchcategories",
         { params: { gender: "Female" } }
       );
 
@@ -63,7 +63,7 @@ const AllCategory = () => {
                     className="group relative bg-gray-100 p-3 rounded-lg shadow hover:shadow-md transform transition-all duration-200 hover:scale-105 cursor-pointer"
                   >
                     <img
-                      src={`https://online-tailoring-3.onrender.com/uploads/${category.categoryImages}`}
+                      src={`http://localhost:3000/uploads/${category.categoryImages}`}
                       alt={`${category.category}`}
                       className="w-16 h-16 object-cover mx-auto rounded"
                     />
@@ -98,7 +98,7 @@ const AllCategory = () => {
                     className="group relative bg-gray-100 p-3 rounded-lg shadow hover:shadow-md transform transition-all duration-200 hover:scale-105 cursor-pointer"
                   >
                     <img
-                      src={`https://online-tailoring-3.onrender.com/uploads/${category.categoryImages}`}
+                      src={`http://localhost:3000/uploads/${category.categoryImages}`}
                       alt={`${category.category}`}
                       className="w-16 h-16 object-contain mx-auto rounded"
                     />

@@ -19,7 +19,7 @@ const LandingPage = () => {
       <div className="w-full justify-center px-4 pt-3">
         <Search />
         <Hero />
-       
+
         <DesignStyling />
         <div className="flex justify-center items-center">
           <WhatsApp />

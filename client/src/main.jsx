@@ -5,7 +5,7 @@ import SearchContextProvider from "./Context Api/searchContext.jsx";
 import App from "./App.jsx";
 import { ProductProvider } from "./Context Api/trackProduct.jsx";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
-
+//
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ProductProvider>
