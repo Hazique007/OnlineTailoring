@@ -93,7 +93,30 @@ registerRoute(
     plugins: [new ExpirationPlugin({ maxEntries: 50 })],
   })
 );
-
+registerRoute(
+  ({ url }) =>
+    url.origin === "http://localhost:3000/api/v1/landing/getFashionPageImages", // Replace with your API's origin
+  new StaleWhileRevalidate({
+    cacheName: "api-cache",
+    plugins: [new ExpirationPlugin({ maxEntries: 50 })],
+  })
+);
+registerRoute(
+  ({ url }) =>
+    url.origin === "http://localhost:3000/api/v1/landing/getTrendingPageImages", // Replace with your API's origin
+  new StaleWhileRevalidate({
+    cacheName: "api-cache",
+    plugins: [new ExpirationPlugin({ maxEntries: 50 })],
+  })
+);
+registerRoute(
+  ({ url }) =>
+    url.origin === "http://localhost:3000/api/v1/category/fetchcategories", // Replace with your API's origin
+  new StaleWhileRevalidate({
+    cacheName: "api-cache",
+    plugins: [new ExpirationPlugin({ maxEntries: 50 })],
+  })
+);
 // Handle all fetch events for offline capability
 self.addEventListener("fetch", (event) => {
   if (event.request.mode === "navigate") {
