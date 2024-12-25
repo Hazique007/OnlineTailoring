@@ -10,6 +10,7 @@ import categoryRouter from "./routes/categoryRoutes.js";
 import landingRouter from "./routes/landingRoutes.js";
 import fabricRouter from "./routes/fabricRoutes.js";
 import addressRoute from "./routes/AddressRoute.js";
+import OrderRoute from "./routes/OrderRoute.js"
 import personalDetailsRoute from "./routes/PersonalDetailsRoutes.js";
 import UserRoute from "./routes/UserRoute.js";
 
@@ -52,6 +53,7 @@ app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/fabric", fabricRouter);
 app.use(addressRoute);
 app.use(personalDetailsRoute);
+app.use("/orders",OrderRoute);
 app.use("/api", UserRoute);
 
 // Start the server

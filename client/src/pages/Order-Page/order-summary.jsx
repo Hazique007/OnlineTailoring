@@ -8,6 +8,7 @@ import SummaryBox from "../../components/Summarybox";
 import Pickup from "../../components/pickup";
 import Delivery from "../../components/deliverydetails";
 import Works from "../../components/Works";
+import OrderSummaryCard from "../../components/OrderSummarycard";
 
 const OrderSummary = () => {
   const navigate = useNavigate();
@@ -43,6 +44,9 @@ const OrderSummary = () => {
               </p>
               <ShowSummary />
               <br />
+              <OrderSummaryCard />
+              <br />
+
               <Pickup />
               <div className="pt-6">
                 <Delivery />
