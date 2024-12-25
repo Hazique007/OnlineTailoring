@@ -13,6 +13,7 @@ import OrderSuccessful from "./pages/Order-Page/order-successful";
 import ProfilePage from "./pages/Profile-Page/profile";
 import HelpAndSupport from "./pages/Profile-Page/Profile-Components/helpandsupport";
 import AllAddresses from "./pages/Profile-Page/Profile-Components/allAddresses";
+import PersonalDetails from "./pages/Profile-Page/Profile-Components/personalDetails";
 
 
 
@@ -45,6 +46,7 @@ const App = () => {
           <Route path="/search" Component={SearchPage}></Route>
           <Route path="/addresses" Component={AllAddresses}></Route>
           <Route path="/help-support" Component={HelpAndSupport}></Route>
+          <Route path="/personal-details" Component={PersonalDetails}></Route>
         </Routes>
       </BrowserRouter>
     </>

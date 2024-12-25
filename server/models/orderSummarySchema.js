@@ -13,6 +13,13 @@ const orderSummarySchema = new mongoose.Schema({
   fabricCharges: {
     type: Number,
     required: true,
+    default: function () {
+      return this.fabricProvidedByUser ? 0 : 500; // Example default value if not provided
+    },
+  },
+  fabricProvidedByUser: {
+    type: Boolean,
+    required: true,
   },
   stitchingCharges: {
     type: Number,
@@ -32,4 +39,4 @@ const orderSummarySchema = new mongoose.Schema({
 });
 
 const OrderSummary = mongoose.model("OrderSummary", orderSummarySchema);
-module.exports =OrderSummary;
+module.exports = OrderSummary;

@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import TopNav from "../../../components/TopNav";
-import Navbar from "../../../components/Navbar";
 
 const AllAddresses = () => {
+  const validPincodes = ["226001", "226002", "226003", "226004", "226005", "226006", "226007", "226010", "226012", "226016", "226017", "226018", "226019", "226020", "226021", "226022", "226023", "226024", "226025", "226028", "226029", "226030", "226101", "226102", "226201", "226202", "226301", "227105", "227125"]; // Allowed PIN codes
   const [addresses, setAddresses] = useState([]); // Store addresses
-  const [newAddress, setNewAddress] = useState({ name: "", address1: "", address2: "", pincode: "" }); // For adding a new address
-  const [editingAddress, setEditingAddress] = useState(null); // For editing an address
-  const [isModalOpen, setIsModalOpen] = useState(false); // Control modal visibility
+  const [newAddress, setNewAddress] = useState({ name: "", address1: "", address2: "", pincode: "" });
+  const [editingAddress, setEditingAddress] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await fetch("http://localhost:5000/list"); // Backend API to get all addresses
+        const response = await fetch("http://localhost:5000/list");
         if (response.ok) {
           const result = await response.json();
           setAddresses(result.data);
@@ -26,9 +26,14 @@ const AllAddresses = () => {
     fetchAddresses();
   }, []);
 
-  // Handle input change for new or edited address
   const handleInputChange = (event, key) => {
     const value = event.target.value;
+    if (key === "pincode") {
+      if (!/^\d*$/.test(value)) {
+        window.alert("Pincode can only contain numbers");
+        return;
+      }
+    }
     if (editingAddress) {
       setEditingAddress({ ...editingAddress, [key]: value });
     } else {
@@ -36,8 +41,25 @@ const AllAddresses = () => {
     }
   };
 
-  // Add a new address
+  const validateFields = (address) => {
+    if (!address.name.trim()) return "Name is required";
+    if (!address.address1.trim()) return "Address Line 1 is required";
+    if (!address.address2.trim()) return "Address Line 2 is required";
+    if (!address.pincode.trim()) return "Pincode is required";
+
+    if (address.pincode.length !== 6) return "Pincode must be exactly 6 digits";
+    if (!validPincodes.includes(address.pincode)) return "Invalid Pincode";
+
+    return "";
+  };
+
   const handleAddAddress = async () => {
+    const errorMessage = validateFields(newAddress);
+    if (errorMessage) {
+      window.alert(errorMessage);
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:5000/add", {
         method: "POST",
@@ -46,9 +68,9 @@ const AllAddresses = () => {
       });
       if (response.ok) {
         const result = await response.json();
-        setAddresses([...addresses, result.data]); // Add new address to the list
-        setNewAddress({ name: "", address1: "", address2: "", pincode: "" }); // Clear input fields
-        setIsModalOpen(false); // Close the modal
+        setAddresses([...addresses, result.data]);
+        setNewAddress({ name: "", address1: "", address2: "", pincode: "" });
+        setIsModalOpen(false);
       } else {
         console.error("Failed to add address");
       }
@@ -57,8 +79,13 @@ const AllAddresses = () => {
     }
   };
 
-  // Edit an existing address
   const handleEditAddress = async () => {
+    const errorMessage = validateFields(editingAddress);
+    if (errorMessage) {
+      window.alert(errorMessage);
+      return;
+    }
+
     try {
       const response = await fetch(`http://localhost:5000/edit/${editingAddress._id}`, {
         method: "PUT",
@@ -69,8 +96,8 @@ const AllAddresses = () => {
         const updatedAddresses = addresses.map((addr) =>
           addr._id === editingAddress._id ? editingAddress : addr
         );
-        setAddresses(updatedAddresses); // Update the address in the list
-        setEditingAddress(null); // Exit editing mode
+        setAddresses(updatedAddresses);
+        setEditingAddress(null);
       } else {
         console.error("Failed to update address");
       }
@@ -79,12 +106,11 @@ const AllAddresses = () => {
     }
   };
 
-  // Delete an address
   const handleDeleteAddress = async (id) => {
     try {
       const response = await fetch(`http://localhost:5000/delete/${id}`, { method: "DELETE" });
       if (response.ok) {
-        setAddresses(addresses.filter((addr) => addr._id !== id)); // Remove the address from the list
+        setAddresses(addresses.filter((addr) => addr._id !== id));
       } else {
         console.error("Failed to delete address");
       }
@@ -98,76 +124,83 @@ const AllAddresses = () => {
       <TopNav />
       <h1 className="text-xl font-bold mb-4 p-6">Manage Addresses</h1>
       <div className="grid gap-6 p-6">
-        {/* List of existing addresses */}
-        {addresses.map((address) => (
-          <div key={address._id} className="flex justify-between items-center bg-gray-100 p-4 rounded-md shadow-md">
-            {editingAddress && editingAddress._id === address._id ? (
-              <div className="flex flex-col">
-                <input
-                  type="text"
-                  value={editingAddress.name}
-                  onChange={(e) => handleInputChange(e, "name")}
-                  className="mb-2 p-2 border rounded"
-                  placeholder="Name"
-                />
-                <input
-                  type="text"
-                  value={editingAddress.address1}
-                  onChange={(e) => handleInputChange(e, "address1")}
-                  className="mb-2 p-2 border rounded"
-                  placeholder="Address Line 1"
-                />
-                <input
-                  type="text"
-                  value={editingAddress.address2}
-                  onChange={(e) => handleInputChange(e, "address2")}
-                  className="mb-2 p-2 border rounded"
-                  placeholder="Address Line 2"
-                />
-                <input
-                  type="text"
-                  value={editingAddress.pincode}
-                  onChange={(e) => handleInputChange(e, "pincode")}
-                  className="p-2 border rounded"
-                  placeholder="Pincode"
-                />
-              </div>
-            ) : (
-              <div>
-                <p className="font-bold">{address.name}</p>
-                <p>{address.address1}</p>
-                <p>{address.address2}</p>
-                <p className="text-sm font-semibold">Pincode: {address.pincode}</p>
-              </div>
-            )}
-            <div className="flex space-x-2">
-              {editingAddress && editingAddress._id === address._id ? (
-                <button
-                  onClick={handleEditAddress}
-                  className="px-4 py-2 bg-green-500 text-white rounded-md"
-                >
-                  Save
-                </button>
-              ) : (
-                <button
-                  onClick={() => setEditingAddress(address)}
-                  className="px-4 py-2 bg-blue-500 text-white rounded-md"
-                >
-                  Edit
-                </button>
-              )}
-              <button
-                onClick={() => handleDeleteAddress(address._id)}
-                className="px-4 py-2 bg-red-500 text-white rounded-md"
-              >
-                Delete
-              </button>
-            </div>
+        {addresses.length === 0 ? (
+          <div className="flex items-center justify-center h-screen">
+            <p className="text-gray-500 text-center ">No address added</p>
           </div>
-        ))}
+        ) : (
+          addresses.map((address) => (
+            <div
+              key={address._id}
+              className="flex justify-between items-center bg-gray-100 p-4 rounded-md shadow-md"
+            >
+              {editingAddress && editingAddress._id === address._id ? (
+                <div className="flex flex-col">
+                  <input
+                    type="text"
+                    value={editingAddress.name}
+                    onChange={(e) => handleInputChange(e, "name")}
+                    className="mb-2 p-2 border rounded"
+                    placeholder="Name"
+                  />
+                  <input
+                    type="text"
+                    value={editingAddress.address1}
+                    onChange={(e) => handleInputChange(e, "address1")}
+                    className="mb-2 p-2 border rounded"
+                    placeholder="Address Line 1"
+                  />
+                  <input
+                    type="text"
+                    value={editingAddress.address2}
+                    onChange={(e) => handleInputChange(e, "address2")}
+                    className="mb-2 p-2 border rounded"
+                    placeholder="Address Line 2"
+                  />
+                  <input
+                    type="text"
+                    value={editingAddress.pincode}
+                    onChange={(e) => handleInputChange(e, "pincode")}
+                    className="p-2 border rounded"
+                    placeholder="Pincode"
+                  />
+                </div>
+              ) : (
+                <div>
+                  <p className="font-bold">{address.name}</p>
+                  <p>{address.address1}</p>
+                  <p>{address.address2}</p>
+                  <p className="text-sm font-semibold">Pincode: {address.pincode}</p>
+                </div>
+              )}
+              <div className="flex space-x-2">
+                {editingAddress && editingAddress._id === address._id ? (
+                  <button
+                    onClick={handleEditAddress}
+                    className="px-4 py-2 bg-green-500 text-white rounded-md"
+                  >
+                    Save
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setEditingAddress(address)}
+                    className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                  >
+                    Edit
+                  </button>
+                )}
+                <button
+                  onClick={() => handleDeleteAddress(address._id)}
+                  className="px-4 py-2 bg-red-500 text-white rounded-md"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
 
-      {/* Floating Action Button */}
       <button
         onClick={() => setIsModalOpen(true)}
         className="fixed bottom-6 right-6 bg-blue-500 text-white h-14 w-14 flex items-center justify-center rounded-full shadow-lg text-2xl"
@@ -175,7 +208,6 @@ const AllAddresses = () => {
         +
       </button>
 
-      {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-md shadow-lg w-96">
@@ -226,9 +258,7 @@ const AllAddresses = () => {
             </div>
           </div>
         </div>
-        
       )}
-     
     </div>
   );
 };

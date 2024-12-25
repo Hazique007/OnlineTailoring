@@ -1,76 +1,137 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
-import PersonIcon from "@mui/icons-material/Person";
-import AddIcon from "@mui/icons-material/Add";
+import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
-import { blue } from "@mui/material/colors";
 
-function SimpleDialog(props) {
-  const { onClose, selectedValue, open } = props;
+function FabricSelectionDialog(props) {
+  const { open, onClose, userId, orderId, setAddresses } = props;
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleClose = () => {
-    onClose(selectedValue);
-  };
+  const handleChoice = async (fabricProvidedByUser) => {
+    console.log("handleChoice called with:", { fabricProvidedByUser }); // Debugging log
 
-  const handleListItemClick = (value) => {
-    onClose(value);
+    setIsLoading(true); // Show loading indicator
+    try {
+      const url = orderId
+        ? `http://localhost:5000/edit/${orderId}` // Update order
+        : `http://localhost:5000/add`; // Create order
+      const method = orderId ? "PUT" : "POST";
+
+      console.log("API URL and Method:", { url, method }); // Debugging log
+
+      const body = JSON.stringify({
+        userId,
+        fabricProvidedByUser,
+        stitchingCharges: 1000, // Replace with actual data
+        deliveryDate: new Date(), // Replace with actual data
+        fabricStyle: "Casual", // Replace with actual data
+      });
+
+      console.log("Request Body:", body); // Debugging log
+
+      const response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body,
+      });
+
+      console.log("API Response Status:", response.status); // Debugging log
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("API Response Data:", result); // Debugging log
+
+        if (orderId) {
+          // Update the order in the list
+          setAddresses((prevAddresses) =>
+            prevAddresses.map((addr) =>
+              addr._id === orderId ? { ...addr, ...result.data } : addr
+            )
+          );
+        } else {
+          // Add new order to the list
+          setAddresses((prevAddresses) => [...prevAddresses, result.data]);
+        }
+
+        alert(
+          fabricProvidedByUser
+            ? "Fabric charges set to 0. Order updated successfully!"
+            : "Fabric charges set to 500. Order updated successfully!"
+        );
+      } else {
+        console.error("Failed to update order");
+        alert("Failed to update order. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating order:", error); // Debugging log
+      alert("An error occurred. Please try again.");
+    } finally {
+      console.log("Closing dialog and resetting loading state."); // Debugging log
+      setIsLoading(false); // Hide loading indicator
+      onClose(); // Close the dialog
+    }
   };
 
   return (
-    <Dialog className="bg-white" onClose={handleClose} open={open}>
-      <DialogTitle className="font-[700] font-poppins text-[12px] ">
+    <Dialog onClose={onClose} open={open}>
+      <DialogTitle className="font-[700] font-poppins text-[12px]">
         Would you like to proceed with Fabric Selection?
       </DialogTitle>
-      <List sx={{ pt: 0 }}>
-        <p className="text-[12px] font-[400] font-poppins">
-          Click ‘yes’ if you want to buy the cloth as well. Click ‘no’ if you
+      <div className="p-4">
+        <Typography className="text-[12px] font-[400] font-poppins mb-4">
+          Click ‘yes’ if you want to buy the fabric as well. Click ‘no’ if you
           already have the fabric which we’ll pick up during measurements.
-        </p>
-        <button className="px-4 py-2 text-[12px] text-white bg-[#C65647] font-[400] font-poppins">
-          ‘Yes’ I want to purchase the fabric
-        </button>
-        <button className="px-4 py-2 text-[12px] text-[#1043F9] font-[400] font-poppins">
-          ‘No’, I already have the fabric{" "}
-        </button>
-      </List>
+        </Typography>
+        <div className="flex flex-col gap-2">
+          <Button
+            onClick={() => handleChoice(false)}
+            variant="contained"
+            disabled={isLoading}
+            className="text-[12px] text-white bg-[#C65647] font-[400] font-poppins"
+          >
+            {isLoading ? "Processing..." : "‘Yes’ I want to purchase the fabric"}
+          </Button>
+          <Button
+            onClick={() => handleChoice(true)}
+            variant="text"
+            disabled={isLoading}
+            className="text-[12px] text-[#1043F9] font-[400] font-poppins"
+          >
+            {isLoading
+              ? "Processing..."
+              : "‘No’, I already have the fabric"}
+          </Button>
+        </div>
+      </div>
     </Dialog>
   );
 }
 
-export default function SimpleDialogDemo() {
+export default function FabricSelectionDialogDemo({ userId, orderId, setAddresses }) {
   const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(emails[1]);
 
   const handleClickOpen = () => {
+    console.log("Opening dialog"); // Debugging log
     setOpen(true);
   };
 
-  const handleClose = (value) => {
+  const handleClose = () => {
+    console.log("Closing dialog"); // Debugging log
     setOpen(false);
-    setSelectedValue(value);
   };
 
   return (
     <div>
-      <Typography variant="subtitle1" component="div">
-        Selected: {selectedValue}
-      </Typography>
-      <br />
       <Button variant="outlined" onClick={handleClickOpen}>
-        Open simple dialog
+        Open Fabric Selection Dialog
       </Button>
-      <SimpleDialog
-        selectedValue={selectedValue}
+      <FabricSelectionDialog
         open={open}
         onClose={handleClose}
+        userId={userId}
+        orderId={orderId}
+        setAddresses={setAddresses}
       />
     </div>
   );
