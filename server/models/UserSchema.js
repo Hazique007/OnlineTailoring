@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose=require("mongoose");
 const { set } = require("../routes/UserRoute");
 
 const UserSchema = new mongoose.Schema({
@@ -18,5 +18,5 @@ const UserSchema = new mongoose.Schema({
         set:(otpExpiration)=>new Date(otpExpiration)
     }
 });
-const Otp=mongoose.model('Otp',UserSchema)
-export default Otp
+
+module.exports=mongoose.model('Otp',UserSchema)
