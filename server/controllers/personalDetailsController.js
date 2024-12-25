@@ -1,7 +1,7 @@
-const PersonalDetails = require("../models/personaldetailsSchema");
+import PersonalDetails from "../models/personaldetailsSchema.js";
 
 // Add new personal details
-exports.addPersonalDetails = async (req, res) => {
+export const addPersonalDetails = async (req, res) => {
   try {
     const newDetails = new PersonalDetails(req.body);
     await newDetails.save();
@@ -12,7 +12,7 @@ exports.addPersonalDetails = async (req, res) => {
 };
 
 // Get all personal details
-exports.getPersonalDetails = async (req, res) => {
+export const getPersonalDetails = async (req, res) => {
   try {
     const details = await PersonalDetails.find();
     res.status(200).json(details);
@@ -22,7 +22,7 @@ exports.getPersonalDetails = async (req, res) => {
 };
 
 // Edit specific personal details
-exports.editPersonalDetails = async (req, res) => {
+export const editPersonalDetails = async (req, res) => {
   try {
     const { id } = req.params;
     const updatedFields = req.body;
@@ -34,7 +34,7 @@ exports.editPersonalDetails = async (req, res) => {
 };
 
 // Update personal details (Full Update)
-exports.updatePersonalDetails = async (req, res) => {
+export const updatePersonalDetails = async (req, res) => {
   try {
     const { id } = req.params;
     const updatedDetails = req.body;
@@ -46,7 +46,7 @@ exports.updatePersonalDetails = async (req, res) => {
 };
 
 // Delete personal details
-exports.deletePersonalDetails = async (req, res) => {
+export const deletePersonalDetails = async (req, res) => {
   try {
     const { id } = req.params;
     await PersonalDetails.findByIdAndDelete(id);

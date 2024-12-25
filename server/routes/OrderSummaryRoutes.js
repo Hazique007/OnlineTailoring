@@ -4,7 +4,7 @@ import {
   getOrderSummary,
   updateOrderSummary,
   deleteOrderSummary,
-} from "../controllers/ordersummarycontroller";
+} from "../controllers/ordersummarycontroller.js";
 
 const router = express.Router();
 

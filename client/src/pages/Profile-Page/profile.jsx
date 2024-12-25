@@ -4,7 +4,7 @@ import Navbar from "../../components/Navbar";
 import { FaAddressBook, FaShoppingBag, FaUser, FaQuestionCircle, FaCog, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:5000"; // Replace with your API base URL
+const API_BASE_URL = "http://localhost:3000"; // Replace with your API base URL
 
 const ProfilePage = () => {
   const navigate = useNavigate();

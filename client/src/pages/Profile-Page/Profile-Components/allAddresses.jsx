@@ -11,7 +11,7 @@ const AllAddresses = () => {
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await fetch("http://localhost:5000/list");
+        const response = await fetch("http://localhost:3000/list");
         if (response.ok) {
           const result = await response.json();
           setAddresses(result.data);
@@ -61,7 +61,7 @@ const AllAddresses = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/add", {
+      const response = await fetch("http://localhost:3000/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newAddress),
@@ -87,7 +87,7 @@ const AllAddresses = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/edit/${editingAddress._id}`, {
+      const response = await fetch(`http://localhost:3000/edit/${editingAddress._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editingAddress),
@@ -108,7 +108,7 @@ const AllAddresses = () => {
 
   const handleDeleteAddress = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/delete/${id}`, { method: "DELETE" });
+      const response = await fetch(`http://localhost:3000/delete/${id}`, { method: "DELETE" });
       if (response.ok) {
         setAddresses(addresses.filter((addr) => addr._id !== id));
       } else {

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const personalDetailsSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -9,4 +9,5 @@ const personalDetailsSchema = new mongoose.Schema({
   profilePicture: { type: String }, // Optional
 });
 
-module.exports = mongoose.model("PersonalDetails", personalDetailsSchema);
+const PersonalDetails = mongoose.model("PersonalDetails", personalDetailsSchema);
+export default PersonalDetails;

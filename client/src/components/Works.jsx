@@ -1,13 +1,12 @@
-import React from "react";
 import Step1 from "../assets/images/Step1.png";
 import Step2 from "../assets/images/GET MEASURED-3.png";
 import Step3 from "../assets/images/MEET YOUR PERSONAL STYLIST-1.png";
 import Step4 from "../assets/images/TRIAL FITTING & FINAL DELIVERY-4.png";
 
 import Workcomp from "./work-comp";
-const Works = ({ img, head, desc }) => {
+const Works = () => {
   return (
-    <div className="mt-20">
+    <div className="mt-8">
       <h1 className="text-[12px] ml-[14px]  font-poppins font-[700]">
         How It Works
       </h1>

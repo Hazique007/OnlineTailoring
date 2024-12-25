@@ -1,10 +1,10 @@
 
 
-const UserSchema=require('../models/UserSchema');
-const {otpVerification}=require('../helpers/otpValidate')
+import  UserSchema from '../models/userSchema.js';
+import otpVerification from  '../helpers/otpValidate.js';
 
-const otpGenearator =require('otp-generator');
-const twilio = require('twilio');
+import otpGenearator from 'otp-generator';
+import  twilio from 'twilio';
 
 
 
@@ -19,10 +19,7 @@ const TwilioClient = new twilio(accountSid,authToken);
 
 
 
-const sendOtp =async(req,res)=>{
-
-
-
+export const sendOtp =async(req,res)=>{
 
 try {
 
@@ -58,7 +55,7 @@ try {
 }
 
 
-const verifyOtp = async(req,res)=>{
+export const verifyOtp = async(req,res)=>{
 
     try {
 
@@ -109,4 +106,4 @@ const verifyOtp = async(req,res)=>{
 
 }
 
-module.exports={sendOtp,verifyOtp}
+

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TopNav from "../../../components/TopNav";
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "http://localhost:3000";
 
 const PersonalDetails = () => {
   const [profile, setProfile] = useState({
@@ -19,7 +19,7 @@ const PersonalDetails = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch("http://localhost:5000/listpersonal");
+        const response = await fetch("http://localhost:3000/listpersonal");
         if (!response.ok) throw new Error("Failed to fetch profile data");
         const data = await response.json();
         const user = data[0];

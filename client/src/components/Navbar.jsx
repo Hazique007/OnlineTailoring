@@ -5,18 +5,15 @@ import { PiSquaresFourBold } from "react-icons/pi";
 import { CgProfile } from "react-icons/cg";
 import { SearchContext } from "../Context Api/searchContext";
 import { useNavigate } from "react-router-dom";
-// Badge
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
-// import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     right: -3,
     top: 13,
-    border: 2,
-    borderColor: theme.palette.background.paper,
+    border: `2px solid ${theme.palette.background.paper}`,
     padding: "0 4px",
   },
 }));
@@ -28,7 +25,7 @@ export const TopNavIcon = ({ label, image, onClick }) => {
       className="flex flex-col items-center h-[62px] justify-center w-full"
     >
       {image}
-      <h2 className="text-[13px] font-poppins text-black font-[450]">
+      <h2 className="text-[12px] font-poppins text-black font-[450]">
         {label}
       </h2>
     </div>
@@ -44,7 +41,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchProfilePicture = async () => {
       try {
-        const response = await fetch("http://localhost:5000/listpersonal");
+        const response = await fetch("http://localhost:3000/listpersonal");
         if (response.ok) {
           const data = await response.json();
           setProfilePicture(data.profilePicture); // Assuming the response contains the profile picture URL
@@ -74,20 +71,18 @@ const Navbar = () => {
         onClick={handleSearch}
       />
       <TopNavIcon
-        onClick={() => navigate("/product")}
+        onClick={() => navigate("/Allcategory")}
         label={"Shop"}
         image={<PiSquaresFourBold className="h-[25px] w-[25px]" />}
       />
-
       <IconButton aria-label="cart">
-        <StyledBadge badgeContent={0} color="secondary">
+        <StyledBadge badgeContent={3} color="secondary">
           <TopNavIcon
             label={"Cart"}
-            image={<IoCartOutline className=" text-black h-[25px] w-[25px]" />}
+            image={<IoCartOutline className="text-black h-[25px] w-[25px]" />}
           />
         </StyledBadge>
       </IconButton>
-
       <TopNavIcon
         onClick={() => navigate("/profile")}
         label={"Profile"}

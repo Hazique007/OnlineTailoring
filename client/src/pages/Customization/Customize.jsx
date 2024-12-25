@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import TopNav from "../../components/TopNav";
 import styleImage from "../../assets/images/Anime-T-shirts.png";
 import Navbar from "../../components/Navbar";
 import { BiSolidCommentDetail } from "react-icons/bi";
+import { MdArrowForwardIos } from "react-icons/md";
 
 const Customize = () => {
+  const productItem = JSON.parse(localStorage.getItem("productItem"));
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState({
     pocket: "Single Pocket",
@@ -25,7 +27,7 @@ const Customize = () => {
   });
   const [show, setShow] = useState(false);
   const handleProceed = () => {
-    navigate('/ordersummary');
+    navigate("/ordersummary");
 
     console.log(formValues);
   };
@@ -80,18 +82,29 @@ const Customize = () => {
       <TopNav />
 
       <div className="px-[11px] mt-[17px] pb-24">
-        <h1 className="font-poppins font-[700] text-[14px] text-[#737373] ">
-          Men > Formal Shirts > Style Name
+        <h1 className="font-poppins font-[700] flex gap-1 items-center text-[14px] text-[#737373] ">
+          {productItem.gender === "Male" ? "Men" : "Women"}{" "}
+          <MdArrowForwardIos /> {productItem.category} <MdArrowForwardIos />{" "}
+          {productItem.subCategory}
         </h1>
         <div className="w-full text-center mt-[23px] gap-y-3 flex flex-col items-center justify-center">
           <h1 className="text-[17px] font-poppins font-[600] text-[#DA3A3A]">
             Customize
           </h1>
           <img
-            className="rounded-[10px] h-[282px] w-[359px] "
-            src={styleImage}
+            className="rounded-[10px] h-[282px] object-fit w-[359px] "
+            src={`http://localhost:3000/uploads/${productItem.images[0]}`}
             alt="Customize clothing"
           />
+        </div>
+        <div className="mt-4">
+          <h2 className="font-poppins font-[600] text-[16px]">
+            About {productItem.subCategory}
+          </h2>
+          <p className="font-poppins font-[400] text-[13px] mt-1 text-gray-600">
+            {" "}
+            {productItem.description}
+          </p>
         </div>
         <div className=" mt-[31px] bg-[#F1F1F180] rounded-[10px] p-4">
           <div className="flex w-full justify-between ">

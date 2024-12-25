@@ -1,11 +1,13 @@
-require ('dotenv').config();
-const express = require("express");
+// import ('dotenv').config();
+import express from "express";
 const router =express();
 
 router.use(express.json());
-const UserController = require('../controllers/userController')
+import {sendOtp , verifyOtp } from '../controllers/userController.js'
 
 
-router.post('/send-otp',UserController.sendOtp);
-router.post('/verify-otp',UserController.verifyOtp);
-module.exports=router;
+router.post('/send-otp',sendOtp);
+router.post('/verify-otp',verifyOtp);
+
+
+export default router;

@@ -1,4 +1,4 @@
-import Profile from "../models/profileschema"
+import Profile from "../models/profileschema.js"
 
 
 // Create a new profile

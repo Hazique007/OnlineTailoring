@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 
+
 .otp-container {
     @apply flex justify-between gap-2;
 }
@@ -15,3 +16,4 @@
 .otp-container input{
     @apply !mr-0 flex-1 py-5 outline-none;
 }
+

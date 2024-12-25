@@ -1,11 +1,11 @@
-const express = require('express');
-const { 
+import express from 'express';
+import { 
   addAddress, 
   getAddresses, 
   updateAddress, 
   deleteAddress,
   editAddress
-} = require('../controllers/addresscontroller');
+} from'../controllers/addresscontroller.js';
 const router = express.Router();
 
 // Route to add a new address
@@ -23,4 +23,4 @@ router.put('/update/:id', updateAddress);
 // Route to delete an address
 router.delete('/delete/:id', deleteAddress);
 
-module.exports = router;
+export default router;

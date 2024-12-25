@@ -1,7 +1,7 @@
-const Address = require('../models/addresschema');
+import Address from '../models/addresschema.js';
 
 // Add a new address
-exports.addAddress = async (req, res) => {
+export const addAddress = async (req, res) => {
   try {
     const { name, address1, address2, pincode } = req.body;
 
@@ -21,7 +21,7 @@ exports.addAddress = async (req, res) => {
 };
 
 // Fetch all addresses
-exports.getAddresses = async (req, res) => {
+export const getAddresses = async (req, res) => {
   try {
     const addresses = await Address.find();
     res.status(200).json({ data: addresses });
@@ -31,7 +31,7 @@ exports.getAddresses = async (req, res) => {
 };
 
 // Edit an existing address
-exports.editAddress = async (req, res) => {
+export const editAddress = async (req, res) => {
   const { id } = req.params;
   const updatedData = req.body;
 
@@ -48,7 +48,7 @@ exports.editAddress = async (req, res) => {
 };
 
 // Update an existing address
-exports.updateAddress = async (req, res) => {
+export const updateAddress = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, address1, address2, pincode } = req.body;
@@ -76,7 +76,7 @@ exports.updateAddress = async (req, res) => {
 };
 
 // Delete an address
-exports.deleteAddress = async (req, res) => {
+export const deleteAddress = async (req, res) => {
   try {
     const { id } = req.params;
 

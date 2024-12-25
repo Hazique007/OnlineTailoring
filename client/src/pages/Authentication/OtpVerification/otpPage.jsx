@@ -45,7 +45,7 @@ const Otp = () => {
       const formattedPhone = "+" + phone;
 
       // Send OTP request to the backend API using fetch
-      const response = await fetch('http://localhost:5000/api/send-otp', {
+      const response = await fetch('http://localhost:3000/api/send-otp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ const Otp = () => {
       console.log('Phone:', phone);
       console.log('Entered OTP:', otp);
   
-      const response = await fetch('http://localhost:5000/api/verify-otp', {
+      const response = await fetch('http://localhost:3000/api/verify-otp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ const Otp = () => {
 
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch('http://localhost:5000/api/send-otp', {
+      const response = await fetch('http://localhost:3000/api/send-otp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

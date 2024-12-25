@@ -1,11 +1,11 @@
-const express = require("express");
-const { 
+import express from "express";
+import  { 
   addPersonalDetails, 
   getPersonalDetails, 
   updatePersonalDetails, 
   deletePersonalDetails, 
   editPersonalDetails 
-} = require("../controllers/personalDetailsController");
+} from "../controllers/personalDetailsController.js";
 
 const router = express.Router();
 
@@ -24,4 +24,4 @@ router.put("/:id", updatePersonalDetails);
 // Route to delete personal details
 router.delete("/delete/:id", deletePersonalDetails);
 
-module.exports = router;
+export default router;
