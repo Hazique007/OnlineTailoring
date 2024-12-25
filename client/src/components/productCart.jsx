@@ -148,7 +148,7 @@ const ProductCart = ({
             <img
               onClick={handleOnclick}
               key={index}
-              className={`h-full w-full flex-shrink-0 object-fit rounded-lg snap-center cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
+              className={`h-[171px] w-[164px] flex-shrink-0 object-fit rounded-lg snap-center cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
                 currentIndex === index ? "ring-2 ring-blue-500" : ""
               }`}
               src={`https://online-tailoring-3.onrender.com/uploads/${image}`}

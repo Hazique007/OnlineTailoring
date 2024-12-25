@@ -16,7 +16,7 @@ const LandingPage = () => {
   return (
     <div className="pb-20">
       <TopNav />
-      <div className="w-full justify-center px-4 pt-3">
+      <div className="w-full justify-center px-1 pt-3">
         <Search />
         <Hero />
 
