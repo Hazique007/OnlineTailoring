@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const Delivery = () => {
+const Delivery = ({ onProceed }) => {
   const [selectedAddress, setSelectedAddress] = useState(""); // To store the selected address
   const [addresses, setAddresses] = useState([]); // To store the list of addresses
   const [showAll, setShowAll] = useState(false); // To toggle between showing 3 or all addresses
@@ -14,9 +14,13 @@ const Delivery = () => {
         const result = await response.json();
         if (Array.isArray(result.data)) {
           setAddresses(result.data); // Set the addresses from 'data'
-          // Automatically select the last entered address
-          if (result.data.length > 0) {
-            setSelectedAddress(result.data[result.data.length - 1]._id); // Set the most recent address as selected
+
+          // Restore selected address from localStorage or default to the last entered address
+          const storedSelectedAddress = localStorage.getItem("selectedAddress");
+          if (storedSelectedAddress) {
+            setSelectedAddress(storedSelectedAddress);
+          } else if (result.data.length > 0) {
+            setSelectedAddress(result.data[result.data.length - 1]._id);
           }
         }
       }
@@ -54,6 +58,7 @@ const Delivery = () => {
 
         // Optionally, select the newly added address
         setSelectedAddress(addedAddress._id);
+        localStorage.setItem("selectedAddress", addedAddress._id); // Persist selected address
 
         // Clear the new address form
         setNewAddress({ name: "", address1: "", address2: "", pincode: "" });
@@ -65,18 +70,28 @@ const Delivery = () => {
     }
   };
 
+  // Handle address selection
   const handleAddressChange = (event) => {
-    setSelectedAddress(event.target.value); // Update the selected address when user selects a different one
+    const newSelectedAddress = event.target.value;
+    setSelectedAddress(newSelectedAddress);
+    localStorage.setItem("selectedAddress", newSelectedAddress); // Persist selected address
   };
 
   const toggleView = () => {
     setShowAll(!showAll); // Toggle the visibility of all addresses
   };
 
-  const displayedAddresses = showAll ? addresses : addresses.slice(0, 3);
+  // Sort addresses to display the selected address at the top
+  const sortedAddresses = [...addresses].sort((a, b) => {
+    if (a._id === selectedAddress) return -1;
+    if (b._id === selectedAddress) return 1;
+    return 0;
+  });
+
+  const displayedAddresses = showAll ? sortedAddresses : sortedAddresses.slice(0, 3);
 
   return (
-    <div className="p-4 rounded-md pl-10">
+    <div className="p-4 rounded-md pl-4">
       {addresses.length === 0 ? (
         <p className="text-center text-gray-500 text-sm">
           No address selected. Please add a new address.
@@ -86,17 +101,17 @@ const Delivery = () => {
           {displayedAddresses.map((address) => (
             <label
               key={address._id}
-              className="flex flex-col bg-gray-50 p-4 rounded-md shadow-md w-60"
+              className="flex items-center w-full mb-3 font-poppins"
             >
               <input
                 type="radio"
                 value={address._id}
                 checked={selectedAddress === address._id}
                 onChange={handleAddressChange}
-                className="w-4 h-4 mb-4"
+                className="w-4 h-4 mr-3"
               />
               <div className="text-left">
-                <p className="font-bold text-[15px]">{address.name}</p>
+                <p className=" text-[14px]"> Deliver to: {address.name}</p>
                 <p className="text-[12px]">{address.address1}</p>
                 <p className="text-[12px]">{address.address2}</p>
                 <p className="text-[12px] font-bold">Pincode: {address.pincode}</p>
@@ -107,10 +122,15 @@ const Delivery = () => {
       )}
 
       <div className="flex">
-        <button onClick={toggleView} className="ml-auto px-4 py-2 text-right text-[#1043F9] font-[500] pt-5 text-[12px]">
+        <button
+          onClick={toggleView}
+          className="ml-auto px-4 py-2 text-right text-[#1043F9] font-[500] pt-5 text-[12px]"
+        >
           {showAll ? "Show less..." : "View more..."}
         </button>
       </div>
+
+      {/* Proceed button to navigate to the next part */}
     </div>
   );
 };

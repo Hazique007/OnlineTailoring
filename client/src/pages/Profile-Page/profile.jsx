@@ -1,19 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TopNav from "../../components/TopNav";
 import Navbar from "../../components/Navbar";
-import { FaAddressBook, FaShoppingBag, FaUser, FaQuestionCircle, FaCog, FaSignOutAlt } from "react-icons/fa"
+import { FaAddressBook, FaShoppingBag, FaUser, FaQuestionCircle, FaCog, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const ProfilePage = ()=>{
-    const navigate = useNavigate();
+const API_BASE_URL = "http://localhost:5000"; // Replace with your API base URL
 
-    const handleLogout = () => {
-        // Perform logout logic here
-        console.log("User logged out");
-        navigate("/login");
-      };
+const ProfilePage = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState({
+    name: "",
+    phone: "",
+  });
 
-const options = [
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/listpersonal`);
+        if (!response.ok) throw new Error("Failed to fetch user data");
+        const data = await response.json();
+        const userData = data[0]; // Assuming the first object in the array is the user
+        if (userData) {
+          setUser({
+            name: userData.name,
+            phone: userData.mobileNumber,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleLogout = () => {
+    console.log("User logged out");
+    navigate("/otp");
+  };
+
+  const options = [
     {
       label: "My Addresses",
       icon: <FaAddressBook className="text-purple-500 text-xl" />,
@@ -41,41 +67,30 @@ const options = [
     },
   ];
 
-  const user = {
-    name: "Farhan Jafri",
-    phone: "7758838825",
-  };
+  return (
+    <div className="mb-10">
+      <TopNav />
 
+      <div className="px-[11px] mt-[17px] pb-20">
+        <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">Profile</h1>
+      </div>
 
-return(
-<div className="mb-10">
-<TopNav />
+      <div className="flex-1 overflow-y-auto"></div>
 
-<div className="px-[11px] mt-[17px] pb-24 ">
-    <h1 className="font-poppins font-[700] text-[14px] text-[#737373] ">
-          Profile
-        </h1>
-
-        </div>
-
-        <div className="flex-1 overflow-y-auto"></div>
-
-        {/* User Card */}
-      <div className="max-w-md mx-auto mt-8">
+      {/* User Card */}
+      <div className="max-w-md mx-auto ">
         <div
           className="w-full p-6 rounded-[15px] text-white"
           style={{
-            
             background: "linear-gradient(90deg, #171617 0%, #94908F 100%)",
           }}
         >
-          <h2 className="text-lg font-semibold">{user.name}</h2>
-          <p className="text-sm text-gray-300">{user.phone}</p>
+          <h2 className="text-lg font-semibold">{user.name || "Loading..."}</h2>
+          <p className="text-sm text-gray-300">{user.phone || "Loading..."}</p>
         </div>
       </div>
 
-       
-        <div className="w-full mx-auto mt-8 bg-white shadow-md rounded-lg">
+      <div className="w-full mx-auto mt-8 bg-white shadow-md rounded-lg">
         {options.map((option, index) => (
           <div key={index}>
             <div
@@ -85,14 +100,13 @@ return(
               {option.icon}
               <span className="ml-4 text-lg text-gray-800">{option.label}</span>
             </div>
-            {/* Horizontal Divider */}
             {index < options.length - 1 && <hr className="border-gray-300" />}
           </div>
         ))}
       </div>
 
-       {/* Logout Button */}
-       <div className="flex justify-center mt-6">
+      {/* Logout Button */}
+      <div className="flex justify-center mt-6">
         <p
           onClick={handleLogout}
           className="text-[#1043F9] cursor-pointer text-lg font-medium hover:underline"
@@ -101,19 +115,8 @@ return(
         </p>
       </div>
       <Navbar />
-    
-</div>
-
-
-
-
-
-)
-
-
-
-
-
-
+    </div>
+  );
 };
+
 export default ProfilePage;
