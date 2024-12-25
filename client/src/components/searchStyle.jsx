@@ -8,7 +8,7 @@ const SearchStyle = ({ gender }) => {
 
   const getSubCategoryMale = async () => {
     const response = await axios.get(
-      "https://online-tailoring-3.onrender.com/api/v1/category/getGenderWiseCategory",
+      "http://localhost:3000/api/v1/category/getGenderWiseCategory",
       {
         params: {
           gender: "Male",
@@ -21,7 +21,7 @@ const SearchStyle = ({ gender }) => {
 
   const getSubCategoryFemale = async () => {
     const response = await axios.get(
-      "https://online-tailoring-3.onrender.com/api/v1/category/getGenderWiseCategory",
+      "http://localhost:3000/api/v1/category/getGenderWiseCategory",
       {
         params: {
           gender: "Female",
