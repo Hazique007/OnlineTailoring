@@ -66,7 +66,7 @@ const Fashion = () => {
               {image.fashionImage ? (
                 <>
                   <img
-                    className="h-[30vh] w-full object-cover rounded-[10px]"
+                    className="h-[171px] w-[164px] object-cover rounded-[10px]"
                     src={`https://online-tailoring-3.onrender.com/uploads/${image.fashionImage}`}
                     alt={image.category}
                   />

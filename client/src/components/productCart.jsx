@@ -134,7 +134,7 @@ const ProductCart = ({
     <div>
       <div
         onClick={onClick}
-        className="outer-box h-[40vh] w-[45vw] mb-16 rounded-lg p-2"
+        className="outer-box h-[40vh] w-[45vw] mb-16 rounded-lg p-1"
       >
         <div
           ref={imageBoxRef}
@@ -142,13 +142,13 @@ const ProductCart = ({
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="image-box h-[33vh] w-full flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-lg"
+          className="image-box h-[30vh] w-[45vw] flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-lg"
         >
           {images.map((image, index) => (
             <img
               onClick={handleOnclick}
               key={index}
-              className={`h-[171px] w-[164px] flex-shrink-0 object-fit rounded-lg snap-center cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
+              className={`h-full w-full flex-shrink-0 object-fit rounded-lg snap-center cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
                 currentIndex === index ? "ring-2 ring-blue-500" : ""
               }`}
               src={`https://online-tailoring-3.onrender.com/uploads/${image}`}

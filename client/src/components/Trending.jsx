@@ -66,7 +66,7 @@ const Trending = () => {
             >
               {item.trendingImage ? (
                 <img
-                  className="h-[30vh] w-full object-cover rounded-lg"
+                  className="h-[171px] w-[164px]  object-cover rounded-lg"
                   src={`https://online-tailoring-3.onrender.com/uploads/${item.trendingImage}`}
                   alt={`Trending Image ${index + 1} - ${item.category}`}
                 />
