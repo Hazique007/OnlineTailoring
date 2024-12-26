@@ -135,7 +135,7 @@ const ProductCart = ({
     <div>
       <div
         onClick={onClick}
-        className="outer-box h-[31.5vh] w-[46vw] mb-16 rounded-lg p-1"
+        className="outer-box h-[31.5vh] w-[46vw] mb-[15vh] rounded-lg p-1"
       >
         <div
           ref={imageBoxRef}
