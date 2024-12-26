@@ -50,6 +50,9 @@ const TopNav = () => {
   const handleCancel = () => {
     setIsModalOpen(false); // Close the modal
     setTempPincode(""); // Clear temporary pincode
+    if (!pincode || !lucknowPincodes.includes(pincode)) {
+      setIsServicible(false); // Reset to "Select City" if no valid pincode
+    }
   };
 
   const openModal = () => {

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import ShowSummary from "../../components/ShowSummary";
-
 import Navbar from "../../components/Navbar";
 import TopNav from "../../components/TopNav";
 import SummaryBox from "../../components/Summarybox";
@@ -15,8 +15,42 @@ const OrderSummary = () => {
   const [showSummary, setShowSummary] = useState(true);
   const summarySectionRef = useRef(null);
 
-  const handlePlaceOrder = () => {
-    navigate("/orderSuccessful");
+  const handlePlaceOrder = async () => {
+    try {
+      // Get product data from localStorage
+      const productData = JSON.parse(localStorage.getItem("productItem"));
+
+      if (!productData) {
+        alert("No product data found.");
+        return;
+      }
+
+      // Add additional fields to the order details
+      const orderDetails = {
+        ...productData,
+        userID: "12345", // Replace with the actual user ID
+        status: "Placed",
+        orderDate: new Date(),
+      };
+
+      // Send order details to the backend using Axios
+      const response = await axios.post("http://localhost:3000/orders/create", orderDetails);
+      console.log(response.status);
+      
+
+      if (response.status===201) {
+        // alert("Order placed successfully!");
+        console.log(response);
+        
+        navigate("/orderSuccessful"); // Navigate to order success page
+      } 
+      else {
+        // alert(response.data.message || "Failed to place order. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error placing order:", error.message);
+      alert("An error occurred while placing the order.");
+    }
   };
 
   const handleProceed = () => {
@@ -35,7 +69,7 @@ const OrderSummary = () => {
   return (
     <div className="pb-20 font-poppins">
       <TopNav />
-      <div className=" mt-4 pb-24">
+      <div className="mt-4 pb-24">
         {showSummary ? (
           <>
             <div ref={summarySectionRef}>
@@ -46,7 +80,6 @@ const OrderSummary = () => {
               <br />
               <OrderSummaryCard />
               <br />
-
               <Pickup />
               <div className="pt-6">
                 <Delivery />

@@ -132,7 +132,7 @@ const AllAddresses = () => {
           addresses.map((address) => (
             <div
               key={address._id}
-              className="flex justify-between items-center bg-gray-100 p-4 rounded-md shadow-md"
+              className=" justify-between items-center bg-gray-100 p-4 rounded-md "
             >
               {editingAddress && editingAddress._id === address._id ? (
                 <div className="flex flex-col">
@@ -184,14 +184,14 @@ const AllAddresses = () => {
                 ) : (
                   <button
                     onClick={() => setEditingAddress(address)}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                    className="px-4 py-2 bg-blue-500 text-white rounded-md mt-4" 
                   >
                     Edit
                   </button>
                 )}
                 <button
                   onClick={() => handleDeleteAddress(address._id)}
-                  className="px-4 py-2 bg-red-500 text-white rounded-md"
+                  className="px-4 py-2 bg-red-500 text-white rounded-md mt-4"
                 >
                   Delete
                 </button>

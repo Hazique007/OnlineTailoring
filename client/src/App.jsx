@@ -16,6 +16,7 @@ import ProfilePage from "./pages/Profile-Page/profile";
 import HelpAndSupport from "./pages/Profile-Page/Profile-Components/helpandsupport";
 import AllAddresses from "./pages/Profile-Page/Profile-Components/allAddresses";
 import PersonalDetails from "./pages/Profile-Page/Profile-Components/personalDetails";
+import orderHistory from "./pages/Profile-Page/Profile-Components/orderHistory";
 
 // Components
 import CategoryPage from "./components/categoryPage";
@@ -51,6 +52,7 @@ const App = () => {
 
 
           <Route path="/profile" Component={ProfilePage} />
+          <Route path="/orders" Component={orderHistory} />
           <Route path="/product" Component={ProductPage} />
           <Route path="/fabric" Component={FabricPage} />
           <Route path="/customize" Component={Customize} />
