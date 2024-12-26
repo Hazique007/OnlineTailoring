@@ -39,4 +39,4 @@ const orderSummarySchema = new mongoose.Schema({
 });
 
 const OrderSummary = mongoose.model("OrderSummary", orderSummarySchema);
-export default OrderSummary
+export default OrderSummary;

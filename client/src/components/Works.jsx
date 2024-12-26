@@ -21,7 +21,7 @@ const Works = () => {
           img={Step2}
           head={"Step 2"}
           desc={
-            "Schedule appointment to meet your personal stylist to take measurements and collect fabric"
+            "Schedule an appointment and we will visit your home to take measurements and collect fabric."
           }
         />
 

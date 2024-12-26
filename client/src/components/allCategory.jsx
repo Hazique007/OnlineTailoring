@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 
 const AllCategory = () => {
   const [categories, setCategories] = useState({
@@ -40,7 +41,7 @@ const AllCategory = () => {
   };
 
   return (
-    <div className="bg-gray-50 py-8">
+    <div className="bg-gray-50 py-8 pb-20">
       <div className="container mx-auto px-6 md:px-8">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">
           All Categories
@@ -116,6 +117,7 @@ const AllCategory = () => {
           </div>
         </div>
       </div>
+      <Navbar />
     </div>
   );
 };

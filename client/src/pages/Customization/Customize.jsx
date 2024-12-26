@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"; // Import axios to handle the API call
 import TopNav from "../../components/TopNav";
 import styleImage from "../../assets/images/Anime-T-shirts.png";
 import Navbar from "../../components/Navbar";
@@ -10,7 +11,7 @@ const Customize = () => {
   const productItem = JSON.parse(localStorage.getItem("productItem"));
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState({
-    pocket: "Single Pocket",
+    pockets: "Single Pocket",
     sleeves: "Full Sleeves",
     thread: "White",
     collarStyle: "Regular",
@@ -26,11 +27,44 @@ const Customize = () => {
     shirtLength: "Regular",
   });
   const [show, setShow] = useState(false);
-  const handleProceed = () => {
-    navigate("/ordersummary");
 
-    console.log(formValues);
+  const handleProceed = async () => {
+    // Prepare the order data from localStorage and formValues
+    console.log("clicked");
+
+    const orderData = {
+      category: productItem.category,
+      categoryDescription: productItem.description,
+      colors: [formValues.threadColor, formValues.buttonColor],
+      customizationOptions: JSON.stringify(formValues), // Serialize the form values as string
+      description: productItem.description,
+      fabric: productItem.fabric,
+      gender: productItem.gender,
+      images: productItem.images,
+      isCustomized: true,
+      name: productItem.name,
+      price: productItem.price,
+      sizes: productItem.sizes,
+      stock: productItem.stock,
+      subCategory: productItem.subCategory,
+    };
+    // console.log(orderData);
+
+    try {
+      // Make a POST request to the backend to create the order
+      const response = await axios.post(
+        "http://localhost:3000/orders/create",
+        orderData
+      );
+
+      // If successful, navigate to the order summary page
+      console.log("Order created successfully", response.data);
+      navigate("/ordersummary");
+    } catch (error) {
+      console.error("Error creating order:", error);
+    }
   };
+
   const options = {
     collarStyle: [
       "Spread Collar",
@@ -80,7 +114,6 @@ const Customize = () => {
   return (
     <div>
       <TopNav />
-
       <div className="px-[11px] mt-[17px] pb-24">
         <h1 className="font-poppins font-[700] flex gap-1 items-center text-[14px] text-[#737373] ">
           {productItem.gender === "Male" ? "Men" : "Women"}{" "}
@@ -102,7 +135,6 @@ const Customize = () => {
             About {productItem.subCategory}
           </h2>
           <p className="font-poppins font-[400] text-[13px] mt-1 text-gray-600">
-            {" "}
             {productItem.description}
           </p>
         </div>
@@ -172,7 +204,6 @@ const Customize = () => {
           </button>
         </div>
       </div>
-
       <Navbar />
     </div>
   );

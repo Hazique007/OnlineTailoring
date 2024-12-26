@@ -171,10 +171,10 @@ const ProductCart = ({
           <h2 className="text-[12px] font-semibold">{styleName}</h2>
           <p className="text-[12px] text-gray-600">Price: {price}</p>
           <h2 className="text-[12px] text-yellow-600">
-            <div className="flex items-center gap-1">
+            {/* <div className="flex items-center gap-1">
               {gender} <SlArrowRight className="text-[8px]" /> {category}{" "}
               <SlArrowRight className="text-[8px]" /> {subCategory}
-            </div>
+            </div> */}
           </h2>
         </div>
       </div>

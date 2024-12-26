@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { IoHome, IoCartOutline } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";
 import { PiSquaresFourBold } from "react-icons/pi";
@@ -22,10 +22,10 @@ export const TopNavIcon = ({ label, image, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className="flex flex-col items-center h-[62px] justify-center"
+      className="flex flex-col items-center justify-center"
     >
       {image}
-      <h2 className="text-[10px] font-poppins text-black font-[450]">
+      <h2 className="text-[13px] font-poppins text-black font-[450]">
         {label}
       </h2>
     </div>
@@ -35,18 +35,35 @@ export const TopNavIcon = ({ label, image, onClick }) => {
 const Navbar = () => {
   const navigate = useNavigate();
   const { isSearch, setIsSearch } = useContext(SearchContext);
+  const [profilePicture, setProfilePicture] = useState(null);
 
-  const handleProduct = () => {
-    navigate("/Allcategory");
-  };
+  // Fetch profile picture from the backend
+  useEffect(() => {
+    const fetchProfilePicture = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/listpersonal");
+        if (response.ok) {
+          const data = await response.json();
+          setProfilePicture(data.profilePicture); // Assuming the response contains the profile picture URL
+        }
+      } catch (error) {
+        console.error("Error fetching profile picture:", error);
+      }
+    };
+    fetchProfilePicture();
+  }, []);
 
   const handleSearch = () => {
     setIsSearch(!isSearch);
     navigate("/search");
   };
 
+  const handleProduct = () => {
+    navigate("/Allcategory");
+  };
+
   return (
-    <div className="Navigation h-[62px] fixed bottom-0 flex justify-between bg-[#FAF1F1] w-full px-4">
+    <div className="Navigation h-[62px] fixed bottom-0 flex items-center justify-between bg-[#FAF1F1] w-full px-6">
       <TopNavIcon
         onClick={() => navigate("/Home")}
         label={"Home"}
@@ -63,16 +80,28 @@ const Navbar = () => {
         image={<PiSquaresFourBold className="h-[25px] w-[25px]" />}
       />
       <IconButton aria-label="cart">
-        <StyledBadge badgeContent={3} color="secondary">
+        <StyledBadge badgeContent={0} color="secondary">
           <TopNavIcon
+            onClick={() => navigate("/cart")}
             label={"Cart"}
             image={<IoCartOutline className="text-black h-[25px] w-[25px]" />}
           />
         </StyledBadge>
       </IconButton>
       <TopNavIcon
+        onClick={() => navigate("/profile")}
         label={"Profile"}
-        image={<CgProfile className="h-[25px] w-[25px]" />}
+        image={
+          profilePicture ? (
+            <img
+              src={profilePicture}
+              alt="Profile"
+              className="h-[25px] w-[25px] rounded-full object-cover"
+            />
+          ) : (
+            <CgProfile className="h-[25px] w-[25px]" />
+          )
+        }
       />
     </div>
   );

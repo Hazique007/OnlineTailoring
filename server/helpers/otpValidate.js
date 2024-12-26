@@ -1,4 +1,6 @@
-export const otpVerification = async(otpTime)=>{
+
+
+const otpVerification = async(otpTime)=>{
 
 
     try {
@@ -25,3 +27,4 @@ export const otpVerification = async(otpTime)=>{
     }
 }
 
+export default otpVerification;

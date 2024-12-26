@@ -18,7 +18,8 @@ const HelpAndSupport = () => {
         </div>
 
       {/* Help Content */}
-      <div className="max-w-md mx-auto mt-8 bg-white shadow-md rounded-lg p-6">
+      <div className="p-4">
+      <div className="mx-auto mt-8 bg-white rounded-lg p-6">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Need Help?</h2>
         <p className="text-gray-600 mb-4">Reach out to us:</p>
         <p className="text-gray-800">
@@ -38,6 +39,10 @@ const HelpAndSupport = () => {
           Go Back
         </button>
       </div>
+
+
+      </div>
+      
       <Navbar />
     </div>
   );

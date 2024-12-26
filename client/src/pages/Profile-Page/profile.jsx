@@ -4,7 +4,7 @@ import Navbar from "../../components/Navbar";
 import { FaAddressBook, FaShoppingBag, FaUser, FaQuestionCircle, FaCog, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:5000"; // Replace with your API base URL
+const API_BASE_URL = "http://localhost:3000"; // Replace with your API base URL
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -71,16 +71,16 @@ const ProfilePage = () => {
     <div className="mb-10">
       <TopNav />
 
-      <div className="px-[11px] mt-[17px] pb-20">
+      <div className="px-[11px] mt-[17px] pb-10">
         <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">Profile</h1>
       </div>
 
       <div className="flex-1 overflow-y-auto"></div>
 
       {/* User Card */}
-      <div className="max-w-md mx-auto ">
+      <div className="p-2 ">
         <div
-          className="w-full p-6 rounded-[15px] text-white"
+          className="w-full p-8 rounded-[15px] text-white"
           style={{
             background: "linear-gradient(90deg, #171617 0%, #94908F 100%)",
           }}
@@ -90,7 +90,7 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <div className="w-full mx-auto mt-8 bg-white shadow-md rounded-lg">
+      <div className="w-full mx-auto mt-8 bg-white  rounded-lg">
         {options.map((option, index) => (
           <div key={index}>
             <div

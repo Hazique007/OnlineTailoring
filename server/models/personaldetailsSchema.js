@@ -1,4 +1,4 @@
-import mongoose from'mongoose';
+import mongoose from "mongoose";
 
 const personalDetailsSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -9,6 +9,5 @@ const personalDetailsSchema = new mongoose.Schema({
   profilePicture: { type: String }, // Optional
 });
 
- 
 const PersonalDetails = mongoose.model("PersonalDetails", personalDetailsSchema);
-export default PersonalDetails
+export default PersonalDetails;

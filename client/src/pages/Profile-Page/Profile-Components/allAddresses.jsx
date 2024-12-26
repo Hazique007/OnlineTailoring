@@ -11,7 +11,7 @@ const AllAddresses = () => {
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await fetch("http://localhost:5000/list");
+        const response = await fetch("http://localhost:3000/list");
         if (response.ok) {
           const result = await response.json();
           setAddresses(result.data);
@@ -61,7 +61,7 @@ const AllAddresses = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/add", {
+      const response = await fetch("http://localhost:3000/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newAddress),
@@ -87,7 +87,7 @@ const AllAddresses = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/edit/${editingAddress._id}`, {
+      const response = await fetch(`http://localhost:3000/edit/${editingAddress._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editingAddress),
@@ -108,7 +108,7 @@ const AllAddresses = () => {
 
   const handleDeleteAddress = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/delete/${id}`, { method: "DELETE" });
+      const response = await fetch(`http://localhost:3000/delete/${id}`, { method: "DELETE" });
       if (response.ok) {
         setAddresses(addresses.filter((addr) => addr._id !== id));
       } else {
@@ -132,7 +132,7 @@ const AllAddresses = () => {
           addresses.map((address) => (
             <div
               key={address._id}
-              className="flex justify-between items-center bg-gray-100 p-4 rounded-md shadow-md"
+              className=" justify-between items-center bg-gray-100 p-4 rounded-md "
             >
               {editingAddress && editingAddress._id === address._id ? (
                 <div className="flex flex-col">
@@ -184,14 +184,14 @@ const AllAddresses = () => {
                 ) : (
                   <button
                     onClick={() => setEditingAddress(address)}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                    className="px-4 py-2 bg-blue-500 text-white rounded-md mt-4" 
                   >
                     Edit
                   </button>
                 )}
                 <button
                   onClick={() => handleDeleteAddress(address._id)}
-                  className="px-4 py-2 bg-red-500 text-white rounded-md"
+                  className="px-4 py-2 bg-red-500 text-white rounded-md mt-4"
                 >
                   Delete
                 </button>
