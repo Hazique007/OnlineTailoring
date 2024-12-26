@@ -30,6 +30,8 @@ const SearchStyle = ({ gender }) => {
           },
         }
       );
+      console.log(response);
+
       if (response.status !== 200) {
         navigate("/error");
       }
@@ -63,9 +65,12 @@ const SearchStyle = ({ gender }) => {
 
       return (
         <div key={item.category} className="mb-6 ">
-          <h2 className="text-[#DA3A3A] font-semibold text-md">
+          <Link
+            to={`/product/${gender}/${item.category}`}
+            className="text-[#DA3A3A] font-semibold text-md"
+          >
             {item.category}
-          </h2>
+          </Link>
           <ul className="pl-4 list-none">
             {uniqueSubCategories.map((subCategory) => (
               <li key={subCategory} className="mb-2">
