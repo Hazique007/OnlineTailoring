@@ -98,7 +98,8 @@ const ProductCart = ({
 
   const handleOnclick = () => {
     // setProduct({ gender, category });
-    setOpen(true);
+    // setOpen(true);
+    navigate("/customize");
   };
 
   const handleClose = () => {
@@ -106,12 +107,12 @@ const ProductCart = ({
   };
 
   const handleFabricSelection = (selection) => {
-    setSelectedFabric(selection);
-    if (selection === "Fabric") {
-      navigate("/fabric");
-    } else if (selection === "NoFabric") {
-      navigate("/customize");
-    }
+    // setSelectedFabric(selection);
+    // if (selection === "Fabric") {
+    //   navigate("/fabric");
+    // } else if (selection === "NoFabric") {
+    //   navigate("/customize");
+    // }
   };
 
   useEffect(() => {
