@@ -143,7 +143,7 @@ const ProductCart = ({
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="image-box h-[30vh] w-[45vw] flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-lg"
+          className="image-box aspect-square flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-lg"
         >
           {images.map((image, index) => (
             <img
