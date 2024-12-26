@@ -27,16 +27,14 @@ const Customize = () => {
     shirtLength: "Regular",
   });
   const [show, setShow] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleProceed = async () => {
-    // Prepare the order data from localStorage and formValues
-    console.log("clicked");
-
     const orderData = {
       category: productItem.category,
       categoryDescription: productItem.description,
       colors: [formValues.threadColor, formValues.buttonColor],
-      customizationOptions: JSON.stringify(formValues), // Serialize the form values as string
+      customizationOptions: JSON.stringify(formValues),
       description: productItem.description,
       fabric: productItem.fabric,
       gender: productItem.gender,
@@ -48,16 +46,13 @@ const Customize = () => {
       stock: productItem.stock,
       subCategory: productItem.subCategory,
     };
-    // console.log(orderData);
 
     try {
-      // Make a POST request to the backend to create the order
       const response = await axios.post(
         "https://online-tailoring-3.onrender.com/orders/create",
         orderData
       );
 
-      // If successful, navigate to the order summary page
       console.log("Order created successfully", response.data);
       navigate("/ordersummary");
     } catch (error) {
@@ -110,6 +105,18 @@ const Customize = () => {
       [key]: value,
     }));
   };
+  const handlePrevImage = () => {
+    setCurrentImageIndex(
+      (prevIndex) =>
+        (prevIndex - 1 + productItem.images.length) % productItem.images.length
+    );
+  };
+
+  const handleNextImage = () => {
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex + 1) % productItem.images.length
+    );
+  };
 
   return (
     <div>
@@ -124,11 +131,26 @@ const Customize = () => {
           <h1 className="text-[17px] font-poppins font-[600] text-[#DA3A3A]">
             Customize
           </h1>
-          <img
-            className="rounded-[10px] h-[282px] object-fit w-[359px] "
-            src={`https://online-tailoring-3.onrender.com/uploads/${productItem.images[0]}`}
-            alt="Customize clothing"
-          />
+
+          <div className="relative w-[359px] h-[282px] overflow-hidden rounded-[10px]">
+            <img
+              src={`https://online-tailoring-3.onrender.com/uploads/${productItem.images[currentImageIndex]}`}
+              alt="Customize clothing"
+              className="w-full h-full object-fit"
+            />
+            <button
+              onClick={handlePrevImage}
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white bg-black bg-opacity-50 p-2 rounded-full"
+            >
+              &#8249;
+            </button>
+            <button
+              onClick={handleNextImage}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white bg-black bg-opacity-50 p-2 rounded-full"
+            >
+              &#8250;
+            </button>
+          </div>
         </div>
         <div className="mt-4">
           <h2 className="font-poppins font-[600] text-[16px]">
