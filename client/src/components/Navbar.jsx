@@ -37,22 +37,6 @@ const Navbar = () => {
   const { isSearch, setIsSearch } = useContext(SearchContext);
   const [profilePicture, setProfilePicture] = useState(null);
 
-  // Fetch profile picture from the backend
-  useEffect(() => {
-    const fetchProfilePicture = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/listpersonal");
-        if (response.ok) {
-          const data = await response.json();
-          setProfilePicture(data.profilePicture); // Assuming the response contains the profile picture URL
-        }
-      } catch (error) {
-        console.error("Error fetching profile picture:", error);
-      }
-    };
-    fetchProfilePicture();
-  }, []);
-
   const handleSearch = () => {
     setIsSearch(!isSearch);
     navigate("/search");
