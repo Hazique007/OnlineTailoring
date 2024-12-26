@@ -135,7 +135,7 @@ const ProductCart = ({
     <div>
       <div
         onClick={onClick}
-        className="outer-box h-[31.5vh] w-[46vw] mb-16 rounded-lg "
+        className="outer-box h-[31.5vh] w-[46vw] mb-[81px]  rounded-lg p-1"
       >
         <div
           ref={imageBoxRef}
@@ -171,21 +171,15 @@ const ProductCart = ({
         <div className="text flex flex-col gap-1 mt-2">
           <h2 className="text-[12px] font-semibold">{styleName}</h2>
           <p className="text-[12px] text-gray-600">Price: ₹{price}</p>
-          <h2 className="text-[12px] text-yellow-600">
-            {/* <div className="flex items-center gap-1">
-              {gender} <SlArrowRight className="text-[8px]" /> {category}{" "}
-              <SlArrowRight className="text-[8px]" /> {subCategory}
-            </div> */}
-          </h2>
         </div>
       </div>
-      <SimpleDialog
+      {/* <SimpleDialog
         open={open}
         onClose={handleClose}
         gender={gender}
         category={category}
         onSelection={handleFabricSelection}
-      />
+      /> */}
     </div>
   );
 };
