@@ -22,6 +22,12 @@ const AllCategory = () => {
         "https://online-tailoring-3.onrender.com/api/v1/category/fetchcategories",
         { params: { gender: "Female" } }
       );
+      if (
+        maleResponse.data.status !== "success" ||
+        femaleResponse.data.status !== "success"
+      ) {
+        navigate("/error");
+      }
 
       setCategories({
         male: maleResponse.data.categories || [],
@@ -29,6 +35,7 @@ const AllCategory = () => {
       });
     } catch (error) {
       console.error("Error fetching categories:", error);
+      navigate("/error");
     }
   };
 

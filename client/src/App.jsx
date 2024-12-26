@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // Pages
@@ -30,9 +30,17 @@ import { ProductProvider } from "./Context Api/trackProduct";
 
 // Miscellaneous
 import NotFound from "./pages/NotFound/notfound";
+import Error from "./components/error";
 
 const App = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
+
+  useEffect(() => {
+    const handleOffline = () => navigate("/error");
+
+    window.addEventListener("offline", handleOffline);
+    return () => window.removeEventListener("offline", handleOffline);
+  }, []);
 
   return (
     <ProductProvider>
@@ -56,6 +64,7 @@ const App = () => {
           <Route path="/orderSuccessful" Component={OrderSuccessful} />
           <Route path="/search" Component={SearchPage} />
           <Route path="/cart" Component={CartPage} />
+          <Route path="/error" Component={Error} />
 
           {/* Profile Sub-pages */}
           <Route path="/addresses" Component={AllAddresses} />

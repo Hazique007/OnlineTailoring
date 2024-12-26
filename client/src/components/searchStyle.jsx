@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 const SearchStyle = ({ gender }) => {
   const [maleData, setMaleData] = useState([]);
   const [femaleData, setFemaleData] = useState([]);
+  const navigate = useNavigate();
 
   const getSubCategoryMale = async () => {
     const response = await axios.get(
@@ -20,15 +21,23 @@ const SearchStyle = ({ gender }) => {
   };
 
   const getSubCategoryFemale = async () => {
-    const response = await axios.get(
-      "https://online-tailoring-3.onrender.com/api/v1/category/getGenderWiseCategory",
-      {
-        params: {
-          gender: "Female",
-        },
+    try {
+      const response = await axios.get(
+        "https://online-tailoring-3.onrender.com/api/v1/category/getGenderWiseCategory",
+        {
+          params: {
+            gender: "Female",
+          },
+        }
+      );
+      if (response.status !== 200) {
+        navigate("/error");
       }
-    );
-    setFemaleData(response.data.data);
+
+      setFemaleData(response.data.data);
+    } catch (error) {
+      navigate("/error");
+    }
   };
 
   useEffect(() => {

@@ -13,12 +13,17 @@ const Hero = () => {
       const { data } = await axios.get(
         "https://online-tailoring-3.onrender.com/api/v1/landing/getLandingPageImages"
       );
+      if (data.status !== "success") {
+        navigate("/error");
+      }
+
       if (data) {
         const images = data.data.flatMap((item) => item.bannerImages);
         setLandingArray(images);
       }
     } catch (error) {
       console.error("Error fetching landing images:", error);
+      navigate("/error");
     }
   };
 

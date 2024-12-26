@@ -12,7 +12,9 @@ const Fashion = () => {
       const { data } = await axios.get(
         "https://online-tailoring-3.onrender.com/api/v1/landing/getFashionPageImages"
       );
-
+      if (data.status !== "success") {
+        navigate("/error");
+      }
       const images = data.data;
 
       while (images.length < 8) {
@@ -28,6 +30,7 @@ const Fashion = () => {
     } catch (error) {
       console.error("Error fetching fashion images:", error);
       setError(true);
+      navigate("/error");
     }
   };
 

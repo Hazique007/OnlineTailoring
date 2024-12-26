@@ -13,6 +13,10 @@ const Trending = () => {
         "https://online-tailoring-3.onrender.com/api/v1/landing/getTrendingPageImages"
       );
 
+      if (data.status !== "success") {
+        navigate("/error");
+      }
+
       if (data && data.data.length > 0) {
         const items = data.data;
 
@@ -24,6 +28,7 @@ const Trending = () => {
       }
     } catch (error) {
       console.error("Error fetching trending items:", error);
+      navigate("/error");
     }
   };
 
