@@ -75,7 +75,7 @@ const AllCategory = () => {
                 ))
               ) : (
                 <p className="text-center text-gray-500 col-span-full">
-                  No categories available for Men.
+                  Loading categories for Men.
                 </p>
               )}
             </div>
@@ -110,7 +110,7 @@ const AllCategory = () => {
                 ))
               ) : (
                 <p className="text-center text-gray-500 col-span-full">
-                  No categories available for Women.
+                  Loading categories for Women.
                 </p>
               )}
             </div>

@@ -8,6 +8,7 @@ import Navbar from "../../components/Navbar";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Audio } from "react-loader-spinner";
+import { BeatLoader } from "react-spinners";
 
 const ProductPage = () => {
   const [data, setData] = useState([]);
@@ -44,7 +45,7 @@ const ProductPage = () => {
   if (loading) {
     return (
       <div className="w-full h-[100vh] flex justify-center items-center">
-        <Audio
+        {/* <Audio
           height="80"
           width="80"
           radius="9"
@@ -52,7 +53,8 @@ const ProductPage = () => {
           ariaLabel="loading"
           wrapperStyle
           wrapperClass
-        />
+        /> */}
+        <BeatLoader color="#ff58e6" />
       </div>
     );
   }
