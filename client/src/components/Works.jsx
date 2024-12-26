@@ -1,7 +1,7 @@
-import Step1 from "../assets/images/Step1.png";
-import Step2 from "../assets/images/GET MEASURED-3.png";
-import Step3 from "../assets/images/MEET YOUR PERSONAL STYLIST-1.png";
-import Step4 from "../assets/images/TRIAL FITTING & FINAL DELIVERY-4.png";
+import Step1 from "../assets/images/S1.png";
+import Step2 from "../assets/images/S2.png";
+import Step3 from "../assets/images/S3.png";
+import Step4 from "../assets/images/S4.png";
 
 import Workcomp from "./work-comp";
 const Works = () => {
