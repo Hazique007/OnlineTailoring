@@ -10,7 +10,9 @@ const OrderSummaryCard = () => {
     // Fetch data from the API using Axios
     const fetchOrderData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/orders/getorder");
+        const response = await axios.get(
+          "https://online-tailoring-3.onrender.com/orders/getorder"
+        );
         console.log(response);
         setOrderData(response.data); // Assuming the API response contains the order data
         setLoading(false); // Set loading to false after data is fetched
@@ -40,7 +42,7 @@ const OrderSummaryCard = () => {
 
   // Construct the product image URL from your backend server
   const productImage = productData?.images?.[0]
-    ? `http://localhost:3000/uploads/${productData.images[0]}`
+    ? `https://online-tailoring-3.onrender.com/uploads/${productData.images[0]}`
     : "placeholder-image.png"; // Use a placeholder if the image is not available
 
   return (

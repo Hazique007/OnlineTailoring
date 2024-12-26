@@ -34,17 +34,18 @@ const OrderSummary = () => {
       };
 
       // Send order details to the backend using Axios
-      const response = await axios.post("http://localhost:3000/orders/create", orderDetails);
+      const response = await axios.post(
+        "https://online-tailoring-3.onrender.com/orders/create",
+        orderDetails
+      );
       console.log(response.status);
-      
 
-      if (response.status===201) {
+      if (response.status === 201) {
         // alert("Order placed successfully!");
         console.log(response);
-        
+
         navigate("/orderSuccessful"); // Navigate to order success page
-      } 
-      else {
+      } else {
         // alert(response.data.message || "Failed to place order. Please try again.");
       }
     } catch (error) {

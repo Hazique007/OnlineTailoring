@@ -10,7 +10,9 @@ const OrderHistory = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/orders/getorder"); // Fetch all orders
+        const response = await axios.get(
+          "https://online-tailoring-3.onrender.com/orders/getorder"
+        ); // Fetch all orders
         setOrders(response.data.orders); // Assume response contains an array of orders
         setLoading(false);
       } catch (error) {

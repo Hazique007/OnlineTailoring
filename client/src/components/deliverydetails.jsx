@@ -4,12 +4,19 @@ const Delivery = ({ onProceed }) => {
   const [selectedAddress, setSelectedAddress] = useState(""); // To store the selected address
   const [addresses, setAddresses] = useState([]); // To store the list of addresses
   const [showAll, setShowAll] = useState(false); // To toggle between showing 3 or all addresses
-  const [newAddress, setNewAddress] = useState({ name: "", address1: "", address2: "", pincode: "" }); // For adding a new address
+  const [newAddress, setNewAddress] = useState({
+    name: "",
+    address1: "",
+    address2: "",
+    pincode: "",
+  }); // For adding a new address
 
   // Fetch addresses when component mounts
   const fetchAddresses = async () => {
     try {
-      const response = await fetch("http://localhost:3000/list"); // Backend API to get all addresses
+      const response = await fetch(
+        "https://online-tailoring-3.onrender.com/list"
+      ); // Backend API to get all addresses
       if (response.ok) {
         const result = await response.json();
         if (Array.isArray(result.data)) {
@@ -41,11 +48,14 @@ const Delivery = ({ onProceed }) => {
   // Add a new address
   const handleAddAddress = async () => {
     try {
-      const response = await fetch("http://localhost:3000/add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newAddress),
-      });
+      const response = await fetch(
+        "https://online-tailoring-3.onrender.com/add",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newAddress),
+        }
+      );
       if (response.ok) {
         const result = await response.json();
         const addedAddress = result.data;
@@ -88,7 +98,9 @@ const Delivery = ({ onProceed }) => {
     return 0;
   });
 
-  const displayedAddresses = showAll ? sortedAddresses : sortedAddresses.slice(0, 3);
+  const displayedAddresses = showAll
+    ? sortedAddresses
+    : sortedAddresses.slice(0, 3);
 
   return (
     <div className="p-4 rounded-md pl-4">
@@ -114,7 +126,9 @@ const Delivery = ({ onProceed }) => {
                 <p className=" text-[14px]"> Deliver to: {address.name}</p>
                 <p className="text-[12px]">{address.address1}</p>
                 <p className="text-[12px]">{address.address2}</p>
-                <p className="text-[12px] font-bold">Pincode: {address.pincode}</p>
+                <p className="text-[12px] font-bold">
+                  Pincode: {address.pincode}
+                </p>
               </div>
             </label>
           ))}

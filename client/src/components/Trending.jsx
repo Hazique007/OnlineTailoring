@@ -10,7 +10,7 @@ const Trending = () => {
   const getTrendingImages = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:3000/api/v1/landing/getTrendingPageImages"
+        "https://online-tailoring-3.onrender.com/api/v1/landing/getTrendingPageImages"
       );
 
       if (data && data.data.length > 0) {
@@ -29,7 +29,7 @@ const Trending = () => {
 
   // const getProductOnClickTrendingImages = async (gender, category) => {
   //   const response = await axios.get(
-  //     "http://localhost:3000/api/v1/products/getGenderPlusCategory",
+  //     "https://online-tailoring-3.onrender.com/api/v1/products/getGenderPlusCategory",
   //     {
   //       params: { gender, category },
   //     }
@@ -67,7 +67,7 @@ const Trending = () => {
               {item.trendingImage ? (
                 <img
                   className="h-[171px] w-[164px]  object-cover rounded-lg"
-                  src={`http://localhost:3000/uploads/${item.trendingImage}`}
+                  src={`https://online-tailoring-3.onrender.com/uploads/${item.trendingImage}`}
                   alt={`Trending Image ${index + 1} - ${item.category}`}
                 />
               ) : (

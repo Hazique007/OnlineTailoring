@@ -2,16 +2,53 @@ import React, { useState, useEffect } from "react";
 import TopNav from "../../../components/TopNav";
 
 const AllAddresses = () => {
-  const validPincodes = ["226001", "226002", "226003", "226004", "226005", "226006", "226007", "226010", "226012", "226016", "226017", "226018", "226019", "226020", "226021", "226022", "226023", "226024", "226025", "226028", "226029", "226030", "226101", "226102", "226201", "226202", "226301", "227105", "227125"]; // Allowed PIN codes
+  const validPincodes = [
+    "226001",
+    "226002",
+    "226003",
+    "226004",
+    "226005",
+    "226006",
+    "226007",
+    "226010",
+    "226012",
+    "226016",
+    "226017",
+    "226018",
+    "226019",
+    "226020",
+    "226021",
+    "226022",
+    "226023",
+    "226024",
+    "226025",
+    "226028",
+    "226029",
+    "226030",
+    "226101",
+    "226102",
+    "226201",
+    "226202",
+    "226301",
+    "227105",
+    "227125",
+  ]; // Allowed PIN codes
   const [addresses, setAddresses] = useState([]); // Store addresses
-  const [newAddress, setNewAddress] = useState({ name: "", address1: "", address2: "", pincode: "" });
+  const [newAddress, setNewAddress] = useState({
+    name: "",
+    address1: "",
+    address2: "",
+    pincode: "",
+  });
   const [editingAddress, setEditingAddress] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await fetch("http://localhost:3000/list");
+        const response = await fetch(
+          "https://online-tailoring-3.onrender.com/list"
+        );
         if (response.ok) {
           const result = await response.json();
           setAddresses(result.data);
@@ -61,11 +98,14 @@ const AllAddresses = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newAddress),
-      });
+      const response = await fetch(
+        "https://online-tailoring-3.onrender.com/add",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newAddress),
+        }
+      );
       if (response.ok) {
         const result = await response.json();
         setAddresses([...addresses, result.data]);
@@ -87,11 +127,14 @@ const AllAddresses = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/edit/${editingAddress._id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editingAddress),
-      });
+      const response = await fetch(
+        `https://online-tailoring-3.onrender.com/edit/${editingAddress._id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(editingAddress),
+        }
+      );
       if (response.ok) {
         const updatedAddresses = addresses.map((addr) =>
           addr._id === editingAddress._id ? editingAddress : addr
@@ -108,7 +151,10 @@ const AllAddresses = () => {
 
   const handleDeleteAddress = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/delete/${id}`, { method: "DELETE" });
+      const response = await fetch(
+        `https://online-tailoring-3.onrender.com/delete/${id}`,
+        { method: "DELETE" }
+      );
       if (response.ok) {
         setAddresses(addresses.filter((addr) => addr._id !== id));
       } else {
@@ -170,7 +216,9 @@ const AllAddresses = () => {
                   <p className="font-bold">{address.name}</p>
                   <p>{address.address1}</p>
                   <p>{address.address2}</p>
-                  <p className="text-sm font-semibold">Pincode: {address.pincode}</p>
+                  <p className="text-sm font-semibold">
+                    Pincode: {address.pincode}
+                  </p>
                 </div>
               )}
               <div className="flex space-x-2">
@@ -184,7 +232,7 @@ const AllAddresses = () => {
                 ) : (
                   <button
                     onClick={() => setEditingAddress(address)}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md mt-4" 
+                    className="px-4 py-2 bg-blue-500 text-white rounded-md mt-4"
                   >
                     Edit
                   </button>

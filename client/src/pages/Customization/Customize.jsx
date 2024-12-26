@@ -53,7 +53,7 @@ const Customize = () => {
     try {
       // Make a POST request to the backend to create the order
       const response = await axios.post(
-        "http://localhost:3000/orders/create",
+        "https://online-tailoring-3.onrender.com/orders/create",
         orderData
       );
 
@@ -126,7 +126,7 @@ const Customize = () => {
           </h1>
           <img
             className="rounded-[10px] h-[282px] object-fit w-[359px] "
-            src={`http://localhost:3000/uploads/${productItem.images[0]}`}
+            src={`https://online-tailoring-3.onrender.com/uploads/${productItem.images[0]}`}
             alt="Customize clothing"
           />
         </div>
@@ -143,14 +143,21 @@ const Customize = () => {
             <h1 className="text-[16px] font-[700] font-poppins mb-2">
               Decide Your Style
             </h1>
-            <span
+            {/* <span
               onClick={() => setShow(!show)}
               className={`text-[12px] text-[#1043F9] font-[400] font-poppins cursor-pointer`}
             >
               Edit Details
-            </span>
+            </span> */}
           </div>
-          {!show ? (
+          <p className="text-[13px] font-poppins">
+            If you need specific customizations in your apparel, you can share
+            the same with our tailor guru once he comes to your place for taking
+            measurements. Our expert tailor will take note of all the required
+            customizations during home visit and ensure these are catered to in
+            the best manner.
+          </p>
+          {/* {!show ? (
             <div className="details grid grid-cols-3 gap-5 mt-[24px]  ">
               {config.map(({ label, key }) => (
                 <div key={key} className="flex flex-col gap-y-2">
@@ -191,7 +198,7 @@ const Customize = () => {
                 </div>
               ))}
             </div>
-          )}
+          )} */}
         </div>
         <div
           className={`w-full flex justify-center ${show ? "mt-10" : "mt-10"}`}

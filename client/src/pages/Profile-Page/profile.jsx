@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import TopNav from "../../components/TopNav";
 import Navbar from "../../components/Navbar";
-import { FaAddressBook, FaShoppingBag, FaUser, FaQuestionCircle, FaCog, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaAddressBook,
+  FaShoppingBag,
+  FaUser,
+  FaQuestionCircle,
+  FaCog,
+  FaSignOutAlt,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:3000"; // Replace with your API base URL
+const API_BASE_URL = "https://online-tailoring-3.onrender.com"; // Replace with your API base URL
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -72,7 +79,9 @@ const ProfilePage = () => {
       <TopNav />
 
       <div className="px-[11px] mt-[17px] pb-10">
-        <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">Profile</h1>
+        <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">
+          Profile
+        </h1>
       </div>
 
       <div className="flex-1 overflow-y-auto"></div>

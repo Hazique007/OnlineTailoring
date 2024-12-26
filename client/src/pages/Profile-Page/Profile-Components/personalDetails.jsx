@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TopNav from "../../../components/TopNav";
 
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = "https://online-tailoring-3.onrender.com";
 
 const PersonalDetails = () => {
   const [profile, setProfile] = useState({
@@ -19,7 +19,9 @@ const PersonalDetails = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch("http://localhost:3000/listpersonal");
+        const response = await fetch(
+          "https://online-tailoring-3.onrender.com/listpersonal"
+        );
         if (!response.ok) throw new Error("Failed to fetch profile data");
         const data = await response.json();
         const user = data[0];
@@ -101,10 +103,9 @@ const PersonalDetails = () => {
     <div className="font-poppins">
       <TopNav />
       <h1 className="font-poppins font-[700] text-[14px] text-[#737373] pt-4 pl-4 ">
-         Personal details
-        </h1>
+        Personal details
+      </h1>
       <div className="p-8 flex flex-col items-center">
-      
         {/* Profile Picture */}
         <div className="relative w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-4">
           {isEditing ? (
