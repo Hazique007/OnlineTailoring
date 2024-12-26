@@ -171,7 +171,7 @@ const ProductCart = ({
         <div className=" flex flex-col gap-1 mt-2">
           <h2 className="text-[12px] font-semibold">{styleName}</h2>
           <p className="text-[12px] text-gray-600">
-            Price: <span className="text-red-500">₹{price}</span>
+            Price: <span className="text-yellow-500">₹{price}</span>
           </p>
         </div>
       </div>
