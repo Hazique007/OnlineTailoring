@@ -97,7 +97,7 @@ const ProductPage = () => {
         </div>
 
         {data.length > 0 ? (
-          <div className="grid grid-cols-2 gap-2 mt-4 pb-24">
+          <div className="grid grid-cols-2 gap-2  pb-24">
             {data.map((product, index) => (
               <ProductCart
                 onClick={() =>
