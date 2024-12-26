@@ -76,7 +76,7 @@ const ProductPage = () => {
             subCategory ? " > " + subCategory : ""
           }`}
         </h1>
-        <p className="text-[#898282] font-[400] mt-[13px] text-[12px] pr-3 font-poppins">
+        <p className="text-[#898282] font-[400]  text-[12px] pr-3 font-poppins">
           {subCategory ? subCategoryDescription : categoryDescription}
         </p>
         <div className="filter-sort mt-[21px] flex items-center justify-end gap-7 h-[22px] pr-[20px]">
