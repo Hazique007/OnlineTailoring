@@ -26,7 +26,9 @@ export const editPersonalDetails = async (req, res) => {
   try {
     const { id } = req.params;
     const updatedFields = req.body;
-    const details = await PersonalDetails.findByIdAndUpdate(id, updatedFields, { new: true });
+    const details = await PersonalDetails.findByIdAndUpdate(id, updatedFields, {
+      new: true,
+    });
     res.status(200).json(details);
   } catch (error) {
     res.status(500).json({ message: "Failed to edit details", error });
@@ -38,7 +40,11 @@ export const updatePersonalDetails = async (req, res) => {
   try {
     const { id } = req.params;
     const updatedDetails = req.body;
-    const details = await PersonalDetails.findByIdAndUpdate(id, updatedDetails, { new: true });
+    const details = await PersonalDetails.findByIdAndUpdate(
+      id,
+      updatedDetails,
+      { new: true }
+    );
     res.status(200).json(details);
   } catch (error) {
     res.status(500).json({ message: "Failed to update details", error });

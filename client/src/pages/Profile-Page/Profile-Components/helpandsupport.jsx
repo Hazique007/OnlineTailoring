@@ -10,7 +10,7 @@ const HelpAndSupport = () => {
     <div className="min-h-screen bg-gray-100 font-poppins">
         <TopNav />
       {/* Header */}
-      <div className="px-[11px] mt-[17px] pb-24">
+      <div className="px-[11px] mt-[17px] ">
     <h1 className="font-poppins font-[700] text-[14px] text-[#737373] ">
           Help and Support
         </h1>
@@ -18,7 +18,7 @@ const HelpAndSupport = () => {
         </div>
 
       {/* Help Content */}
-      <div className="p-4">
+      <div className="pt-5 px-4">
       <div className="mx-auto mt-8 bg-white rounded-lg p-6">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Need Help?</h2>
         <p className="text-gray-600 mb-4">Reach out to us:</p>

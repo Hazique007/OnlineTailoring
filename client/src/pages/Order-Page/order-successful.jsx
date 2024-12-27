@@ -35,9 +35,9 @@ return(
    <p className="text-center pt-10">
    Your order has been successfully placed.<br></br><br></br>
 
-<span className="text-[#4CAF50]">Visit for Measurements:</span> {new Date().toLocaleDateString('en-GB').replace(/\//g, '-')}<br></br><br></br>
+<span className="text-[#4CAF50]">Pickup and Measurement :</span> {new Date(new Date().setDate(new Date().getDate() + 1)).toLocaleDateString('en-GB').replace(/\//g, '-')}<br></br><br></br>
 
-<span className="text-[#4CAF50]">Delivery:</span> {new Date(new Date().setDate(new Date().getDate() + 3)).toLocaleDateString('en-GB').replace(/\//g, '-')}
+<span className="text-[#4CAF50]">Delivery:</span> {new Date(new Date().setDate(new Date().getDate() + 4)).toLocaleDateString('en-GB').replace(/\//g, '-')}
    </p>
 
    <div className="flex items-center justify-center mt-10">

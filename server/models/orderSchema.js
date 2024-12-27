@@ -1,12 +1,18 @@
 import mongoose from 'mongoose';
 
+
 const OrderSchema = new mongoose.Schema(
   {
-    productID: {
-      type: mongoose.Schema.Types.ObjectId, // Generates a unique ID for each product
-      default: () => new mongoose.Types.ObjectId(), // Ensures uniqueness
-      unique: true, // Guarantees the productID is unique in the collection
+    userID: {
+      type: mongoose.Schema.Types.ObjectId, // Reference to the User schema
+      ref: 'Otp',
+      required: true,
     },
+    // productID: {
+    //   type: mongoose.Schema.Types.ObjectId, 
+    //   required: true,
+    //   ref:"Product",
+    // },
     category: {
       type: String,
       required: true,
@@ -16,7 +22,7 @@ const OrderSchema = new mongoose.Schema(
       required: true,
     },
     colors: {
-      type: [String], // Array of colors
+      type: [String],
       required: true,
     },
     createdAt: {
@@ -25,7 +31,7 @@ const OrderSchema = new mongoose.Schema(
     },
     customizationOptions: {
       type: String,
-      default: "",
+      default: '',
     },
     description: {
       type: String,
@@ -40,7 +46,7 @@ const OrderSchema = new mongoose.Schema(
       required: true,
     },
     images: {
-      type: [String], // Array of image URLs
+      type: [String],
       required: true,
     },
     isCustomized: {
@@ -56,7 +62,7 @@ const OrderSchema = new mongoose.Schema(
       required: true,
     },
     sizes: {
-      type: [String], // Array of sizes
+      type: [String],
       required: true,
     },
     stock: {
@@ -69,7 +75,7 @@ const OrderSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, // Automatically adds createdAt and updatedAt
+    timestamps: true,
   }
 );
 

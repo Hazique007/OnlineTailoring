@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
 const profileSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    unique: true, // Ensures one profile per user
-    ref: "User", // References a user model
-  },
+  // userId: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   required: true,
+  //   unique: true, // Ensures one profile per user
+  //   ref: "Otp", // References a user model
+  // },
   personalDetails: {
     name: { type: String, required: true },
     phoneNumber: { type: String, required: true },
@@ -22,19 +22,19 @@ const profileSchema = new mongoose.Schema({
       isDefault: { type: Boolean, default: false },
     },
   ],
-  orders: [
-    {
-      orderId: { type: String, required: true },
-      date: { type: Date, default: Date.now },
-      status: { type: String, required: true, enum: ["Pending", "Shipped", "Delivered", "Cancelled"] },
-      items: [
-        {
-          productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
-          quantity: { type: Number, required: true },
-        },
-      ],
-    },
-  ],
+  // orders: [
+  //   {
+  //     orderId: { type: String, required: true },
+  //     date: { type: Date, default: Date.now },
+  //     status: { type: String, required: true, enum: ["Pending", "Shipped", "Delivered", "Cancelled"] },
+  //     items: [
+  //       {
+  //         // : { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+  //         quantity: { type: Number, required: true },
+  //       },
+  //     ],
+  //   },
+  // ],
   
   notifications: [
     {

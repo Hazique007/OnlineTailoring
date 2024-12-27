@@ -8,49 +8,75 @@ import SummaryBox from "../../components/Summarybox";
 import Pickup from "../../components/pickup";
 import Delivery from "../../components/deliverydetails";
 import Works from "../../components/Works";
-import OrderSummaryCard from "../../components/OrderSummarycard";
+import OrderSummaryCard from "../../components/orderShowCard";
 
 const OrderSummary = () => {
   const navigate = useNavigate();
   const [showSummary, setShowSummary] = useState(true);
   const summarySectionRef = useRef(null);
+  const productItem = JSON.parse(localStorage.getItem("productItem"));
+
+  const [formValues, setFormValues] = useState({
+    pocket: "Single Pocket",
+    sleeves: "Full Sleeves",
+    threadColor: "White",
+    buttonColor: "Black",
+    collarStyle: "Regular",
+    collarStiffness: "Medium",
+    collarButton: "Zero",
+    neckButton: "Yes",
+    placket: "Standard",
+    cuffStyle: "Round",
+    cuffStiffness: "Soft",
+    bottomCut: "Straight",
+    shirtLength: "Regular",
+  });
 
   const handlePlaceOrder = async () => {
+    // Ensure `productItem` exists and `userID` is set in `localStorage`
+    if (!productItem) {
+      console.error("Product item not found in localStorage.");
+      alert("No product item data found. Please try again.");
+      return;
+    }
+    const userID = localStorage.getItem("userID");
+    if (!userID) {
+      console.error("User ID not found in localStorage.");
+      alert("No user ID found. Please login again.");
+      return;
+    }
+
+    // Prepare order data
+    const orderData = {
+      category: productItem.category,
+      categoryDescription: productItem.description,
+      colors: [formValues.threadColor, formValues.buttonColor],
+      customizationOptions: JSON.stringify(formValues), // Serialize the form values as a string
+      description: productItem.description,
+      fabric: productItem.fabric,
+      gender: productItem.gender,
+      images: productItem.images,
+      isCustomized: true,
+      name: productItem.name,
+      price: productItem.price,
+      sizes: productItem.sizes,
+      stock: productItem.stock,
+      subCategory: productItem.subCategory,
+      userID: userID,
+    };
+
+    console.log("Order data being sent:", orderData);
+
     try {
-      // Get product data from localStorage
-      const productData = JSON.parse(localStorage.getItem("productItem"));
+      // Make the POST request
+      const response = await axios.post("http://localhost:3000/orders/create", orderData);
+      console.log("Order created successfully:", response.data);
 
-      if (!productData) {
-        alert("No product data found.");
-        return;
-      }
-
-      // Add additional fields to the order details
-      const orderDetails = {
-        ...productData,
-        userID: "12345", // Replace with the actual user ID
-        status: "Placed",
-        orderDate: new Date(),
-      };
-
-      // Send order details to the backend using Axios
-      const response = await axios.post(
-        "http://localhost:3000/orders/create",
-        orderDetails
-      );
-      console.log(response.status);
-
-      if (response.status === 201) {
-        // alert("Order placed successfully!");
-        console.log(response);
-
-        navigate("/orderSuccessful"); // Navigate to order success page
-      } else {
-        // alert(response.data.message || "Failed to place order. Please try again.");
-      }
+      // Navigate to the order success page
+      navigate("/orderSuccessful");
     } catch (error) {
-      console.error("Error placing order:", error.message);
-      alert("An error occurred while placing the order.");
+      console.error("Error creating order from frontend:", error);
+      alert("An error occurred while placing the order. Please try again.");
     }
   };
 
@@ -70,21 +96,17 @@ const OrderSummary = () => {
   return (
     <div className="pb-20 font-poppins">
       <TopNav />
-      <div className="mt-4 pb-24">
+      <div className="mt-4 pb-24 space-y-5">
         {showSummary ? (
           <>
             <div ref={summarySectionRef}>
-              <p className="text-center pt-6 pb-6 text-[#DA3A3A] text-[18px] font-[600]">
+              <p className="text-center pt-5 pb-5 text-[#DA3A3A] text-[18px] font-[600]">
                 Order Summary
               </p>
               <ShowSummary />
-              <br />
               <OrderSummaryCard />
-              <br />
               <Pickup />
-              <div className="pt-6">
-                <Delivery />
-              </div>
+              <Delivery />
               <Works />
               <div className="flex items-center justify-center mt-6 pt-10">
                 <button
@@ -101,20 +123,18 @@ const OrderSummary = () => {
             <h1 className="font-[600] text-[12px] text-[#737373]">
               Men {">"} Formal Shirts {">"} Style Name
             </h1>
-
             <p className="text-center pt-6 text-[#DA3A3A] text-[16px] font-[600]">
               Appointment and Fabric Pick Up
             </p>
-
             <div className="bg-[#f5f5f5] p-4 rounded-md mt-4">
               <SummaryBox />
             </div>
             <Pickup />
-            <div className="pt-6">
-              <Delivery />
+            <Delivery />
+            <div className="px-5">
+              <Works />
             </div>
-            <Works />
-            <div className="flex items-center justify-center mt-6">
+            <div className="flex items-center justify-center px-5">
               <button
                 onClick={handleProceed}
                 className="w-[280px] h-[45px] bg-gradient-to-r from-[#9C3FE4] to-[#C65647] hover:bg-blue-700 text-white font-bold text-sm py-2 px-4 rounded-lg transition-transform transform active:scale-95"

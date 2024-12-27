@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 const TopNav = () => {
   const navigate = useNavigate();
-  const [isServicible, setIsServicible] = useState(false); // Default to false
+  const [isServicible, setIsServicible] = useState(false);
   const [pincode, setPincode] = useState("");
-  const [tempPincode, setTempPincode] = useState(""); // Temporary pincode for modal
+  const [tempPincode, setTempPincode] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [city, setCity] = useState("Select City");
 
-  // List of Lucknow pincodes
   const lucknowPincodes = [
     "226001",
     "226002",
@@ -23,41 +23,42 @@ const TopNav = () => {
     "226010",
   ];
 
-  // Load state from localStorage when the component mounts
   useEffect(() => {
     const savedPincode = localStorage.getItem("pincode");
     if (savedPincode) {
       setPincode(savedPincode);
-      setIsServicible(lucknowPincodes.includes(savedPincode)); // Set servicible state based on saved pincode
+      setIsServicible(lucknowPincodes.includes(savedPincode));
+      setCity("Lucknow");
     }
   }, []);
 
   const handleBackClick = () => {
-    navigate(-1); // Navigate to the previous page
+    navigate(-1);
   };
 
   const handleSave = () => {
     if (lucknowPincodes.includes(tempPincode)) {
       setPincode(tempPincode);
-      setIsServicible(true); // Set to servicible if valid pincode
+      setIsServicible(true);
+      setCity("Lucknow");
       localStorage.setItem("pincode", tempPincode);
-      setIsModalOpen(false); // Close the modal
+      setIsModalOpen(false);
     } else {
-      alert("Non-servicible Pincode");
+      alert("Non-serviceable Pincode");
     }
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false); // Close the modal
-    setTempPincode(""); // Clear temporary pincode
+    setIsModalOpen(false);
+    setTempPincode("");
     if (!pincode || !lucknowPincodes.includes(pincode)) {
-      setIsServicible(false); // Reset to "Select City" if no valid pincode
+      setCity("Select City");
     }
   };
 
   const openModal = () => {
-    setTempPincode(pincode || ""); // Pre-fill modal with saved pincode if any
-    setIsModalOpen(true); // Open the modal
+    setTempPincode(pincode || "");
+    setIsModalOpen(true);
   };
 
   return (
@@ -73,16 +74,12 @@ const TopNav = () => {
           </p>
         </div>
         <p
-          onClick={openModal} // Open modal on click
-          className={`${
-            isServicible ? "text-white font-[500]" : "text-white"
-          } leading-[18px] text-[12px] font-poppins font-[400] cursor-pointer`}
+          onClick={openModal}
+          className={`${isServicible ? "text-white font-[500]" : "text-white"} leading-[18px] text-[12px] font-poppins font-[400] cursor-pointer`}
         >
-          {isServicible ? "Servicible" : "Select City"} {/* Show Select City initially */}
+          {city}
         </p>
       </div>
-
-      {/* Dialog Box */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-md shadow-lg w-96">

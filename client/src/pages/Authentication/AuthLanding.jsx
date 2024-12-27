@@ -15,7 +15,7 @@ const AuthLanding = ()=> {
     // Set a timer to redirect after 3 seconds
     const timer = setTimeout(() => {
       navigate('/otp'); // Redirect to the desired page
-    }, 3000);
+    }, 1500);
 
     // Cleanup timer on component unmount
     return () => clearTimeout(timer);

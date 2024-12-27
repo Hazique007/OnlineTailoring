@@ -30,34 +30,42 @@ const Customize = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleProceed = async () => {
-    const orderData = {
-      category: productItem.category,
-      categoryDescription: productItem.description,
-      colors: [formValues.threadColor, formValues.buttonColor],
-      customizationOptions: JSON.stringify(formValues),
-      description: productItem.description,
-      fabric: productItem.fabric,
-      gender: productItem.gender,
-      images: productItem.images,
-      isCustomized: true,
-      name: productItem.name,
-      price: productItem.price,
-      sizes: productItem.sizes,
-      stock: productItem.stock,
-      subCategory: productItem.subCategory,
-    };
+    // Prepare the order data from localStorage and formValues
+    // const orderData = {
+    //   category: productItem.category,
+    //   categoryDescription: productItem.description,
+    //   colors: [formValues.threadColor, formValues.buttonColor],
+    //   customizationOptions: JSON.stringify(formValues), // Serialize the form values as string
+    //   description: productItem.description,
+    //   fabric: productItem.fabric,
+    //   gender: productItem.gender,
+    //   images: productItem.images,
+    //   isCustomized: true,
+    //   name: productItem.name,
+    //   price: productItem.price,
+    //   sizes: productItem.sizes,
+    //   stock: productItem.stock,
+    //   subCategory: productItem.subCategory,
+    //   userID:localStorage.getItem("userID"),
+    //   productID:productItem._id,
+    // };
 
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/orders/create",
-        orderData
-      );
+    // console.log("Id" ,localStorage.getItem("userID"));
+    // console.log(orderData);
+    
+    
 
-      console.log("Order created successfully", response.data);
+    // try {
+    //   // Make a POST request to the backend to create the order
+    //   const response = await axios.post("http://localhost:3000/orders/create", orderData);
+
+    //   // If successful, navigate to the order summary page
+    //   console.log("Order created successfully", response.data);
+
       navigate("/ordersummary");
-    } catch (error) {
-      console.error("Error creating order:", error);
-    }
+    // } catch (error) {
+    //   console.error("Error creating order:", error);
+    // }
   };
 
   const options = {
@@ -75,7 +83,7 @@ const Customize = () => {
     buttonColor: ["Black", "White", "Red", "Blue"],
     threadColor: ["White", "Black", "Gray", "Blue"],
     placket: ["Standard", "Hidden", "Covered"],
-    pockets: ["No Pocket", "Single Pocket", "Double Pocket"],
+    pocket: ["No Pocket", "Single Pocket", "Double Pocket"],
     sleeves: ["Full Sleeves", "Half Sleeves"],
     cuffStyle: ["Single Button Cuff", "French Cuff", "Double Button Cuff"],
     cuffStiffness: ["Soft", "Stiff", "Double Stiff"],
@@ -91,7 +99,7 @@ const Customize = () => {
     { label: "Button Color", key: "buttonColor" },
     { label: "Thread Color", key: "threadColor" },
     { label: "Placket", key: "placket" },
-    { label: "Pockets", key: "pockets" },
+    { label: "Pockets", key: "pocket" },
     { label: "Sleeves", key: "sleeves" },
     { label: "Cuff Style", key: "cuffStyle" },
     { label: "Cuff Stiffness", key: "cuffStiffness" },

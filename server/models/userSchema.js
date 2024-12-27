@@ -1,14 +1,14 @@
-// const { set } = require("../routes/UserRoute");
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   phoneNumber: {
     type: String,
-    require: true,
+    unique: true,
+    required: true, // Note: fixed typo from "require" to "required"
   },
   otp: {
     type: Number,
-    require: true,
+    required: true, // Note: fixed typo from "require" to "required"
   },
   otpExpiration: {
     type: Date,
@@ -18,6 +18,5 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// module.exports =
-const UserSchema = mongoose.model("UserSchema", userSchema);
-export default UserSchema;
+const Otp = mongoose.model("Otp", UserSchema);
+export default Otp;

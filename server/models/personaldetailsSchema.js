@@ -9,5 +9,8 @@ const personalDetailsSchema = new mongoose.Schema({
   profilePicture: { type: String }, // Optional
 });
 
-const PersonalDetails = mongoose.model("PersonalDetails", personalDetailsSchema);
+const PersonalDetails = mongoose.model(
+  "PersonalDetails",
+  personalDetailsSchema
+);
 export default PersonalDetails;

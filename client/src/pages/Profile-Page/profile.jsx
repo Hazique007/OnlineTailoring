@@ -2,16 +2,15 @@ import React, { useState, useEffect } from "react";
 import TopNav from "../../components/TopNav";
 import Navbar from "../../components/Navbar";
 import {
-  FaAddressBook,
-  FaShoppingBag,
-  FaUser,
-  FaQuestionCircle,
-  FaCog,
-  FaSignOutAlt,
-} from "react-icons/fa";
+  FiHome,
+  FiShoppingBag,
+  FiUser,
+  FiHelpCircle,
+  FiSettings,
+} from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:3000"; // Replace with your API base URL
+const API_BASE_URL = "http://localhost:3000";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -26,7 +25,7 @@ const ProfilePage = () => {
         const response = await fetch(`${API_BASE_URL}/listpersonal`);
         if (!response.ok) throw new Error("Failed to fetch user data");
         const data = await response.json();
-        const userData = data[0]; // Assuming the first object in the array is the user
+        const userData = data[0];
         if (userData) {
           setUser({
             name: userData.name,
@@ -42,43 +41,45 @@ const ProfilePage = () => {
   }, []);
 
   const handleLogout = () => {
+    // Clear the pincode from localStorage to reset state
+    localStorage.removeItem("pincode");
     console.log("User logged out");
-    navigate("/otp");
+    navigate("/otp"); // Navigate to OTP page
   };
 
   const options = [
     {
       label: "My Addresses",
-      icon: <FaAddressBook className="text-purple-500 text-xl" />,
+      icon: <FiHome className="text-black text-lg" />,
       onClick: () => navigate("/addresses"),
     },
     {
       label: "My Orders",
-      icon: <FaShoppingBag className="text-green-500 text-xl" />,
+      icon: <FiShoppingBag className="text-black text-lg" />,
       onClick: () => navigate("/orders"),
     },
     {
       label: "Personal Details",
-      icon: <FaUser className="text-blue-500 text-xl" />,
+      icon: <FiUser className="text-black text-lg" />,
       onClick: () => navigate("/personal-details"),
     },
     {
       label: "Help and Support",
-      icon: <FaQuestionCircle className="text-yellow-500 text-xl" />,
+      icon: <FiHelpCircle className="text-black text-lg" />,
       onClick: () => navigate("/help-support"),
     },
     {
       label: "Settings",
-      icon: <FaCog className="text-gray-500 text-xl" />,
+      icon: <FiSettings className="text-black text-lg" />,
       onClick: () => navigate("/settings"),
     },
   ];
 
   return (
-    <div className="mb-10">
+    <div className="mb-10 font-poppins pb-16">
       <TopNav />
 
-      <div className="px-[11px] mt-[17px] pb-10">
+      <div className="px-5 mt-[17px]">
         <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">
           Profile
         </h1>
@@ -86,8 +87,7 @@ const ProfilePage = () => {
 
       <div className="flex-1 overflow-y-auto"></div>
 
-      {/* User Card */}
-      <div className="p-2 ">
+      <div className="p-6">
         <div
           className="w-full p-8 rounded-[15px] text-white"
           style={{
@@ -99,7 +99,7 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <div className="w-full mx-auto mt-8 bg-white  rounded-lg">
+      <div className="w-full mx-auto mt-8 bg-white rounded-lg">
         {options.map((option, index) => (
           <div key={index}>
             <div
@@ -107,14 +107,15 @@ const ProfilePage = () => {
               className="flex items-center py-4 px-6 cursor-pointer hover:bg-gray-100 transition duration-200"
             >
               {option.icon}
-              <span className="ml-4 text-lg text-gray-800">{option.label}</span>
+              <span className="ml-4 text-[15px] text-gray-800">
+                {option.label}
+              </span>
             </div>
             {index < options.length - 1 && <hr className="border-gray-300" />}
           </div>
         ))}
       </div>
 
-      {/* Logout Button */}
       <div className="flex justify-center mt-6">
         <p
           onClick={handleLogout}
