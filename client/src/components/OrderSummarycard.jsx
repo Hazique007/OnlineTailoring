@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { BeatLoader } from "react-spinners";
 
 const OrderSummaryCard = () => {
   const [orderData, setOrderData] = useState(null); // To store fetched order data
@@ -26,7 +27,11 @@ const OrderSummaryCard = () => {
   }, []); // Empty dependency array ensures this runs once when the component is mounted
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading message while fetching
+    return (
+      <div className="flex items-center justify-center">
+        <BeatLoader size={10} />
+      </div>
+    );
   }
 
   if (error) {

@@ -45,15 +45,6 @@ const ProductPage = () => {
   if (loading) {
     return (
       <div className="w-full h-[100vh] flex justify-center items-center">
-        {/* <Audio
-          height="80"
-          width="80"
-          radius="9"
-          color="green"
-          ariaLabel="loading"
-          wrapperStyle
-          wrapperClass
-        /> */}
         <BeatLoader color="#ff58e6" />
       </div>
     );
