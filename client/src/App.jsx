@@ -53,8 +53,7 @@ const App = () => {
 
           {/* Main Pages */}
           <Route path="/home" Component={LandingPage} />
-          {/* <Route path="/login" Component={LoginPage}
-          /> */}
+         
           <Route path="/otp" Component={Otp} />
 
           <Route path="/profile" Component={ProfilePage} />

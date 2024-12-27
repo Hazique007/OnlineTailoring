@@ -22,7 +22,7 @@ const ProductPage = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://online-tailoring-3.onrender.com/api/v1/products/allProducts`,
+          `http://localhost:3000/api/v1/products/allProducts`,
           {
             params: { gender, category, subCategory },
           }

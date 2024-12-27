@@ -14,7 +14,7 @@ const Hero = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        "https://online-tailoring-3.onrender.com/api/v1/landing/getLandingPageImages"
+        "http://localhost:3000/api/v1/landing/getLandingPageImages"
       );
       if (data.status !== "success") {
         navigate("/error");
@@ -66,8 +66,19 @@ const Hero = () => {
   const handleIndicatorClick = (index) => {
     setCurrentIndex(index);
   };
-  const handleImageClick = (gender, category) => {
-    navigate(`/product/${gender}/${category}`);
+  // const handleImageClick = (gender, category) => {
+  //   navigate(`/product/${gender}/${category}`);
+  // };
+  const handleImageClick = async (gender, category) => {
+    try {
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
+      navigate(`/product/${gender}/${category}`);
+    } catch (error) {
+      console.error("Error tracking click:", error);
+    }
   };
   if (loading) {
     return (
@@ -90,7 +101,7 @@ const Hero = () => {
             {landingArray.map((image, index) => (
               <div key={index} className="w-full h-[182px] flex-shrink-0">
                 <img
-                  src={`https://online-tailoring-3.onrender.com/uploads/${image.image}`}
+                  src={`http://localhost:3000/uploads/${image.image}`}
                   onClick={() => handleImageClick(image.gender, image.category)}
                   className="h-[182px] w-full rounded-[5px]"
                   alt={`Hero Image ${index + 1}`}
