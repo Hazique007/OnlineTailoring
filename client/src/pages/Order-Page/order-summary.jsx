@@ -35,7 +35,7 @@ const OrderSummary = () => {
 
       // Send order details to the backend using Axios
       const response = await axios.post(
-        "http://localhost:3000/orders/create",
+        "https://online-tailoring-3.onrender.com/orders/create",
         orderDetails
       );
       console.log(response.status);

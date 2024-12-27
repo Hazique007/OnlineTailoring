@@ -22,7 +22,7 @@ const TrendingProductDetails = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:3000/api/v1/products/getGenderPlusCategory`,
+          `https://online-tailoring-3.onrender.com/api/v1/products/getGenderPlusCategory`,
           {
             params: { gender, category },
           }

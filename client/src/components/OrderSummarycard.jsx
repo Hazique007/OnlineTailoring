@@ -12,7 +12,7 @@ const OrderSummaryCard = () => {
     const fetchOrderData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/orders/getorder"
+          "https://online-tailoring-3.onrender.com/orders/getorder"
         );
         console.log(response);
         setOrderData(response.data); // Assuming the API response contains the order data
@@ -45,7 +45,7 @@ const OrderSummaryCard = () => {
   const productData = JSON.parse(localStorage.getItem("productItem"));
 
   const productImage = productData?.images?.[0]
-    ? `http://localhost:3000/uploads/${productData.images[0]}`
+    ? `https://online-tailoring-3.onrender.com/uploads/${productData.images[0]}`
     : "placeholder-image.png";
 
   return (

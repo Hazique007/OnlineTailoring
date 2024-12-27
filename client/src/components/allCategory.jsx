@@ -18,12 +18,12 @@ const AllCategory = () => {
       setLoading(true);
 
       const maleResponse = await axios.get(
-        "http://localhost:3000/api/v1/category/fetchcategories",
+        "https://online-tailoring-3.onrender.com/api/v1/category/fetchcategories",
         { params: { gender: "Male" } }
       );
 
       const femaleResponse = await axios.get(
-        "http://localhost:3000/api/v1/category/fetchcategories",
+        "https://online-tailoring-3.onrender.com/api/v1/category/fetchcategories",
         { params: { gender: "Female" } }
       );
       if (
@@ -50,10 +50,13 @@ const AllCategory = () => {
 
   const handleCategoryClick = async (gender, category) => {
     try {
-      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
-        gender,
-        category,
-      });
+      await axios.post(
+        "https://online-tailoring-3.onrender.com/api/v1/stats/trackClick",
+        {
+          gender,
+          category,
+        }
+      );
       navigate(`/product/${gender}/${category}`);
     } catch (error) {
       console.error("Error tracking click:", error);
@@ -95,7 +98,7 @@ const AllCategory = () => {
                     className="group relative bg-gray-100 p-3 rounded-lg shadow hover:shadow-md transform transition-all duration-200 hover:scale-105 cursor-pointer"
                   >
                     <img
-                      src={`http://localhost:3000/uploads/${category.categoryImages}`}
+                      src={`https://online-tailoring-3.onrender.com/uploads/${category.categoryImages}`}
                       alt={`${category.category}`}
                       className="w-16 h-16 object-cover mx-auto rounded"
                     />
@@ -128,7 +131,7 @@ const AllCategory = () => {
                     className="group relative bg-gray-100 p-3 rounded-lg shadow hover:shadow-md transform transition-all duration-200 hover:scale-105 cursor-pointer"
                   >
                     <img
-                      src={`http://localhost:3000/uploads/${category.categoryImages}`}
+                      src={`https://online-tailoring-3.onrender.com/uploads/${category.categoryImages}`}
                       alt={`${category.category}`}
                       className="w-16 h-16 object-contain mx-auto rounded"
                     />

@@ -48,13 +48,16 @@ const Otp = () => {
       const formattedPhone = "+" + phone;
 
       // Send OTP request to the backend API using fetch
-      const response = await fetch("http://localhost:3000/api/send-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ phoneNumber: formattedPhone }),
-      });
+      const response = await fetch(
+        "https://online-tailoring-3.onrender.com/api/send-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ phoneNumber: formattedPhone }),
+        }
+      );
 
       const data = await response.json();
 
@@ -86,13 +89,16 @@ const Otp = () => {
       console.log("Phone:", phone);
       console.log("Entered OTP:", otp);
 
-      const response = await fetch("http://localhost:3000/api/verify-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
-      });
+      const response = await fetch(
+        "https://online-tailoring-3.onrender.com/api/verify-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
+        }
+      );
 
       const data = await response.json();
 
@@ -119,13 +125,16 @@ const Otp = () => {
 
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch("http://localhost:3000/api/send-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ phoneNumber: formattedPhone }),
-      });
+      const response = await fetch(
+        "https://online-tailoring-3.onrender.com/api/send-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ phoneNumber: formattedPhone }),
+        }
+      );
 
       const data = await response.json();
 

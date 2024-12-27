@@ -49,7 +49,7 @@ const Customize = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/orders/create",
+        "https://online-tailoring-3.onrender.com/orders/create",
         orderData
       );
 
@@ -134,7 +134,7 @@ const Customize = () => {
 
           <div className="relative w-[359px] h-[282px] overflow-hidden rounded-[10px]">
             <img
-              src={`http://localhost:3000/uploads/${productItem.images[currentImageIndex]}`}
+              src={`https://online-tailoring-3.onrender.com/uploads/${productItem.images[currentImageIndex]}`}
               alt="Customize clothing"
               className="w-full h-full object-fit"
             />

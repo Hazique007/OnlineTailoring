@@ -11,7 +11,7 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:3000"; // Replace with your API base URL
+const API_BASE_URL = "https://online-tailoring-3.onrender.com"; // Replace with your API base URL
 
 const ProfilePage = () => {
   const navigate = useNavigate();

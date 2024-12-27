@@ -14,7 +14,7 @@ const Hero = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        "http://localhost:3000/api/v1/landing/getLandingPageImages"
+        "https://online-tailoring-3.onrender.com/api/v1/landing/getLandingPageImages"
       );
       if (data.status !== "success") {
         navigate("/error");
@@ -90,7 +90,7 @@ const Hero = () => {
             {landingArray.map((image, index) => (
               <div key={index} className="w-full h-[182px] flex-shrink-0">
                 <img
-                  src={`http://localhost:3000/uploads/${image.image}`}
+                  src={`https://online-tailoring-3.onrender.com/uploads/${image.image}`}
                   onClick={() => handleImageClick(image.gender, image.category)}
                   className="h-[182px] w-full rounded-[5px]"
                   alt={`Hero Image ${index + 1}`}

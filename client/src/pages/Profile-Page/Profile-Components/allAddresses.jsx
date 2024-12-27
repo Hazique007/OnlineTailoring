@@ -46,7 +46,9 @@ const AllAddresses = () => {
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await fetch("http://localhost:3000/list");
+        const response = await fetch(
+          "https://online-tailoring-3.onrender.com/list"
+        );
         if (response.ok) {
           const result = await response.json();
           setAddresses(result.data);
@@ -96,11 +98,14 @@ const AllAddresses = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newAddress),
-      });
+      const response = await fetch(
+        "https://online-tailoring-3.onrender.com/add",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newAddress),
+        }
+      );
       if (response.ok) {
         const result = await response.json();
         setAddresses([...addresses, result.data]);
@@ -123,7 +128,7 @@ const AllAddresses = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/edit/${editingAddress._id}`,
+        `https://online-tailoring-3.onrender.com/edit/${editingAddress._id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -146,9 +151,12 @@ const AllAddresses = () => {
 
   const handleDeleteAddress = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/delete/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `https://online-tailoring-3.onrender.com/delete/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (response.ok) {
         setAddresses(addresses.filter((addr) => addr._id !== id));
       } else {
