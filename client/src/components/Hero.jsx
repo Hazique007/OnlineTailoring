@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { BeatLoader } from "react-spinners";
 
 const Hero = () => {
   const navigate = useNavigate();
 
   const [landingArray, setLandingArray] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const getLandingImages = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(
         "https://online-tailoring-3.onrender.com/api/v1/landing/getLandingPageImages"
       );
@@ -21,6 +24,7 @@ const Hero = () => {
         const images = data.data.flatMap((item) => item.bannerImages);
         setLandingArray(images);
       }
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching landing images:", error);
       navigate("/error");
@@ -65,6 +69,13 @@ const Hero = () => {
   const handleImageClick = (gender, category) => {
     navigate(`/product/${gender}/${category}`);
   };
+  if (loading) {
+    return (
+      <div className="w-full h-[70vh] flex justify-center items-center">
+        <BeatLoader color="#ff58e6" />
+      </div>
+    );
+  }
 
   return (
     <div className="h-[182px] w-full mt-[11px] overflow-hidden">

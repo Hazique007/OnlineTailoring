@@ -1,59 +1,62 @@
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BeatLoader } from "react-spinners";
 
 const SearchStyle = ({ gender }) => {
   const [maleData, setMaleData] = useState([]);
   const [femaleData, setFemaleData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const getSubCategoryMale = async () => {
-    const response = await axios.get(
-      "https://online-tailoring-3.onrender.com/api/v1/category/getGenderWiseCategory",
-      {
-        params: {
-          gender: "Male",
-        },
-      }
-    );
-    setMaleData(response.data.data);
-    // console.log(response.data.data);
-  };
-
-  const getSubCategoryFemale = async () => {
+  const fetchCategories = async () => {
     try {
-      const response = await axios.get(
-        "https://online-tailoring-3.onrender.com/api/v1/category/getGenderWiseCategory",
-        {
-          params: {
-            gender: "Female",
-          },
-        }
-      );
-      console.log(response);
+      setLoading(true);
 
-      if (response.status !== 200) {
+      const [maleResponse, femaleResponse] = await Promise.all([
+        axios.get(
+          "https://online-tailoring-3.onrender.com/api/v1/category/getGenderWiseCategory",
+          { params: { gender: "Male" } }
+        ),
+        axios.get(
+          "https://online-tailoring-3.onrender.com/api/v1/category/getGenderWiseCategory",
+          { params: { gender: "Female" } }
+        ),
+      ]);
+
+      if (maleResponse.status !== 200 || femaleResponse.status !== 200) {
         navigate("/error");
+        return;
       }
 
-      setFemaleData(response.data.data);
+      setMaleData(maleResponse.data.data);
+      setFemaleData(femaleResponse.data.data);
     } catch (error) {
       navigate("/error");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    getSubCategoryMale();
-    getSubCategoryFemale();
+    fetchCategories();
   }, [gender]);
 
-  let lab =
+  const lab =
     gender === "Male" ? "Men" : gender === "Female" ? "Women" : "Unisex";
   const Label = lab
     ? `${lab.charAt(0).toUpperCase() + lab.slice(1)} Styles`
     : "Unisex Styles";
 
   const renderCategory = (data) => {
+    if (loading) {
+      return (
+        <div className="flex justify-center items-center">
+          <BeatLoader color="#ff58e6" />
+        </div>
+      );
+    }
+
     return data.map((item) => {
       const filteredProducts = item.products.filter(
         (product) => product.gender === gender
@@ -64,7 +67,7 @@ const SearchStyle = ({ gender }) => {
       ];
 
       return (
-        <div key={item.category} className="mb-6 ">
+        <div key={item.category} className="mb-6">
           <Link
             to={`/product/${gender}/${item.category}`}
             className="text-[#DA3A3A] font-semibold text-md"

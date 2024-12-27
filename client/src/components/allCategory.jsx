@@ -2,17 +2,21 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
+import { BeatLoader } from "react-spinners";
 
 const AllCategory = () => {
   const [categories, setCategories] = useState({
     male: [],
     female: [],
   });
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const fetchCategories = async () => {
     try {
+      setLoading(true);
+
       const maleResponse = await axios.get(
         "https://online-tailoring-3.onrender.com/api/v1/category/fetchcategories",
         { params: { gender: "Male" } }
@@ -33,6 +37,7 @@ const AllCategory = () => {
         male: maleResponse.data.categories || [],
         female: femaleResponse.data.categories || [],
       });
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching categories:", error);
       navigate("/error");
@@ -46,6 +51,13 @@ const AllCategory = () => {
   const handleCategoryClick = (link) => {
     navigate(link);
   };
+  if (loading) {
+    return (
+      <div className="w-full h-[100vh] flex justify-center items-center">
+        <BeatLoader color="#ff58e6" />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-50 py-8 pb-20">
