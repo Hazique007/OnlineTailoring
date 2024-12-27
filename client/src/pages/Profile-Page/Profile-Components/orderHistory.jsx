@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Topnav from '../../../components/TopNav';
-import OrderSummaryCard from "../../../components/OrderSummarycard";
+import Topnav from "../../../components/TopNav";
+import OrderSummaryCard from "../../../components/OrderSummaryCard";
 
 const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]); // To store fetched orders
   const [loading, setLoading] = useState(true); // To handle loading state
   const [error, setError] = useState(null); // To handle error state
+  const userID = localStorage.getItem("userID");
 
   useEffect(() => {
     // Fetch all orders from the API using Axios
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/orders/getorder");
+        const response = await axios.get("http://localhost:3000/orders/getOrdersByUser", {
+          params: { userID: userID },
+        });
         setOrders(response.data); // Assuming the API returns an array of orders
         setLoading(false); // Set loading to false after data is fetched
       } catch (error) {
@@ -22,30 +25,35 @@ const OrderHistoryPage = () => {
     };
 
     fetchOrders();
-  }, []); // Empty dependency array ensures this runs once when the component is mounted
+  }, [userID]); // Empty dependency array ensures this runs once when the component is mounted
+
+  const removeOrder = (orderId) => {
+    // Update the UI state by filtering out the deleted order
+    setOrders(orders.filter((order) => order._id !== orderId));
+  };
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading message while fetching
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // Display error message if something went wrong
+    return <div>Error: {error}</div>;
   }
 
   if (!orders.length) {
-    return <div>No orders found.</div>; // Display fallback message if no orders
+    return <div>No orders found.</div>;
   }
 
   return (
     <div className="pb-20 font-poppins">
       <Topnav />
+      <div className="px-5 mt-[17px]">
+        <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">Order History</h1>
+      </div>
       <div className="mt-4 pb-24">
-        <p className="text-center pt-6 pb-6 text-[#DA3A3A] text-[18px] font-[600]">
-          Order History
-        </p>
         <div>
           {orders.map((order, index) => (
-            <OrderSummaryCard key={index} order={order} />
+            <OrderSummaryCard key={index} order={order} removeOrder={removeOrder} />
           ))}
         </div>
       </div>

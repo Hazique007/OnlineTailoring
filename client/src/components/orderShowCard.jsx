@@ -1,63 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const OrderSummaryCard = ({ order, removeOrder }) => {
-  // Directly use the order prop for displaying order details
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+const OrderShowCard = ({ order }) => {
+  const [loading, setLoading] = useState(true); // To handle loading state
+  const [error, setError] = useState(null); // To handle error state
+  const [productData, setProductData] = useState(null); // To store product data from localStorage
 
-  const handleRemove = async () => {
-    try {
-      // Set loading state to true while deleting
-      setLoading(true);
-
-      // Make a DELETE request to remove the order from the backend
-      await axios.delete(`http://localhost:3000/orders/${order._id}`);
-
-      // Remove the order from the UI by calling the removeOrder function passed as a prop
-      removeOrder(order._id);
-
-      setLoading(false); // Set loading to false after the operation is complete
-    } catch (error) {
-      setError("Error removing order from frontend: " + error.message);
-      setLoading(false);
+  useEffect(() => {
+    // Check if productItem exists in localStorage and parse it
+    const productItem = localStorage.getItem("productItem");
+    if (productItem) {
+      setProductData(JSON.parse(productItem));
     }
-  };
+
+    // Fetch order data from the server (if needed)
+    const fetchOrderData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/orders/getorder");
+        console.log(response);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchOrderData();
+  }, []);
 
   if (loading) {
-    return <div>Removing...</div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div>Error: {error}</div>;
   }
 
-  if (!order) {
-    return <div>Order not found</div>;
+  if (!order && !productData) {
+    return <div>Order or Product not found.</div>;
   }
 
-  const { images, name, price, fabric } = order;
+  const productImage = productData?.images?.[0]
+    ? `http://localhost:3000/uploads/${productData.images[0]}`
+    : "placeholder-image.png";
 
   return (
     <div
       style={{
         display: "flex",
-        flexWrap: "wrap",
+        flexWrap: "wrap", // Allow wrapping for smaller screens
         alignItems: "center",
-        width: "100%",
+        width: "100%", // Use full width for responsiveness
         maxWidth: "430px",
         padding: "18px",
-        margin: "8px auto",
+        margin: "8px auto", // Center the card horizontally
         backgroundColor: "#fff",
-        boxSizing: "border-box",
+        boxSizing: "border-box", // Include padding in width/height
       }}
     >
       <div
         style={{
-          width: "30%",
+          width: "30%", // Use percentage for responsive sizing
           maxWidth: "103px",
           height: "auto",
-          aspectRatio: "1",
+          aspectRatio: "1", // Maintain the square aspect ratio
           border: "1px solid #ccc",
           borderRadius: "8px",
           overflow: "hidden",
@@ -65,7 +71,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
         }}
       >
         <img
-          src={`http://localhost:3000/uploads/${images?.[0]}`}
+          src={productImage}
           alt="Product"
           style={{
             width: "100%",
@@ -90,7 +96,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
             marginBottom: "4px",
           }}
         >
-          {name || "Product Name"}
+          {productData?.name || "Product Name"}
         </h3>
         <p
           style={{
@@ -99,7 +105,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
             margin: "4px 0",
           }}
         >
-          Rs. {price || "0"}
+          Rs. {productData?.price || "0"}
         </p>
         <p
           style={{
@@ -108,7 +114,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
             margin: "4px 0",
           }}
         >
-          Fabric: {fabric || "Unknown"}
+          QTY: 1 | Fabric: {productData?.fabric || "Unknown"}
         </p>
         <div
           style={{
@@ -135,7 +141,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
               cursor: "pointer",
               color: "grey",
             }}
-            onClick={handleRemove} // Ensure the function is called here
+            onClick={() => console.log("Remove item clicked")}
           >
             Remove
           </button>
@@ -145,4 +151,4 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
   );
 };
 
-export default OrderSummaryCard;
+export default OrderShowCard;

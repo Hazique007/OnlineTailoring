@@ -39,7 +39,6 @@ const Otp = () => {
 
   // Send OTP function (API call using fetch)
   const onSignup = async () => {
-    // Validate phone number length
     if (phone.length !== 12) { 
       toast.error("Please enter a valid 10-digit mobile number.");
       return; 
@@ -49,8 +48,6 @@ const Otp = () => {
 
     try {
       const formattedPhone = "+" + phone;
-
-      // Send OTP request to the backend API using fetch
       const response = await fetch('http://localhost:3000/api/send-otp', {
         method: 'POST',
         headers: {
@@ -83,11 +80,6 @@ const Otp = () => {
 
     try {
       const formattedPhone = "+" + phone;
-      console.log('Verifying OTP...'); 
-
-      console.log('Phone:', phone);
-      console.log('Entered OTP:', otp);
-
       const response = await fetch('http://localhost:3000/api/verify-otp', {
         method: 'POST',
         headers: {
@@ -98,9 +90,12 @@ const Otp = () => {
 
       const data = await response.json();
 
-      console.log('OTP Verification Response:', data); 
-
       if (data.success) {
+        // Store user ID in localStorage
+        localStorage.setItem("userID", data.user._id);
+        console.log(data);
+        
+
         toast.success('OTP verified successfully');
         navigate("/home"); 
       } else {
