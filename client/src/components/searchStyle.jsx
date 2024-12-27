@@ -52,7 +52,7 @@ const SearchStyle = ({ gender }) => {
     if (loading) {
       return (
         <div className="flex justify-center items-center">
-          <BeatLoader color="#ff58e6" />
+          <BeatLoader size={10} color="#ff58e6" />
         </div>
       );
     }
