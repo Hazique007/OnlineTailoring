@@ -31,6 +31,7 @@ import { ProductProvider } from "./Context Api/trackProduct";
 // Miscellaneous
 import NotFound from "./pages/NotFound/notfound";
 import Error from "./components/error";
+import FashionProductDetails from "./components/fashionProductDetails";
 
 const App = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
@@ -82,8 +83,12 @@ const App = () => {
           {/* Additional Components */}
           <Route path="/AllCategory" Component={AllCategory} />
           <Route
-            path="/TrendingProductDetails"
+            path="/TrendingProduct/:gender/:category"
             Component={TrendingProductDetails}
+          />
+          <Route
+            path="/FashionProduct/:gender/:category"
+            Component={FashionProductDetails}
           />
 
           {/* Fallback Route */}

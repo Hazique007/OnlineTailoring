@@ -48,7 +48,7 @@ const Trending = () => {
   // }, [gender, category]);
 
   const handleImageClick = (gender, category) => {
-    navigate(`/product/${gender}/${category}`);
+    navigate(`/TrendingProduct/${gender}/${category}`);
   };
 
   useEffect(() => {

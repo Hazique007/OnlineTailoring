@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import { Audio } from "react-loader-spinner";
 import { BeatLoader } from "react-spinners";
 
-const TrendingProductDetails = () => {
+const FashionProductDetails = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [categoryDescription, setCategoryDescription] = useState();
@@ -122,4 +122,4 @@ const TrendingProductDetails = () => {
   );
 };
 
-export default TrendingProductDetails;
+export default FashionProductDetails;

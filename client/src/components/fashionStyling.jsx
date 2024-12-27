@@ -35,7 +35,7 @@ const Fashion = () => {
   };
 
   const handleImageClick = (gender, category) => {
-    navigate(`/product/${gender}/${category}`);
+    navigate(`/FashionProduct/${gender}/${category}`);
   };
 
   useEffect(() => {
