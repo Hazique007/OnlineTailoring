@@ -145,15 +145,15 @@ const Otp = () => {
   return (
     <section className='items-center justify-center '>
       <div className="flex flex-col h-[738px]">
-        <Toaster toastOptions={{ duration: 4000 }} />
+        <Toaster toastOptions={{ duration: 2000 }} />
 
         <div className="h-[110px] w-full rounded-[5px] pb-78">
           <HeaderPhotos />
-          <div className="bg-black h-[800px]">
-            <p className="text-white text-[30px] font-[1000] font-poppins text-center pt-10">
+          <div className="bg-black h-[550px]">
+            <p className="text-white text-[32px] font-[1000] font-poppins text-center pt-10">
               Doorstep Stitching
             </p>
-            <p className="text-white text-[18px] font-[200] font-poppins text-center">
+            <p className="text-gray-300 text-[12px] font-[200] font-poppins text-center">
               Welcome to the world of custom tailoring
             </p>
 
@@ -204,6 +204,7 @@ const Otp = () => {
               <>
                 <div className="flex justify-center items-center p-4 py-5 mt-5">
                   <PhoneInput
+                  placeholder="Mobile number"
                     country={'in'}
                     value={phone}
                     onChange={setPhone}
