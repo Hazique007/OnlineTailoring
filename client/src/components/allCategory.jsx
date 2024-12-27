@@ -48,9 +48,21 @@ const AllCategory = () => {
     fetchCategories();
   }, []);
 
-  const handleCategoryClick = (link) => {
-    navigate(link);
+  const handleCategoryClick = async (gender, category) => {
+    try {
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
+      navigate(`/product/${gender}/${category}`);
+    } catch (error) {
+      console.error("Error tracking click:", error);
+    }
   };
+
+  // const handleCategoryClick = (link) => {
+  //   navigate(link);
+  // };
   if (loading) {
     return (
       <div className="w-full h-[100vh] flex justify-center items-center">
@@ -78,7 +90,7 @@ const AllCategory = () => {
                   <div
                     key={category._id}
                     onClick={() =>
-                      handleCategoryClick(`/product/Male/${category.category}`)
+                      handleCategoryClick("Male", category.category)
                     }
                     className="group relative bg-gray-100 p-3 rounded-lg shadow hover:shadow-md transform transition-all duration-200 hover:scale-105 cursor-pointer"
                   >
@@ -111,9 +123,7 @@ const AllCategory = () => {
                   <div
                     key={category._id}
                     onClick={() =>
-                      handleCategoryClick(
-                        `/product/Female/${category.category}`
-                      )
+                      handleCategoryClick("Female", category.category)
                     }
                     className="group relative bg-gray-100 p-3 rounded-lg shadow hover:shadow-md transform transition-all duration-200 hover:scale-105 cursor-pointer"
                   >

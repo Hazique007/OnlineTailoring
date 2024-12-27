@@ -34,8 +34,16 @@ const Fashion = () => {
     }
   };
 
-  const handleImageClick = (gender, category) => {
-    navigate(`/FashionProduct/${gender}/${category}`);
+  const handleImageClick = async (gender, category) => {
+    try {
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
+      navigate(`/FashionProduct/${gender}/${category}`);
+    } catch (error) {
+      console.error("Error tracking click:", error);
+    }
   };
 
   useEffect(() => {
