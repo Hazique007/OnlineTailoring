@@ -13,19 +13,19 @@ const Otp = () => {
   const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState("");
   const [showOtp, setShowOtp] = useState(false);
-  const [timer, setTimer] = useState(120); // 2-minute timer
-  const [canResend, setCanResend] = useState(false); // Disable resend initially
+  const [timer, setTimer] = useState(60); // 1-minute timer
+  const [canResend, setCanResend] = useState(false); 
   const navigate = useNavigate();
 
   // Timer logic to countdown every second
   useEffect(() => {
     if (timer === 0) {
-      setCanResend(true); // Enable resend OTP when timer reaches 0
+      setCanResend(true); 
     } else {
       const interval = setInterval(() => {
         setTimer(prevTimer => prevTimer - 1);
       }, 1000);
-      
+
       return () => clearInterval(interval);
     }
   }, [timer]);
@@ -34,11 +34,17 @@ const Otp = () => {
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    return `${String(minutes).padStart(1, '0')}:${String(seconds).padStart(1, '0')}`;
   };
 
   // Send OTP function (API call using fetch)
   const onSignup = async () => {
+    // Validate phone number length
+    if (phone.length !== 12) { 
+      toast.error("Please enter a valid 10-digit mobile number.");
+      return; 
+    }
+
     setLoading(true);
 
     try {
@@ -57,9 +63,9 @@ const Otp = () => {
 
       if (data.success) {
         setLoading(false);
-        setShowOtp(true); // Show OTP input after sending OTP
+        setShowOtp(true); 
         toast.success('OTP sent successfully');
-        setTimer(120); // Reset the timer
+        setTimer(60); // Reset the timer to 1 minute
       } else {
         setLoading(false);
         toast.error('Failed to send OTP');
@@ -74,15 +80,14 @@ const Otp = () => {
   // Verify OTP function (API call using fetch)
   const onOTPVerify = async () => {
     setLoading(true);
-  
+
     try {
       const formattedPhone = "+" + phone;
-      console.log('Verifying OTP...'); // Log start of verification
-  
-      // Make sure the phone and OTP are correct
+      console.log('Verifying OTP...'); 
+
       console.log('Phone:', phone);
       console.log('Entered OTP:', otp);
-  
+
       const response = await fetch('http://localhost:3000/api/verify-otp', {
         method: 'POST',
         headers: {
@@ -90,14 +95,14 @@ const Otp = () => {
         },
         body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
       });
-  
+
       const data = await response.json();
-  
-      console.log('OTP Verification Response:', data); // Log response from backend
-  
+
+      console.log('OTP Verification Response:', data); 
+
       if (data.success) {
         toast.success('OTP verified successfully');
-        navigate("/home"); // Redirect to home page on successful OTP verification
+        navigate("/home"); 
       } else {
         toast.error('Invalid OTP. Please try again.');
         setLoading(false);
@@ -108,12 +113,11 @@ const Otp = () => {
       toast.error('Something went wrong. Please try again.');
     }
   };
-  
 
   // Resend OTP function
   const resendOtp = async () => {
-    setCanResend(false); // Disable resend button while sending the OTP again
-    setTimer(120); // Reset the timer to 2 minutes
+    setCanResend(false); 
+    setTimer(60); // Reset the timer to 1 minute
 
     try {
       const formattedPhone = "+" + phone;
@@ -139,8 +143,8 @@ const Otp = () => {
   };
 
   return (
-    <section className='items-center justify-center h-screen'>
-      <div>
+    <section className='items-center justify-center '>
+      <div className="flex flex-col h-[738px]">
         <Toaster toastOptions={{ duration: 4000 }} />
 
         <div className="h-[110px] w-full rounded-[5px] pb-78">
@@ -182,14 +186,14 @@ const Otp = () => {
                   Resend OTP
                 </p>
 
-                <p className="text-white text-center pt-2">{formatTime(timer)}</p>
+                <p className="text-white text-center pt-2">{formatTime(timer)}</p> 
 
                 <div className="flex items-center justify-center mt-10">
                   <button
                     onClick={onOTPVerify}
                     className="bg-gradient-to-r from-[#9C3FE4] to-[#C65647] hover:bg-blue-700 w-48
-                    text-white font-bold py-2 px-4 rounded transition-transform transform active:scale-95 
-                    items-center justify-center flex gap-1"
+                      text-white font-bold py-2 px-4 rounded transition-transform transform active:scale-95 
+                      items-center justify-center flex gap-1"
                   >
                     {loading && <CgSpinner size={20} className="mt-1 animate-spin" />}
                     <span>Verify</span>
@@ -198,16 +202,21 @@ const Otp = () => {
               </>
             ) : (
               <>
-                <div className="flex justify-center items-center pt-10">
-                  <PhoneInput country={"in"} value={phone} onChange={setPhone} />
+                <div className="flex justify-center items-center p-4 py-5 mt-5">
+                  <PhoneInput
+                    country={'in'}
+                    value={phone}
+                    onChange={setPhone}
+                    onlyCountries={['in']}
+                  />
                 </div>
 
                 <div className="flex items-center justify-center mt-10">
                   <button
                     onClick={onSignup}
                     className="bg-gradient-to-r from-[#9C3FE4] to-[#C65647] hover:bg-blue-700 w-48
-                    text-white font-bold py-2 px-4 rounded transition-transform transform active:scale-95 
-                    items-center justify-center flex gap-1"
+                      text-white font-bold py-2 px-4 rounded transition-transform transform active:scale-95 
+                      items-center justify-center flex gap-1"
                   >
                     {loading && <CgSpinner size={20} className="mt-1 animate-spin" />}
                     <span>Send OTP</span>

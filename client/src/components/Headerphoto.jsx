@@ -7,12 +7,12 @@ const Headerphoto = () => {
   const navigate = useNavigate();
   return (
     <div className="images flex-col justify-between items-center ">
-      <button
+      {/* <button
         className="absolute top-3 right-3 text-white font-poppins font-medium px-4 py-1 bg-slate-900 rounded-md shadow-md hover:bg-blue-700 transition-all duration-200 ease-in-out"
         onClick={() => navigate("/Home")}
       >
         Skip
-      </button>
+      </button> */}
 
       <img
         className="h-[30vh] w-full object-cover "

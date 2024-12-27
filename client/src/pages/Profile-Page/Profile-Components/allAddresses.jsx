@@ -122,7 +122,10 @@ const AllAddresses = () => {
   return (
     <div>
       <TopNav />
-      <h1 className="text-xl font-bold mb-4 p-6">Manage Addresses</h1>
+      <div className="px-5 mt-[17px]">
+        <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">My Addresses</h1>
+      </div>
+
       <div className="grid gap-6 p-6">
         {addresses.length === 0 ? (
           <div className="flex items-center justify-center h-screen">
@@ -136,6 +139,7 @@ const AllAddresses = () => {
             >
               {editingAddress && editingAddress._id === address._id ? (
                 <div className="flex flex-col">
+                  <label className="text-sm font-semibold">Name</label>
                   <input
                     type="text"
                     value={editingAddress.name}
@@ -143,6 +147,7 @@ const AllAddresses = () => {
                     className="mb-2 p-2 border rounded"
                     placeholder="Name"
                   />
+                  <label className="text-sm font-semibold">Address Line 1</label>
                   <input
                     type="text"
                     value={editingAddress.address1}
@@ -150,6 +155,7 @@ const AllAddresses = () => {
                     className="mb-2 p-2 border rounded"
                     placeholder="Address Line 1"
                   />
+                  <label className="text-sm font-semibold">Address Line 2</label>
                   <input
                     type="text"
                     value={editingAddress.address2}
@@ -157,6 +163,7 @@ const AllAddresses = () => {
                     className="mb-2 p-2 border rounded"
                     placeholder="Address Line 2"
                   />
+                  <label className="text-sm font-semibold">Pincode</label>
                   <input
                     type="text"
                     value={editingAddress.pincode}
@@ -173,28 +180,44 @@ const AllAddresses = () => {
                   <p className="text-sm font-semibold">Pincode: {address.pincode}</p>
                 </div>
               )}
-              <div className="flex space-x-2">
+              <div className="flex space-x-2 items-center">
                 {editingAddress && editingAddress._id === address._id ? (
-                  <button
-                    onClick={handleEditAddress}
-                    className="px-4 py-2 bg-green-500 text-white rounded-md"
-                  >
-                    Save
-                  </button>
+                  <>
+                    <button
+                      onClick={handleEditAddress}
+                      className="px-4 py-2 bg-green-500 text-white rounded-md mt-4"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => handleDeleteAddress(address._id)}
+                      className="px-4 py-2 bg-red-500 text-white rounded-md mt-4"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={() => setEditingAddress(null)}
+                      className="ml-auto text-blue-500 hover:underline mt-8 pl-28"
+                    >
+                      Cancel
+                    </button>
+                  </>
                 ) : (
-                  <button
-                    onClick={() => setEditingAddress(address)}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md mt-4" 
-                  >
-                    Edit
-                  </button>
+                  <>
+                    <button
+                      onClick={() => setEditingAddress(address)}
+                      className="px-4 py-2 bg-blue-500 text-white rounded-md mt-4"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteAddress(address._id)}
+                      className="px-4 py-2 bg-red-500 text-white rounded-md mt-4"
+                    >
+                      Delete
+                    </button>
+                  </>
                 )}
-                <button
-                  onClick={() => handleDeleteAddress(address._id)}
-                  className="px-4 py-2 bg-red-500 text-white rounded-md mt-4"
-                >
-                  Delete
-                </button>
               </div>
             </div>
           ))
@@ -213,6 +236,7 @@ const AllAddresses = () => {
           <div className="bg-white p-6 rounded-md shadow-lg w-96">
             <h2 className="text-lg font-semibold mb-4">Add New Address</h2>
             <div className="flex flex-col space-y-2">
+              <label className="text-sm font-semibold">Name</label>
               <input
                 type="text"
                 value={newAddress.name}
@@ -220,6 +244,7 @@ const AllAddresses = () => {
                 className="p-2 border rounded"
                 placeholder="Name"
               />
+              <label className="text-sm font-semibold">Address Line 1</label>
               <input
                 type="text"
                 value={newAddress.address1}
@@ -227,6 +252,7 @@ const AllAddresses = () => {
                 className="p-2 border rounded"
                 placeholder="Address Line 1"
               />
+              <label className="text-sm font-semibold">Address Line 2</label>
               <input
                 type="text"
                 value={newAddress.address2}
@@ -234,6 +260,7 @@ const AllAddresses = () => {
                 className="p-2 border rounded"
                 placeholder="Address Line 2"
               />
+              <label className="text-sm font-semibold">Pincode</label>
               <input
                 type="text"
                 value={newAddress.pincode}

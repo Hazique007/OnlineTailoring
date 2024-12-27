@@ -49,7 +49,7 @@ const Pickup = () => {
   };
 
   return (
-    <div className="p-4 flex flex-col  font-poppins">
+    <div className="p-4 px-5 flex flex-col  font-poppins">
       <div className="flex items-center justify-between">
         <div>
           <p className="font-bold text-sm">Pick up and Delivery Details</p>

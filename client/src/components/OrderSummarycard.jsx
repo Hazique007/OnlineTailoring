@@ -48,7 +48,7 @@ const OrderSummaryCard = () => {
       style={{
         display: "flex",
         alignItems: "center",
-        width: "420px",
+        width: "430px",
         height: "150px",
         padding: "8px",
         margin: "8px",
@@ -58,7 +58,7 @@ const OrderSummaryCard = () => {
       <div
         style={{
           width: "103px",
-          height: "115px",
+          height: "120px",
           border: "1px solid #ccc",
           borderRadius: "8px",
           overflow: "hidden",
@@ -73,7 +73,8 @@ const OrderSummaryCard = () => {
         />
       </div>
       <div
-        className="pt-3"
+      className="mt-6"
+        
         style={{
           flex: 1,
           display: "flex",
@@ -102,7 +103,7 @@ const OrderSummaryCard = () => {
         </p>
         <p
           style={{
-            fontSize: "0.9rem",
+            fontSize: "12px",
             color: "#555",
             margin: "4px 0",
           }}
@@ -119,14 +120,14 @@ const OrderSummaryCard = () => {
         >
           <p
             style={{
-              fontSize: "0.9rem",
+              fontSize: "12px",
               color: "#555",
             }}
           >
             Delivery in 3 days
           </p>
           <button
-            className="pr-8"
+            className="pr-10"
             style={{
               backgroundColor: "transparent",
               border: "none",

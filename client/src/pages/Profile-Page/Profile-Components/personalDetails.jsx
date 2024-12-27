@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TopNav from "../../../components/TopNav";
+import { FiCamera } from "react-icons/fi";
 
 const API_BASE_URL = "http://localhost:3000";
 
@@ -12,6 +13,7 @@ const PersonalDetails = () => {
     emailAddress: "",
     profilePicture: "",
   });
+  const [originalProfile, setOriginalProfile] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [id, setId] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
@@ -19,12 +21,13 @@ const PersonalDetails = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch("http://localhost:3000/listpersonal");
+        const response = await fetch(`${API_BASE_URL}/listpersonal`);
         if (!response.ok) throw new Error("Failed to fetch profile data");
         const data = await response.json();
         const user = data[0];
         if (user) {
           setProfile(user);
+          setOriginalProfile(user);
           setId(user._id);
         }
       } catch (error) {
@@ -40,11 +43,12 @@ const PersonalDetails = () => {
 
   const validateFields = () => {
     if (!profile.name.trim()) return "Name is required";
+    if (profile.name.length > 100) return "Name cannot exceed 100 characters";
     if (!profile.mobileNumber.trim() || profile.mobileNumber.length !== 10)
       return "Valid 10-digit mobile number is required";
     if (!profile.gender) return "Gender is required";
-    if (!profile.age || isNaN(profile.age) || profile.age <= 0)
-      return "Valid age is required";
+    if (!profile.age || isNaN(profile.age) || profile.age < 18 || profile.age > 100)
+      return "Age must be between 18 and 100";
     if (
       !profile.emailAddress.trim() ||
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profile.emailAddress)
@@ -78,12 +82,18 @@ const PersonalDetails = () => {
         });
         if (!response.ok) throw new Error("Failed to update profile");
         console.log("Profile updated successfully");
+        setOriginalProfile(profile); // Update original profile on successful save
       } else {
         console.error("No user ID found");
       }
     } catch (error) {
       console.error("Failed to update profile:", error);
     }
+  };
+
+  const handleCancelClick = () => {
+    setProfile(originalProfile); // Revert to original profile data
+    setIsEditing(false);
   };
 
   const handleProfilePictureChange = (e) => {
@@ -101,20 +111,22 @@ const PersonalDetails = () => {
     <div className="font-poppins">
       <TopNav />
       <h1 className="font-poppins font-[700] text-[14px] text-[#737373] pt-4 pl-4 ">
-         Personal details
-        </h1>
+        Personal details
+      </h1>
       <div className="p-8 flex flex-col items-center">
-      
         {/* Profile Picture */}
         <div className="relative w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-4">
           {isEditing ? (
-            <input
-              type="file"
-              accept="image/*"
-              id="profile-picture"
-              className="absolute inset-0 opacity-0 cursor-pointer"
-              onChange={handleProfilePictureChange}
-            />
+            <>
+              <input
+                type="file"
+                accept="image/*"
+                id="profile-picture"
+                className="absolute inset-0 opacity-0 cursor-pointer"
+                onChange={handleProfilePictureChange}
+              />
+              <FiCamera className="absolute bottom-2 right-2 text-white bg-gray-800 rounded-full p-1 text-xl" />
+            </>
           ) : null}
           {profile.profilePicture ? (
             <img
@@ -133,6 +145,7 @@ const PersonalDetails = () => {
           <input
             type="text"
             value={profile.name}
+            maxLength={100}
             onChange={(e) => handleInputChange(e, "name")}
             disabled={!isEditing}
             className={`p-2 border rounded-lg ${
@@ -175,6 +188,8 @@ const PersonalDetails = () => {
             className={`p-2 border rounded-lg ${
               isEditing ? "bg-white" : "bg-gray-200"
             }`}
+            min={18}
+            max={100}
           />
 
           <label className="text-gray-700 self-center">Email Address</label>
@@ -189,15 +204,25 @@ const PersonalDetails = () => {
           />
         </div>
 
-        {/* Edit/Save Button */}
-        <button
-          onClick={isEditing ? handleSaveClick : handleEditClick}
-          className={`px-6 py-2 mt-6 text-red-500 rounded-md bg-transparent border border-red-500 ${
-            isEditing ? "hover:bg-red-500 hover:text-white" : ""
-          }`}
-        >
-          {isEditing ? "Save" : "Edit"}
-        </button>
+        {/* Edit/Save and Cancel Buttons */}
+        <div className="flex gap-4 mt-6">
+          <button
+            onClick={isEditing ? handleSaveClick : handleEditClick}
+            className={`px-6 py-2 text-red-500 rounded-md bg-transparent border border-red-500 ${
+              isEditing ? "hover:bg-red-500 hover:text-white" : ""
+            }`}
+          >
+            {isEditing ? "Save" : "Edit"}
+          </button>
+          {isEditing && (
+            <button
+              onClick={handleCancelClick}
+              className="px-6 py-2 text-gray-500 rounded-md bg-transparent border border-gray-500 hover:bg-gray-500 hover:text-white"
+            >
+              Cancel
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Alert Dialog */}

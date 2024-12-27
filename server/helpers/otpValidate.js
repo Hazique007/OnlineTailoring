@@ -11,7 +11,7 @@ const otpVerification = async(otpTime)=>{
      differencevalue/=60;
      const minutes= Math.abs(differencevalue);
      console.log("Expired Minutes:"+minutes);
-     if(minutes>5){
+     if(minutes>1){
         return true;
 
 
