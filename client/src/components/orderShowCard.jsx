@@ -16,7 +16,9 @@ const OrderShowCard = ({ order }) => {
     // Fetch order data from the server (if needed)
     const fetchOrderData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/orders/getorder");
+        const response = await axios.get(
+          "http://localhost:3000/orders/getorder"
+        );
         console.log(response);
         setLoading(false);
       } catch (error) {

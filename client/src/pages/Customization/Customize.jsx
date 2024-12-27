@@ -52,8 +52,6 @@ const Customize = () => {
 
     // console.log("Id" ,localStorage.getItem("userID"));
     // console.log(orderData);
-    
-    
 
     // try {
     //   // Make a POST request to the backend to create the order
@@ -62,7 +60,7 @@ const Customize = () => {
     //   // If successful, navigate to the order summary page
     //   console.log("Order created successfully", response.data);
 
-      navigate("/ordersummary");
+    navigate("/ordersummary");
     // } catch (error) {
     //   console.error("Error creating order:", error);
     // }

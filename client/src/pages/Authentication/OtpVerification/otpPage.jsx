@@ -14,13 +14,13 @@ const Otp = () => {
   const [phone, setPhone] = useState("");
   const [showOtp, setShowOtp] = useState(false);
   const [timer, setTimer] = useState(60); // 1-minute timer
-  const [canResend, setCanResend] = useState(false); 
+  const [canResend, setCanResend] = useState(false);
   const navigate = useNavigate();
 
   // Timer logic to countdown every second
   useEffect(() => {
     if (timer === 0) {
-      setCanResend(true); 
+      setCanResend(true);
     } else {
       const interval = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
@@ -34,22 +34,25 @@ const Otp = () => {
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(1, '0')}:${String(seconds).padStart(1, '0')}`;
+    return `${String(minutes).padStart(1, "0")}:${String(seconds).padStart(
+      1,
+      "0"
+    )}`;
   };
 
   // Send OTP function (API call using fetch)
   const onSignup = async () => {
-    if (phone.length !== 12) { 
+    if (phone.length !== 12) {
       toast.error("Please enter a valid 10-digit mobile number.");
-      return; 
+      return;
     }
 
     setLoading(true);
 
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch('http://localhost:3000/api/send-otp', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/api/send-otp", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -60,8 +63,8 @@ const Otp = () => {
 
       if (data.success) {
         setLoading(false);
-        setShowOtp(true); 
-        toast.success('OTP sent successfully');
+        setShowOtp(true);
+        toast.success("OTP sent successfully");
         setTimer(60); // Reset the timer to 1 minute
       } else {
         setLoading(false);
@@ -80,8 +83,8 @@ const Otp = () => {
 
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch('http://localhost:3000/api/verify-otp', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/api/verify-otp", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -94,10 +97,9 @@ const Otp = () => {
         // Store user ID in localStorage
         localStorage.setItem("userID", data.user._id);
         console.log(data);
-        
 
-        toast.success('OTP verified successfully');
-        navigate("/home"); 
+        toast.success("OTP verified successfully");
+        navigate("/home");
       } else {
         toast.error("Invalid OTP. Please try again.");
         setLoading(false);
@@ -111,7 +113,7 @@ const Otp = () => {
 
   // Resend OTP function
   const resendOtp = async () => {
-    setCanResend(false); 
+    setCanResend(false);
     setTimer(60); // Reset the timer to 1 minute
 
     try {
@@ -138,7 +140,7 @@ const Otp = () => {
   };
 
   return (
-    <section className='items-center justify-center '>
+    <section className="items-center justify-center ">
       <div className="flex flex-col h-[738px]">
         <Toaster toastOptions={{ duration: 2000 }} />
 
@@ -183,7 +185,9 @@ const Otp = () => {
                   Resend OTP
                 </p>
 
-                <p className="text-white text-center pt-2">{formatTime(timer)}</p> 
+                <p className="text-white text-center pt-2">
+                  {formatTime(timer)}
+                </p>
 
                 <div className="flex items-center justify-center mt-10">
                   <button
@@ -203,11 +207,11 @@ const Otp = () => {
               <>
                 <div className="flex justify-center items-center p-4 py-5 mt-5">
                   <PhoneInput
-                  placeholder="Mobile number"
-                    country={'in'}
+                    placeholder="Mobile number"
+                    country={"in"}
                     value={phone}
                     onChange={setPhone}
-                    onlyCountries={['in']}
+                    onlyCountries={["in"]}
                   />
                 </div>
 

@@ -69,7 +69,10 @@ const OrderSummary = () => {
 
     try {
       // Make the POST request
-      const response = await axios.post("http://localhost:3000/orders/create", orderData);
+      const response = await axios.post(
+        "http://localhost:3000/orders/create",
+        orderData
+      );
       console.log("Order created successfully:", response.data);
 
       // Navigate to the order success page

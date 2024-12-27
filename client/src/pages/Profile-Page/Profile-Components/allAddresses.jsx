@@ -163,7 +163,9 @@ const AllAddresses = () => {
     <div>
       <TopNav />
       <div className="px-5 mt-[17px]">
-        <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">My Addresses</h1>
+        <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">
+          My Addresses
+        </h1>
       </div>
 
       <div className="grid gap-6 p-6">
@@ -187,7 +189,9 @@ const AllAddresses = () => {
                     className="mb-2 p-2 border rounded"
                     placeholder="Name"
                   />
-                  <label className="text-sm font-semibold">Address Line 1</label>
+                  <label className="text-sm font-semibold">
+                    Address Line 1
+                  </label>
                   <input
                     type="text"
                     value={editingAddress.address1}
@@ -195,7 +199,9 @@ const AllAddresses = () => {
                     className="mb-2 p-2 border rounded"
                     placeholder="Address Line 1"
                   />
-                  <label className="text-sm font-semibold">Address Line 2</label>
+                  <label className="text-sm font-semibold">
+                    Address Line 2
+                  </label>
                   <input
                     type="text"
                     value={editingAddress.address2}
