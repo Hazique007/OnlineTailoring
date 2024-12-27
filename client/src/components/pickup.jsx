@@ -20,14 +20,11 @@ const Pickup = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        "https://online-tailoring-3.onrender.com/add",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newAddress), // Send the address data
-        }
-      );
+      const response = await fetch("http://localhost:3000/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newAddress), // Send the address data
+      });
 
       if (response.ok) {
         const result = await response.json();

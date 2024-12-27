@@ -14,6 +14,7 @@ import addressRoute from "./routes/AddressRoute.js";
 import OrderRoute from "./routes/OrderRoute.js";
 import personalDetailsRoute from "./routes/PersonalDetailsRoutes.js";
 import UserRoute from "./routes/UserRoute.js";
+import ClickRouter from "./routes/clickRoutes.js";
 
 dotenv.config();
 // const total_cpu = os.availableParallelism();
@@ -52,6 +53,8 @@ app.use("/api/v1/products", productRouter);
 app.use("/api/v1/landing", landingRouter);
 app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/fabric", fabricRouter);
+app.use("/api/v1/stats", ClickRouter);
+
 app.use(addressRoute);
 app.use(personalDetailsRoute);
 app.use("/orders", OrderRoute);

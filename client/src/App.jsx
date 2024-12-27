@@ -32,6 +32,7 @@ import { ProductProvider } from "./Context Api/trackProduct";
 import NotFound from "./pages/NotFound/notfound";
 import Error from "./components/error";
 import FashionProductDetails from "./components/fashionProductDetails";
+import ClickStats from "./pages/Stats/clickStats";
 
 const App = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
@@ -90,6 +91,7 @@ const App = () => {
             path="/FashionProduct/:gender/:category"
             Component={FashionProductDetails}
           />
+          <Route path="/stats" Component={ClickStats} />
 
           {/* Fallback Route */}
           <Route path="*" Component={NotFound} />
