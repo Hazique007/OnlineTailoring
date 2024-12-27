@@ -2,22 +2,15 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const OrderSummaryCard = ({ order, removeOrder }) => {
-  // Directly use the order prop for displaying order details
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleRemove = async () => {
     try {
-      // Set loading state to true while deleting
       setLoading(true);
-
-      // Make a DELETE request to remove the order from the backend
       await axios.delete(`http://localhost:3000/orders/${order._id}`);
-
-      // Remove the order from the UI by calling the removeOrder function passed as a prop
       removeOrder(order._id);
-
-      setLoading(false); // Set loading to false after the operation is complete
+      setLoading(false);
     } catch (error) {
       setError("Error removing order from frontend: " + error.message);
       setLoading(false);
@@ -36,7 +29,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
     return <div>Order not found</div>;
   }
 
-  const { images, name, price, fabric } = order;
+  const { images, name, price, fabric, _id } = order;
 
   return (
     <div
@@ -56,8 +49,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
         style={{
           width: "30%",
           maxWidth: "103px",
-          height: "auto",
-          aspectRatio: "1",
+          height: "100%", // Ensure image height matches the right side content
           border: "1px solid #ccc",
           borderRadius: "8px",
           overflow: "hidden",
@@ -69,8 +61,8 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
           alt="Product"
           style={{
             width: "100%",
-            height: "100%",
-            objectFit: "cover",
+            height: "100%", // Make image height fill the container
+            objectFit: "cover", // Keep the aspect ratio intact
           }}
         />
       </div>
@@ -108,7 +100,16 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
             margin: "4px 0",
           }}
         >
-          Fabric: {fabric || "Unknown"}
+          Qty:1 | Fabric: {fabric || "Unknown"}
+        </p>
+        <p
+          style={{
+            fontSize: "12px",
+            color: "#555",
+            margin: "4px 0",
+          }}
+        >
+          Order ID: {_id} {/* Display the order ID here */}
         </p>
         <div
           style={{
@@ -135,7 +136,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
               cursor: "pointer",
               color: "grey",
             }}
-            onClick={handleRemove} // Ensure the function is called here
+            onClick={handleRemove}
           >
             Remove
           </button>

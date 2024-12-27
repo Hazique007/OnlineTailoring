@@ -40,23 +40,27 @@ const OrderHistoryPage = () => {
     return <div>Error: {error}</div>;
   }
 
-  if (!orders.length) {
-    return <div>No orders found.</div>;
-  }
-
   return (
-    <div className="pb-20 font-poppins">
+    <div className="pb-20 font-poppins h-screen flex flex-col">
       <Topnav />
       <div className="px-5 mt-[17px]">
         <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">Order History</h1>
       </div>
-      <div className="mt-4 pb-24">
-        <div>
-          {orders.map((order, index) => (
-            <OrderSummaryCard key={index} order={order} removeOrder={removeOrder} />
-          ))}
-        </div>
+      <div className="flex-1 flex justify-center items-center">
+        {orders.length === 0 ? (
+          <div className="text-center text-gray-500">No order history</div>
+        ) : (
+          <div className="mt-4 pb-24">
+            <div>
+              {orders.map((order, index) => (
+                <OrderSummaryCard key={index} order={order} removeOrder={removeOrder} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
+      {/* Navbar at the bottom (if you have a navbar) */}
+      {/* You can place your BottomNav component here */}
     </div>
   );
 };
