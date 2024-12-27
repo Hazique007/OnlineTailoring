@@ -65,10 +65,25 @@ const SearchStyle = ({ gender }) => {
       const uniqueSubCategories = [
         ...new Set(filteredProducts.map((product) => product.subCategory)),
       ];
+      //Track Click
+      const handleImageClick = async (gender, category) => {
+        try {
+          await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+            gender,
+            category,
+          });
+          console.log("Clicked");
+
+          navigate(`/product/${gender}/${category}`);
+        } catch (error) {
+          console.error("Error tracking click:", error);
+        }
+      };
 
       return (
         <div key={item.category} className="mb-6">
           <Link
+            onClick={() => handleImageClick(gender, item.category)}
             to={`/product/${gender}/${item.category}`}
             className="text-[#DA3A3A] font-semibold text-md"
           >
@@ -80,6 +95,7 @@ const SearchStyle = ({ gender }) => {
                 <Link
                   className="text-[13px] font-normal text-gray-700 hover:text-[#DA3A3A] hover:underline"
                   to={`/product/${gender}/${item.category}/${subCategory}`}
+                  onClick={() => handleImageClick(gender, item.category)}
                 >
                   {subCategory}
                 </Link>
