@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import TopNav from "./TopNav"
+import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 
 const AllCategory = () => {
@@ -40,7 +42,11 @@ const AllCategory = () => {
   };
 
   return (
-    <div className="bg-gray-50 py-8">
+    <div className="font-poppins">
+      <TopNav />
+
+<div className="bg-gray-50 py-8">
+      
       <div className="container mx-auto px-6 md:px-8">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">
           All Categories
@@ -117,6 +123,11 @@ const AllCategory = () => {
         </div>
       </div>
     </div>
+    <Navbar />
+
+
+    </div>
+   
   );
 };
 

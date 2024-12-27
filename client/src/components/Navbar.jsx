@@ -22,10 +22,10 @@ export const TopNavIcon = ({ label, image, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className="flex flex-col items-center h-[62px] justify-center w-full"
+      className="flex flex-col items-center justify-center"
     >
       {image}
-      <h2 className="text-[12px] font-poppins text-black font-[450]">
+      <h2 className="text-[13px] font-poppins text-black font-[450]">
         {label}
       </h2>
     </div>
@@ -37,29 +37,17 @@ const Navbar = () => {
   const { isSearch, setIsSearch } = useContext(SearchContext);
   const [profilePicture, setProfilePicture] = useState(null);
 
-  // Fetch profile picture from the backend
-  useEffect(() => {
-    const fetchProfilePicture = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/listpersonal");
-        if (response.ok) {
-          const data = await response.json();
-          setProfilePicture(data.profilePicture); // Assuming the response contains the profile picture URL
-        }
-      } catch (error) {
-        console.error("Error fetching profile picture:", error);
-      }
-    };
-    fetchProfilePicture();
-  }, []);
-
   const handleSearch = () => {
     setIsSearch(!isSearch);
     navigate("/search");
   };
 
+  const handleProduct = () => {
+    navigate("/Allcategory");
+  };
+
   return (
-    <div className="Navigation h-[62px] bottom-0 fixed flex items-center justify-evenly bg-[#FAF1F1] w-full">
+    <div className="Navigation h-[62px] fixed bottom-0 flex items-center justify-between bg-[#FAF1F1] w-full px-6">
       <TopNavIcon
         onClick={() => navigate("/Home")}
         label={"Home"}
@@ -71,13 +59,14 @@ const Navbar = () => {
         onClick={handleSearch}
       />
       <TopNavIcon
-        onClick={() => navigate("/Allcategory")}
+        onClick={handleProduct}
         label={"Shop"}
         image={<PiSquaresFourBold className="h-[25px] w-[25px]" />}
       />
       <IconButton aria-label="cart">
-        <StyledBadge badgeContent={3} color="secondary">
+        <StyledBadge badgeContent={0} color="secondary">
           <TopNavIcon
+            onClick={() => navigate("/cart")}
             label={"Cart"}
             image={<IoCartOutline className="text-black h-[25px] w-[25px]" />}
           />
