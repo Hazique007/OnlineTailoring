@@ -7,79 +7,80 @@ const OrderSummaryCard = () => {
   const [error, setError] = useState(null); // To handle error state
 
   useEffect(() => {
-    // Fetch data from the API using Axios
     const fetchOrderData = async () => {
       try {
         const response = await axios.get("http://localhost:3000/orders/getorder");
         console.log(response);
-        setOrderData(response.data); // Assuming the API response contains the order data
-        setLoading(false); // Set loading to false after data is fetched
+        setOrderData(response.data);
+        setLoading(false);
       } catch (error) {
-        setError(error.message); // Set the error message if something goes wrong
+        setError(error.message);
         setLoading(false);
       }
     };
 
     fetchOrderData();
-  }, []); // Empty dependency array ensures this runs once when the component is mounted
+  }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading message while fetching
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // Display error message if something went wrong
+    return <div>Error: {error}</div>;
   }
 
   if (!orderData) {
-    return <div>Order not found.</div>; // Display fallback message if no order data
+    return <div>Order not found.</div>;
   }
 
-  // Fetch product data from local storage
-  const productData = JSON.parse(localStorage.getItem("productItem")); // Get product data from local storage
-
-  // Construct the product image URL from your backend server
+  const productData = JSON.parse(localStorage.getItem("productItem"));
   const productImage = productData?.images?.[0]
     ? `http://localhost:3000/uploads/${productData.images[0]}`
-    : "placeholder-image.png"; // Use a placeholder if the image is not available
+    : "placeholder-image.png";
 
   return (
     <div
       style={{
         display: "flex",
+        flexWrap: "wrap", // Allow wrapping for smaller screens
         alignItems: "center",
-        width: "430px",
-        height: "150px",
-        padding: "8px",
-        margin: "8px",
+        width: "100%", // Use full width for responsiveness
+        maxWidth: "430px",
+        padding: "18px",
+        margin: "8px auto", // Center the card horizontally
         backgroundColor: "#fff",
+        boxSizing: "border-box", // Include padding in width/height
       }}
     >
       <div
         style={{
-          width: "103px",
-          height: "120px",
+          width: "30%", // Use percentage for responsive sizing
+          maxWidth: "103px",
+          height: "auto",
+          aspectRatio: "1", // Maintain the square aspect ratio
           border: "1px solid #ccc",
           borderRadius: "8px",
           overflow: "hidden",
           marginRight: "12px",
         }}
       >
-        {/* Display the product image */}
         <img
-          src={productImage} // Use the dynamically fetched image URL
+          src={productImage}
           alt="Product"
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
         />
       </div>
       <div
-      className="mt-6"
-        
         style={{
           flex: 1,
           display: "flex",
           flexDirection: "column",
-          height: "100%",
+          justifyContent: "space-between",
         }}
       >
         <h3
@@ -127,7 +128,6 @@ const OrderSummaryCard = () => {
             Delivery in 3 days
           </p>
           <button
-            className="pr-10"
             style={{
               backgroundColor: "transparent",
               border: "none",
@@ -136,7 +136,7 @@ const OrderSummaryCard = () => {
               cursor: "pointer",
               color: "grey",
             }}
-            onClick={() => console.log("Remove item clicked")} // Add functionality for removing items
+            onClick={() => console.log("Remove item clicked")}
           >
             Remove
           </button>

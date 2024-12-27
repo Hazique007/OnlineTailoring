@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema({
     phoneNumber: {
         type: String,
+        unique:true,
         required: true, // Note: fixed typo from "require" to "required"
     },
     otp: {
