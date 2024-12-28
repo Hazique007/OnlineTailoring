@@ -73,6 +73,7 @@ const PersonalDetails = () => {
 
     try {
       if (id) {
+        // PUT request for updating an existing profile
         const response = await fetch(`${API_BASE_URL}/${id}`, {
           method: "PUT",
           headers: {
@@ -82,12 +83,23 @@ const PersonalDetails = () => {
         });
         if (!response.ok) throw new Error("Failed to update profile");
         console.log("Profile updated successfully");
-        setOriginalProfile(profile); // Update original profile on successful save
       } else {
-        console.error("No user ID found");
+        // POST request for creating a new profile
+        const response = await fetch(`${API_BASE_URL}/addpersonal`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(profile),
+        });
+        if (!response.ok) throw new Error("Failed to create profile");
+        console.log("Profile created successfully");
+        const data = await response.json();
+        setId(data._id); // Assume backend returns the created profile's ID
       }
+      setOriginalProfile(profile); // Update original profile on successful save
     } catch (error) {
-      console.error("Failed to update profile:", error);
+      console.error("Failed to save profile:", error);
     }
   };
 
