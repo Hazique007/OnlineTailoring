@@ -6,6 +6,10 @@ import styleImage from "../../assets/images/Anime-T-shirts.png";
 import Navbar from "../../components/Navbar";
 import { BiSolidCommentDetail } from "react-icons/bi";
 import { MdArrowForwardIos } from "react-icons/md";
+import C1 from "../../assets/images/c1.png";
+import C2 from "../../assets/images/Hexagon.png";
+import C3 from "../../assets/images/c3.png";
+import C4 from "../../assets/images/c4.png";
 
 const Customize = () => {
   const productItem = JSON.parse(localStorage.getItem("productItem"));
@@ -138,7 +142,7 @@ const Customize = () => {
             Customize
           </h1>
 
-          <div className="relative w-[359px] h-[282px] overflow-hidden rounded-[10px]">
+          <div className="relative w-[359px] h-[282px] overflow-hidden rounded-[10px] px-4">
             <img
               src={`http://localhost:3000/uploads/${productItem.images[currentImageIndex]}`}
               alt="Customize clothing"
@@ -169,7 +173,7 @@ const Customize = () => {
         <div className=" mt-[31px] bg-[#F1F1F180] rounded-[10px] p-4">
           <div className="flex w-full justify-between ">
             <h1 className="text-[16px] font-[700] font-poppins mb-2">
-              Decide Your Style
+              Customize Your Style With:
             </h1>
             {/* <span
               onClick={() => setShow(!show)}
@@ -178,13 +182,45 @@ const Customize = () => {
               Edit Details
             </span> */}
           </div>
-          <p className="text-[13px] font-poppins">
+          {/* <p className="text-[13px] font-poppins">
             If you need specific customizations in your apparel, you can share
             the same with our tailor guru once he comes to your place for taking
             measurements. Our expert tailor will take note of all the required
             customizations during home visit and ensure these are catered to in
             the best manner.
-          </p>
+          </p> */}
+          <div className="flex flex-col gap-6 pt-5">
+            <div className="r1 flex justify-around items-center ">
+              <div className="flex flex-col items-start gap-1">
+                <img src={C1} className="c1 w-[25px] h-[25px]"></img>
+                <p className="text-[#AA3DF3] font-[700] text-[12px]">Style</p>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <img src={C2} className="c2 w-50px] h-[50px]"></img>
+                <p className="text-[#10E36C] font-[700] text-[12px]">
+                  Look and Feel
+                </p>
+              </div>
+            </div>
+            <div className="r2 flex justify-around items-center">
+              <div className="flex flex-col items-center justify-center gap-1">
+                <img src={C3} className="c3 w-[25px] h-[25px]"></img>
+                <p className="text-[#0099FF] text-[12px] font-[700]">
+                  Thread Colours
+                </p>
+              </div>
+              <div className=" flex flex-col items-center gap-1">
+                <img src={C4} className="c3 w-[25px] h-[25px]"></img>
+                <p className="text-[#FE6126] text-[12px] font-[700]">
+                  Other Customizations
+                </p>
+              </div>
+            </div>
+            <p className="text-[12px] font-poppins italic font-[400] px-[13px] text-center">
+              You can share all your customization needs with our tailor expert
+              when he comes to take measurements.
+            </p>
+          </div>
           {/* {!show ? (
             <div className="details grid grid-cols-3 gap-5 mt-[24px]  ">
               {config.map(({ label, key }) => (
