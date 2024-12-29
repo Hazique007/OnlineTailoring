@@ -9,6 +9,8 @@ import Pickup from "../../components/pickup";
 import Delivery from "../../components/deliverydetails";
 import Works from "../../components/Works";
 import OrderSummaryCard from "../../components/orderShowCard";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const OrderSummary = () => {
   const navigate = useNavigate();
@@ -34,12 +36,12 @@ const OrderSummary = () => {
 
   const handlePlaceOrder = async () => {
     if (!productItem) {
-      alert("No product item data found. Please try again.");
+      toast.alert("No product item data found. Please try again.");
       return;
     }
     const userID = localStorage.getItem("userID");
     if (!userID) {
-      alert("No user ID found. Please login again.");
+      toast.alert("No user ID found. Please login again.");
       return;
     }
 
@@ -148,6 +150,7 @@ const OrderSummary = () => {
         )}
         <Navbar />
       </div>
+      <ToastContainer />
     </div>
   );
 };
