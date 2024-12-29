@@ -44,6 +44,7 @@ const Hero = () => {
         setCurrentIndex(newIndex);
       }
     };
+    console.log(landingArray);
 
     window.addEventListener("scroll", handleScroll);
 
