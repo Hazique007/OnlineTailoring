@@ -39,7 +39,7 @@ const FabricCart = ({
               onClick={() => navigate("/customize")}
               key={index}
               className="h-full w-full object-fit flex-shrink-0  rounded-lg snap-center cursor-pointer"
-              src={`http://localhost:3000/uploads/${image}`}
+              src={`https://online-tailoring-hazique.onrender.com/uploads/${image}`}
               alt={`Fabric ${index + 1}`}
             />
           ))

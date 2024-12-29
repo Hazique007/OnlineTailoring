@@ -17,7 +17,7 @@ const OrderShowCard = ({ order }) => {
     const fetchOrderData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/orders/getorder"
+          "https://online-tailoring-hazique.onrender.com/orders/getorder"
         );
         console.log(response);
         setLoading(false);
@@ -43,7 +43,7 @@ const OrderShowCard = ({ order }) => {
   }
 
   const productImage = productData?.images?.[0]
-    ? `http://localhost:3000/uploads/${productData.images[0]}`
+    ? `https://online-tailoring-hazique.onrender.com/uploads/${productData.images[0]}`
     : "placeholder-image.png";
 
   return (
@@ -54,7 +54,7 @@ const OrderShowCard = ({ order }) => {
         alignItems: "center",
         width: "100%", // Use full width for responsiveness
         maxWidth: "430px",
-        padding: "18px",
+        padding: "20px",
         margin: "8px auto", // Center the card horizontally
         backgroundColor: "#fff",
         boxSizing: "border-box", // Include padding in width/height
@@ -134,7 +134,7 @@ const OrderShowCard = ({ order }) => {
           >
             Delivery in 3 days
           </p>
-          <button
+          {/* <button
             style={{
               backgroundColor: "transparent",
               border: "none",
@@ -146,7 +146,7 @@ const OrderShowCard = ({ order }) => {
             onClick={() => console.log("Remove item clicked")}
           >
             Remove
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

@@ -1,5 +1,13 @@
 import mongoose from 'mongoose';
 
+// Helper function to format date to dd/mm/yyyy
+const formatDate = (date) => {
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
+};
 
 const OrderSchema = new mongoose.Schema(
   {
@@ -8,11 +16,6 @@ const OrderSchema = new mongoose.Schema(
       ref: 'Otp',
       required: true,
     },
-    // productID: {
-    //   type: mongoose.Schema.Types.ObjectId, 
-    //   required: true,
-    //   ref:"Product",
-    // },
     category: {
       type: String,
       required: true,
@@ -71,6 +74,11 @@ const OrderSchema = new mongoose.Schema(
     },
     subCategory: {
       type: String,
+      required: true,
+    },
+    deliveryDate: {
+      type: String, // Stored as a string in dd/mm/yyyy format
+      default: () => formatDate(new Date()), // Automatically format the date
       required: true,
     },
   },

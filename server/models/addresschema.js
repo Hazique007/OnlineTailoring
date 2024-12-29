@@ -5,6 +5,11 @@ const addressSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  userID: {
+        type: mongoose.Schema.Types.ObjectId, // Reference to the User schema
+        ref: 'Otp',
+        required: true,
+      },
   address1: {
     type: String,
     required: true,

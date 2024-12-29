@@ -1,21 +1,25 @@
 import express from 'express';
 import { 
-  addAddress, 
+  // addAddress, 
   getAddresses, 
   updateAddress, 
   deleteAddress,
-  editAddress
+  editAddress,
+  getAddressByUser,
+  addAddressbyuserID
 } from'../controllers/addresscontroller.js';
 const router = express.Router();
 
 // Route to add a new address
-router.post('/add', addAddress);
+router.post('/addAddressbyuserID', addAddressbyuserID);
 
 // Route to get all addresses
 router.get('/list', getAddresses);
 
 // Edit address route
 router.put("/edit/:id", editAddress);
+
+router.get("/getAddressByUser",getAddressByUser);
 
 // Route to update an address
 router.put('/update/:id', updateAddress);

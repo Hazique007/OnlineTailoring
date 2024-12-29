@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import TopNav from "../../../components/TopNav";
+import axios from "axios";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AllAddresses = () => {
   const validPincodes = [
@@ -42,30 +45,34 @@ const AllAddresses = () => {
   });
   const [editingAddress, setEditingAddress] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const userID = localStorage.getItem("userID");
 
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await fetch("http://localhost:3000/list");
-        if (response.ok) {
-          const result = await response.json();
-          setAddresses(result.data);
+        const response = await axios.get("https://online-tailoring-hazique.onrender.com/getAddressByUser", {
+          params: { userID: userID },
+        });
+  
+        // Ensure that response data is set correctly
+        if (response.data && response.data.data) {
+          setAddresses(response.data.data); // Use the correct response structure
         } else {
-          console.error("Failed to fetch addresses");
+          console.error("No addresses found for this user");
         }
       } catch (error) {
         console.error("Error fetching addresses:", error);
       }
     };
-
+  
     fetchAddresses();
-  }, []);
+  }, [userID]);
 
   const handleInputChange = (event, key) => {
     const value = event.target.value;
     if (key === "pincode") {
       if (!/^\d*$/.test(value)) {
-        window.alert("Pincode can only contain numbers");
+        toast.error("Pincode can only contain numbers"); // Show toast instead of alert
         return;
       }
     }
@@ -83,7 +90,7 @@ const AllAddresses = () => {
     if (!address.pincode.trim()) return "Pincode is required";
 
     if (address.pincode.length !== 6) return "Pincode must be exactly 6 digits";
-    if (!validPincodes.includes(address.pincode)) return "Invalid Pincode";
+    if (!validPincodes.includes(address.pincode)) return "This pincode is not serviceable"; // Change to toast on validation failure
 
     return "";
   };
@@ -91,21 +98,32 @@ const AllAddresses = () => {
   const handleAddAddress = async () => {
     const errorMessage = validateFields(newAddress);
     if (errorMessage) {
-      window.alert(errorMessage);
+      toast.error(errorMessage); // Show toast instead of alert
       return;
     }
 
+    const currentUserID = localStorage.getItem("userID")
+  
     try {
-      const response = await fetch("http://localhost:3000/add", {
+      // Assuming userID is available, you can either pass it from state or props
+      const updatedAddress = { ...newAddress, userID: currentUserID }; // Add userID to the address object
+  
+      const response = await fetch("https://online-tailoring-hazique.onrender.com/addAddressbyuserID", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newAddress),
+        body: JSON.stringify(updatedAddress),
       });
+      console.log(updatedAddress);
+      
+      console.log(response);
+      
+  
       if (response.ok) {
         const result = await response.json();
         setAddresses([...addresses, result.data]);
         setNewAddress({ name: "", address1: "", address2: "", pincode: "" });
         setIsModalOpen(false);
+        
       } else {
         console.error("Failed to add address");
       }
@@ -117,36 +135,28 @@ const AllAddresses = () => {
   const handleEditAddress = async () => {
     const errorMessage = validateFields(editingAddress);
     if (errorMessage) {
-      window.alert(errorMessage);
+      toast.error(errorMessage); // Show toast instead of alert
       return;
     }
-
+  
     try {
-      const response = await fetch(
-        `http://localhost:3000/edit/${editingAddress._id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(editingAddress),
-        }
-      );
-      if (response.ok) {
-        const updatedAddresses = addresses.map((addr) =>
-          addr._id === editingAddress._id ? editingAddress : addr
+      const response = await axios.put(`https://online-tailoring-hazique.onrender.com/update/${editingAddress._id}`, editingAddress);
+      if (response.data) {
+        setAddresses(
+          addresses.map((addr) =>
+            addr._id === editingAddress._id ? response.data.data : addr
+          )
         );
-        setAddresses(updatedAddresses);
         setEditingAddress(null);
-      } else {
-        console.error("Failed to update address");
       }
     } catch (error) {
       console.error("Error updating address:", error);
     }
   };
-
+  
   const handleDeleteAddress = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/delete/${id}`, {
+      const response = await fetch(`https://online-tailoring-hazique.onrender.com/delete/${id}`, {
         method: "DELETE",
       });
       if (response.ok) {
@@ -334,6 +344,7 @@ const AllAddresses = () => {
           </div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };

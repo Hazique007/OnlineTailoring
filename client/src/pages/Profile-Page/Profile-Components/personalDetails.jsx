@@ -1,8 +1,17 @@
+
+
+
+
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import TopNav from "../../../components/TopNav";
 import { FiCamera } from "react-icons/fi";
 
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = "https://online-tailoring-hazique.onrender.com";
+const userID = localStorage.getItem("userID");
 
 const PersonalDetails = () => {
   const [profile, setProfile] = useState({
@@ -15,49 +24,50 @@ const PersonalDetails = () => {
   });
   const [originalProfile, setOriginalProfile] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-  const [id, setId] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const userID = localStorage.getItem("userID");
 
-  // Fetch profile data
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/listpersonal`);
-        if (!response.ok) throw new Error("Failed to fetch profile data");
-        const data = await response.json();
+        setIsLoading(true);
+        const response = await axios.get(`${API_BASE_URL}/listpersonal`, {
+          params: { userID },
+        });
 
-        if (data.length > 0) {
-          const user = data[0];
-
-          setProfile(user);
-          setOriginalProfile(user);
-          setId(user._id);
+        if (response.data?.length > 0) {
+          const user = response.data[0];
+          setProfile(user); // Set the profile data
+          setOriginalProfile(user); // Keep the original profile for revert
         }
       } catch (error) {
         console.error("Error fetching profile:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
-    fetchProfile();
-  }, []);
 
-  // Handle input changes
+    // Reload page if not already reloaded
+    if (!sessionStorage.getItem("hasReloaded")) {
+      sessionStorage.setItem("hasReloaded", "true");
+      window.location.reload();
+    } else {
+      fetchProfile(); // Fetch profile data
+    }
+  }, [userID]);
+
   const handleInputChange = (e, key) => {
     setProfile({ ...profile, [key]: e.target.value });
   };
 
-  // Validate fields
   const validateFields = () => {
     if (!profile.name.trim()) return "Name is required";
     if (profile.name.length > 100) return "Name cannot exceed 100 characters";
     if (!profile.mobileNumber.trim() || profile.mobileNumber.length !== 10)
       return "Valid 10-digit mobile number is required";
     if (!profile.gender) return "Gender is required";
-    if (
-      !profile.age ||
-      isNaN(profile.age) ||
-      profile.age < 18 ||
-      profile.age > 100
-    )
+    if (!profile.age || isNaN(profile.age) || profile.age < 18 || profile.age > 100)
       return "Age must be between 18 and 100";
     if (
       !profile.emailAddress.trim() ||
@@ -67,50 +77,6 @@ const PersonalDetails = () => {
     return "";
   };
 
-  // Edit profile
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
-
-  // Save profile
-  const handleSaveClick = async () => {
-    const errorMessage = validateFields();
-    if (errorMessage) {
-      window.alert(errorMessage);
-      return;
-    }
-
-    setIsEditing(false);
-    setShowAlert(true);
-
-    try {
-      if (id) {
-        const response = await fetch(`${API_BASE_URL}/updatepersonal/${id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(profile),
-        });
-        if (!response.ok) throw new Error("Failed to update profile");
-        console.log(response);
-
-        setOriginalProfile(profile);
-      } else {
-        throw new Error("No user ID found");
-      }
-    } catch (error) {
-      console.error("Failed to update profile:", error);
-    }
-  };
-
-  // Cancel edit
-  const handleCancelClick = () => {
-    setProfile(originalProfile);
-    setIsEditing(false);
-  };
-
-  // Handle profile picture change
   const handleProfilePictureChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -118,15 +84,55 @@ const PersonalDetails = () => {
       reader.onload = (event) => {
         setProfile({ ...profile, profilePicture: event.target.result });
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file); // Convert to base64
     }
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleSaveClick = async () => {
+    const errorMessage = validateFields();
+    if (errorMessage) {
+      toast.error(errorMessage);
+      return;
+    }
+
+    setIsEditing(false);
+    setShowAlert(true);
+
+    try {
+      await axios.post(`${API_BASE_URL}/addOrUpdate`, {
+        ...profile,
+        userID,
+      });
+      setOriginalProfile(profile); // Update original profile on successful save
+    } catch (error) {
+      console.error("Failed to save profile:", error);
+    }
+  };
+
+  const handleCancelClick = () => {
+    setProfile(originalProfile); // Revert to original profile data
+    setIsEditing(false);
+  };
+
+  const dataURItoBlob = (dataURI) => {
+    const byteString = atob(dataURI.split(",")[1]);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const uintArray = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      uintArray[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([arrayBuffer], { type: "image/jpeg" });
   };
 
   return (
     <div className="font-poppins">
       <TopNav />
       <h1 className="font-poppins font-[700] text-[14px] text-[#737373] pt-4 pl-4 ">
-        Personal Details
+        Personal details
       </h1>
       <div className="p-8 flex flex-col items-center">
         {/* Profile Picture */}
@@ -257,8 +263,12 @@ const PersonalDetails = () => {
           </div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };
 
 export default PersonalDetails;
+
+
+

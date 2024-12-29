@@ -15,11 +15,11 @@ const SearchStyle = ({ gender }) => {
 
       const [maleResponse, femaleResponse] = await Promise.all([
         axios.get(
-          "http://localhost:3000/api/v1/category/getGenderWiseCategory",
+          "https://online-tailoring-hazique.onrender.com/api/v1/category/getGenderWiseCategory",
           { params: { gender: "Male" } }
         ),
         axios.get(
-          "http://localhost:3000/api/v1/category/getGenderWiseCategory",
+          "https://online-tailoring-hazique.onrender.com/api/v1/category/getGenderWiseCategory",
           { params: { gender: "Female" } }
         ),
       ]);
@@ -68,7 +68,7 @@ const SearchStyle = ({ gender }) => {
       //Track Click
       const handleImageClick = async (gender, category) => {
         try {
-          await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+          await axios.post("https://online-tailoring-hazique.onrender.com/api/v1/stats/trackClick", {
             gender,
             category,
           });

@@ -1,22 +1,23 @@
 import express from "express";
 import {
-  addPersonalDetails,
+  addOrUpdatePersonalDetails,
   getPersonalDetails,
-  updatePersonalDetails,
-  deletePersonalDetails,
-  editPersonalDetails,
+  updatePersonalDetails, 
+   editPersonalDetails 
 } from "../controllers/personalDetailsController.js";
 
 const router = express.Router();
 
-router.post("/addpersonal", addPersonalDetails);
-
+// Route to get personal details by userID
 router.get("/listpersonal", getPersonalDetails);
 
-router.put("/:id", editPersonalDetails);
+// Route to add or update personal details
+router.post("/addOrUpdate", addOrUpdatePersonalDetails);
 
-router.put("/:id", updatePersonalDetails);
+// Route to edit specific personal details
+router.put("/edit/:userID", editPersonalDetails);
 
-router.delete("/delete/:id", deletePersonalDetails);
+// Route to update personal details
+router.put("/update/:userID", updatePersonalDetails);
 
 export default router;
