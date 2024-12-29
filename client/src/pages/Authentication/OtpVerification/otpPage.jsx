@@ -51,13 +51,16 @@ const Otp = () => {
 
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch("http://localhost:3000/api/send-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ phoneNumber: formattedPhone }),
-      });
+      const response = await fetch(
+        "https://doorstep-stitching-backend.onrender.com/api/send-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ phoneNumber: formattedPhone }),
+        }
+      );
 
       const data = await response.json();
 
@@ -83,7 +86,7 @@ const Otp = () => {
 
   //   try {
   //     const formattedPhone = "+" + phone;
-  //     const response = await fetch('http://localhost:3000/api/verify-otp', {
+  //     const response = await fetch('https://doorstep-stitching-backend.onrender.com/api/verify-otp', {
   //       method: 'POST',
   //       headers: {
   //         'Content-Type': 'application/json',
@@ -117,13 +120,16 @@ const Otp = () => {
 
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch("http://localhost:3000/api/verify-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
-      });
+      const response = await fetch(
+        "https://doorstep-stitching-backend.onrender.com/api/verify-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
+        }
+      );
 
       const data = await response.json();
 
@@ -152,13 +158,16 @@ const Otp = () => {
 
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch("http://localhost:3000/api/send-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ phoneNumber: formattedPhone }),
-      });
+      const response = await fetch(
+        "https://doorstep-stitching-backend.onrender.com/api/send-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ phoneNumber: formattedPhone }),
+        }
+      );
 
       const data = await response.json();
 

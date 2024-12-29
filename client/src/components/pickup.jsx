@@ -52,7 +52,7 @@ const Pickup = () => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/getAddressByUser",
+          "https://doorstep-stitching-backend.onrender.com/getAddressByUser",
           {
             params: { userID: userID },
           }
@@ -107,11 +107,14 @@ const Pickup = () => {
     try {
       const updatedAddress = { ...newAddress, userID: currentUserID };
 
-      const response = await fetch("http://localhost:3000/addAddressbyuserID", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedAddress),
-      });
+      const response = await fetch(
+        "https://doorstep-stitching-backend.onrender.com/addAddressbyuserID",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedAddress),
+        }
+      );
 
       if (response.ok) {
         const result = await response.json();

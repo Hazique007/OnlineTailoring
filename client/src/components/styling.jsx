@@ -22,7 +22,7 @@ const Styling = ({ heading, gender }) => {
   const getCategory = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/v1/category/fetchcategories",
+        "https://doorstep-stitching-backend.onrender.com/api/v1/category/fetchcategories",
         {
           params: { gender },
         }
@@ -42,11 +42,13 @@ const Styling = ({ heading, gender }) => {
 
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
-        gender,
-        category,
-      });
-      console.log("Clicked");
+      await axios.post(
+        "https://doorstep-stitching-backend.onrender.com/api/v1/stats/trackClick",
+        {
+          gender,
+          category,
+        }
+      );
 
       navigate(`/product/${gender}/${category}`);
     } catch (error) {
