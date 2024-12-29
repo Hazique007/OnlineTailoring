@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import OtpInput from 'otp-input-react';
+import { useNavigate } from "react-router-dom";
+import OtpInput from "otp-input-react";
 import { CgSpinner } from "react-icons/cg";
-import 'react-phone-input-2/lib/style.css';
-import toast, { Toaster } from 'react-hot-toast';
+import "react-phone-input-2/lib/style.css";
+import toast, { Toaster } from "react-hot-toast";
 
 import HeaderPhotos from "../../../components/Headerphoto";
 import PhoneInput from "react-phone-input-2";
@@ -14,16 +14,16 @@ const Otp = () => {
   const [phone, setPhone] = useState("");
   const [showOtp, setShowOtp] = useState(false);
   const [timer, setTimer] = useState(60); // 1-minute timer
-  const [canResend, setCanResend] = useState(false); 
+  const [canResend, setCanResend] = useState(false);
   const navigate = useNavigate();
 
   // Timer logic to countdown every second
   useEffect(() => {
     if (timer === 0) {
-      setCanResend(true); 
+      setCanResend(true);
     } else {
       const interval = setInterval(() => {
-        setTimer(prevTimer => prevTimer - 1);
+        setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
 
       return () => clearInterval(interval);
@@ -34,24 +34,27 @@ const Otp = () => {
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+      2,
+      "0"
+    )}`;
   };
 
   // Send OTP function (API call using fetch)
   const onSignup = async () => {
-    if (phone.length !== 12) { 
+    if (phone.length !== 12) {
       toast.error("Please enter a valid 10-digit mobile number.");
-      return; 
+      return;
     }
 
     setLoading(true);
 
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch('https://online-tailoring-hazique.onrender.com/api/send-otp', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/api/send-otp", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ phoneNumber: formattedPhone }),
       });
@@ -60,17 +63,17 @@ const Otp = () => {
 
       if (data.success) {
         setLoading(false);
-        setShowOtp(true); 
-        toast.success('OTP sent successfully');
+        setShowOtp(true);
+        toast.success("OTP sent successfully");
         setTimer(60); // Reset the timer to 1 minute
       } else {
         setLoading(false);
-        toast.error('Failed to send OTP');
+        toast.error("Failed to send OTP");
       }
     } catch (error) {
       console.error("Error during OTP send:", error);
       setLoading(false);
-      toast.error('Failed to send OTP. Please try again.');
+      toast.error("Failed to send OTP. Please try again.");
     }
   };
 
@@ -80,7 +83,7 @@ const Otp = () => {
 
   //   try {
   //     const formattedPhone = "+" + phone;
-  //     const response = await fetch('https://online-tailoring-hazique.onrender.com/api/verify-otp', {
+  //     const response = await fetch('http://localhost:3000/api/verify-otp', {
   //       method: 'POST',
   //       headers: {
   //         'Content-Type': 'application/json',
@@ -96,7 +99,7 @@ const Otp = () => {
   //       console.log(data);
 
   //       toast.success('OTP verified successfully');
-  //       navigate("/home"); 
+  //       navigate("/home");
   //     } else {
   //       toast.error('Invalid OTP. Please try again.');
   //       setLoading(false);
@@ -109,51 +112,50 @@ const Otp = () => {
   // };
 
   // Modify the onOTPVerify function to update userID after successful login
-const onOTPVerify = async () => {
-  setLoading(true);
+  const onOTPVerify = async () => {
+    setLoading(true);
 
-  try {
-    const formattedPhone = "+" + phone;
-    const response = await fetch('https://online-tailoring-hazique.onrender.com/api/verify-otp', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
-    });
+    try {
+      const formattedPhone = "+" + phone;
+      const response = await fetch("http://localhost:3000/api/verify-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (data.success) {
-      // Store the new user ID in localStorage
-      localStorage.setItem("userID", data.user._id); // Update userID
-      console.log(data);
+      if (data.success) {
+        // Store the new user ID in localStorage
+        localStorage.setItem("userID", data.user._id); // Update userID
+        console.log(data);
 
-      toast.success('OTP verified successfully');
-      navigate("/home"); 
-    } else {
-      toast.error('Invalid OTP. Please try again.');
+        toast.success("OTP verified successfully");
+        navigate("/home");
+      } else {
+        toast.error("Invalid OTP. Please try again.");
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error during OTP verification:", error);
       setLoading(false);
+      toast.error("Something went wrong. Please try again.");
     }
-  } catch (error) {
-    console.error("Error during OTP verification:", error);
-    setLoading(false);
-    toast.error('Something went wrong. Please try again.');
-  }
-};
-
+  };
 
   // Resend OTP function
   const resendOtp = async () => {
-    setCanResend(false); 
+    setCanResend(false);
     setTimer(60); // Reset the timer to 1 minute
 
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch('https://online-tailoring-hazique.onrender.com/api/send-otp', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/api/send-otp", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ phoneNumber: formattedPhone }),
       });
@@ -161,18 +163,18 @@ const onOTPVerify = async () => {
       const data = await response.json();
 
       if (data.success) {
-        toast.success('OTP resent successfully');
+        toast.success("OTP resent successfully");
       } else {
-        toast.error('Failed to resend OTP');
+        toast.error("Failed to resend OTP");
       }
     } catch (error) {
       console.error("Error during OTP resend:", error);
-      toast.error('Failed to resend OTP. Please try again.');
+      toast.error("Failed to resend OTP. Please try again.");
     }
   };
 
   return (
-    <section className='items-center justify-center '>
+    <section className="items-center justify-center ">
       <div className="flex flex-col h-[738px]">
         <Toaster toastOptions={{ duration: 2000 }} />
 
@@ -208,14 +210,18 @@ const onOTPVerify = async () => {
                   Didn’t receive the OTP?
                 </p>
                 <p
-                  className={`text-${canResend ? 'blue' : 'gray'}-600 text-center pt-2 cursor-pointer`}
+                  className={`text-${
+                    canResend ? "blue" : "gray"
+                  }-600 text-center pt-2 cursor-pointer`}
                   onClick={canResend ? resendOtp : null}
-                  style={{ pointerEvents: canResend ? 'auto' : 'none' }}
+                  style={{ pointerEvents: canResend ? "auto" : "none" }}
                 >
                   Resend OTP
                 </p>
 
-                <p className="text-white text-center pt-2">{formatTime(timer)}</p> 
+                <p className="text-white text-center pt-2">
+                  {formatTime(timer)}
+                </p>
 
                 <div className="flex items-center justify-center mt-10">
                   <button
@@ -224,7 +230,9 @@ const onOTPVerify = async () => {
                       text-white font-bold py-2 px-4 rounded transition-transform transform active:scale-95 
                       items-center justify-center flex gap-1"
                   >
-                    {loading && <CgSpinner size={20} className="mt-1 animate-spin" />}
+                    {loading && (
+                      <CgSpinner size={20} className="mt-1 animate-spin" />
+                    )}
                     <span>Verify</span>
                   </button>
                 </div>
@@ -233,11 +241,11 @@ const onOTPVerify = async () => {
               <>
                 <div className="flex justify-center items-center p-4 py-5 mt-5">
                   <PhoneInput
-                  placeholder="Mobile number"
-                    country={'in'}
+                    placeholder="Mobile number"
+                    country={"in"}
                     value={phone}
                     onChange={setPhone}
-                    onlyCountries={['in']}
+                    onlyCountries={["in"]}
                   />
                 </div>
 
@@ -248,7 +256,9 @@ const onOTPVerify = async () => {
                       text-white font-bold py-2 px-4 rounded transition-transform transform active:scale-95 
                       items-center justify-center flex gap-1"
                   >
-                    {loading && <CgSpinner size={20} className="mt-1 animate-spin" />}
+                    {loading && (
+                      <CgSpinner size={20} className="mt-1 animate-spin" />
+                    )}
                     <span>Send OTP</span>
                   </button>
                 </div>

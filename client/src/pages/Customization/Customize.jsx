@@ -59,7 +59,7 @@ const Customize = () => {
 
     // try {
     //   // Make a POST request to the backend to create the order
-    //   const response = await axios.post("https://online-tailoring-hazique.onrender.com/orders/create", orderData);
+    //   const response = await axios.post("http://localhost:3000/orders/create", orderData);
 
     //   // If successful, navigate to the order summary page
     //   console.log("Order created successfully", response.data);
@@ -144,7 +144,7 @@ const Customize = () => {
 
           <div className="relative w-[359px] h-[282px] overflow-hidden rounded-[10px] px-4">
             <img
-              src={`https://online-tailoring-hazique.onrender.com/uploads/${productItem.images[currentImageIndex]}`}
+              src={`http://localhost:3000/uploads/${productItem.images[currentImageIndex]}`}
               alt="Customize clothing"
               className="w-full h-full object-fit"
             />

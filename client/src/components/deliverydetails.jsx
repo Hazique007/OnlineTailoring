@@ -14,7 +14,7 @@ const Delivery = ({ onProceed }) => {
   // Fetch addresses when component mounts
   const fetchAddresses = async () => {
     try {
-      const response = await fetch("https://online-tailoring-hazique.onrender.com/list"); // Backend API to get all addresses
+      const response = await fetch("http://localhost:3000/list"); // Backend API to get all addresses
       if (response.ok) {
         const result = await response.json();
         if (Array.isArray(result.data)) {
@@ -46,7 +46,7 @@ const Delivery = ({ onProceed }) => {
   // Add a new address
   const handleAddAddress = async () => {
     try {
-      const response = await fetch("https://online-tailoring-hazique.onrender.com/add", {
+      const response = await fetch("http://localhost:3000/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newAddress),

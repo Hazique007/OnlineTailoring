@@ -87,7 +87,7 @@ registerRoute(
 // Handle requests to your API with StaleWhileRevalidate (fallback to cached data)
 registerRoute(
   ({ url }) =>
-    url.origin === "https://online-tailoring-hazique.onrender.com/api/v1/landing/getLandingPageImages", // Replace with your API's origin
+    url.origin === "http://localhost:3000/api/v1/landing/getLandingPageImages", // Replace with your API's origin
   new StaleWhileRevalidate({
     cacheName: "api-cache",
     plugins: [new ExpirationPlugin({ maxEntries: 50 })],
@@ -95,7 +95,7 @@ registerRoute(
 );
 registerRoute(
   ({ url }) =>
-    url.origin === "https://online-tailoring-hazique.onrender.com/api/v1/landing/getFashionPageImages", // Replace with your API's origin
+    url.origin === "http://localhost:3000/api/v1/landing/getFashionPageImages", // Replace with your API's origin
   new StaleWhileRevalidate({
     cacheName: "api-cache",
     plugins: [new ExpirationPlugin({ maxEntries: 50 })],
@@ -103,7 +103,7 @@ registerRoute(
 );
 registerRoute(
   ({ url }) =>
-    url.origin === "https://online-tailoring-hazique.onrender.com/api/v1/landing/getTrendingPageImages", // Replace with your API's origin
+    url.origin === "http://localhost:3000/api/v1/landing/getTrendingPageImages", // Replace with your API's origin
   new StaleWhileRevalidate({
     cacheName: "api-cache",
     plugins: [new ExpirationPlugin({ maxEntries: 50 })],
@@ -111,7 +111,7 @@ registerRoute(
 );
 registerRoute(
   ({ url }) =>
-    url.origin === "https://online-tailoring-hazique.onrender.com/api/v1/category/fetchcategories", // Replace with your API's origin
+    url.origin === "http://localhost:3000/api/v1/category/fetchcategories", // Replace with your API's origin
   new StaleWhileRevalidate({
     cacheName: "api-cache",
     plugins: [new ExpirationPlugin({ maxEntries: 50 })],

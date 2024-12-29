@@ -52,7 +52,7 @@ const Pickup = () => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "https://online-tailoring-hazique.onrender.com/getAddressByUser",
+          "http://localhost:3000/getAddressByUser",
           {
             params: { userID: userID },
           }
@@ -72,10 +72,8 @@ const Pickup = () => {
       sessionStorage.setItem("hasReloaded", "true");
       window.location.reload();
     } else {
-      fetchAddresses();// Fetch profile data
+      fetchAddresses(); // Fetch profile data
     }
-
-   
   }, [userID]);
 
   const handleInputChange = (e) => {
@@ -109,14 +107,11 @@ const Pickup = () => {
     try {
       const updatedAddress = { ...newAddress, userID: currentUserID };
 
-      const response = await fetch(
-        "https://online-tailoring-hazique.onrender.com/addAddressbyuserID",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updatedAddress),
-        }
-      );
+      const response = await fetch("http://localhost:3000/addAddressbyuserID", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedAddress),
+      });
 
       if (response.ok) {
         const result = await response.json();
@@ -151,7 +146,10 @@ const Pickup = () => {
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-gray-100 p-4 rounded-md mt-4">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-gray-100 p-4 rounded-md mt-4"
+        >
           <div className="flex flex-col space-y-3">
             <input
               type="text"

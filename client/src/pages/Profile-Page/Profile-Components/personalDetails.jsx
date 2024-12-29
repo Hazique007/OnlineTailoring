@@ -1,16 +1,12 @@
-
-
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import TopNav from "../../../components/TopNav";
 import { FiCamera } from "react-icons/fi";
 
-const API_BASE_URL = "https://online-tailoring-hazique.onrender.com";
+const API_BASE_URL = "http://localhost:3000";
 const userID = localStorage.getItem("userID");
 
 const PersonalDetails = () => {
@@ -67,7 +63,12 @@ const PersonalDetails = () => {
     if (!profile.mobileNumber.trim() || profile.mobileNumber.length !== 10)
       return "Valid 10-digit mobile number is required";
     if (!profile.gender) return "Gender is required";
-    if (!profile.age || isNaN(profile.age) || profile.age < 18 || profile.age > 100)
+    if (
+      !profile.age ||
+      isNaN(profile.age) ||
+      profile.age < 18 ||
+      profile.age > 100
+    )
       return "Age must be between 18 and 100";
     if (
       !profile.emailAddress.trim() ||
@@ -269,6 +270,3 @@ const PersonalDetails = () => {
 };
 
 export default PersonalDetails;
-
-
-

@@ -9,8 +9,8 @@ import Pickup from "../../components/pickup";
 import Delivery from "../../components/deliverydetails";
 import Works from "../../components/Works";
 import OrderSummaryCard from "../../components/orderShowCard";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const OrderSummary = () => {
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ const OrderSummary = () => {
 
     try {
       const response = await axios.post(
-        "https://online-tailoring-hazique.onrender.com/orders/create",
+        "http://localhost:3000/orders/create",
         orderData
       );
       navigate("/orderSuccessful");
@@ -76,7 +76,7 @@ const OrderSummary = () => {
 
   const handleRemoveOrder = async (orderId) => {
     try {
-      await axios.delete(`https://online-tailoring-hazique.onrender.com/orders/${orderId}`);
+      await axios.delete(`http://localhost:3000/orders/${orderId}`);
       alert("Order removed successfully.");
       // Update UI by removing the order from the list
       const updatedOrders = orders.filter((order) => order._id !== orderId);

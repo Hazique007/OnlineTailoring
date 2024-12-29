@@ -46,9 +46,9 @@ app.use("/orders", OrderRoute);
 app.use("/api", UserRoute);
 
 // Serve React app for all other routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "build", "index.html"));
+// });
 
 // Start the server
 app.listen(PORT, () => {
