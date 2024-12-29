@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import TopNav from "../../../components/TopNav";
 import axios from "axios";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AllAddresses = () => {
   const validPincodes = [
@@ -70,7 +72,7 @@ const AllAddresses = () => {
     const value = event.target.value;
     if (key === "pincode") {
       if (!/^\d*$/.test(value)) {
-        window.alert("Pincode can only contain numbers");
+        toast.error("Pincode can only contain numbers"); // Show toast instead of alert
         return;
       }
     }
@@ -88,7 +90,7 @@ const AllAddresses = () => {
     if (!address.pincode.trim()) return "Pincode is required";
 
     if (address.pincode.length !== 6) return "Pincode must be exactly 6 digits";
-    if (!validPincodes.includes(address.pincode)) return "This pincode is non serviceable";
+    if (!validPincodes.includes(address.pincode)) return "This pincode is not serviceable"; // Change to toast on validation failure
 
     return "";
   };
@@ -96,7 +98,7 @@ const AllAddresses = () => {
   const handleAddAddress = async () => {
     const errorMessage = validateFields(newAddress);
     if (errorMessage) {
-      window.alert(errorMessage);
+      toast.error(errorMessage); // Show toast instead of alert
       return;
     }
 
@@ -133,7 +135,7 @@ const AllAddresses = () => {
   const handleEditAddress = async () => {
     const errorMessage = validateFields(editingAddress);
     if (errorMessage) {
-      window.alert(errorMessage);
+      toast.error(errorMessage); // Show toast instead of alert
       return;
     }
   
@@ -152,8 +154,6 @@ const AllAddresses = () => {
     }
   };
   
-  
-
   const handleDeleteAddress = async (id) => {
     try {
       const response = await fetch(`http://localhost:3000/delete/${id}`, {
@@ -344,6 +344,7 @@ const AllAddresses = () => {
           </div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };

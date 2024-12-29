@@ -117,10 +117,10 @@ const ProfilePage = () => {
           }}
         >
           <h2 className="text-lg font-semibold">
-            {profile?.name || "Loading..."} {/* Render name if profile is not null */}
+            {profile?.name || "Profile details not available"} {/* Render name if profile is not null */}
           </h2>
           <p className="text-sm text-gray-300">
-            {profile?.mobileNumber || "Loading..."} {/* Render mobile number if profile is not null */}
+            {profile?.mobileNumber || "Profile details not available"} {/* Render mobile number if profile is not null */}
           </p>
         </div>
       </div>
