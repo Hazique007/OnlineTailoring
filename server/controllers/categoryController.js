@@ -4,9 +4,11 @@ import Product from "../models/productSchema.js";
 export const addCategoryData = async (req, res) => {
   try {
     const { category, gender } = req.body;
+    // console.log(req.body);
 
-    const categoryImages = req.file?.filecategory;
-    // console.log(categoryImages);
+    const categoryImages = req.file?.filename;
+    console.log(categoryImages);
+    console.log(req.file);
 
     if (!category || !gender || !categoryImages) {
       return res.status(400).json({
@@ -102,7 +104,6 @@ export const getGenderWiseCategory = async (req, res) => {
     );
 
     res.status(200).json({
-      
       message: "Categories and products retrieved successfully.",
       data,
     });

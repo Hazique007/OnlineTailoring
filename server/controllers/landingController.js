@@ -52,10 +52,10 @@ export const addLandingPageImages = async (req, res) => {
   }
 };
 
-
 export const getLandingPageImages = async (req, res) => {
   try {
     const landingData = await Landing.find({});
+    // console.log(landingData);
 
     if (!landingData.length) {
       return res.status(404).json({
@@ -66,8 +66,8 @@ export const getLandingPageImages = async (req, res) => {
 
     const formattedData = landingData.map((item) => ({
       bannerImages: item.bannerImages.map((image) => ({
-        image: image.image, 
-        gender: image.gender, 
+        image: image.image,
+        gender: image.gender,
         category: image.category,
       })),
     }));
