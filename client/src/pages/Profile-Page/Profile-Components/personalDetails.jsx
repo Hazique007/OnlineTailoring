@@ -1,8 +1,184 @@
+// import React, { useState, useEffect } from "react";
+// import TopNav from "../../../components/TopNav";
+// import { FiCamera } from "react-icons/fi";
+// import axios from "axios";
+// import { BeatLoader } from "react-spinners";
+
+// const API_BASE_URL = "http://localhost:3000";
+// const userID = localStorage.getItem("userID");
+
+// const PersonalDetails = () => {
+//   const [profile, setProfile] = useState(null); // Start with null
+//   const [originalProfile, setOriginalProfile] = useState({});
+//   const [isEditing, setIsEditing] = useState(false);
+//   const [showAlert, setShowAlert] = useState(false);
+  // const [isLoading, setIsLoading] = useState(true);
+
+  // useEffect(() => {
+  //   const fetchProfile = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       const response = await axios.get(`${API_BASE_URL}/listpersonal`, {
+  //         params: { userID },
+  //       });
+
+  //       if (response.data?.length > 0) {
+  //         const user = response.data[0];
+  //         setProfile(user); // Set the profile data
+  //         setOriginalProfile(user); // Keep the original profile for revert
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching profile:", error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   fetchProfile();
+  // }, [userID]);
+
+//   const handleInputChange = (e, key) => {
+//     setProfile({ ...profile, [key]: e.target.value });
+//   };
+
+  // const validateFields = () => {
+  //   if (!profile.name.trim()) return "Name is required";
+  //   if (profile.name.length > 100) return "Name cannot exceed 100 characters";
+  //   if (!profile.mobileNumber.trim() || profile.mobileNumber.length !== 10)
+  //     return "Valid 10-digit mobile number is required";
+  //   if (!profile.gender) return "Gender is required";
+  //   if (!profile.age || isNaN(profile.age) || profile.age < 18 || profile.age > 100)
+  //     return "Age must be between 18 and 100";
+  //   if (
+  //     !profile.emailAddress.trim() ||
+  //     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profile.emailAddress)
+  //   )
+  //     return "Valid email address is required";
+  //   return "";
+  // };
+
+//   const handleEditClick = () => {
+//     setIsEditing(true);
+//   };
+
+  // const handleSaveClick = async () => {
+  //   const errorMessage = validateFields();
+  //   if (errorMessage) {
+  //     window.alert(errorMessage);
+  //     return;
+  //   }
+
+  //   setIsEditing(false);
+  //   setShowAlert(true);
+
+  //   try {
+  //     await axios.post(`${API_BASE_URL}/addOrUpdate`, {
+  //       ...profile,
+  //       userID,
+  //     });
+  //     setOriginalProfile(profile); // Update original profile on successful save
+  //   } catch (error) {
+  //     console.error("Failed to save profile:", error);
+  //   }
+  // };
+
+//   const handleCancelClick = () => {
+//     setProfile(originalProfile); // Revert to original profile data
+//     setIsEditing(false);
+//   };
+
+//   const handleProfilePictureChange = (e) => {
+//     const file = e.target.files[0];
+//     if (file) {
+//       const reader = new FileReader();
+//       reader.onload = (event) => {
+//         setProfile({ ...profile, profilePicture: event.target.result });
+//       };
+//       reader.readAsDataURL(file);
+//     }
+//   };
+
+//   if (isLoading) {
+//     return (
+//       <div className="w-full h-[70vh] flex justify-center items-center">
+//         <BeatLoader color="#ff58e6" />
+//       </div>
+//     );
+//   }
+
+//   if (!profile) {
+//     return <div className="text-center mt-4">Profile data not available.</div>;
+//   }
+
+//   return (
+//     <div className="font-poppins">
+//       <TopNav />
+//       <h1 className="font-poppins font-[700] text-[14px] text-[#737373] pt-4 pl-4 ">
+//         Personal details
+//       </h1>
+//       <div className="p-8 flex flex-col items-center">
+//         <div className="relative w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-4">
+//           {isEditing ? (
+//             <>
+//               <input
+//                 type="file"
+//                 accept="image/*"
+//                 id="profile-picture"
+//                 className="absolute inset-0 opacity-0 cursor-pointer"
+//                 onChange={handleProfilePictureChange}
+//               />
+//               <FiCamera className="absolute bottom-2 right-2 text-white bg-gray-800 rounded-full p-1 text-xl" />
+//             </>
+//           ) : null}
+//           {profile.profilePicture ? (
+//             <img
+//               src={profile.profilePicture}
+//               alt="Profile"
+//               className="w-full h-full rounded-full object-cover"
+//             />
+//           ) : (
+//             <p className="text-gray-500">Add Photo</p>
+//           )}
+//         </div>
+
+//         <div className="w-full max-w-md grid grid-cols-2 gap-4 pt-10">
+//           {/* Form Fields */}
+//         </div>
+
+//         <div className="flex gap-4 mt-6">
+//           <button
+//             onClick={isEditing ? handleSaveClick : handleEditClick}
+//             className={`px-6 py-2 text-red-500 rounded-md bg-transparent border border-red-500 ${
+//               isEditing ? "hover:bg-red-500 hover:text-white" : ""
+//             }`}
+//           >
+//             {isEditing ? "Save" : "Edit"}
+//           </button>
+//           {isEditing && (
+//             <button
+//               onClick={handleCancelClick}
+//               className="px-6 py-2 text-gray-500 rounded-md bg-transparent border border-gray-500 hover:bg-gray-500 hover:text-white"
+//             >
+//               Cancel
+//             </button>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default PersonalDetails;
+
+
+
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import TopNav from "../../../components/TopNav";
 import { FiCamera } from "react-icons/fi";
 
 const API_BASE_URL = "http://localhost:3000";
+const userID = localStorage.getItem("userID");
 
 const PersonalDetails = () => {
   const [profile, setProfile] = useState({
@@ -15,27 +191,38 @@ const PersonalDetails = () => {
   });
   const [originalProfile, setOriginalProfile] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-  const [id, setId] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const userID = localStorage.getItem("userID");
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/listpersonal`);
-        if (!response.ok) throw new Error("Failed to fetch profile data");
-        const data = await response.json();
-        const user = data[0];
-        if (user) {
-          setProfile(user);
-          setOriginalProfile(user);
-          setId(user._id);
+        setIsLoading(true);
+        const response = await axios.get(`${API_BASE_URL}/listpersonal`, {
+          params: { userID },
+        });
+
+        if (response.data?.length > 0) {
+          const user = response.data[0];
+          setProfile(user); // Set the profile data
+          setOriginalProfile(user); // Keep the original profile for revert
         }
       } catch (error) {
         console.error("Error fetching profile:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
-    fetchProfile();
-  }, []);
+
+    // Reload page if not already reloaded
+    if (!sessionStorage.getItem("hasReloaded")) {
+      sessionStorage.setItem("hasReloaded", "true");
+      window.location.reload();
+    } else {
+      fetchProfile(); // Fetch profile data
+    }
+  }, [userID]);
 
   const handleInputChange = (e, key) => {
     setProfile({ ...profile, [key]: e.target.value });
@@ -57,6 +244,17 @@ const PersonalDetails = () => {
     return "";
   };
 
+  const handleProfilePictureChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setProfile({ ...profile, profilePicture: event.target.result });
+      };
+      reader.readAsDataURL(file); // Convert to base64
+    }
+  };
+
   const handleEditClick = () => {
     setIsEditing(true);
   };
@@ -72,31 +270,10 @@ const PersonalDetails = () => {
     setShowAlert(true);
 
     try {
-      if (id) {
-        // PUT request for updating an existing profile
-        const response = await fetch(`${API_BASE_URL}/${id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(profile),
-        });
-        if (!response.ok) throw new Error("Failed to update profile");
-        console.log("Profile updated successfully");
-      } else {
-        // POST request for creating a new profile
-        const response = await fetch(`${API_BASE_URL}/addpersonal`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(profile),
-        });
-        if (!response.ok) throw new Error("Failed to create profile");
-        console.log("Profile created successfully");
-        const data = await response.json();
-        setId(data._id); // Assume backend returns the created profile's ID
-      }
+      await axios.post(`${API_BASE_URL}/addOrUpdate`, {
+        ...profile,
+        userID,
+      });
       setOriginalProfile(profile); // Update original profile on successful save
     } catch (error) {
       console.error("Failed to save profile:", error);
@@ -108,15 +285,14 @@ const PersonalDetails = () => {
     setIsEditing(false);
   };
 
-  const handleProfilePictureChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setProfile({ ...profile, profilePicture: event.target.result });
-      };
-      reader.readAsDataURL(file);
+  const dataURItoBlob = (dataURI) => {
+    const byteString = atob(dataURI.split(",")[1]);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const uintArray = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      uintArray[i] = byteString.charCodeAt(i);
     }
+    return new Blob([arrayBuffer], { type: "image/jpeg" });
   };
 
   return (
@@ -259,3 +435,6 @@ const PersonalDetails = () => {
 };
 
 export default PersonalDetails;
+
+
+

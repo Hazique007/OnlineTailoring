@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import TopNav from "../../components/TopNav";
-import Search from "../../components/Search";
+import TopNav from "./TopNav";
+import Search from "./Search";
 import { FaFilter } from "react-icons/fa";
 import { LuArrowDownUp } from "react-icons/lu";
-import ProductCart from "../../components/productCart";
-import Navbar from "../../components/Navbar";
+import ProductCart from "./productCart";
+import Navbar from "./Navbar";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Audio } from "react-loader-spinner";
 import { BeatLoader } from "react-spinners";
 
-const ProductPage = () => {
+const FashionProductDetails = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [categoryDescription, setCategoryDescription] = useState();
@@ -22,9 +22,9 @@ const ProductPage = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:3000/api/v1/products/allProducts`,
+          `http://localhost:3000/api/v1/products/getGenderPlusCategory`,
           {
-            params: { gender, category, subCategory },
+            params: { gender, category },
           }
         );
         // console.log(response);
@@ -122,4 +122,4 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;
+export default FashionProductDetails;

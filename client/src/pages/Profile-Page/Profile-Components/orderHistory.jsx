@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Topnav from "../../../components/TopNav";
-import OrderSummaryCard from "../../../components/OrderSummaryCard";
+import OrderSummaryCard from "../../../components/OrderSummarycard";
+import { BeatLoader } from "react-spinners";
 
 const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]); // To store fetched orders
@@ -13,9 +14,12 @@ const OrderHistoryPage = () => {
     // Fetch all orders from the API using Axios
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/orders/getOrdersByUser", {
-          params: { userID: userID },
-        });
+        const response = await axios.get(
+          "http://localhost:3000/orders/getOrdersByUser",
+          {
+            params: { userID: userID },
+          }
+        );
         setOrders(response.data); // Assuming the API returns an array of orders
         setLoading(false); // Set loading to false after data is fetched
       } catch (error) {
@@ -32,25 +36,33 @@ const OrderHistoryPage = () => {
     setOrders(orders.filter((order) => order._id !== orderId));
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+ 
+   if (loading) {
+     return (
+       <div className="w-full h-[70vh] flex justify-center items-center">
+         <BeatLoader color="#ff58e6" />
+       </div>
+     );
+   }
 
   if (error) {
     return <div>Error: {error}</div>;
   }
 
   return (
-    <div className="pb-20 font-poppins h-screen flex flex-col">
+    <div className=" font-poppins flex flex-col  ">
       <Topnav />
       <div className="px-5 mt-[17px]">
-        <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">Order History</h1>
+        <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">
+          Order History
+        </h1>
       </div>
       <div className="flex-1 flex justify-center items-center">
         {orders.length === 0 ? (
           <div className="text-center text-gray-500">No order history</div>
+          
         ) : (
-          <div className="mt-4 pb-24">
+          <div className="pb-10 ">
             <div>
               {orders.map((order, index) => (
                 <OrderSummaryCard key={index} order={order} removeOrder={removeOrder} />

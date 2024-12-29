@@ -11,7 +11,7 @@ const Customize = () => {
   const productItem = JSON.parse(localStorage.getItem("productItem"));
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState({
-    pocket: "Single Pocket",
+    pockets: "Single Pocket",
     sleeves: "Full Sleeves",
     thread: "White",
     collarStyle: "Regular",
@@ -27,6 +27,7 @@ const Customize = () => {
     shirtLength: "Regular",
   });
   const [show, setShow] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleProceed = async () => {
     // Prepare the order data from localStorage and formValues
@@ -51,8 +52,6 @@ const Customize = () => {
 
     // console.log("Id" ,localStorage.getItem("userID"));
     // console.log(orderData);
-    
-    
 
     // try {
     //   // Make a POST request to the backend to create the order
@@ -61,7 +60,7 @@ const Customize = () => {
     //   // If successful, navigate to the order summary page
     //   console.log("Order created successfully", response.data);
 
-      navigate("/ordersummary");
+    navigate("/ordersummary");
     // } catch (error) {
     //   console.error("Error creating order:", error);
     // }
@@ -112,6 +111,18 @@ const Customize = () => {
       [key]: value,
     }));
   };
+  const handlePrevImage = () => {
+    setCurrentImageIndex(
+      (prevIndex) =>
+        (prevIndex - 1 + productItem.images.length) % productItem.images.length
+    );
+  };
+
+  const handleNextImage = () => {
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex + 1) % productItem.images.length
+    );
+  };
 
   return (
     <div>
@@ -126,11 +137,26 @@ const Customize = () => {
           <h1 className="text-[17px] font-poppins font-[600] text-[#DA3A3A]">
             Customize
           </h1>
-          <img
-            className="rounded-[10px] h-[282px] object-fit w-[359px] "
-            src={`http://localhost:3000/uploads/${productItem.images[0]}`}
-            alt="Customize clothing"
-          />
+
+          <div className="relative w-[359px] h-[282px] overflow-hidden rounded-[10px]">
+            <img
+              src={`http://localhost:3000/uploads/${productItem.images[currentImageIndex]}`}
+              alt="Customize clothing"
+              className="w-full h-full object-fit"
+            />
+            <button
+              onClick={handlePrevImage}
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white bg-black bg-opacity-50 p-2 rounded-full"
+            >
+              &#8249;
+            </button>
+            <button
+              onClick={handleNextImage}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white bg-black bg-opacity-50 p-2 rounded-full"
+            >
+              &#8250;
+            </button>
+          </div>
         </div>
         <div className="mt-4">
           <h2 className="font-poppins font-[600] text-[16px]">
@@ -145,14 +171,21 @@ const Customize = () => {
             <h1 className="text-[16px] font-[700] font-poppins mb-2">
               Decide Your Style
             </h1>
-            <span
+            {/* <span
               onClick={() => setShow(!show)}
               className={`text-[12px] text-[#1043F9] font-[400] font-poppins cursor-pointer`}
             >
               Edit Details
-            </span>
+            </span> */}
           </div>
-          {!show ? (
+          <p className="text-[13px] font-poppins">
+            If you need specific customizations in your apparel, you can share
+            the same with our tailor guru once he comes to your place for taking
+            measurements. Our expert tailor will take note of all the required
+            customizations during home visit and ensure these are catered to in
+            the best manner.
+          </p>
+          {/* {!show ? (
             <div className="details grid grid-cols-3 gap-5 mt-[24px]  ">
               {config.map(({ label, key }) => (
                 <div key={key} className="flex flex-col gap-y-2">
@@ -193,7 +226,7 @@ const Customize = () => {
                 </div>
               ))}
             </div>
-          )}
+          )} */}
         </div>
         <div
           className={`w-full flex justify-center ${show ? "mt-10" : "mt-10"}`}

@@ -4,7 +4,12 @@ const Delivery = ({ onProceed }) => {
   const [selectedAddress, setSelectedAddress] = useState(""); // To store the selected address
   const [addresses, setAddresses] = useState([]); // To store the list of addresses
   const [showAll, setShowAll] = useState(false); // To toggle between showing 3 or all addresses
-  const [newAddress, setNewAddress] = useState({ name: "", address1: "", address2: "", pincode: "" }); // For adding a new address
+  const [newAddress, setNewAddress] = useState({
+    name: "",
+    address1: "",
+    address2: "",
+    pincode: "",
+  }); // For adding a new address
 
   // Fetch addresses when component mounts
   const fetchAddresses = async () => {
@@ -88,7 +93,9 @@ const Delivery = ({ onProceed }) => {
     return 0;
   });
 
-  const displayedAddresses = showAll ? sortedAddresses : sortedAddresses.slice(0, 3);
+  const displayedAddresses = showAll
+    ? sortedAddresses
+    : sortedAddresses.slice(0, 3);
 
   return (
     <div className="p-4 rounded-md pl-4">
@@ -114,7 +121,9 @@ const Delivery = ({ onProceed }) => {
                 <p className=" text-[14px]"> Deliver to: {address.name}</p>
                 <p className="text-[12px]">{address.address1}</p>
                 <p className="text-[12px]">{address.address2}</p>
-                <p className="text-[12px] font-bold">Pincode: {address.pincode}</p>
+                <p className="text-[12px] font-bold">
+                  Pincode: {address.pincode}
+                </p>
               </div>
             </label>
           ))}

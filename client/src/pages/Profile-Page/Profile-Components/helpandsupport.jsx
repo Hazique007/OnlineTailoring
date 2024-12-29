@@ -23,7 +23,7 @@ const HelpAndSupport = () => {
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Need Help?</h2>
         <p className="text-gray-600 mb-4">Reach out to us:</p>
         <p className="text-gray-800">
-          <strong>Email:</strong> <a href="mailto:test@test.com" className="text-blue-500 hover:underline">test@test.com</a>
+          <strong>Email:</strong> <a href="mailto:test@test.com" className="text-blue-500 hover:underline">glamthreads21@gmail.com</a>
         </p>
         <p className="text-gray-800 mt-2">
           <strong>Phone:</strong> <a href="tel:+7758838825" className="text-blue-500 hover:underline">7758838825</a>

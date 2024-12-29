@@ -1,7 +1,7 @@
-import Step1 from "../assets/images/Step1.png";
-import Step2 from "../assets/images/GET MEASURED-3.png";
-import Step3 from "../assets/images/MEET YOUR PERSONAL STYLIST-1.png";
-import Step4 from "../assets/images/TRIAL FITTING & FINAL DELIVERY-4.png";
+import Step1 from "../assets/images/S1.png";
+import Step2 from "../assets/images/S2.png";
+import Step3 from "../assets/images/S3.png";
+import Step4 from "../assets/images/S4.png";
 
 import Workcomp from "./work-comp";
 const Works = () => {
@@ -21,7 +21,7 @@ const Works = () => {
           img={Step2}
           head={"Step 2"}
           desc={
-            "Schedule appointment to meet your personal stylist to take measurements and collect fabric"
+            "Schedule an appointment and we will visit your home to take measurements and collect fabric."
           }
         />
 

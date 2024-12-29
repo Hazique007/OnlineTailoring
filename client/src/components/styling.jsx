@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import StylingImageText from "./styling-img-text";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ export const DesignStyling = () => {
     <>
       <Styling gender="Male" heading="Men Styling" />
       <Styling gender="Female" heading="Women Styling" />
+      {/* Uncomment if needed */}
       {/* <Styling gender="Kids" heading="Kids Styling" /> */}
     </>
   );
@@ -15,6 +16,8 @@ export const DesignStyling = () => {
 
 const Styling = ({ heading, gender }) => {
   const [categoryArray, setCategoryArray] = useState([]);
+  const navigate = useNavigate();
+  // console.log(categoryArray);
 
   const getCategory = async () => {
     try {
@@ -37,6 +40,20 @@ const Styling = ({ heading, gender }) => {
     getCategory();
   }, [gender]);
 
+  const handleImageClick = async (gender, category) => {
+    try {
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
+      console.log("Clicked");
+
+      navigate(`/product/${gender}/${category}`);
+    } catch (error) {
+      console.error("Error tracking click:", error);
+    }
+  };
+
   return (
     <div>
       <div className="pt-5 w-full flex justify-between px-[10px] mt-3">
@@ -54,7 +71,7 @@ const Styling = ({ heading, gender }) => {
         {categoryArray.map((element) => (
           <StylingImageText
             key={element._id}
-            link={`/product/${gender}/${element.category}`}
+            onClick={() => handleImageClick(element.gender, element.category)}
             text={element.category}
             img={element.categoryImages}
             alt={`${element.category} image`}

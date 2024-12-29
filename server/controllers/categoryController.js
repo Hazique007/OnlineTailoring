@@ -102,6 +102,7 @@ export const getGenderWiseCategory = async (req, res) => {
     );
 
     res.status(200).json({
+      
       message: "Categories and products retrieved successfully.",
       data,
     });

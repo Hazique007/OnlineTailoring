@@ -34,7 +34,7 @@ const Otp = () => {
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(1, '0')}:${String(seconds).padStart(1, '0')}`;
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
 
   // Send OTP function (API call using fetch)
@@ -75,39 +75,73 @@ const Otp = () => {
   };
 
   // Verify OTP function (API call using fetch)
-  const onOTPVerify = async () => {
-    setLoading(true);
+  // const onOTPVerify = async () => {
+  //   setLoading(true);
 
-    try {
-      const formattedPhone = "+" + phone;
-      const response = await fetch('http://localhost:3000/api/verify-otp', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
-      });
+  //   try {
+  //     const formattedPhone = "+" + phone;
+  //     const response = await fetch('http://localhost:3000/api/verify-otp', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
+  //     });
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (data.success) {
-        // Store user ID in localStorage
-        localStorage.setItem("userID", data.user._id);
-        console.log(data);
-        
+  //     if (data.success) {
+  //       // Store user ID in localStorage
+  //       localStorage.setItem("userID", data.user._id);
+  //       console.log(data);
 
-        toast.success('OTP verified successfully');
-        navigate("/home"); 
-      } else {
-        toast.error('Invalid OTP. Please try again.');
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error("Error during OTP verification:", error);
+  //       toast.success('OTP verified successfully');
+  //       navigate("/home"); 
+  //     } else {
+  //       toast.error('Invalid OTP. Please try again.');
+  //       setLoading(false);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during OTP verification:", error);
+  //     setLoading(false);
+  //     toast.error('Something went wrong. Please try again.');
+  //   }
+  // };
+
+  // Modify the onOTPVerify function to update userID after successful login
+const onOTPVerify = async () => {
+  setLoading(true);
+
+  try {
+    const formattedPhone = "+" + phone;
+    const response = await fetch('http://localhost:3000/api/verify-otp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      // Store the new user ID in localStorage
+      localStorage.setItem("userID", data.user._id); // Update userID
+      console.log(data);
+
+      toast.success('OTP verified successfully');
+      navigate("/home"); 
+    } else {
+      toast.error('Invalid OTP. Please try again.');
       setLoading(false);
-      toast.error('Something went wrong. Please try again.');
     }
-  };
+  } catch (error) {
+    console.error("Error during OTP verification:", error);
+    setLoading(false);
+    toast.error('Something went wrong. Please try again.');
+  }
+};
+
 
   // Resend OTP function
   const resendOtp = async () => {
@@ -144,7 +178,7 @@ const Otp = () => {
 
         <div className="h-[110px] w-full rounded-[5px] pb-78">
           <HeaderPhotos />
-          <div className="bg-black h-[550px]">
+          <div className="bg-black h-[580px]">
             <p className="text-white text-[32px] font-[1000] font-poppins text-center pt-10">
               Doorstep Stitching
             </p>

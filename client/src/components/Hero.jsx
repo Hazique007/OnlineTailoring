@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { BeatLoader } from "react-spinners";
 
 const Hero = () => {
   const navigate = useNavigate();
 
   const [landingArray, setLandingArray] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const getLandingImages = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(
         "http://localhost:3000/api/v1/landing/getLandingPageImages"
       );
+      if (data.status !== "success") {
+        navigate("/error");
+      }
+
       if (data) {
         const images = data.data.flatMap((item) => item.bannerImages);
         setLandingArray(images);
       }
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching landing images:", error);
+      navigate("/error");
     }
   };
 
@@ -48,7 +57,7 @@ const Hero = () => {
         setCurrentIndex((prevIndex) =>
           prevIndex === landingArray.length - 1 ? 0 : prevIndex + 1
         );
-      }, 7000);
+      }, 2500);
 
       return () => clearInterval(interval);
     }
@@ -57,9 +66,27 @@ const Hero = () => {
   const handleIndicatorClick = (index) => {
     setCurrentIndex(index);
   };
-  const handleImageClick = (gender, category) => {
-    navigate(`/product/${gender}/${category}`);
+  // const handleImageClick = (gender, category) => {
+  //   navigate(`/product/${gender}/${category}`);
+  // };
+  const handleImageClick = async (gender, category) => {
+    try {
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
+      navigate(`/product/${gender}/${category}`);
+    } catch (error) {
+      console.error("Error tracking click:", error);
+    }
   };
+  if (loading) {
+    return (
+      <div className="w-full h-[70vh] flex justify-center items-center">
+        <BeatLoader color="#ff58e6" />
+      </div>
+    );
+  }
 
   return (
     <div className="h-[182px] w-full mt-[11px] overflow-hidden">

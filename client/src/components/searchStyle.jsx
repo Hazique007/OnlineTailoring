@@ -1,48 +1,62 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BeatLoader } from "react-spinners";
 
 const SearchStyle = ({ gender }) => {
   const [maleData, setMaleData] = useState([]);
   const [femaleData, setFemaleData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const getSubCategoryMale = async () => {
-    const response = await axios.get(
-      "http://localhost:3000/api/v1/category/getGenderWiseCategory",
-      {
-        params: {
-          gender: "Male",
-        },
-      }
-    );
-    setMaleData(response.data.data);
-    // console.log(response.data.data);
-  };
+  const fetchCategories = async () => {
+    try {
+      setLoading(true);
 
-  const getSubCategoryFemale = async () => {
-    const response = await axios.get(
-      "http://localhost:3000/api/v1/category/getGenderWiseCategory",
-      {
-        params: {
-          gender: "Female",
-        },
+      const [maleResponse, femaleResponse] = await Promise.all([
+        axios.get(
+          "http://localhost:3000/api/v1/category/getGenderWiseCategory",
+          { params: { gender: "Male" } }
+        ),
+        axios.get(
+          "http://localhost:3000/api/v1/category/getGenderWiseCategory",
+          { params: { gender: "Female" } }
+        ),
+      ]);
+
+      if (maleResponse.status !== 200 || femaleResponse.status !== 200) {
+        navigate("/error");
+        return;
       }
-    );
-    setFemaleData(response.data.data);
+
+      setMaleData(maleResponse.data.data);
+      setFemaleData(femaleResponse.data.data);
+    } catch (error) {
+      navigate("/error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    getSubCategoryMale();
-    getSubCategoryFemale();
+    fetchCategories();
   }, [gender]);
 
-  let lab =
+  const lab =
     gender === "Male" ? "Men" : gender === "Female" ? "Women" : "Unisex";
   const Label = lab
     ? `${lab.charAt(0).toUpperCase() + lab.slice(1)} Styles`
     : "Unisex Styles";
 
   const renderCategory = (data) => {
+    if (loading) {
+      return (
+        <div className="flex justify-center items-center">
+          <BeatLoader size={10} color="#ff58e6" />
+        </div>
+      );
+    }
+
     return data.map((item) => {
       const filteredProducts = item.products.filter(
         (product) => product.gender === gender
@@ -51,18 +65,37 @@ const SearchStyle = ({ gender }) => {
       const uniqueSubCategories = [
         ...new Set(filteredProducts.map((product) => product.subCategory)),
       ];
+      //Track Click
+      const handleImageClick = async (gender, category) => {
+        try {
+          await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+            gender,
+            category,
+          });
+          console.log("Clicked");
+
+          navigate(`/product/${gender}/${category}`);
+        } catch (error) {
+          console.error("Error tracking click:", error);
+        }
+      };
 
       return (
-        <div key={item.category} className="mb-6 ">
-          <h2 className="text-[#DA3A3A] font-semibold text-md">
+        <div key={item.category} className="mb-6">
+          <Link
+            onClick={() => handleImageClick(gender, item.category)}
+            to={`/product/${gender}/${item.category}`}
+            className="text-[#DA3A3A] font-semibold text-md"
+          >
             {item.category}
-          </h2>
+          </Link>
           <ul className="pl-4 list-none">
             {uniqueSubCategories.map((subCategory) => (
               <li key={subCategory} className="mb-2">
                 <Link
                   className="text-[13px] font-normal text-gray-700 hover:text-[#DA3A3A] hover:underline"
                   to={`/product/${gender}/${item.category}/${subCategory}`}
+                  onClick={() => handleImageClick(gender, item.category)}
                 >
                   {subCategory}
                 </Link>

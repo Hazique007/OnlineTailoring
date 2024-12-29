@@ -33,25 +33,21 @@ const OrderSummary = () => {
   });
 
   const handlePlaceOrder = async () => {
-    // Ensure `productItem` exists and `userID` is set in `localStorage`
     if (!productItem) {
-      console.error("Product item not found in localStorage.");
       alert("No product item data found. Please try again.");
       return;
     }
     const userID = localStorage.getItem("userID");
     if (!userID) {
-      console.error("User ID not found in localStorage.");
       alert("No user ID found. Please login again.");
       return;
     }
 
-    // Prepare order data
     const orderData = {
       category: productItem.category,
       categoryDescription: productItem.description,
       colors: [formValues.threadColor, formValues.buttonColor],
-      customizationOptions: JSON.stringify(formValues), // Serialize the form values as a string
+      customizationOptions: JSON.stringify(formValues),
       description: productItem.description,
       fabric: productItem.fabric,
       gender: productItem.gender,
@@ -65,18 +61,26 @@ const OrderSummary = () => {
       userID: userID,
     };
 
-    console.log("Order data being sent:", orderData);
-
     try {
-      // Make the POST request
-      const response = await axios.post("http://localhost:3000/orders/create", orderData);
-      console.log("Order created successfully:", response.data);
-
-      // Navigate to the order success page
+      const response = await axios.post(
+        "http://localhost:3000/orders/create",
+        orderData
+      );
       navigate("/orderSuccessful");
     } catch (error) {
-      console.error("Error creating order from frontend:", error);
       alert("An error occurred while placing the order. Please try again.");
+    }
+  };
+
+  const handleRemoveOrder = async (orderId) => {
+    try {
+      await axios.delete(`http://localhost:3000/orders/${orderId}`);
+      alert("Order removed successfully.");
+      // Update UI by removing the order from the list
+      const updatedOrders = orders.filter((order) => order._id !== orderId);
+      setOrders(updatedOrders);
+    } catch (error) {
+      alert("Failed to remove order. Please try again.");
     }
   };
 
@@ -96,30 +100,28 @@ const OrderSummary = () => {
   return (
     <div className="pb-20 font-poppins">
       <TopNav />
-      <div className="mt-4 pb-24 space-y-5">
+      <div className="mt-4 pb-5 space-y-5">
         {showSummary ? (
-          <>
-            <div ref={summarySectionRef}>
-              <p className="text-center pt-5 pb-5 text-[#DA3A3A] text-[18px] font-[600]">
-                Order Summary
-              </p>
-              <ShowSummary />
-              <OrderSummaryCard />
-              <Pickup />
-              <Delivery />
-              <Works />
-              <div className="flex items-center justify-center mt-6 pt-10">
-                <button
-                  onClick={handlePlaceOrder}
-                  className="w-[280px] h-[45px] bg-gradient-to-r from-[#9C3FE4] to-[#C65647] hover:bg-blue-700 text-white font-bold text-sm py-2 px-4 rounded-lg transition-transform transform active:scale-95"
-                >
-                  Place Order
-                </button>
-              </div>
+          <div ref={summarySectionRef}>
+            <p className="text-center pt-5 pb-5 text-[#DA3A3A] text-[18px] font-[600]">
+              Order Summary
+            </p>
+            <ShowSummary />
+            <OrderSummaryCard onRemoveOrder={handleRemoveOrder} />
+            <Pickup />
+            <Delivery />
+            <Works />
+            <div className="flex items-center justify-center mt-6 pt-10">
+              <button
+                onClick={handlePlaceOrder}
+                className="w-[280px] h-[45px] bg-gradient-to-r from-[#9C3FE4] to-[#C65647] hover:bg-blue-700 text-white font-bold text-sm py-2 px-4 rounded-lg transition-transform transform active:scale-95"
+              >
+                Place Order
+              </button>
             </div>
-          </>
+          </div>
         ) : (
-          <>
+          <div>
             <h1 className="font-[600] text-[12px] text-[#737373]">
               Men {">"} Formal Shirts {">"} Style Name
             </h1>
@@ -142,7 +144,7 @@ const OrderSummary = () => {
                 Proceed
               </button>
             </div>
-          </>
+          </div>
         )}
         <Navbar />
       </div>

@@ -6,7 +6,7 @@ const StylingImageText = ({ img, text, onClick, link }) => {
       to={link}
       className="flex-col  rounded-sm items-center justify-center text-center "
     >
-      <div className="  hover:bg-white">
+      <div className="hover:bg-white">
         <img
           onClick={onClick}
           className="w-[34px] object-fit  h-[34px] rounded-sm"

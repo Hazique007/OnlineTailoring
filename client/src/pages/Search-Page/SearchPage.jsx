@@ -7,8 +7,8 @@ const SearchPage = ({ gender }) => {
   return (
     <div className="pb-20">
       <TopNav />
-      <div className="w-full justify-center px-[13px] pt-[11px] items-center ">
-        <Search />
+      <div className="w-full justify-center px-[13px] pt-[5px] items-center ">
+        {/* <Search /> */}
         <SearchStyle gender={"Male"} />
         <SearchStyle gender={"Female"} />
         {/* <SearchStyle gender={"Kids"} /> */}

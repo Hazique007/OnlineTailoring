@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { BeatLoader } from "react-spinners";
 
 const OrderSummaryCard = ({ order, removeOrder }) => {
   const [loading, setLoading] = useState(false);
@@ -29,7 +30,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
     return <div>Order not found</div>;
   }
 
-  const { images, name, price, fabric, _id } = order;
+  const { images, name, price, fabric, _id , deliveryDate} = order;
 
   return (
     <div
@@ -48,8 +49,8 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
       <div
         style={{
           width: "30%",
-          maxWidth: "103px",
-          height: "100%", // Ensure image height matches the right side content
+          maxWidth: "140px",
+          height: "120px", // Ensure image height matches the right side content
           border: "1px solid #ccc",
           borderRadius: "8px",
           overflow: "hidden",
@@ -109,6 +110,15 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
             margin: "4px 0",
           }}
         >
+         Order date: {deliveryDate || "NA"}
+        </p>
+        <p
+          style={{
+            fontSize: "12px",
+            color: "#555",
+            margin: "4px 0",
+          }}
+        >
           Order ID: {_id} {/* Display the order ID here */}
         </p>
         <div
@@ -119,15 +129,15 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
             marginTop: "4px",
           }}
         >
-          <p
+          {/* <p
             style={{
               fontSize: "12px",
               color: "#555",
             }}
           >
             Delivery in 3 days
-          </p>
-          <button
+          </p> */}
+          {/* <button
             style={{
               backgroundColor: "transparent",
               border: "none",
@@ -139,7 +149,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
             onClick={handleRemove}
           >
             Remove
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

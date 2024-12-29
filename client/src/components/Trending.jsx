@@ -13,6 +13,10 @@ const Trending = () => {
         "http://localhost:3000/api/v1/landing/getTrendingPageImages"
       );
 
+      if (data.status !== "success") {
+        navigate("/error");
+      }
+
       if (data && data.data.length > 0) {
         const items = data.data;
 
@@ -24,6 +28,7 @@ const Trending = () => {
       }
     } catch (error) {
       console.error("Error fetching trending items:", error);
+      navigate("/error");
     }
   };
 
@@ -42,8 +47,16 @@ const Trending = () => {
   //   getProductOnClickTrendingImages();
   // }, [gender, category]);
 
-  const handleImageClick = (gender, category) => {
-    navigate(`/product/${gender}/${category}`);
+  const handleImageClick = async (gender, category) => {
+    try {
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
+      navigate(`/TrendingProduct/${gender}/${category}`);
+    } catch (error) {
+      console.error("Error tracking click:", error);
+    }
   };
 
   useEffect(() => {
@@ -52,7 +65,7 @@ const Trending = () => {
 
   return (
     <div className="px-4 mt-10 h-auto rounded-lg">
-      <h1 className="font-poppins ml-1 font-bold text-[14px] leading-[18px]">
+      <h1 className="font-poppins ml-1 font-bold text-[12px] leading-[18px]">
         Trending
       </h1>
 

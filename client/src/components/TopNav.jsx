@@ -44,7 +44,7 @@ const TopNav = () => {
       localStorage.setItem("pincode", tempPincode);
       setIsModalOpen(false);
     } else {
-      alert("Non-serviceable Pincode");
+      alert("This pincode is non serviceable");
     }
   };
 

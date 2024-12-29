@@ -1,44 +1,72 @@
 import React, { useState, useEffect } from "react";
 import TopNav from "../../components/TopNav";
 import Navbar from "../../components/Navbar";
-import { FiHome, FiShoppingBag, FiUser, FiHelpCircle, FiSettings } from "react-icons/fi";
+import axios from "axios";
+import { BeatLoader } from "react-spinners";
+import {
+  FiHome,
+  FiShoppingBag,
+  FiUser,
+  FiHelpCircle,
+  FiSettings,
+} from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:3000";
-
 const ProfilePage = () => {
-  const navigate = useNavigate();
-  const [user, setUser] = useState({
-    name: "",
-    phone: "",
-  });
+  const API_BASE_URL = "http://localhost:3000";
+  const userID = localStorage.getItem("userID");
+  const [loading, setLoading] = useState(true); // Set loading to true initially
+  const [profile, setProfile] = useState(null); // Set initial profile to null
 
+  const navigate = useNavigate();
+
+  // Use effect to fetch the profile only if the userID exists
   useEffect(() => {
-    const fetchUserData = async () => {
+    if (!userID) {
+      // Handle case where userID is not found
+      setLoading(false);
+      return;
+    }
+
+    const fetchProfile = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/listpersonal`);
-        if (!response.ok) throw new Error("Failed to fetch user data");
-        const data = await response.json();
-        const userData = data[0];
-        if (userData) {
-          setUser({
-            name: userData.name,
-            phone: userData.mobileNumber,
+        const response = await axios.get(`${API_BASE_URL}/listpersonal`, {
+          params: { userID },
+        });
+
+        if (response.data && response.data.length > 0) {
+          const user = response.data[0];
+          setProfile({
+            name: user.name || "N/A",
+            mobileNumber: user.mobileNumber || "N/A",
           });
+        } else {
+          console.error("No details found for this user");
         }
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error fetching profile details:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching is complete
       }
     };
 
-    fetchUserData();
-  }, []);
+    fetchProfile();
+  }, [userID]); // Re-run this effect when userID changes
+
+  if (loading) {
+    return (
+      <div className="w-full h-[70vh] flex justify-center items-center">
+        <BeatLoader color="#ff58e6" />
+      </div>
+    );
+  }
+
 
   const handleLogout = () => {
-    // Clear the pincode from localStorage to reset state
     localStorage.removeItem("pincode");
+    localStorage.removeItem("userID");
     console.log("User logged out");
-    navigate("/otp"); // Navigate to OTP page
+    navigate("/otp");
   };
 
   const options = [
@@ -70,11 +98,13 @@ const ProfilePage = () => {
   ];
 
   return (
-    <div className="mb-10 font-poppins">
+    <div className="mb-10 font-poppins pb-16">
       <TopNav />
 
       <div className="px-5 mt-[17px]">
-        <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">Profile</h1>
+        <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">
+          Profile
+        </h1>
       </div>
 
       <div className="flex-1 overflow-y-auto"></div>
@@ -86,12 +116,16 @@ const ProfilePage = () => {
             background: "linear-gradient(90deg, #171617 0%, #94908F 100%)",
           }}
         >
-          <h2 className="text-lg font-semibold">{user.name || "Loading..."}</h2>
-          <p className="text-sm text-gray-300">{user.phone || "Loading..."}</p>
+          <h2 className="text-lg font-semibold">
+            {profile?.name || "Loading..."} {/* Render name if profile is not null */}
+          </h2>
+          <p className="text-sm text-gray-300">
+            {profile?.mobileNumber || "Loading..."} {/* Render mobile number if profile is not null */}
+          </p>
         </div>
       </div>
 
-      <div className="w-full mx-auto mt-8 bg-white rounded-lg">
+      <div className="w-full mx-auto  bg-white rounded-lg">
         {options.map((option, index) => (
           <div key={index}>
             <div
@@ -99,7 +133,9 @@ const ProfilePage = () => {
               className="flex items-center py-4 px-6 cursor-pointer hover:bg-gray-100 transition duration-200"
             >
               {option.icon}
-              <span className="ml-4 text-[15px] text-gray-800">{option.label}</span>
+              <span className="ml-4 text-[15px] text-gray-800">
+                {option.label}
+              </span>
             </div>
             {index < options.length - 1 && <hr className="border-gray-300" />}
           </div>

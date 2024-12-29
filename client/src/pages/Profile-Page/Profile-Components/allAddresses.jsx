@@ -1,30 +1,70 @@
 import React, { useState, useEffect } from "react";
 import TopNav from "../../../components/TopNav";
+import axios from "axios";
 
 const AllAddresses = () => {
-  const validPincodes = ["226001", "226002", "226003", "226004", "226005", "226006", "226007", "226010", "226012", "226016", "226017", "226018", "226019", "226020", "226021", "226022", "226023", "226024", "226025", "226028", "226029", "226030", "226101", "226102", "226201", "226202", "226301", "227105", "227125"]; // Allowed PIN codes
+  const validPincodes = [
+    "226001",
+    "226002",
+    "226003",
+    "226004",
+    "226005",
+    "226006",
+    "226007",
+    "226010",
+    "226012",
+    "226016",
+    "226017",
+    "226018",
+    "226019",
+    "226020",
+    "226021",
+    "226022",
+    "226023",
+    "226024",
+    "226025",
+    "226028",
+    "226029",
+    "226030",
+    "226101",
+    "226102",
+    "226201",
+    "226202",
+    "226301",
+    "227105",
+    "227125",
+  ]; // Allowed PIN codes
   const [addresses, setAddresses] = useState([]); // Store addresses
-  const [newAddress, setNewAddress] = useState({ name: "", address1: "", address2: "", pincode: "" });
+  const [newAddress, setNewAddress] = useState({
+    name: "",
+    address1: "",
+    address2: "",
+    pincode: "",
+  });
   const [editingAddress, setEditingAddress] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const userID = localStorage.getItem("userID");
 
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await fetch("http://localhost:3000/list");
-        if (response.ok) {
-          const result = await response.json();
-          setAddresses(result.data);
+        const response = await axios.get("http://localhost:3000/getAddressByUser", {
+          params: { userID: userID },
+        });
+  
+        // Ensure that response data is set correctly
+        if (response.data && response.data.data) {
+          setAddresses(response.data.data); // Use the correct response structure
         } else {
-          console.error("Failed to fetch addresses");
+          console.error("No addresses found for this user");
         }
       } catch (error) {
         console.error("Error fetching addresses:", error);
       }
     };
-
+  
     fetchAddresses();
-  }, []);
+  }, [userID]);
 
   const handleInputChange = (event, key) => {
     const value = event.target.value;
@@ -48,7 +88,7 @@ const AllAddresses = () => {
     if (!address.pincode.trim()) return "Pincode is required";
 
     if (address.pincode.length !== 6) return "Pincode must be exactly 6 digits";
-    if (!validPincodes.includes(address.pincode)) return "Invalid Pincode";
+    if (!validPincodes.includes(address.pincode)) return "This pincode is non serviceable";
 
     return "";
   };
@@ -60,17 +100,28 @@ const AllAddresses = () => {
       return;
     }
 
+    const currentUserID = localStorage.getItem("userID")
+  
     try {
-      const response = await fetch("http://localhost:3000/add", {
+      // Assuming userID is available, you can either pass it from state or props
+      const updatedAddress = { ...newAddress, userID: currentUserID }; // Add userID to the address object
+  
+      const response = await fetch("http://localhost:3000/addAddressbyuserID", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newAddress),
+        body: JSON.stringify(updatedAddress),
       });
+      console.log(updatedAddress);
+      
+      console.log(response);
+      
+  
       if (response.ok) {
         const result = await response.json();
         setAddresses([...addresses, result.data]);
         setNewAddress({ name: "", address1: "", address2: "", pincode: "" });
         setIsModalOpen(false);
+        
       } else {
         console.error("Failed to add address");
       }
@@ -85,30 +136,29 @@ const AllAddresses = () => {
       window.alert(errorMessage);
       return;
     }
-
+  
     try {
-      const response = await fetch(`http://localhost:3000/edit/${editingAddress._id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editingAddress),
-      });
-      if (response.ok) {
-        const updatedAddresses = addresses.map((addr) =>
-          addr._id === editingAddress._id ? editingAddress : addr
+      const response = await axios.put(`http://localhost:3000/update/${editingAddress._id}`, editingAddress);
+      if (response.data) {
+        setAddresses(
+          addresses.map((addr) =>
+            addr._id === editingAddress._id ? response.data.data : addr
+          )
         );
-        setAddresses(updatedAddresses);
         setEditingAddress(null);
-      } else {
-        console.error("Failed to update address");
       }
     } catch (error) {
       console.error("Error updating address:", error);
     }
   };
+  
+  
 
   const handleDeleteAddress = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/delete/${id}`, { method: "DELETE" });
+      const response = await fetch(`http://localhost:3000/delete/${id}`, {
+        method: "DELETE",
+      });
       if (response.ok) {
         setAddresses(addresses.filter((addr) => addr._id !== id));
       } else {
@@ -123,7 +173,9 @@ const AllAddresses = () => {
     <div>
       <TopNav />
       <div className="px-5 mt-[17px]">
-        <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">My Addresses</h1>
+        <h1 className="font-poppins font-[700] text-[14px] text-[#737373]">
+          My Addresses
+        </h1>
       </div>
 
       <div className="grid gap-6 p-6">
@@ -147,7 +199,9 @@ const AllAddresses = () => {
                     className="mb-2 p-2 border rounded"
                     placeholder="Name"
                   />
-                  <label className="text-sm font-semibold">Address Line 1</label>
+                  <label className="text-sm font-semibold">
+                    Address Line 1
+                  </label>
                   <input
                     type="text"
                     value={editingAddress.address1}
@@ -155,7 +209,9 @@ const AllAddresses = () => {
                     className="mb-2 p-2 border rounded"
                     placeholder="Address Line 1"
                   />
-                  <label className="text-sm font-semibold">Address Line 2</label>
+                  <label className="text-sm font-semibold">
+                    Address Line 2
+                  </label>
                   <input
                     type="text"
                     value={editingAddress.address2}
@@ -177,7 +233,9 @@ const AllAddresses = () => {
                   <p className="font-bold">{address.name}</p>
                   <p>{address.address1}</p>
                   <p>{address.address2}</p>
-                  <p className="text-sm font-semibold">Pincode: {address.pincode}</p>
+                  <p className="text-sm font-semibold">
+                    Pincode: {address.pincode}
+                  </p>
                 </div>
               )}
               <div className="flex space-x-2 items-center">

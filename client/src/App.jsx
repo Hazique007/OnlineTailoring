@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // Pages
@@ -23,15 +23,26 @@ import CategoryPage from "./components/categoryPage";
 import ProductCart from "./components/productCart";
 import TrendingProductDetails from "./components/TrendingProductDetails";
 import AllCategory from "./components/allCategory";
+import CartPage from "./components/cartpage";
 
 // Context API
 import { ProductProvider } from "./Context Api/trackProduct";
 
 // Miscellaneous
 import NotFound from "./pages/NotFound/notfound";
+import Error from "./components/error";
+import FashionProductDetails from "./components/fashionProductDetails";
+import ClickStats from "./pages/Stats/clickStats";
 
 const App = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
+
+  useEffect(() => {
+    const handleOffline = () => navigate("/error");
+
+    window.addEventListener("offline", handleOffline);
+    return () => window.removeEventListener("offline", handleOffline);
+  }, []);
 
   return (
     <ProductProvider>
@@ -40,16 +51,10 @@ const App = () => {
           {/* Authentication */}
           <Route path="/" Component={AuthLanding} />
 
-
-
           {/* Main Pages */}
           <Route path="/home" Component={LandingPage} />
-          {/* <Route path="/login" Component={LoginPage}
-          /> */}
-          <Route
-            path="/otp" Component={Otp}
-          />
-
+         
+          <Route path="/otp" Component={Otp} />
 
           <Route path="/profile" Component={ProfilePage} />
           <Route path="/orders" Component={orderHistory} />
@@ -59,7 +64,8 @@ const App = () => {
           <Route path="/ordersummary" Component={OrderSummary} />
           <Route path="/orderSuccessful" Component={OrderSuccessful} />
           <Route path="/search" Component={SearchPage} />
-
+          <Route path="/cart" Component={CartPage} />
+          <Route path="/error" Component={Error} />
 
           {/* Profile Sub-pages */}
           <Route path="/addresses" Component={AllAddresses} />
@@ -77,9 +83,14 @@ const App = () => {
           {/* Additional Components */}
           <Route path="/AllCategory" Component={AllCategory} />
           <Route
-            path="/TrendingProductDetails"
+            path="/TrendingProduct/:gender/:category"
             Component={TrendingProductDetails}
           />
+          <Route
+            path="/FashionProduct/:gender/:category"
+            Component={FashionProductDetails}
+          />
+          <Route path="/stats" Component={ClickStats} />
 
           {/* Fallback Route */}
           <Route path="*" Component={NotFound} />

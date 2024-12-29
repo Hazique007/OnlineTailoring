@@ -14,7 +14,4 @@ export const database = async () => {
     // Optionally, you can stop the app from running if the connection fails:
     process.exit(1);
   }
-
 };
-
-

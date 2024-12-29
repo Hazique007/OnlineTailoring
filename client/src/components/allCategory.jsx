@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import TopNav from "./TopNav"
-import Navbar from "./Navbar";
+import TopNav from "./TopNav";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
+import { BeatLoader } from "react-spinners";
 
 const AllCategory = () => {
   const [categories, setCategories] = useState({
     male: [],
     female: [],
   });
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const fetchCategories = async () => {
     try {
+      setLoading(true);
+
       const maleResponse = await axios.get(
         "http://localhost:3000/api/v1/category/fetchcategories",
         { params: { gender: "Male" } }
@@ -23,13 +27,21 @@ const AllCategory = () => {
         "http://localhost:3000/api/v1/category/fetchcategories",
         { params: { gender: "Female" } }
       );
+      if (
+        maleResponse.data.status !== "success" ||
+        femaleResponse.data.status !== "success"
+      ) {
+        navigate("/error");
+      }
 
       setCategories({
         male: maleResponse.data.categories || [],
         female: femaleResponse.data.categories || [],
       });
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching categories:", error);
+      navigate("/error");
     }
   };
 
@@ -37,16 +49,31 @@ const AllCategory = () => {
     fetchCategories();
   }, []);
 
-  const handleCategoryClick = (link) => {
-    navigate(link);
+  const handleCategoryClick = async (gender, category) => {
+    try {
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
+      navigate(`/product/${gender}/${category}`);
+    } catch (error) {
+      console.error("Error tracking click:", error);
+    }
   };
 
-  return (
-    <div className="font-poppins">
-      <TopNav />
+  // const handleCategoryClick = (link) => {
+  //   navigate(link);
+  // };
+  if (loading) {
+    return (
+      <div className="w-full h-[100vh] flex justify-center items-center">
+        <BeatLoader color="#ff58e6" />
+      </div>
+    );
+  }
 
-<div className="bg-gray-50 py-8">
-      
+  return (
+    <div className="bg-gray-50 py-8 pb-20">
       <div className="container mx-auto px-6 md:px-8">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">
           All Categories
@@ -64,7 +91,7 @@ const AllCategory = () => {
                   <div
                     key={category._id}
                     onClick={() =>
-                      handleCategoryClick(`/product/Male/${category.category}`)
+                      handleCategoryClick("Male", category.category)
                     }
                     className="group relative bg-gray-100 p-3 rounded-lg shadow hover:shadow-md transform transition-all duration-200 hover:scale-105 cursor-pointer"
                   >
@@ -80,7 +107,7 @@ const AllCategory = () => {
                 ))
               ) : (
                 <p className="text-center text-gray-500 col-span-full">
-                  No categories available for Men.
+                  Loading categories for Men.
                 </p>
               )}
             </div>
@@ -97,9 +124,7 @@ const AllCategory = () => {
                   <div
                     key={category._id}
                     onClick={() =>
-                      handleCategoryClick(
-                        `/product/Female/${category.category}`
-                      )
+                      handleCategoryClick("Female", category.category)
                     }
                     className="group relative bg-gray-100 p-3 rounded-lg shadow hover:shadow-md transform transition-all duration-200 hover:scale-105 cursor-pointer"
                   >
@@ -115,19 +140,15 @@ const AllCategory = () => {
                 ))
               ) : (
                 <p className="text-center text-gray-500 col-span-full">
-                  No categories available for Women.
+                  Loading categories for Women.
                 </p>
               )}
             </div>
           </div>
         </div>
       </div>
+      <Navbar />
     </div>
-    <Navbar />
-
-
-    </div>
-   
   );
 };
 

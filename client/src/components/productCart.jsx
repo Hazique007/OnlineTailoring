@@ -98,7 +98,8 @@ const ProductCart = ({
 
   const handleOnclick = () => {
     // setProduct({ gender, category });
-    setOpen(true);
+    // setOpen(true);
+    navigate("/customize");
   };
 
   const handleClose = () => {
@@ -106,12 +107,12 @@ const ProductCart = ({
   };
 
   const handleFabricSelection = (selection) => {
-    setSelectedFabric(selection);
-    if (selection === "Fabric") {
-      navigate("/fabric");
-    } else if (selection === "NoFabric") {
-      navigate("/customize");
-    }
+    // setSelectedFabric(selection);
+    // if (selection === "Fabric") {
+    //   navigate("/fabric");
+    // } else if (selection === "NoFabric") {
+    //   navigate("/customize");
+    // }
   };
 
   useEffect(() => {
@@ -134,7 +135,7 @@ const ProductCart = ({
     <div>
       <div
         onClick={onClick}
-        className="outer-box h-[40vh] w-[45vw] mb-16 rounded-lg p-1"
+        className="outer-box h-[30vh] w-[46vw] mb-[20px]  rounded-lg p-1"
       >
         <div
           ref={imageBoxRef}
@@ -142,7 +143,7 @@ const ProductCart = ({
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
-          className="image-box h-[30vh] w-[45vw] flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-lg"
+          className="image-box aspect-square flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-lg"
         >
           {images.map((image, index) => (
             <img
@@ -167,24 +168,20 @@ const ProductCart = ({
             ></span>
           ))}
         </div>
-        <div className="text flex flex-col gap-2">
+        <div className=" flex flex-col gap-1 mt-2">
           <h2 className="text-[12px] font-semibold">{styleName}</h2>
-          <p className="text-[12px] text-gray-600">Price: {price}</p>
-          <h2 className="text-[12px] text-yellow-600">
-            <div className="flex items-center gap-1">
-              {gender} <SlArrowRight className="text-[8px]" /> {category}{" "}
-              <SlArrowRight className="text-[8px]" /> {subCategory}
-            </div>
-          </h2>
+          <p className="text-[12px] text-gray-600">
+            Price: <span className="text-red-500">₹{price}</span>
+          </p>
         </div>
       </div>
-      <SimpleDialog
+      {/* <SimpleDialog
         open={open}
         onClose={handleClose}
         gender={gender}
         category={category}
         onSelection={handleFabricSelection}
-      />
+      /> */}
     </div>
   );
 };
