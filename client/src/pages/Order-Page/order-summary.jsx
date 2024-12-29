@@ -63,7 +63,7 @@ const OrderSummary = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/orders/create",
+        "https://online-tailoring-hazique.onrender.com/orders/create",
         orderData
       );
       navigate("/orderSuccessful");
@@ -74,7 +74,7 @@ const OrderSummary = () => {
 
   const handleRemoveOrder = async (orderId) => {
     try {
-      await axios.delete(`http://localhost:3000/orders/${orderId}`);
+      await axios.delete(`https://online-tailoring-hazique.onrender.com/orders/${orderId}`);
       alert("Order removed successfully.");
       // Update UI by removing the order from the list
       const updatedOrders = orders.filter((order) => order._id !== orderId);
