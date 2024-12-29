@@ -49,12 +49,12 @@ const PersonalDetails = () => {
     };
 
     // Reload page if not already reloaded
-    // if (!sessionStorage.getItem("hasReloaded")) {
-    //   sessionStorage.setItem("hasReloaded", "true");
-    //   window.location.reload();
-    // } else {
+    if (!sessionStorage.getItem("hasReloaded")) {
+      sessionStorage.setItem("hasReloaded", "true");
+      window.location.reload();
+    } else {
       fetchProfile(); // Fetch profile data
-    // }
+    }
   }, [userID]);
 
   const handleInputChange = (e, key) => {
