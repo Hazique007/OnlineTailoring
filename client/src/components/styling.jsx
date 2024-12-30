@@ -22,7 +22,7 @@ const Styling = ({ heading, gender }) => {
   const getCategory = async () => {
     try {
       const response = await axios.get(
-        "https://online-tailoring-haziquebackend.onrender.com/api/v1/category/fetchcategories",
+        "https://doorsteptailoring-hazique.onrender.com/api/v1/category/fetchcategories",
         {
           params: { gender },
         }
@@ -42,7 +42,7 @@ const Styling = ({ heading, gender }) => {
 
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post("https://online-tailoring-haziquebackend.onrender.com/api/v1/stats/trackClick", {
+      await axios.post("https://doorsteptailoring-hazique.onrender.com/api/v1/stats/trackClick", {
         gender,
         category,
       });

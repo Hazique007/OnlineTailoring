@@ -18,7 +18,7 @@ const Delivery = ({ onProceed }) => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "https://online-tailoring-haziquebackend.onrender.com/getAddressByUser",
+          "https://doorsteptailoring-hazique.onrender.com/getAddressByUser",
           {
             params: { userID },
           }
@@ -48,7 +48,7 @@ const Delivery = ({ onProceed }) => {
   // Add a new address
   const handleAddAddress = async () => {
     try {
-      const response = await fetch("https://online-tailoring-haziquebackend.onrender.com/add", {
+      const response = await fetch("https://doorsteptailoring-hazique.onrender.com/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newAddress),

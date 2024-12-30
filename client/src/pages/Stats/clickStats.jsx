@@ -31,7 +31,7 @@ const ClickStats = () => {
     const fetchStats = async () => {
       try {
         const response = await axios.get(
-          "https://online-tailoring-haziquebackend.onrender.com/api/v1/stats/getClickStats"
+          "https://doorsteptailoring-hazique.onrender.com/api/v1/stats/getClickStats"
         );
 
         const fetchedStats = response.data.stats;
