@@ -177,7 +177,7 @@ const onOTPVerify = async () => {
       <div className="flex flex-col ">
         <Toaster toastOptions={{ duration: 2000 }} />
 
-        <div className="h-[110px] w-full rounded-[5px] pb-78">
+        <div className="h-screen w-full rounded-[10px] ">
           <HeaderPhotos />
           <div className="bg-black h-[580px]">
             <p className="text-white text-[32px] font-[1000] font-poppins text-center pt-10">
