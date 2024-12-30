@@ -41,7 +41,7 @@ const OrderSummary = () => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "https://doorsteptailoring-hazique.onrender.com/getAddressByUser",
+          "https://doorsteptailoring-haziquekhan.onrender.com/getAddressByUser",
           {
             params: { userID },
           }
@@ -91,7 +91,7 @@ const OrderSummary = () => {
 
     try {
       const response = await axios.post(
-        "https://doorsteptailoring-hazique.onrender.com/orders/create",
+        "https://doorsteptailoring-haziquekhan.onrender.com/orders/create",
         orderData
       );
       navigate("/orderSuccessful");
@@ -102,7 +102,7 @@ const OrderSummary = () => {
 
   const handleRemoveOrder = async (orderId) => {
     try {
-      await axios.delete(`https://doorsteptailoring-hazique.onrender.com/orders/${orderId}`);
+      await axios.delete(`https://doorsteptailoring-haziquekhan.onrender.com/orders/${orderId}`);
       alert("Order removed successfully.");
       // Update UI by removing the order from the list
       const updatedOrders = orders.filter((order) => order._id !== orderId);

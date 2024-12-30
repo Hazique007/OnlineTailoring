@@ -22,7 +22,7 @@ const ProductPage = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://doorsteptailoring-hazique.onrender.com/api/v1/products/allProducts`,
+          `https://doorsteptailoring-haziquekhan.onrender.com/api/v1/products/allProducts`,
           {
             params: { gender, category, subCategory },
           }

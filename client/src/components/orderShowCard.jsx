@@ -17,7 +17,7 @@ const OrderShowCard = ({ order }) => {
     const fetchOrderData = async () => {
       try {
         const response = await axios.get(
-          "https://doorsteptailoring-hazique.onrender.com/orders/getorder"
+          "https://doorsteptailoring-haziquekhan.onrender.com/orders/getorder"
         );
         console.log(response);
         setLoading(false);
@@ -43,7 +43,7 @@ const OrderShowCard = ({ order }) => {
   }
 
   const productImage = productData?.images?.[0]
-    ? `https://doorsteptailoring-hazique.onrender.com/uploads/${productData.images[0]}`
+    ? `https://doorsteptailoring-haziquekhan.onrender.com/uploads/${productData.images[0]}`
     : "placeholder-image.png";
 
   return (

@@ -41,7 +41,7 @@ const Otp = () => {
     setLoading(true);
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch('https://doorsteptailoring-hazique.onrender.com/api/send-otp', {
+      const response = await fetch('https://doorsteptailoring-haziquekhan.onrender.com/api/send-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phoneNumber: formattedPhone }),
@@ -67,7 +67,7 @@ const Otp = () => {
     setLoading(true);
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch('https://doorsteptailoring-hazique.onrender.com/api/verify-otp', {
+      const response = await fetch('https://doorsteptailoring-haziquekhan.onrender.com/api/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
@@ -93,7 +93,7 @@ const Otp = () => {
     setTimer(60);
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch('https://doorsteptailoring-hazique.onrender.com/api/send-otp', {
+      const response = await fetch('https://doorsteptailoring-haziquekhan.onrender.com/api/send-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phoneNumber: formattedPhone }),

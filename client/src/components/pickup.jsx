@@ -82,7 +82,7 @@ const Pickup = () => {
       const updatedAddress = { ...newAddress, userID: currentUserID };
 
       const response = await fetch(
-        "https://doorsteptailoring-hazique.onrender.com/addAddressbyuserID",
+        "https://doorsteptailoring-haziquekhan.onrender.com/addAddressbyuserID",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -50,7 +50,7 @@ const AllAddresses = () => {
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await axios.get("https://doorsteptailoring-hazique.onrender.com/getAddressByUser", {
+        const response = await axios.get("https://doorsteptailoring-haziquekhan.onrender.com/getAddressByUser", {
           params: { userID: userID },
         });
   
@@ -108,7 +108,7 @@ const AllAddresses = () => {
       // Assuming userID is available, you can either pass it from state or props
       const updatedAddress = { ...newAddress, userID: currentUserID }; // Add userID to the address object
   
-      const response = await fetch("https://doorsteptailoring-hazique.onrender.com/addAddressbyuserID", {
+      const response = await fetch("https://doorsteptailoring-haziquekhan.onrender.com/addAddressbyuserID", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedAddress),
@@ -140,7 +140,7 @@ const AllAddresses = () => {
     }
   
     try {
-      const response = await axios.put(`https://doorsteptailoring-hazique.onrender.com/update/${editingAddress._id}`, editingAddress);
+      const response = await axios.put(`https://doorsteptailoring-haziquekhan.onrender.com/update/${editingAddress._id}`, editingAddress);
       if (response.data) {
         setAddresses(
           addresses.map((addr) =>
@@ -156,7 +156,7 @@ const AllAddresses = () => {
   
   const handleDeleteAddress = async (id) => {
     try {
-      const response = await fetch(`https://doorsteptailoring-hazique.onrender.com/delete/${id}`, {
+      const response = await fetch(`https://doorsteptailoring-haziquekhan.onrender.com/delete/${id}`, {
         method: "DELETE",
       });
       if (response.ok) {
