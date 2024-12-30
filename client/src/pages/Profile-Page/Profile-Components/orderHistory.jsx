@@ -15,7 +15,7 @@ const OrderHistoryPage = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          "https://online-tailoring-hazique.onrender.com/orders/getOrdersByUser",
+          "https://online-tailoring-haziquebackend.onrender.com/orders/getOrdersByUser",
           {
             params: { userID: userID },
           }

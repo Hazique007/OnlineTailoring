@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
+
 
 const Pickup = () => {
   const validPincodes = [
@@ -46,37 +46,9 @@ const Pickup = () => {
     pincode: "",
   });
 
-  const userID = localStorage.getItem("userID");
 
-  useEffect(() => {
-    const fetchAddresses = async () => {
-      try {
-        const response = await axios.get(
-          "https://online-tailoring-hazique.onrender.com/getAddressByUser",
-          {
-            params: { userID: userID },
-          }
-        );
 
-        if (response.data && response.data.data) {
-          setAddresses(response.data.data);
-        } else {
-          console.error("No addresses found for this user");
-        }
-      } catch (error) {
-        console.error("Error fetching addresses:", error);
-      }
-    };
-
-    if (!sessionStorage.getItem("hasReloaded")) {
-      sessionStorage.setItem("hasReloaded", "true");
-      window.location.reload();
-    } else {
-      fetchAddresses();// Fetch profile data
-    }
-
-   
-  }, [userID]);
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -110,7 +82,7 @@ const Pickup = () => {
       const updatedAddress = { ...newAddress, userID: currentUserID };
 
       const response = await fetch(
-        "https://online-tailoring-hazique.onrender.com/addAddressbyuserID",
+        "https://online-tailoring-haziquebackend.onrender.com/addAddressbyuserID",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

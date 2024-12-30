@@ -18,7 +18,7 @@ const FabricPage = () => {
   const fetchFabrics = async (gender, category) => {
     try {
       const response = await axios.get(
-        "https://online-tailoring-hazique.onrender.com/api/v1/fabric/getFabricGenderPlusCategory",
+        "https://online-tailoring-haziquebackend.onrender.com/api/v1/fabric/getFabricGenderPlusCategory",
         {
           params: {
             gender: FabricData.gender,

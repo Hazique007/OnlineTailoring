@@ -10,7 +10,7 @@ const Trending = () => {
   const getTrendingImages = async () => {
     try {
       const { data } = await axios.get(
-        "https://online-tailoring-hazique.onrender.com/api/v1/landing/getTrendingPageImages"
+        "https://online-tailoring-haziquebackend.onrender.com/api/v1/landing/getTrendingPageImages"
       );
 
       if (data.status !== "success") {
@@ -34,7 +34,7 @@ const Trending = () => {
 
   // const getProductOnClickTrendingImages = async (gender, category) => {
   //   const response = await axios.get(
-  //     "https://online-tailoring-hazique.onrender.com/api/v1/products/getGenderPlusCategory",
+  //     "https://online-tailoring-haziquebackend.onrender.com/api/v1/products/getGenderPlusCategory",
   //     {
   //       params: { gender, category },
   //     }
@@ -49,7 +49,7 @@ const Trending = () => {
 
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post("https://online-tailoring-hazique.onrender.com/api/v1/stats/trackClick", {
+      await axios.post("https://online-tailoring-haziquebackend.onrender.com/api/v1/stats/trackClick", {
         gender,
         category,
       });
@@ -80,7 +80,7 @@ const Trending = () => {
               {item.trendingImage ? (
                 <img
                   className="h-[171px] w-[164px]  object-cover rounded-lg"
-                  src={`https://online-tailoring-hazique.onrender.com/uploads/${item.trendingImage}`}
+                  src={`https://online-tailoring-haziquebackend.onrender.com/uploads/${item.trendingImage}`}
                   alt={`Trending Image ${index + 1} - ${item.category}`}
                 />
               ) : (

@@ -14,7 +14,7 @@ const CustomProductPage = ({ gender }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://online-tailoring-hazique.onrender.com/api/v1/products/allProducts/${gender || ""}`
+          `https://online-tailoring-haziquebackend.onrender.com/api/v1/products/allProducts/${gender || ""}`
         );
         setData(response.data.products);
       } catch (error) {

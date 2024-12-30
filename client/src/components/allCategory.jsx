@@ -19,12 +19,12 @@ const AllCategory = () => {
       setLoading(true);
 
       const maleResponse = await axios.get(
-        "https://online-tailoring-hazique.onrender.com/api/v1/category/fetchcategories",
+        "https://online-tailoring-haziquebackend.onrender.com/api/v1/category/fetchcategories",
         { params: { gender: "Male" } }
       );
 
       const femaleResponse = await axios.get(
-        "https://online-tailoring-hazique.onrender.com/api/v1/category/fetchcategories",
+        "https://online-tailoring-haziquebackend.onrender.com/api/v1/category/fetchcategories",
         { params: { gender: "Female" } }
       );
       if (
@@ -51,7 +51,7 @@ const AllCategory = () => {
 
   const handleCategoryClick = async (gender, category) => {
     try {
-      await axios.post("https://online-tailoring-hazique.onrender.com/api/v1/stats/trackClick", {
+      await axios.post("https://online-tailoring-haziquebackend.onrender.com/api/v1/stats/trackClick", {
         gender,
         category,
       });
@@ -96,7 +96,7 @@ const AllCategory = () => {
                     className="group relative bg-gray-100 p-3 rounded-lg shadow hover:shadow-md transform transition-all duration-200 hover:scale-105 cursor-pointer"
                   >
                     <img
-                      src={`https://online-tailoring-hazique.onrender.com/uploads/${category.categoryImages}`}
+                      src={`https://online-tailoring-haziquebackend.onrender.com/uploads/${category.categoryImages}`}
                       alt={`${category.category}`}
                       className="w-16 h-16 object-cover mx-auto rounded"
                     />
@@ -129,7 +129,7 @@ const AllCategory = () => {
                     className="group relative bg-gray-100 p-3 rounded-lg shadow hover:shadow-md transform transition-all duration-200 hover:scale-105 cursor-pointer"
                   >
                     <img
-                      src={`https://online-tailoring-hazique.onrender.com/uploads/${category.categoryImages}`}
+                      src={`https://online-tailoring-haziquebackend.onrender.com/uploads/${category.categoryImages}`}
                       alt={`${category.category}`}
                       className="w-16 h-16 object-contain mx-auto rounded"
                     />

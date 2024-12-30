@@ -22,7 +22,7 @@ const FashionProductDetails = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://online-tailoring-hazique.onrender.com/api/v1/products/getGenderPlusCategory`,
+          `https://online-tailoring-haziquebackend.onrender.com/api/v1/products/getGenderPlusCategory`,
           {
             params: { gender, category },
           }

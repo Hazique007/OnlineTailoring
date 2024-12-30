@@ -17,6 +17,7 @@ const OrderSummary = () => {
   const [showSummary, setShowSummary] = useState(true);
   const summarySectionRef = useRef(null);
   const productItem = JSON.parse(localStorage.getItem("productItem"));
+   const [addresses, setAddresses] = useState([]);
 
   const [formValues, setFormValues] = useState({
     pocket: "Single Pocket",
@@ -33,6 +34,31 @@ const OrderSummary = () => {
     bottomCut: "Straight",
     shirtLength: "Regular",
   });
+  const userID = localStorage.getItem("userID");
+
+   // Fetch addresses when component mounts
+   useEffect(() => {
+    const fetchAddresses = async () => {
+      try {
+        const response = await axios.get(
+          "https://online-tailoring-haziquebackend.onrender.com/getAddressByUser",
+          {
+            params: { userID },
+          }
+        );
+
+        if (response.data && response.data.data) {
+          setAddresses(response.data.data);
+        } else {
+          console.error("No addresses found for this user");
+        }
+      } catch (error) {
+        console.error("Error fetching addresses:", error);
+      }
+    };
+
+    fetchAddresses();
+  }, [userID]);
 
   const handlePlaceOrder = async () => {
     if (!productItem) {
@@ -65,7 +91,7 @@ const OrderSummary = () => {
 
     try {
       const response = await axios.post(
-        "https://online-tailoring-hazique.onrender.com/orders/create",
+        "https://online-tailoring-haziquebackend.onrender.com/orders/create",
         orderData
       );
       navigate("/orderSuccessful");
@@ -76,7 +102,7 @@ const OrderSummary = () => {
 
   const handleRemoveOrder = async (orderId) => {
     try {
-      await axios.delete(`https://online-tailoring-hazique.onrender.com/orders/${orderId}`);
+      await axios.delete(`https://online-tailoring-haziquebackend.onrender.com/orders/${orderId}`);
       alert("Order removed successfully.");
       // Update UI by removing the order from the list
       const updatedOrders = orders.filter((order) => order._id !== orderId);

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const Delivery = ({ onProceed }) => {
   const [selectedAddress, setSelectedAddress] = useState(""); // To store the selected address
   const [addresses, setAddresses] = useState([]); // To store the list of addresses
   const [showAll, setShowAll] = useState(false); // To toggle between showing 3 or all addresses
+  const userID = localStorage.getItem("userID");
   const [newAddress, setNewAddress] = useState({
     name: "",
     address1: "",
@@ -12,31 +14,31 @@ const Delivery = ({ onProceed }) => {
   }); // For adding a new address
 
   // Fetch addresses when component mounts
-  const fetchAddresses = async () => {
-    try {
-      const response = await fetch("https://online-tailoring-hazique.onrender.com/list"); // Backend API to get all addresses
-      if (response.ok) {
-        const result = await response.json();
-        if (Array.isArray(result.data)) {
-          setAddresses(result.data); // Set the addresses from 'data'
-
-          // Restore selected address from localStorage or default to the last entered address
-          const storedSelectedAddress = localStorage.getItem("selectedAddress");
-          if (storedSelectedAddress) {
-            setSelectedAddress(storedSelectedAddress);
-          } else if (result.data.length > 0) {
-            setSelectedAddress(result.data[result.data.length - 1]._id);
-          }
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching addresses:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchAddresses(); // Fetch addresses when component mounts
-  }, []);
+    const fetchAddresses = async () => {
+      try {
+        const response = await axios.get(
+          "https://online-tailoring-haziquebackend.onrender.com/getAddressByUser",
+          {
+            params: { userID },
+          }
+        );
+
+        if (response.data && response.data.data) {
+          const filteredAddresses = response.data.data.filter(
+            (address) => address.userID === userID
+          );
+          setAddresses(filteredAddresses);
+        } else {
+          console.error("No addresses found for this user");
+        }
+      } catch (error) {
+        console.error("Error fetching addresses:", error);
+      }
+    };
+
+    fetchAddresses();
+  }, [userID]);
 
   // Handle input change for new address
   const handleInputChange = (event, key) => {
@@ -46,7 +48,7 @@ const Delivery = ({ onProceed }) => {
   // Add a new address
   const handleAddAddress = async () => {
     try {
-      const response = await fetch("https://online-tailoring-hazique.onrender.com/add", {
+      const response = await fetch("https://online-tailoring-haziquebackend.onrender.com/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newAddress),
@@ -57,7 +59,7 @@ const Delivery = ({ onProceed }) => {
 
         // Update state immediately by adding the new address
         setAddresses((prevAddresses) => {
-          const updatedAddresses = [...prevAddresses, addedAddress];
+          const updatedAddresses = [ addedAddress];
           return updatedAddresses;
         });
 

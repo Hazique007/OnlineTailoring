@@ -48,7 +48,7 @@ const Otp = () => {
 
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch('https://online-tailoring-hazique.onrender.com/api/send-otp', {
+      const response = await fetch('https://online-tailoring-haziquebackend.onrender.com/api/send-otp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ const Otp = () => {
 
   //   try {
   //     const formattedPhone = "+" + phone;
-  //     const response = await fetch('https://online-tailoring-hazique.onrender.com/api/verify-otp', {
+  //     const response = await fetch('https://online-tailoring-haziquebackend.onrender.com/api/verify-otp', {
   //       method: 'POST',
   //       headers: {
   //         'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ const onOTPVerify = async () => {
 
   try {
     const formattedPhone = "+" + phone;
-    const response = await fetch('https://online-tailoring-hazique.onrender.com/api/verify-otp', {
+    const response = await fetch('https://online-tailoring-haziquebackend.onrender.com/api/verify-otp', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -150,7 +150,7 @@ const onOTPVerify = async () => {
 
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch('https://online-tailoring-hazique.onrender.com/api/send-otp', {
+      const response = await fetch('https://online-tailoring-haziquebackend.onrender.com/api/send-otp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -172,8 +172,9 @@ const onOTPVerify = async () => {
   };
 
   return (
-    <section className='items-center justify-center '>
-      <div className="flex flex-col h-[738px]">
+    <div className="h-screen">
+       <section className='items-center justify-center  '>
+      <div className="flex flex-col ">
         <Toaster toastOptions={{ duration: 2000 }} />
 
         <div className="h-[110px] w-full rounded-[5px] pb-78">
@@ -258,6 +259,9 @@ const onOTPVerify = async () => {
         </div>
       </div>
     </section>
+
+    </div>
+   
   );
 };
 

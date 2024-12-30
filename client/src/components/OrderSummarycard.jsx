@@ -9,7 +9,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
   const handleRemove = async () => {
     try {
       setLoading(true);
-      await axios.delete(`https://online-tailoring-hazique.onrender.com/orders/${order._id}`);
+      await axios.delete(`https://online-tailoring-haziquebackend.onrender.com/orders/${order._id}`);
       removeOrder(order._id);
       setLoading(false);
     } catch (error) {
@@ -58,7 +58,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
         }}
       >
         <img
-          src={`https://online-tailoring-hazique.onrender.com/uploads/${images?.[0]}`}
+          src={`https://online-tailoring-haziquebackend.onrender.com/uploads/${images?.[0]}`}
           alt="Product"
           style={{
             width: "100%",
