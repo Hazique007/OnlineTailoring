@@ -181,7 +181,7 @@ const onOTPVerify = async () => {
           <HeaderPhotos />
           <div className="bg-black h-[580px]">
             <p className="text-white text-[32px] font-[1000] font-poppins text-center pt-10">
-              Doorstep Stitching
+              Doorstep Stitchings
             </p>
             <p className="text-gray-300 text-[12px] font-[200] font-poppins text-center">
               Welcome to the world of custom tailoring
