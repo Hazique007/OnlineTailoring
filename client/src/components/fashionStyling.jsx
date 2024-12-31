@@ -10,7 +10,7 @@ const Fashion = () => {
   const fetchFashionImages = async () => {
     try {
       const { data } = await axios.get(
-        "https://doorsteptailoring-haziquekhan.onrender.com/api/v1/landing/getFashionPageImages"
+        "http://localhost:3000/api/v1/landing/getFashionPageImages"
       );
       if (data.status !== "success") {
         navigate("/error");
@@ -36,7 +36,7 @@ const Fashion = () => {
 
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post("https://doorsteptailoring-haziquekhan.onrender.com/api/v1/stats/trackClick", {
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
         gender,
         category,
       });
@@ -78,7 +78,7 @@ const Fashion = () => {
                 <>
                   <img
                     className="h-[171px] w-[164px] object-cover rounded-[10px]"
-                    src={`https://doorsteptailoring-haziquekhan.onrender.com/uploads/${image.fashionImage}`}
+                    src={`http://localhost:3000/uploads/${image.fashionImage}`}
                     alt={image.category}
                   />
                 </>

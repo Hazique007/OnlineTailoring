@@ -13,7 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
-  const API_BASE_URL = "https://doorsteptailoring-haziquekhan.onrender.com";
+  const API_BASE_URL = "http://localhost:3000";
   const userID = localStorage.getItem("userID");
   const [loading, setLoading] = useState(true); // Set loading to true initially
   const [profile, setProfile] = useState(null); // Set initial profile to null

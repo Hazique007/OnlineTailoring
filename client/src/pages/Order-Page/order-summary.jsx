@@ -9,15 +9,15 @@ import Pickup from "../../components/pickup";
 import Delivery from "../../components/deliverydetails";
 import Works from "../../components/Works";
 import OrderSummaryCard from "../../components/orderShowCard";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const OrderSummary = () => {
   const navigate = useNavigate();
   const [showSummary, setShowSummary] = useState(true);
   const summarySectionRef = useRef(null);
   const productItem = JSON.parse(localStorage.getItem("productItem"));
-   const [addresses, setAddresses] = useState([]);
+  const [addresses, setAddresses] = useState([]);
 
   const [formValues, setFormValues] = useState({
     pocket: "Single Pocket",
@@ -36,12 +36,12 @@ const OrderSummary = () => {
   });
   const userID = localStorage.getItem("userID");
 
-   // Fetch addresses when component mounts
-   useEffect(() => {
+  // Fetch addresses when component mounts
+  useEffect(() => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "https://doorsteptailoring-haziquekhan.onrender.com/getAddressByUser",
+          "http://localhost:3000/getAddressByUser",
           {
             params: { userID },
           }
@@ -62,12 +62,17 @@ const OrderSummary = () => {
 
   const handlePlaceOrder = async () => {
     if (!productItem) {
-      toast.alert("No product item data found. Please try again.");
+      toast.error("No product item data found. Please try again.");
       return;
     }
-    const userID = localStorage.getItem("userID");
+
     if (!userID) {
-      toast.alert("No user ID found. Please login again.");
+      toast.error("No user ID found. Please login again.");
+      return;
+    }
+
+    if (!addresses || addresses.length === 0 || !localStorage.getItem("selectedAddress")) {
+      toast.error("Please select an address .");
       return;
     }
 
@@ -91,18 +96,18 @@ const OrderSummary = () => {
 
     try {
       const response = await axios.post(
-        "https://doorsteptailoring-haziquekhan.onrender.com/orders/create",
+        "http://localhost:3000/orders/create",
         orderData
       );
       navigate("/orderSuccessful");
     } catch (error) {
-      alert("An error occurred while placing the order. Please try again.");
+      toast.error("An error occurred while placing the order. Please try again.");
     }
   };
 
   const handleRemoveOrder = async (orderId) => {
     try {
-      await axios.delete(`https://doorsteptailoring-haziquekhan.onrender.com/orders/${orderId}`);
+      await axios.delete(`http://localhost:3000/orders/${orderId}`);
       alert("Order removed successfully.");
       // Update UI by removing the order from the list
       const updatedOrders = orders.filter((order) => order._id !== orderId);
