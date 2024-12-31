@@ -14,7 +14,7 @@ const AuthLanding = () => {
       } else {
         navigate("/otp");
       }
-    }, 1500);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [navigate]);

@@ -19,7 +19,6 @@ const Hero = () => {
       if (data.status !== "success") {
         navigate("/error");
       }
-      console.log(data);
 
       if (data) {
         const images = data.data.flatMap((item) => item.bannerImages);
@@ -44,7 +43,6 @@ const Hero = () => {
         setCurrentIndex(newIndex);
       }
     };
-    console.log(landingArray);
 
     window.addEventListener("scroll", handleScroll);
 
