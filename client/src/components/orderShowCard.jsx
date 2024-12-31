@@ -17,7 +17,7 @@ const OrderShowCard = ({ order }) => {
     const fetchOrderData = async () => {
       try {
         const response = await axios.get(
-          "https://doorstep-stitching-backend.onrender.com/orders/getorder"
+          "http://localhost:3000/orders/getorder"
         );
         console.log(response);
         setLoading(false);
@@ -31,7 +31,7 @@ const OrderShowCard = ({ order }) => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="text-center">Loading...</div>;
   }
 
   if (error) {
@@ -43,7 +43,7 @@ const OrderShowCard = ({ order }) => {
   }
 
   const productImage = productData?.images?.[0]
-    ? `https://doorstep-stitching-backend.onrender.com/uploads/${productData.images[0]}`
+    ? `http://localhost:3000/uploads/${productData.images[0]}`
     : "placeholder-image.png";
 
   return (

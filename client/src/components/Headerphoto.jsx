@@ -15,7 +15,7 @@ const Headerphoto = () => {
       </button> */}
 
       <img
-        className="h-[30vh] w-full object-cover "
+        className="h-[21.5vh] w-full object-cover "
         src={image10}
         alt=""
         srcSet=""

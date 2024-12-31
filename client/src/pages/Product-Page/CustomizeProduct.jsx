@@ -14,9 +14,7 @@ const CustomProductPage = ({ gender }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://doorstep-stitching-backend.onrender.com/api/v1/products/allProducts/${
-            gender || ""
-          }`
+          `http://localhost:3000/api/v1/products/allProducts/${gender || ""}`
         );
         setData(response.data.products);
       } catch (error) {

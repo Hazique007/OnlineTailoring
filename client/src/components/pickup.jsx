@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 
 const Pickup = () => {
   const validPincodes = [
@@ -46,36 +45,6 @@ const Pickup = () => {
     pincode: "",
   });
 
-  const userID = localStorage.getItem("userID");
-
-  useEffect(() => {
-    const fetchAddresses = async () => {
-      try {
-        const response = await axios.get(
-          "https://doorstep-stitching-backend.onrender.com/getAddressByUser",
-          {
-            params: { userID: userID },
-          }
-        );
-
-        if (response.data && response.data.data) {
-          setAddresses(response.data.data);
-        } else {
-          console.error("No addresses found for this user");
-        }
-      } catch (error) {
-        console.error("Error fetching addresses:", error);
-      }
-    };
-
-    if (!sessionStorage.getItem("hasReloaded")) {
-      sessionStorage.setItem("hasReloaded", "true");
-      window.location.reload();
-    } else {
-      fetchAddresses(); // Fetch profile data
-    }
-  }, [userID]);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewAddress({ ...newAddress, [name]: value });
@@ -107,14 +76,11 @@ const Pickup = () => {
     try {
       const updatedAddress = { ...newAddress, userID: currentUserID };
 
-      const response = await fetch(
-        "https://doorstep-stitching-backend.onrender.com/addAddressbyuserID",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updatedAddress),
-        }
-      );
+      const response = await fetch("http://localhost:3000/addAddressbyuserID", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedAddress),
+      });
 
       if (response.ok) {
         const result = await response.json();
