@@ -4,14 +4,18 @@ import AuthHeader from "../../components/AuthHeader";
 
 const AuthLanding = () => {
   const navigate = useNavigate();
+  const userID = localStorage.getItem("userID");
+  console.log(userID);
 
   useEffect(() => {
-    // Set a timer to redirect after 1.5 seconds
     const timer = setTimeout(() => {
-      navigate("/otp"); // Redirect to the desired page
+      if (userID) {
+        navigate("/Home");
+      } else {
+        navigate("/otp");
+      }
     }, 1500);
 
-    // Cleanup timer on component unmount
     return () => clearTimeout(timer);
   }, [navigate]);
 
