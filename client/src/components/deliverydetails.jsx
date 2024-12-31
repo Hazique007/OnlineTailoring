@@ -18,7 +18,7 @@ const Delivery = ({ onProceed }) => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/getAddressByUser",
+          "https://backend-for-doorstep-stitching.onrender.com/getAddressByUser",
           {
             params: { userID },
           }
@@ -48,18 +48,21 @@ const Delivery = ({ onProceed }) => {
   // Add a new address
   const handleAddAddress = async () => {
     try {
-      const response = await fetch("http://localhost:3000/add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newAddress),
-      });
+      const response = await fetch(
+        "https://backend-for-doorstep-stitching.onrender.com/add",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newAddress),
+        }
+      );
       if (response.ok) {
         const result = await response.json();
         const addedAddress = result.data;
 
         // Update state immediately by adding the new address
         setAddresses((prevAddresses) => {
-          const updatedAddresses = [ addedAddress];
+          const updatedAddresses = [addedAddress];
           return updatedAddresses;
         });
 

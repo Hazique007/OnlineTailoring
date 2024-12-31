@@ -3,7 +3,6 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const Pickup = () => {
   const validPincodes = [
     "226001",
@@ -46,10 +45,6 @@ const Pickup = () => {
     pincode: "",
   });
 
-
-
-  
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewAddress({ ...newAddress, [name]: value });
@@ -82,7 +77,7 @@ const Pickup = () => {
       const updatedAddress = { ...newAddress, userID: currentUserID };
 
       const response = await fetch(
-        "http://localhost:3000/addAddressbyuserID",
+        "https://backend-for-doorstep-stitching.onrender.com/addAddressbyuserID",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -123,7 +118,10 @@ const Pickup = () => {
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-gray-100 p-4 rounded-md mt-4">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-gray-100 p-4 rounded-md mt-4"
+        >
           <div className="flex flex-col space-y-3">
             <input
               type="text"

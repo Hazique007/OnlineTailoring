@@ -13,7 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
-  const API_BASE_URL = "http://localhost:3000";
+  const API_BASE_URL = "https://backend-for-doorstep-stitching.onrender.com";
   const userID = localStorage.getItem("userID");
   const [loading, setLoading] = useState(true); // Set loading to true initially
   const [profile, setProfile] = useState(null); // Set initial profile to null
@@ -60,7 +60,6 @@ const ProfilePage = () => {
       </div>
     );
   }
-
 
   const handleLogout = () => {
     localStorage.removeItem("pincode");
@@ -117,10 +116,12 @@ const ProfilePage = () => {
           }}
         >
           <h2 className="text-lg font-semibold">
-            {profile?.name || "Profile details not available"} {/* Render name if profile is not null */}
+            {profile?.name || "Profile details not available"}{" "}
+            {/* Render name if profile is not null */}
           </h2>
           <p className="text-sm text-gray-300">
-            {profile?.mobileNumber || "Profile details not available"} {/* Render mobile number if profile is not null */}
+            {profile?.mobileNumber || "Profile details not available"}{" "}
+            {/* Render mobile number if profile is not null */}
           </p>
         </div>
       </div>

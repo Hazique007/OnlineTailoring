@@ -28,12 +28,14 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(cors({ credentials: true, methods: ["GET", "POST", "PUT", "DELETE"] }));
 
 // Serve static files from React build folder
-app.use(express.static(path.join(__dirname, "build")));
+// app.use(express.static(path.join(__dirname, "build")));
 
 // Database connection
 database();
 
 // API Routes
+app.use("/uploads", express.static("uploads"));
+
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/landing", landingRouter);
 app.use("/api/v1/category", categoryRouter);

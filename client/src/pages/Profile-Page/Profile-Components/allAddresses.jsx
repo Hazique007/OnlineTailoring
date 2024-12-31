@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import TopNav from "../../../components/TopNav";
 import axios from "axios";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AllAddresses = () => {
   const validPincodes = [
@@ -50,10 +50,13 @@ const AllAddresses = () => {
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/getAddressByUser", {
-          params: { userID: userID },
-        });
-  
+        const response = await axios.get(
+          "https://backend-for-doorstep-stitching.onrender.com/getAddressByUser",
+          {
+            params: { userID: userID },
+          }
+        );
+
         // Ensure that response data is set correctly
         if (response.data && response.data.data) {
           setAddresses(response.data.data); // Use the correct response structure
@@ -64,7 +67,7 @@ const AllAddresses = () => {
         console.error("Error fetching addresses:", error);
       }
     };
-  
+
     fetchAddresses();
   }, [userID]);
 
@@ -90,7 +93,8 @@ const AllAddresses = () => {
     if (!address.pincode.trim()) return "Pincode is required";
 
     if (address.pincode.length !== 6) return "Pincode must be exactly 6 digits";
-    if (!validPincodes.includes(address.pincode)) return "This pincode is not serviceable"; // Change to toast on validation failure
+    if (!validPincodes.includes(address.pincode))
+      return "This pincode is not serviceable"; // Change to toast on validation failure
 
     return "";
   };
@@ -102,28 +106,29 @@ const AllAddresses = () => {
       return;
     }
 
-    const currentUserID = localStorage.getItem("userID")
-  
+    const currentUserID = localStorage.getItem("userID");
+
     try {
       // Assuming userID is available, you can either pass it from state or props
       const updatedAddress = { ...newAddress, userID: currentUserID }; // Add userID to the address object
-  
-      const response = await fetch("http://localhost:3000/addAddressbyuserID", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedAddress),
-      });
+
+      const response = await fetch(
+        "https://backend-for-doorstep-stitching.onrender.com/addAddressbyuserID",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedAddress),
+        }
+      );
       console.log(updatedAddress);
-      
+
       console.log(response);
-      
-  
+
       if (response.ok) {
         const result = await response.json();
         setAddresses([...addresses, result.data]);
         setNewAddress({ name: "", address1: "", address2: "", pincode: "" });
         setIsModalOpen(false);
-        
       } else {
         console.error("Failed to add address");
       }
@@ -138,9 +143,12 @@ const AllAddresses = () => {
       toast.error(errorMessage); // Show toast instead of alert
       return;
     }
-  
+
     try {
-      const response = await axios.put(`http://localhost:3000/update/${editingAddress._id}`, editingAddress);
+      const response = await axios.put(
+        `https://backend-for-doorstep-stitching.onrender.com/update/${editingAddress._id}`,
+        editingAddress
+      );
       if (response.data) {
         setAddresses(
           addresses.map((addr) =>
@@ -153,12 +161,15 @@ const AllAddresses = () => {
       console.error("Error updating address:", error);
     }
   };
-  
+
   const handleDeleteAddress = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/delete/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `https://backend-for-doorstep-stitching.onrender.com/delete/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (response.ok) {
         setAddresses(addresses.filter((addr) => addr._id !== id));
       } else {

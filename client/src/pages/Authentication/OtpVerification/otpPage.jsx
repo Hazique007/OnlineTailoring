@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import OtpInput from 'otp-input-react';
+import { useNavigate } from "react-router-dom";
+import OtpInput from "otp-input-react";
 import { CgSpinner } from "react-icons/cg";
-import 'react-phone-input-2/lib/style.css';
-import toast, { Toaster } from 'react-hot-toast';
+import "react-phone-input-2/lib/style.css";
+import toast, { Toaster } from "react-hot-toast";
 import HeaderPhotos from "../../../components/Headerphoto";
 import PhoneInput from "react-phone-input-2";
 
@@ -21,7 +21,7 @@ const Otp = () => {
       setCanResend(true);
     } else {
       const interval = setInterval(() => {
-        setTimer(prevTimer => prevTimer - 1);
+        setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
       return () => clearInterval(interval);
     }
@@ -30,7 +30,10 @@ const Otp = () => {
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+      2,
+      "0"
+    )}`;
   };
 
   const onSignup = async () => {
@@ -41,25 +44,28 @@ const Otp = () => {
     setLoading(true);
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch('http://localhost:3000/api/send-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phoneNumber: formattedPhone }),
-      });
+      const response = await fetch(
+        "https://backend-for-doorstep-stitching.onrender.com/api/send-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phoneNumber: formattedPhone }),
+        }
+      );
       const data = await response.json();
       if (data.success) {
         setLoading(false);
         setShowOtp(true);
-        toast.success('OTP sent successfully');
+        toast.success("OTP sent successfully");
         setTimer(60);
       } else {
         setLoading(false);
-        toast.error('Failed to send OTP');
+        toast.error("Failed to send OTP");
       }
     } catch (error) {
       console.error("Error during OTP send:", error);
       setLoading(false);
-      toast.error('Failed to send OTP. Please try again.');
+      toast.error("Failed to send OTP. Please try again.");
     }
   };
 
@@ -67,24 +73,27 @@ const Otp = () => {
     setLoading(true);
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch('http://localhost:3000/api/verify-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
-      });
+      const response = await fetch(
+        "https://backend-for-doorstep-stitching.onrender.com/api/verify-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
+        }
+      );
       const data = await response.json();
       if (data.success) {
         localStorage.setItem("userID", data.user._id);
-        toast.success('OTP verified successfully');
+        toast.success("OTP verified successfully");
         navigate("/home");
       } else {
-        toast.error('Invalid OTP. Please try again.');
+        toast.error("Invalid OTP. Please try again.");
         setLoading(false);
       }
     } catch (error) {
       console.error("Error during OTP verification:", error);
       setLoading(false);
-      toast.error('Something went wrong. Please try again.');
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
@@ -93,26 +102,29 @@ const Otp = () => {
     setTimer(60);
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch('http://localhost:3000/api/send-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phoneNumber: formattedPhone }),
-      });
+      const response = await fetch(
+        "https://backend-for-doorstep-stitching.onrender.com/api/send-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phoneNumber: formattedPhone }),
+        }
+      );
       const data = await response.json();
       if (data.success) {
-        toast.success('OTP resent successfully');
+        toast.success("OTP resent successfully");
       } else {
-        toast.error('Failed to resend OTP');
+        toast.error("Failed to resend OTP");
       }
     } catch (error) {
       console.error("Error during OTP resend:", error);
-      toast.error('Failed to resend OTP. Please try again.');
+      toast.error("Failed to resend OTP. Please try again.");
     }
   };
 
   return (
     <div className="h-screen w-screen overflow-hidden">
-      <section className='items-center justify-center'>
+      <section className="items-center justify-center">
         <div className="flex flex-col">
           <Toaster toastOptions={{ duration: 2000 }} />
 
@@ -148,14 +160,18 @@ const Otp = () => {
                     Didn’t receive the OTP?
                   </p>
                   <p
-                    className={`text-${canResend ? 'blue' : 'gray'}-600 text-center pt-2 cursor-pointer`}
+                    className={`text-${
+                      canResend ? "blue" : "gray"
+                    }-600 text-center pt-2 cursor-pointer`}
                     onClick={canResend ? resendOtp : null}
-                    style={{ pointerEvents: canResend ? 'auto' : 'none' }}
+                    style={{ pointerEvents: canResend ? "auto" : "none" }}
                   >
                     Resend OTP
                   </p>
 
-                  <p className="text-white text-center pt-2">{formatTime(timer)}</p>
+                  <p className="text-white text-center pt-2">
+                    {formatTime(timer)}
+                  </p>
 
                   <div className="flex items-center justify-center mt-10">
                     <button
@@ -164,7 +180,9 @@ const Otp = () => {
                         text-white font-bold py-2 px-4 rounded transition-transform transform active:scale-95 
                         items-center justify-center flex gap-1"
                     >
-                      {loading && <CgSpinner size={20} className="mt-1 animate-spin" />}
+                      {loading && (
+                        <CgSpinner size={20} className="mt-1 animate-spin" />
+                      )}
                       <span>Verify</span>
                     </button>
                   </div>
@@ -174,10 +192,10 @@ const Otp = () => {
                   <div className="flex justify-center items-center p-4 py-5 mt-5">
                     <PhoneInput
                       placeholder="Mobile number"
-                      country={'in'}
+                      country={"in"}
                       value={phone}
                       onChange={setPhone}
-                      onlyCountries={['in']}
+                      onlyCountries={["in"]}
                     />
                   </div>
 
@@ -188,7 +206,9 @@ const Otp = () => {
                         text-white font-bold py-2 px-4 rounded transition-transform transform active:scale-95 
                         items-center justify-center flex gap-1"
                     >
-                      {loading && <CgSpinner size={20} className="mt-1 animate-spin" />}
+                      {loading && (
+                        <CgSpinner size={20} className="mt-1 animate-spin" />
+                      )}
                       <span>Send OTP</span>
                     </button>
                   </div>
