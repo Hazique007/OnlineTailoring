@@ -5,35 +5,21 @@ import Otp from '../models/userSchema.js'
 export const addAddressbyuserID = async (req, res) => {
   try {
     const { name, address1, address2, pincode, userID } = req.body;
-    // console.log(req.body);
     
-
-    // Validate input
-    if (!name || !address1 || !address2 || !pincode || !userID) {
-      return res.status(400).json({ message: 'All fields are required' });
+   if (!name || !address1 || !address2 || !pincode || !userID) {
+        return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // Find the user by userID
-    // const user = await Otp.findById(userID);
+    
     if (!userID) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Create a new address object
-    // const newAddress = new Address({ name, address1, address2, pincode,userID });
+    
 
     const newAddress = await Address.create({name, address1, address2, pincode,userID});
     console.log(newAddress);
     
-
-
-    // Save the new address to the database
-    // await newAddress.save();
-
-    // // Add the new address to the user's addresses array (assuming user schema has an 'addresses' field)
-    // user.addresses.push(newAddress._id);
-    // await user.save();
-
     res.status(201).json({
       message: 'Address added successfully',
       data: newAddress,
@@ -57,15 +43,14 @@ export const getAddresses = async (req, res) => {
 
 // Edit an existing address
 export const editAddress = async (req, res) => {
-  const { userID } = req.params;  // Get userID from the URL parameters
-  const updatedData = req.body;   // Get the updated address data from the request body
+  const { userID } = req.params;  
+  const updatedData = req.body;   
 
   try {
-    // Find the address by userID and update it
     const updatedAddress = await Address.findOneAndUpdate(
-      { userID },               // Find address by userID
-      updatedData,              // Data to update
-      { new: true }             // Return the updated document
+      { userID },               
+      updatedData,              
+      { new: true }             
     );
 
     if (!updatedAddress) {
@@ -80,23 +65,20 @@ export const editAddress = async (req, res) => {
 };
 
 
-// Update an existing address
-// Update an existing address
+
 export const updateAddress = async (req, res) => {
   try {
-    const { id } = req.params; // Extract the address ID from params
+    const { id } = req.params; 
     const { name, address1, address2, pincode } = req.body;
 
-    // Validate input
     if (!name || !address1 || !address2 || !pincode) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // Find and update the address
     const updatedAddress = await Address.findByIdAndUpdate(
-      id, // Use the correct _id for the address
+      id, 
       { name, address1, address2, pincode },
-      { new: true, runValidators: true } // Return the updated document
+      { new: true, runValidators: true } 
     );
 
     if (!updatedAddress) {
@@ -115,7 +97,6 @@ export const deleteAddress = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Find and delete the address
     const deletedAddress = await Address.findByIdAndDelete(id);
 
     if (!deletedAddress) {
@@ -136,13 +117,11 @@ export const getAddressByUser = async (req, res) => {
   try {
     const { userID } = req.query;
 
-    // Validate that userID is provided
     if (!userID) {
       return res.status(400).json({ message: "UserID is required to fetch address" });
     }
 
-    // Find orders where userID matches
-    const userAddress = await Address.find({ userID }); // Use find() to query by userID
+    const userAddress = await Address.find({ userID }); 
     res.status(200).json({data: userAddress});
   } catch (error) {
     res.status(500).json({ message: "Error fetching user address", error });

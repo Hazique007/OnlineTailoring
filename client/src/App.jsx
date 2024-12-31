@@ -56,6 +56,7 @@ const App = () => {
          
           <Route path="/otp" Component={Otp} />
 
+
           <Route path="/profile" Component={ProfilePage} />
           <Route path="/orders" Component={orderHistory} />
           <Route path="/product" Component={ProductPage} />

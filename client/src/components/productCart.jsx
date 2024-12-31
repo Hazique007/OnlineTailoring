@@ -66,7 +66,7 @@ function SimpleDialog({ open, onClose, gender, category, onSelection }) {
 
 const ProductCart = ({
   label,
-  price = 500,
+  price,
   styleName,
   gender,
   images,
