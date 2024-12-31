@@ -57,7 +57,7 @@ const Hero = () => {
         setCurrentIndex((prevIndex) =>
           prevIndex === landingArray.length - 1 ? 0 : prevIndex + 1
         );
-      }, 2500);
+      }, 3500);
 
       return () => clearInterval(interval);
     }

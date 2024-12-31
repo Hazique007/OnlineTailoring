@@ -66,7 +66,7 @@ const SearchStyle = ({ gender }) => {
         ...new Set(filteredProducts.map((product) => product.subCategory)),
       ];
       //Track Click
-      const handleImageClick = async (gender, category) => {
+      const handleImageClick = async (gender, category, subCategory) => {
         try {
           await axios.post(
             "https://backend-for-doorstep-stitching.onrender.com/api/v1/stats/trackClick",
@@ -77,7 +77,7 @@ const SearchStyle = ({ gender }) => {
           );
           console.log("Clicked");
 
-          navigate(`/product/${gender}/${category}`);
+          // navigate(`/product/${gender}/${category}/${subCategory}?`);
         } catch (error) {
           console.error("Error tracking click:", error);
         }
