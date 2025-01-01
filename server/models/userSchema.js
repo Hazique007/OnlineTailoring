@@ -4,11 +4,11 @@ const UserSchema = new mongoose.Schema({
   phoneNumber: {
     type: String,
     unique: true,
-    required: true, // Note: fixed typo from "require" to "required"
+    required: true,
   },
   otp: {
     type: Number,
-    required: true, // Note: fixed typo from "require" to "required"
+    required: true,
   },
   otpExpiration: {
     type: Date,
