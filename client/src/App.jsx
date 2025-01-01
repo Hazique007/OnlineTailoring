@@ -24,6 +24,7 @@ import ProductCart from "./components/productCart";
 import TrendingProductDetails from "./components/TrendingProductDetails";
 import AllCategory from "./components/allCategory";
 import CartPage from "./components/cartpage";
+import Manifest from "../manifest.json"
 
 // Context API
 import { ProductProvider } from "./Context Api/trackProduct";
@@ -67,6 +68,7 @@ const App = () => {
           <Route path="/search" Component={SearchPage} />
           <Route path="/cart" Component={CartPage} />
           <Route path="/error" Component={Error} />
+          <Route path="/manifest.json" Component={Manifest} />
 
           {/* Profile Sub-pages */}
           <Route path="/addresses" Component={AllAddresses} />
