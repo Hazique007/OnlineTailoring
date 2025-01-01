@@ -13,7 +13,7 @@ import OrderRoute from "./routes/OrderRoute.js";
 import personalDetailsRoute from "./routes/PersonalDetailsRoutes.js";
 import UserRoute from "./routes/UserRoute.js";
 import ClickRouter from "./routes/clickRoutes.js";
-
+import bodyParser from "body-parser";
 dotenv.config();
 
 const app = express();
@@ -23,9 +23,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middleware
-app.use(express.json({ limit: "10mb" }));
+app.use(express.json());
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(cors({ credentials: true, methods: ["GET", "POST", "PUT", "DELETE"] }));
+app.use(bodyParser.json());
 
 // Serve static files from React build folder
 // app.use(express.static(path.join(__dirname, "build")));
