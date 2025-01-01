@@ -25,13 +25,7 @@ const __dirname = path.dirname(__filename);
 // Middleware
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
-app.use(
-  cors({
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    origin: `https://mvp-doorstep-stitching.onrender.com`,
-  })
-);
+app.use(cors({ credentials: true, methods: ["GET", "POST", "PUT", "DELETE"] }));
 
 // Serve static files from React build folder
 // app.use(express.static(path.join(__dirname, "build")));
