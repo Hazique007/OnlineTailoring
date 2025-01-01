@@ -87,8 +87,8 @@ registerRoute(
 // Handle requests to your API with StaleWhileRevalidate (fallback to cached data)
 registerRoute(
   ({ url }) =>
-    url.origin ===
-    "https://backend-for-doorstep-stitching.onrender.com/api/v1/landing/getLandingPageImages", // Replace with your API's origin
+    url.origin === "https://mvp-doorstep-stitching.onrender.com" &&
+    url.pathname === "/api/v1/landing/getLandingPageImages", // Replace with your API's origin
   new StaleWhileRevalidate({
     cacheName: "api-cache",
     plugins: [new ExpirationPlugin({ maxEntries: 50 })],
@@ -96,8 +96,8 @@ registerRoute(
 );
 registerRoute(
   ({ url }) =>
-    url.origin ===
-    "https://backend-for-doorstep-stitching.onrender.com/api/v1/landing/getFashionPageImages", // Replace with your API's origin
+    url.origin === "https://mvp-doorstep-stitching.onrender.com" &&
+    url.pathname === "/api/v1/landing/getFashionPageImages", // Replace with your API's origin
   new StaleWhileRevalidate({
     cacheName: "api-cache",
     plugins: [new ExpirationPlugin({ maxEntries: 50 })],
@@ -105,8 +105,8 @@ registerRoute(
 );
 registerRoute(
   ({ url }) =>
-    url.origin ===
-    "https://backend-for-doorstep-stitching.onrender.com/api/v1/landing/getTrendingPageImages", // Replace with your API's origin
+    url.origin === "https://mvp-doorstep-stitching.onrender.com" &&
+    url.pathname === "/api/v1/landing/getTrendingPageImages", // Replace with your API's origin
   new StaleWhileRevalidate({
     cacheName: "api-cache",
     plugins: [new ExpirationPlugin({ maxEntries: 50 })],
@@ -114,13 +114,14 @@ registerRoute(
 );
 registerRoute(
   ({ url }) =>
-    url.origin ===
-    "https://backend-for-doorstep-stitching.onrender.com/api/v1/category/fetchcategories", // Replace with your API's origin
+    url.origin === "https://mvp-doorstep-stitching.onrender.com" &&
+    url.pathname === "/api/v1/category/fetchcategories", // Replace with your API's origin
   new StaleWhileRevalidate({
     cacheName: "api-cache",
     plugins: [new ExpirationPlugin({ maxEntries: 50 })],
   })
 );
+
 // Handle all fetch events for offline capability
 self.addEventListener("fetch", (event) => {
   if (event.request.mode === "navigate") {
