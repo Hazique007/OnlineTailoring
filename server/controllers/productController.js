@@ -233,3 +233,24 @@ export const getFabricGenderPlusCategory = async (req, res) => {
     });
   }
 };
+
+export const GenderCategorySubcategory = async (req, res) => {
+  const { gender, category, subCategory } = req.query;
+  if (!gender || !category || !subCategory) {
+    return res
+      .status(400)
+      .json({ message: "All three parameters are required" });
+  }
+
+  const products = await Product.find({
+    gender: gender,
+    category: category,
+    subCategory: subCategory,
+  });
+  if (products.length === 0) {
+    return res
+      .status(404)
+      .json({ message: "No products found for the given criteria." });
+  }
+  res.status(200).json({ message: "Successfully fetched products", products });
+};

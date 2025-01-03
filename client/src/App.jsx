@@ -35,6 +35,7 @@ import NotFound from "./pages/NotFound/notfound";
 import Error from "./components/error";
 import FashionProductDetails from "./components/fashionProductDetails";
 import ClickStats from "./pages/Stats/clickStats";
+import SubCategoryWise from "./pages/Admin/adminComponents/subCategoryWise";
 
 const App = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
@@ -69,6 +70,10 @@ const App = () => {
           <Route path="/cart" Component={CartPage} />
           <Route path="/error" Component={Error} />
           <Route path="/listing" Component={ListingPage} />
+          <Route
+            path="/listing/:gender/:category/:subCategory"
+            Component={SubCategoryWise}
+          />
 
           <Route path="/manifest.json" Component={Manifest} />
 

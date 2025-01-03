@@ -8,6 +8,7 @@ import {
   getGenderWiseCategory,
   getSubcategory,
   getGenderPlusCategory,
+  GenderCategorySubcategory,
   // getProductsGenderandCategoryWise,
 } from "../controllers/productController.js";
 const router = express.Router();
@@ -18,5 +19,6 @@ router.get("/getAllCategoryWithImages", getAllCategoryWithImages);
 router.get("/getGenderWiseCategory", getGenderWiseCategory);
 router.get("/getSubcategory", getSubcategory);
 router.get("/getGenderPlusCategory", getGenderPlusCategory);
+router.get("/GenderCategorySubcategory", GenderCategorySubcategory);
 
 export default router;

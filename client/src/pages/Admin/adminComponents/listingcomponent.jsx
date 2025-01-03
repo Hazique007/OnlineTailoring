@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { BeatLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 const ListingComponent = () => {
   const [maleData, setMaleData] = useState([]);
   const [femaleData, setFemaleData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Fetch categories for both genders
   const fetchCategories = async () => {
@@ -39,6 +41,9 @@ const ListingComponent = () => {
   useEffect(() => {
     fetchCategories();
   }, []);
+  const handleNavigate = (gender, category, subCategory) => {
+    navigate(`/listing/${gender}/${category}/${subCategory}`);
+  };
 
   if (loading) {
     return (
@@ -53,9 +58,9 @@ const ListingComponent = () => {
       {/* Male Categories */}
       {maleData.length > 0 && (
         <>
-          <h2 className="font-poppins font-[700] text-[16px] text-[#0A2481] mb-[10px]">
+          {/* <h2 className="font-poppins font-[700] text-[16px] text-[#0A2481] mb-[10px]">
             Men's Categories
-          </h2>
+          </h2> */}
           {maleData.map((category) => (
             <div key={category.category} className="mb-[15px]">
               {/* Category */}
@@ -74,12 +79,21 @@ const ListingComponent = () => {
                     return (
                       <div
                         key={product.subCategory}
-                        className="px-[12px] flex justify-between items-center mt-[7px]"
+                        className="px-[12px] flex justify-between items-center mt-[12px]"
                       >
                         <p className="font-poppins font-[400] text-[12px] text-[#0A2481]">
                           {product.subCategory}
                         </p>
-                        <button className="font-poppins font-[400] text-[12px] text-[#0A2481]">
+                        <button
+                          onClick={() =>
+                            handleNavigate(
+                              product.gender,
+                              category.category,
+                              product.subCategory
+                            )
+                          }
+                          className="font-poppins font-[400] text-[12px] text-[#0A2481]"
+                        >
                           Edit
                         </button>
                       </div>
@@ -96,9 +110,9 @@ const ListingComponent = () => {
       {/* Female Categories */}
       {femaleData.length > 0 && (
         <>
-          <h2 className="font-poppins font-[700] text-[16px] text-[#0A2481] mt-[20px] mb-[10px]">
+          {/* <h2 className="font-poppins font-[700] text-[16px] text-[#0A2481] mt-[20px] mb-[10px]">
             Women's Categories
-          </h2>
+          </h2> */}
           {femaleData.map((category) => (
             <div key={category.category} className="mb-[15px]">
               {/* Category */}
@@ -117,7 +131,7 @@ const ListingComponent = () => {
                     return (
                       <div
                         key={product.subCategory}
-                        className="px-[12px] flex justify-between items-center mt-[7px]"
+                        className="px-[12px] flex justify-between items-center mt-[12px]"
                       >
                         <p className="font-poppins font-[400] text-[12px] text-[#0A2481]">
                           {product.subCategory}
