@@ -254,3 +254,173 @@ export const GenderCategorySubcategory = async (req, res) => {
   }
   res.status(200).json({ message: "Successfully fetched products", products });
 };
+
+export const UpdateGenderCategorySubcategory = async (req, res) => {
+  const { gender, category, subCategory } = req.query;
+
+  if (!gender || !category || !subCategory) {
+    return res.status(400).json({
+      message:
+        "All three parameters (gender, category, subCategory) are required",
+    });
+  }
+
+  const validGenders = ["Male", "Female", "General"];
+  if (!validGenders.includes(gender)) {
+    return res.status(400).json({
+      message:
+        "Invalid gender value. It must be one of the following: Male, Female, General",
+    });
+  }
+
+  try {
+    const updatedProduct = await Product.findOneAndUpdate(
+      { gender, category, subCategory },
+      req.body,
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({
+        message:
+          "No product found with the given gender, category, and subCategory",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Product updated successfully",
+      product: updatedProduct,
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred while updating the product" });
+  }
+};
+
+export const CategorySubcategoryDelete = async (req, res) => {
+  const { gender, category, subCategory } = req.query;
+  if (!gender || !category || !subCategory) {
+    return res
+      .status(400)
+      .json({ message: "All three parameters are required" });
+  }
+  try {
+    const deletedProduct = await Product.findOneAndDelete({
+      gender: gender,
+      category: category,
+      subCategory: subCategory,
+    });
+    if (!deletedProduct) {
+      return res
+        .status(404)
+        .json({ message: "No product found for the given criteria" });
+    } else {
+      return res.status(200).json({
+        message: "Product deleted successfully",
+        product: deletedProduct,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred while deleting the product" });
+  }
+};
+///GenderCategory
+export const GenderCategory = async (req, res) => {
+  const { gender, category } = req.query;
+  if (!gender || !category) {
+    return res.status(400).json({ message: "All parameters are required" });
+  }
+
+  const products = await Product.find({
+    gender: gender,
+    category: category,
+  });
+  if (products.length === 0) {
+    return res
+      .status(404)
+      .json({ message: "No products found for the given criteria." });
+  }
+  res.status(200).json({ message: "Successfully fetched products", products });
+};
+
+//
+
+export const UpdateGenderCategory = async (req, res) => {
+  const { gender, category, subCategory } = req.query;
+
+  if (!gender || !category) {
+    return res.status(400).json({
+      message:
+        "All  parameters (gender, category) are required",
+    });
+  }
+
+  const validGenders = ["Male", "Female", "General"];
+  if (!validGenders.includes(gender)) {
+    return res.status(400).json({
+      message:
+        "Invalid gender value. It must be one of the following: Male, Female, General",
+    });
+  }
+
+  try {
+    const updatedProduct = await Product.findOneAndUpdate(
+      { gender, category },
+      req.body,
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({
+        message:
+          "No product found with the given gender, category, and subCategory",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Product updated successfully",
+      product: updatedProduct,
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred while updating the product" });
+  }
+};
+///
+export const CategoryDelete = async (req, res) => {
+  const { gender, category } = req.query;
+  if (!gender || !category) {
+    return res
+      .status(400)
+      .json({ message: "All  parameters are required" });
+  }
+  try {
+    const deletedProduct = await Product.findOneAndDelete({
+      gender: gender,
+      category: category,
+      
+    });
+    if (!deletedProduct) {
+      return res
+        .status(404)
+        .json({ message: "No product found for the given criteria" });
+    } else {
+      return res.status(200).json({
+        message: "Product deleted successfully",
+        product: deletedProduct,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred while deleting the product" });
+  }
+};

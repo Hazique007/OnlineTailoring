@@ -9,6 +9,11 @@ import {
   getSubcategory,
   getGenderPlusCategory,
   GenderCategorySubcategory,
+  UpdateGenderCategorySubcategory,
+  CategorySubcategoryDelete,
+  GenderCategory,
+  UpdateGenderCategory,
+  CategoryDelete,
   // getProductsGenderandCategoryWise,
 } from "../controllers/productController.js";
 const router = express.Router();
@@ -20,5 +25,10 @@ router.get("/getGenderWiseCategory", getGenderWiseCategory);
 router.get("/getSubcategory", getSubcategory);
 router.get("/getGenderPlusCategory", getGenderPlusCategory);
 router.get("/GenderCategorySubcategory", GenderCategorySubcategory);
+router.put("/UpdateGenderCategorySubcategory", UpdateGenderCategorySubcategory);
+router.delete("/CategorySubcategoryDelete", CategorySubcategoryDelete);
+router.get("/GenderCategory", GenderCategory);
+router.put("/UpdateGenderCategory", UpdateGenderCategory);
+router.delete("/CategoryDelete", CategoryDelete);
 
 export default router;

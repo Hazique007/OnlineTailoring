@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { BeatLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
+import { generate } from "otp-generator";
 
 const ListingComponent = () => {
   const [maleData, setMaleData] = useState([]);
@@ -44,6 +45,9 @@ const ListingComponent = () => {
   const handleNavigate = (gender, category, subCategory) => {
     navigate(`/listing/${gender}/${category}/${subCategory}`);
   };
+  const handleNavigateCategory = (gender, category) => {
+    navigate(`/listing/${gender}/${category}`);
+  };
 
   if (loading) {
     return (
@@ -68,7 +72,12 @@ const ListingComponent = () => {
                 <h2 className="font-poppins font-[600] text-[14px]">
                   Men - {category.category}
                 </h2>
-                <button className="font-poppins font-[600] text-[14px] text-[#0A2481]">
+                <button
+                  onClick={() =>
+                    handleNavigateCategory("Male", category.category)
+                  }
+                  className="font-poppins font-[600] text-[14px] text-[#0A2481]"
+                >
                   Edit
                 </button>
               </div>
@@ -120,7 +129,12 @@ const ListingComponent = () => {
                 <h2 className="font-poppins font-[600] text-[14px]">
                   Women - {category.category}
                 </h2>
-                <button className="font-poppins font-[600] text-[14px] text-[#0A2481]">
+                <button
+                  onClick={() =>
+                    handleNavigateCategory("Female", category.category)
+                  }
+                  className="font-poppins font-[600] text-[14px] text-[#0A2481]"
+                >
                   Edit
                 </button>
               </div>
@@ -136,7 +150,16 @@ const ListingComponent = () => {
                         <p className="font-poppins font-[400] text-[12px] text-[#0A2481]">
                           {product.subCategory}
                         </p>
-                        <button className="font-poppins font-[400] text-[12px] text-[#0A2481]">
+                        <button
+                          onClick={() =>
+                            handleNavigate(
+                              product.gender,
+                              category.category,
+                              product.subCategory
+                            )
+                          }
+                          className="font-poppins font-[400] text-[12px] text-[#0A2481]"
+                        >
                           Edit
                         </button>
                       </div>

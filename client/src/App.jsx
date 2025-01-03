@@ -36,6 +36,7 @@ import Error from "./components/error";
 import FashionProductDetails from "./components/fashionProductDetails";
 import ClickStats from "./pages/Stats/clickStats";
 import SubCategoryWise from "./pages/Admin/adminComponents/subCategoryWise";
+import EditCategory from "./pages/Admin/Listing/editCategory";
 
 const App = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
@@ -74,6 +75,7 @@ const App = () => {
             path="/listing/:gender/:category/:subCategory"
             Component={SubCategoryWise}
           />
+          <Route path="/listing/:gender/:category" Component={EditCategory} />
 
           <Route path="/manifest.json" Component={Manifest} />
 
