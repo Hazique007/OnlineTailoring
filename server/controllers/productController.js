@@ -422,7 +422,33 @@ export const CategoryDelete = async (req, res) => {
   }
 };
 
+export const addNewSubcategory = async (req, res) => {
+  const productData = req.body;
 
-export const addNewSubcategory=async(req,res)=>{
-  
-}
+  // Validate product data
+  const { error } = validateProduct(productData);
+  if (error) {
+    return res.status(400).json({
+      message: "Validation Error",
+      details: error.details,
+    });
+  }
+
+  try {
+    const newProduct = new Product(productData);
+
+    const savedProduct = await newProduct.save();
+
+    // Return success response
+    res.status(201).json({
+      message: "Product added successfully",
+      product: savedProduct,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "Failed to add product",
+      error: err.message,
+    });
+  }
+};
