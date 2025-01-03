@@ -5,13 +5,13 @@
     {
       "purpose": "maskable",
       "sizes": "512x512",
-      "src": "https://mvp-doorstep-stitching.onrender.com/sewing.png",
+      "src": "/assets/sewing.png",
       "type": "image/png"
     },
     {
       "purpose": "any",
       "sizes": "512x512",
-      "src": "https://mvp-doorstep-stitching.onrender.com/sewing.png",
+      "src": "/assets/sewing.png",
       "type": "image/png"
     }
   ],
@@ -24,13 +24,13 @@
   "start_url": "/",
   "screenshots": [
     {
-      "src": "https://mvp-doorstep-stitching.onrender.com/sewing.png",
+      "src": "/assets/sewing.png",
       "sizes": "512x512",
       "type": "image/png",
       "form_factor": "wide"
     },
     {
-      "src": "https://mvp-doorstep-stitching.onrender.com/sewing.png",
+      "src": "/assets/sewing.png",
       "sizes": "512x512",
       "type": "image/png"
     }
