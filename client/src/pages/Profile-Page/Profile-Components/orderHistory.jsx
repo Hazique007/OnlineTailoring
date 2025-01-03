@@ -15,7 +15,7 @@ const OrderHistoryPage = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/orders/getOrdersByUser",
+          "https://backend-for-doorstep-stitching.onrender.com/orders/getOrdersByUser",
           {
             params: { userID: userID },
           }

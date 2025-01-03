@@ -8,12 +8,10 @@ export const addToCart = async (req, res) => {
     if (!userID || !productId) {
       return res.status(400).json({ message: "Invalid request" });
     }
-
     const user = await Otp.findById(userID);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
     const product = await Product.findById(productId);
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
@@ -29,7 +27,6 @@ export const addToCart = async (req, res) => {
         .status(200)
         .json({ message: "Product quantity updated in cart" });
     }
-
     const cart = await Cart.create({ userID, productId, quantity: 1 });
     res.status(201).json({ cart });
   } catch (error) {
