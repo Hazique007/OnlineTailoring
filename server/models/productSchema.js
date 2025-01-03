@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Product name is required"],
+    // required: [true, "Product name is required"],
   },
   category: {
     type: String,
@@ -30,16 +30,16 @@ const productSchema = new mongoose.Schema({
   },
   fabric: {
     type: String,
-    required: [true, "Fabric type is required"],
+    // required: [true, "Fabric type is required"],
   },
   sizes: {
     type: [String],
     enum: ["XS", "S", "M", "L", "XL", "XXL"],
-    required: [true, "Available sizes must be specified"],
+    // required: [true, "Available sizes must be specified"],
   },
   colors: {
     type: [String],
-    required: [true, "Available colors must be specified"],
+    // required: [true, "Available colors must be specified"],
   },
   isCustomized: {
     type: Boolean,
@@ -63,6 +63,11 @@ const productSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  categoryDescription: {
+    type: String,
+    required: [true, "Category description is required"],
+    trim: true,
   },
 });
 

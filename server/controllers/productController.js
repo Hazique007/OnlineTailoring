@@ -1,4 +1,5 @@
 import Product from "../models/productSchema.js";
+import Category from "../models/categorySchema.js";
 
 export const getSpecificProducts = async (req, res) => {
   try {
@@ -336,7 +337,7 @@ export const GenderCategory = async (req, res) => {
     return res.status(400).json({ message: "All parameters are required" });
   }
 
-  const products = await Product.find({
+  const products = await Category.find({
     gender: gender,
     category: category,
   });
@@ -351,12 +352,11 @@ export const GenderCategory = async (req, res) => {
 //
 
 export const UpdateGenderCategory = async (req, res) => {
-  const { gender, category, subCategory } = req.query;
+  const { gender, category } = req.query;
 
   if (!gender || !category) {
     return res.status(400).json({
-      message:
-        "All  parameters (gender, category) are required",
+      message: "All  parameters (gender, category) are required",
     });
   }
 
@@ -369,7 +369,7 @@ export const UpdateGenderCategory = async (req, res) => {
   }
 
   try {
-    const updatedProduct = await Product.findOneAndUpdate(
+    const updatedProduct = await Category.findOneAndUpdate(
       { gender, category },
       req.body,
       { new: true }
@@ -397,15 +397,12 @@ export const UpdateGenderCategory = async (req, res) => {
 export const CategoryDelete = async (req, res) => {
   const { gender, category } = req.query;
   if (!gender || !category) {
-    return res
-      .status(400)
-      .json({ message: "All  parameters are required" });
+    return res.status(400).json({ message: "All  parameters are required" });
   }
   try {
-    const deletedProduct = await Product.findOneAndDelete({
+    const deletedProduct = await Category.findOneAndDelete({
       gender: gender,
       category: category,
-      
     });
     if (!deletedProduct) {
       return res
@@ -424,3 +421,8 @@ export const CategoryDelete = async (req, res) => {
       .json({ message: "An error occurred while deleting the product" });
   }
 };
+
+
+export const addNewSubcategory=async(req,res)=>{
+  
+}

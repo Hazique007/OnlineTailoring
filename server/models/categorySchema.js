@@ -6,6 +6,11 @@ const categorySchema = new mongoose.Schema({
     required: [true, "Category is required"],
     trim: true,
   },
+  categoryDescription: {
+    type: String,
+    required: [true, "Category description is required"],
+    trim: true,
+  },
   gender: {
     type: String,
     enum: {
