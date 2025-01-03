@@ -14,6 +14,7 @@ const Otp = () => {
   const [showOtp, setShowOtp] = useState(false);
   const [timer, setTimer] = useState(60);
   const [canResend, setCanResend] = useState(false);
+  const [termsChecked, setTermsChecked] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,6 +40,10 @@ const Otp = () => {
   const onSignup = async () => {
     if (phone.length !== 12) {
       toast.error("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+    if (!termsChecked) {
+      toast.error("You must agree to the Terms and Conditions to proceed.");
       return;
     }
     setLoading(true);
@@ -160,9 +165,8 @@ const Otp = () => {
                     Didn’t receive the OTP?
                   </p>
                   <p
-                    className={`text-${
-                      canResend ? "blue" : "gray"
-                    }-600 text-center pt-2 cursor-pointer`}
+                    className={`text-$
+                      {canResend ? "blue" : "gray"}-600 text-center pt-2 cursor-pointer`}
                     onClick={canResend ? resendOtp : null}
                     style={{ pointerEvents: canResend ? "auto" : "none" }}
                   >
@@ -199,12 +203,36 @@ const Otp = () => {
                     />
                   </div>
 
+                  <div className="flex items-center justify-center mt-5">
+                    <input
+                      type="checkbox"
+                      id="terms"
+                      checked={termsChecked}
+                      onChange={(e) => setTermsChecked(e.target.checked)}
+                      className="mr-2"
+                    />
+                    <label htmlFor="terms" className="text-gray-300 text-sm">
+                      I agree to the
+                      <a
+                        href="https://doc-hosting.flycricket.io/glam-threads-terms-of-use/1af08242-8409-44bc-87c4-57ad3e81768b/terms"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 underline ml-1"
+                      >
+                        Terms and Conditions
+                      </a>
+                    </label>
+                  </div>
+
                   <div className="flex items-center justify-center mt-10">
                     <button
                       onClick={onSignup}
-                      className="bg-gradient-to-r from-[#9C3FE4] to-[#C65647] hover:bg-blue-700 w-48
+                      disabled={!termsChecked}
+                      className={`bg-gradient-to-r from-[#9C3FE4] to-[#C65647] hover:bg-blue-700 w-48
                         text-white font-bold py-2 px-4 rounded transition-transform transform active:scale-95 
-                        items-center justify-center flex gap-1"
+                        items-center justify-center flex gap-1 ${
+                          !termsChecked ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
                     >
                       {loading && (
                         <CgSpinner size={20} className="mt-1 animate-spin" />
