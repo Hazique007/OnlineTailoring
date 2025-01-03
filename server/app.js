@@ -13,6 +13,7 @@ import OrderRoute from "./routes/OrderRoute.js";
 import personalDetailsRoute from "./routes/PersonalDetailsRoutes.js";
 import UserRoute from "./routes/UserRoute.js";
 import ClickRouter from "./routes/clickRoutes.js";
+import cartRouter from "./routes/cartRoutes.js";
 import bodyParser from "body-parser";
 dotenv.config();
 
@@ -47,7 +48,7 @@ app.use("/api/v1/landing", landingRouter);
 app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/fabric", fabricRouter);
 app.use("/api/v1/stats", ClickRouter);
-
+app.use("/api/v1/cart", cartRouter);
 app.use(addressRoute);
 app.use(personalDetailsRoute);
 app.use("/orders", OrderRoute);
