@@ -15,11 +15,11 @@ const SearchStyle = ({ gender }) => {
 
       const [maleResponse, femaleResponse] = await Promise.all([
         axios.get(
-          "http://localhost:3000/api/v1/category/getGenderWiseCategory",
+          "https://backend-for-doorstep-stitching.onrender.com/api/v1/category/getGenderWiseCategory",
           { params: { gender: "Male" } }
         ),
         axios.get(
-          "http://localhost:3000/api/v1/category/getGenderWiseCategory",
+          "https://backend-for-doorstep-stitching.onrender.com/api/v1/category/getGenderWiseCategory",
           { params: { gender: "Female" } }
         ),
       ]);
@@ -68,10 +68,13 @@ const SearchStyle = ({ gender }) => {
       //Track Click
       const handleImageClick = async (gender, category, subCategory) => {
         try {
-          await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
-            gender,
-            category,
-          });
+          await axios.post(
+            "https://backend-for-doorstep-stitching.onrender.com/api/v1/stats/trackClick",
+            {
+              gender,
+              category,
+            }
+          );
           console.log("Clicked");
 
           // navigate(`/product/${gender}/${category}/${subCategory}?`);

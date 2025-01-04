@@ -15,7 +15,7 @@ const SubCategoryWise = () => {
   const getDetails = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/v1/products/GenderCategorySubcategory",
+        "https://backend-for-doorstep-stitching.onrender.com/api/v1/products/GenderCategorySubcategory",
         {
           params: { gender, category, subCategory },
         }
@@ -45,7 +45,7 @@ const SubCategoryWise = () => {
   const handleSave = async () => {
     try {
       const response = await axios.put(
-        "http://localhost:3000/api/v1/products/UpdateGenderCategorySubcategory",
+        "https://backend-for-doorstep-stitching.onrender.com/api/v1/products/UpdateGenderCategorySubcategory",
         {
           gender: details.gender,
           category: details.category,
@@ -75,7 +75,7 @@ const SubCategoryWise = () => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        "http://localhost:3000/api/v1/products/CategorySubcategoryDelete",
+        "https://backend-for-doorstep-stitching.onrender.com/api/v1/products/CategorySubcategoryDelete",
         {
           params: { gender, category, subCategory },
         }
@@ -268,7 +268,7 @@ const SubCategoryWise = () => {
               <img
                 className="w-[70px] h-[70px] object-fit rounded-[10px]"
                 key={index}
-                src={`http://localhost:3000/uploads/${image}`.replace(
+                src={`https://backend-for-doorstep-stitching.onrender.com/uploads/${image}`.replace(
                   /\\/g,
                   "/"
                 )}

@@ -15,7 +15,7 @@ const EditCategory = () => {
   const getDetails = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/v1/products/GenderCategory",
+        "https://backend-for-doorstep-stitching.onrender.com/api/v1/products/GenderCategory",
         {
           params: { gender, category },
         }
@@ -45,7 +45,7 @@ const EditCategory = () => {
   const handleSave = async () => {
     try {
       const response = await axios.put(
-        "http://localhost:3000/api/v1/products/UpdateGenderCategory",
+        "https://backend-for-doorstep-stitching.onrender.com/api/v1/products/UpdateGenderCategory",
         {
           gender: details.gender,
           category: details.category,
@@ -72,7 +72,7 @@ const EditCategory = () => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        "http://localhost:3000/api/v1/products/CategoryDelete",
+        "https://backend-for-doorstep-stitching.onrender.com/api/v1/products/CategoryDelete",
         {
           params: { gender, category },
         }
