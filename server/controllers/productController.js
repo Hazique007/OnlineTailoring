@@ -422,33 +422,48 @@ export const CategoryDelete = async (req, res) => {
   }
 };
 
-export const addNewSubcategory = async (req, res) => {
-  const productData = req.body;
-
-  // Validate product data
-  const { error } = validateProduct(productData);
-  if (error) {
-    return res.status(400).json({
-      message: "Validation Error",
-      details: error.details,
-    });
-  }
-
+export const addSubCategory = async (req, res) => {
   try {
-    const newProduct = new Product(productData);
+    const {
+      category,
+      subCategory,
+      // images,
+      price,
+      gender,
+      description,
+      stock,
+      highlight,
+    } = req.body;
+    // console.log(req.body);
+    // console.log(req.files);
+    const images = req.files.map(file => file.filename);
+    console.log(req.body);
 
+    // Validation
+    // if (!category || !subCategory || !images || !description || !gender) {
+    //   return res.status(400).json({ message: "All the fields are required" });
+    // }
+
+    // Create a new product instance
+    const newProduct = new Product({
+      category,
+      subCategory,
+      stock,
+      price,
+      highlight,
+      images,
+      gender,
+      description,
+    });
+
+    // Save the product
     const savedProduct = await newProduct.save();
-
-    // Return success response
-    res.status(201).json({
-      message: "Product added successfully",
+    return res.status(201).json({
+      message: "Subcategory added successfully",
       product: savedProduct,
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      message: "Failed to add product",
-      error: err.message,
-    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };

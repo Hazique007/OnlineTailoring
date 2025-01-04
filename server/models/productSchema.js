@@ -7,7 +7,6 @@ const productSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["Shirts", "Pants", "Blazers", "Suits", "Kurta"],
     required: [true, "Category is required"],
   },
   subCategory: {
@@ -16,7 +15,7 @@ const productSchema = new mongoose.Schema({
   },
   gender: {
     type: String,
-    enum: ["Men", "Women", "General"],
+    enum: ["Male", "Female", "General"],
     required: [true, "Must Provide your gender for better experiance"],
   },
   price: {
@@ -66,8 +65,11 @@ const productSchema = new mongoose.Schema({
   },
   categoryDescription: {
     type: String,
-    required: [true, "Category description is required"],
-    trim: true,
+    // required: [true, "Category description is required"],
+    // trim: true,
+  },
+  highlight: {
+    type: String,
   },
 });
 

@@ -19,7 +19,10 @@ const listingPage = () => {
         >
           Create New Category
         </button>
-        <button className="text-white h-[27px] w-[160px] bg-[#D4A706] border-[1px] rounded-[10px] text-[10px] font-poppins font-[400]">
+        <button
+          onClick={() => navigate("/add-new-subcategory")}
+          className="text-white h-[27px] w-[160px] bg-[#D4A706] border-[1px] rounded-[10px] text-[10px] font-poppins font-[400]"
+        >
           Create New Sub-Category
         </button>
       </div>

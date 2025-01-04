@@ -38,6 +38,7 @@ import ClickStats from "./pages/Stats/clickStats";
 import SubCategoryWise from "./pages/Admin/adminComponents/subCategoryWise";
 import EditCategory from "./pages/Admin/Listing/editCategory";
 import AddCategory from "./pages/Admin/Listing/addNewCategory";
+import AddSubCategory from "./pages/Admin/Listing/addNewSubCategory";
 
 const App = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
@@ -78,6 +79,7 @@ const App = () => {
           />
           <Route path="/listing/:gender/:category" Component={EditCategory} />
           <Route path="/add-new-category" Component={AddCategory} />
+          <Route path="/add-new-subcategory" Component={AddSubCategory} />
 
           <Route path="/manifest.json" Component={Manifest} />
 

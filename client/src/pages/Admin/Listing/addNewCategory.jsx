@@ -85,7 +85,7 @@ const AddCategory = () => {
             className="text-[12px] font-[700] font-poppins"
             htmlFor="category"
           >
-            Category
+            Category Name
           </label>
           <input
             className="font-[400] text-[12px] font-poppins border-[1px] border-[#737373] rounded-[10px] h-[27px] px-[10px] mt-[5px]"
