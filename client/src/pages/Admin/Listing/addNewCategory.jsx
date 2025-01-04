@@ -145,13 +145,19 @@ const AddCategory = () => {
             Image
           </label>
           <input
-            className="font-[400] text-[12px] font-poppins border-[1px] border-[#737373] rounded-[10px] h-[27px] px-[10px] mt-[5px]"
+            className=" hidden font-[400] text-[12px] font-poppins border-[1px] border-[#737373] rounded-[10px] h-[27px] px-[10px] mt-[5px]"
             type="file"
             id="image"
             name="image"
             accept="image/*"
             onChange={handleImageChange}
           />
+          <label
+            htmlFor={`image`}
+            className="cursor-pointer text-[10px] m-auto bg-gray-200 text-center rounded-[10px] h-[27px] w-full flex items-center justify-center text-gray-700 font-poppins border-[1px] border-[#737373]"
+          >
+            Upload
+          </label>
         </div>
       </div>
 
