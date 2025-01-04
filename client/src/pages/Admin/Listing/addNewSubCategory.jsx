@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios"; // Import axios for making requests
+import axios from "axios";
 import TopNav from "../../../components/TopNav";
 import Search from "../../../components/Search";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import the CSS for the toast
+import { IoIosAddCircle } from "react-icons/io";
 
 const AddSubCategory = () => {
   const [details, setDetails] = useState({
@@ -24,7 +27,7 @@ const AddSubCategory = () => {
     const file = e.target.files[0];
     if (file) {
       const updatedImages = [...uploadedImages];
-      updatedImages[index] = URL.createObjectURL(file); // Create an object URL
+      updatedImages[index] = file;
       setUploadedImages(updatedImages);
     }
   };
@@ -58,9 +61,10 @@ const AddSubCategory = () => {
     // Append all images
     uploadedImages.forEach((image, index) => {
       if (image) {
-        formData.append("images", image); // Append images as a form field
+        formData.append("images", image);
       }
     });
+    console.log(uploadedImages);
 
     try {
       const response = await axios.post(
@@ -70,7 +74,7 @@ const AddSubCategory = () => {
       );
 
       if (response.status === 201) {
-        alert("Subcategory added successfully!");
+        toast.success("Subcategory added successfully!"); // Success toast
         // Optionally reset the form after success
         setDetails({
           category: "",
@@ -85,7 +89,7 @@ const AddSubCategory = () => {
       }
     } catch (error) {
       console.error(error);
-      alert("Error adding subcategory.");
+      toast.error("Error adding subcategory."); // Error toast
     }
   };
 
@@ -96,14 +100,14 @@ const AddSubCategory = () => {
         <Search />
       </div>
       <div className="flex justify-between px-[30px] mt-[23px]">
-        <h1 className="text-[14px] font-[600] font-poppins">
-          Add New Subcategory
+        <h1 className="text-[14px] font-[600] font-poppins flex items-center gap-2">
+          <IoIosAddCircle className="text-xl" /> Add New Subcategory
         </h1>
       </div>
-      <div className="Top Class pb-16">
+      <div className="Top Class pb-16 mt-5">
         <form onSubmit={handleSubmit} className="all Details">
           {/* Category Field */}
-          <div className="each-item flex flex-col px-[35px] mt-[20px] gap-[10px]">
+          <div className="each-item flex flex-col px-[35px] mt-[10px] gap-[10px]">
             <label
               className="text-[12px] font-[700] font-poppins"
               htmlFor="category"
@@ -121,7 +125,7 @@ const AddSubCategory = () => {
           </div>
 
           {/* Subcategory Field */}
-          <div className="each-item flex flex-col px-[35px] mt-[20px] gap-[10px]">
+          <div className="each-item flex flex-col px-[35px] mt-[10px] gap-[10px]">
             <label
               className="text-[12px] font-[700] font-poppins"
               htmlFor="subCategory"
@@ -139,7 +143,7 @@ const AddSubCategory = () => {
           </div>
 
           {/* Gender Field */}
-          <div className="each-item flex flex-col px-[35px] mt-[20px] gap-[10px]">
+          <div className="each-item flex flex-col px-[35px] mt-[10px] gap-[10px]">
             <label
               className="text-[12px] font-[700] font-poppins"
               htmlFor="gender"
@@ -160,7 +164,7 @@ const AddSubCategory = () => {
           </div>
 
           {/* Description Field */}
-          <div className="each-item flex flex-col px-[35px] mt-[20px] gap-[10px]">
+          <div className="each-item flex flex-col px-[35px] mt-[10px] gap-[10px]">
             <label
               className="text-[12px] font-[700] font-poppins"
               htmlFor="description"
@@ -178,7 +182,7 @@ const AddSubCategory = () => {
           </div>
 
           {/* Price Field */}
-          <div className="each-item flex flex-col px-[35px] mt-[20px] gap-[10px]">
+          <div className="each-item flex flex-col px-[35px] mt-[10px] gap-[10px]">
             <label
               className="text-[12px] font-[700] font-poppins"
               htmlFor="price"
@@ -196,7 +200,7 @@ const AddSubCategory = () => {
           </div>
 
           {/* Stock Field */}
-          <div className="each-item flex flex-col px-[35px] mt-[20px] gap-[10px]">
+          <div className="each-item flex flex-col px-[35px] mt-[10px] gap-[10px]">
             <label
               className="text-[12px] font-[700] font-poppins"
               htmlFor="stock"
@@ -214,7 +218,7 @@ const AddSubCategory = () => {
           </div>
 
           {/* Image Upload Section */}
-          <div className="each-item flex flex-col px-[35px] mt-[20px] gap-[10px]">
+          <div className="each-item flex flex-col px-[35px] mt-[10px] gap-[10px]">
             <label
               className="text-[12px] font-[700] font-poppins"
               htmlFor="images"
@@ -227,7 +231,7 @@ const AddSubCategory = () => {
                   {image ? (
                     <div>
                       <img
-                        src={image} // This is the object URL now
+                        src={image}
                         alt="Uploaded"
                         className="h-[57px] w-[57px] rounded-[10px] border-[1px] border-gray-300"
                       />
@@ -260,7 +264,7 @@ const AddSubCategory = () => {
             </div>
           </div>
 
-          <div className="flex justify-center mt-[20px]">
+          <div className="flex justify-center mt-[10px]">
             <button
               type="submit"
               className="bg-[#D4A706] text-[12px] text-white px-6 py-2 rounded-md"
@@ -270,6 +274,9 @@ const AddSubCategory = () => {
           </div>
         </form>
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer />
     </div>
   );
 };
