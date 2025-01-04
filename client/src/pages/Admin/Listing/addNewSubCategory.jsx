@@ -24,7 +24,7 @@ const AddSubCategory = () => {
     const file = e.target.files[0];
     if (file) {
       const updatedImages = [...uploadedImages];
-      updatedImages[index] = file; 
+      updatedImages[index] = URL.createObjectURL(file); // Create an object URL
       setUploadedImages(updatedImages);
     }
   };
@@ -227,7 +227,7 @@ const AddSubCategory = () => {
                   {image ? (
                     <div>
                       <img
-                        src={image}
+                        src={image} // This is the object URL now
                         alt="Uploaded"
                         className="h-[57px] w-[57px] rounded-[10px] border-[1px] border-gray-300"
                       />
