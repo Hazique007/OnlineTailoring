@@ -67,10 +67,18 @@ router.get("/getGenderWiseCategory", getGenderWiseCategory);
 router.get("/getSubcategory", getSubcategory);
 router.get("/getGenderPlusCategory", getGenderPlusCategory);
 router.get("/GenderCategorySubcategory", GenderCategorySubcategory);
-router.put("/UpdateGenderCategorySubcategory", UpdateGenderCategorySubcategory);
+router.put(
+  "/UpdateGenderCategorySubcategory",
+  upload.array("images"),
+  UpdateGenderCategorySubcategory
+);
 router.delete("/CategorySubcategoryDelete", CategorySubcategoryDelete);
 router.get("/GenderCategory", GenderCategory);
-router.put("/UpdateGenderCategory", UpdateGenderCategory);
+router.put(
+  "/UpdateGenderCategory",
+  upload.single("image"),
+  UpdateGenderCategory
+);
 router.delete("/CategoryDelete", CategoryDelete);
 router.post("/add-subcategory", upload.array("images"), addSubCategory);
 

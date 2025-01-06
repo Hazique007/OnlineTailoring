@@ -10,6 +10,8 @@ const EditCategory = () => {
   const [details, setDetails] = useState({});
   const [isEdit, setIsEdit] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null); // New state for image
+  const [previewImage, setPreviewImage] = useState(null); // For image preview
 
   // Get product details
   const getDetails = async () => {
@@ -21,6 +23,7 @@ const EditCategory = () => {
         }
       );
       setDetails(response.data.products[0]);
+      setPreviewImage(response.data.products[0]?.image); // Set the current image for preview
     } catch (error) {
       console.error("Error fetching product details:", error);
       toast.error("Error fetching product details.");
@@ -41,20 +44,33 @@ const EditCategory = () => {
     }));
   };
 
+  // Handle file input change
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedImage(file);
+    setPreviewImage(URL.createObjectURL(file)); // Preview selected image
+  };
+
   // Handle update request
   const handleSave = async () => {
     try {
+      const formData = new FormData();
+      formData.append("gender", details.gender);
+      formData.append("category", details.category);
+      formData.append("categoryDescription", details.categoryDescription);
+      if (selectedImage) {
+        formData.append("image", selectedImage);
+      }
+
       const response = await axios.put(
         "https://backend-for-doorstep-stitching.onrender.com/api/v1/products/UpdateGenderCategory",
-        {
-          gender: details.gender,
-          category: details.category,
-          categoryDescription: details.categoryDescription,
-        },
+        formData,
         {
           params: { gender, category, subCategory },
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
+
       if (response.status === 200) {
         toast.success("Product updated successfully!");
         getDetails();
@@ -66,46 +82,6 @@ const EditCategory = () => {
       console.error("Error updating product:", error);
       toast.error("Error updating product. Please try again.");
     }
-  };
-
-  // Handle delete request
-  const handleDelete = async () => {
-    try {
-      const response = await axios.delete(
-        "https://backend-for-doorstep-stitching.onrender.com/api/v1/products/CategoryDelete",
-        {
-          params: { gender, category },
-        }
-      );
-
-      if (response.status === 200) {
-        toast.success("Product deleted successfully!");
-        window.history.back();
-      } else {
-        toast.error("Failed to delete the product. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error deleting product:", error);
-      toast.error(
-        "An error occurred while deleting the product. Please try again."
-      );
-    }
-  };
-
-  // Open the modal
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  // Close the modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  // Handle confirmation from the modal
-  const confirmDelete = () => {
-    handleDelete();
-    closeModal();
   };
 
   useEffect(() => {
@@ -127,24 +103,12 @@ const EditCategory = () => {
           <button
             onClick={handleEdit}
             className={`${
-              !isEdit ? "bg-[#D4A706] text-white" : "text-[#1043F9] bg-white "
+              !isEdit ? "bg-[#D4A706] text-white" : "text-[#1043F9] bg-white"
             } px-4 py-1 rounded-sm text-[12px] h-[27px] font-poppins font-[400]`}
           >
             {isEdit ? "Cancel" : "Edit"}
           </button>
-        ) : (
-          ""
-        )}
-        {isEdit ? (
-          <button
-            onClick={openModal}
-            className="text-[#1043F9] bg-white px-4 py-1 rounded-sm text-[12px] h-[27px] font-poppins font-[400]"
-          >
-            Delete
-          </button>
-        ) : (
-          ""
-        )}
+        ) : null}
       </div>
 
       {/* Product Details */}
@@ -202,10 +166,36 @@ const EditCategory = () => {
             className="font-[400] text-[12px] font-poppins border-[1px] border-[#737373] rounded-[10px] h-[27px] px-[10px] mt-[5px]"
             disabled={!isEdit}
             type="text"
-            id="description"
+            id="categoryDescription"
             name="categoryDescription"
             value={details.categoryDescription || ""}
             onChange={handleChange}
+          />
+        </div>
+
+        {/* Image */}
+        <div className="each-item flex flex-col px-[35px] mt-[20px] gap-[10px]">
+          <label
+            className="text-[12px] font-[700] font-poppins"
+            htmlFor="image"
+          >
+            Image
+          </label>
+          {previewImage && (
+            <img
+              src={previewImage}
+              alt="Preview"
+              className="w-[100px] h-[100px] object-cover rounded-md"
+            />
+          )}
+          <input
+            className="font-[400] text-[12px] font-poppins border-[1px] border-[#737373] rounded-[10px] h-[27px] px-[10px] mt-[5px]"
+            disabled={!isEdit}
+            type="file"
+            id="image"
+            name="image"
+            accept="image/*"
+            onChange={handleFileChange}
           />
         </div>
       </div>
@@ -218,31 +208,6 @@ const EditCategory = () => {
           >
             Save
           </button>
-        </div>
-      )}
-
-      {/* Modal Confirmation */}
-      {isModalOpen && (
-        <div className="modal-overlay fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-          <div className="modal-content bg-white p-6 rounded-lg w-[300px]">
-            <h3 className="text-center text-lg font-semibold">
-              Are you sure you want to delete this category?
-            </h3>
-            <div className="flex justify-between mt-4">
-              <button
-                onClick={confirmDelete}
-                className="bg-red-600 text-white px-4 py-1 rounded"
-              >
-                Yes
-              </button>
-              <button
-                onClick={closeModal}
-                className="bg-gray-300 text-black px-4 py-1 rounded"
-              >
-                No
-              </button>
-            </div>
-          </div>
         </div>
       )}
     </div>

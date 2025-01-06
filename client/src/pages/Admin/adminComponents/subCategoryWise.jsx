@@ -10,6 +10,7 @@ const SubCategoryWise = () => {
   const [details, setDetails] = useState({});
   const [isEdit, setIsEdit] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [newImages, setNewImages] = useState([]); // State to handle new images for update
 
   // Get product details
   const getDetails = async () => {
@@ -41,21 +42,36 @@ const SubCategoryWise = () => {
     }));
   };
 
+  // Handle image file selection
+  const handleImageChange = (e) => {
+    const files = e.target.files;
+    setNewImages(files);
+  };
+
   // Handle update request
   const handleSave = async () => {
+    const formData = new FormData();
+    formData.append("gender", details.gender);
+    formData.append("category", details.category);
+    formData.append("subCategory", details.subCategory);
+    formData.append("description", details.description);
+    formData.append("price", details.price);
+    formData.append("stock", details.stock);
+
+    // Append new images to FormData
+    for (let i = 0; i < newImages.length; i++) {
+      formData.append("images", newImages[i]);
+    }
+
     try {
       const response = await axios.put(
         "https://backend-for-doorstep-stitching.onrender.com/api/v1/products/UpdateGenderCategorySubcategory",
-        {
-          gender: details.gender,
-          category: details.category,
-          subCategory: details.subCategory,
-          description: details.description,
-          price: details.price,
-          stock: details.stock,
-        },
+        formData,
         {
           params: { gender, category, subCategory },
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
       if (response.status === 200) {
@@ -276,41 +292,38 @@ const SubCategoryWise = () => {
               />
             ))}
           </div>
+
+          {isEdit && (
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageChange}
+              className="mt-[10px]"
+            />
+          )}
         </div>
       </div>
 
+      {/* Save Button */}
       {isEdit && (
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center mt-5">
           <button
             onClick={handleSave}
-            className="font-[400] text-[12px] bg-[#D4A706] text-white w-[200px] h-[27px] rounded-[10px] mt-[30px] self-center"
+            className="bg-[#D4A706] text-white text-[12px] px-4 py-1 rounded-md"
           >
-            Save
+            Save Changes
           </button>
         </div>
       )}
 
       {/* Modal Confirmation */}
       {isModalOpen && (
-        <div className="modal-overlay fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-          <div className="modal-content bg-white p-6 rounded-lg w-[300px]">
-            <h3 className="text-center text-lg font-semibold">
-              Are you sure you want to delete this product?
-            </h3>
-            <div className="flex justify-between mt-4">
-              <button
-                onClick={confirmDelete}
-                className="bg-red-600 text-white px-4 py-1 rounded"
-              >
-                Yes
-              </button>
-              <button
-                onClick={closeModal}
-                className="bg-gray-300 text-black px-4 py-1 rounded"
-              >
-                No
-              </button>
-            </div>
+        <div className="modal">
+          <div className="modal-content">
+            <p>Are you sure you want to delete this product?</p>
+            <button onClick={confirmDelete}>Yes</button>
+            <button onClick={closeModal}>No</button>
           </div>
         </div>
       )}

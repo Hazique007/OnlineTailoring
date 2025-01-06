@@ -258,7 +258,7 @@ const AddSubCategory = () => {
           <div className="flex justify-center mt-[10px]">
             <button
               type="submit"
-              className="bg-[#D4A706] text-[12px] text-white px-6 py-2 rounded-md"
+              className="bg-[#D4A706] mt-5 text-white text-[12px] px-4 py-1 rounded-md"
             >
               Add Subcategory
             </button>

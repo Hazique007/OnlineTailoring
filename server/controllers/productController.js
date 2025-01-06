@@ -1,5 +1,6 @@
 import Product from "../models/productSchema.js";
 import Category from "../models/categorySchema.js";
+import { log } from "console";
 
 export const getSpecificProducts = async (req, res) => {
   try {
@@ -256,37 +257,90 @@ export const GenderCategorySubcategory = async (req, res) => {
   res.status(200).json({ message: "Successfully fetched products", products });
 };
 
+// export const UpdateGenderCategorySubcategory = async (req, res) => {
+//   const { gender, category, subCategory } = req.query;
+//   const images = req.files.map((file) => file.filename);
+
+//   if (!gender || !category || !subCategory) {
+//     return res.status(400).json({
+//       message:
+//         "All three parameters (gender, category, subCategory) are required",
+//     });
+//   }
+
+//   const validGenders = ["Male", "Female", "General"];
+//   if (!validGenders.includes(gender)) {
+//     return res.status(400).json({
+//       message:
+//         "Invalid gender value. It must be one of the following: Male, Female, General",
+//     });
+//   }
+
+//   try {
+//     const updatedProduct = await Product.findOneAndUpdate(
+//       { gender, category, subCategory },
+//       { ...req.body, images },
+//       { new: true }
+//     );
+
+//     if (!updatedProduct) {
+//       return res.status(404).json({
+//         message:
+//           "No product found with the given gender, category, and subCategory",
+//       });
+//     }
+
+//     return res.status(200).json({
+//       message: "Product updated successfully",
+//       product: updatedProduct,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res
+//       .status(500)
+//       .json({ message: "An error occurred while updating the product" });
+//   }
+// };
 export const UpdateGenderCategorySubcategory = async (req, res) => {
   const { gender, category, subCategory } = req.query;
 
+  // Check if images were uploaded
+  const images = req.files ? req.files.map((file) => file.filename) : [];
+
+  // If no gender, category, or subCategory are provided, return an error
   if (!gender || !category || !subCategory) {
     return res.status(400).json({
-      message:
-        "All three parameters (gender, category, subCategory) are required",
+      message: "All three parameters (gender, category, subCategory) are required",
     });
   }
 
+  // Validate the gender value
   const validGenders = ["Male", "Female", "General"];
   if (!validGenders.includes(gender)) {
     return res.status(400).json({
-      message:
-        "Invalid gender value. It must be one of the following: Male, Female, General",
+      message: "Invalid gender value. It must be one of the following: Male, Female, General",
     });
   }
 
   try {
-    const updatedProduct = await Product.findOneAndUpdate(
-      { gender, category, subCategory },
-      req.body,
-      { new: true }
-    );
+    // Find the existing product
+    const product = await Product.findOne({ gender, category, subCategory });
 
-    if (!updatedProduct) {
+    if (!product) {
       return res.status(404).json({
-        message:
-          "No product found with the given gender, category, and subCategory",
+        message: "No product found with the given gender, category, and subCategory",
       });
     }
+
+    // Update product fields including images
+    const updatedProduct = await Product.findOneAndUpdate(
+      { gender, category, subCategory },
+      {
+        ...req.body, // Update other fields (e.g., description, price, stock, etc.)
+        images: images.length > 0 ? images : product.images, // Only replace images if new ones are uploaded
+      },
+      { new: true }
+    );
 
     return res.status(200).json({
       message: "Product updated successfully",
@@ -294,9 +348,7 @@ export const UpdateGenderCategorySubcategory = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    return res
-      .status(500)
-      .json({ message: "An error occurred while updating the product" });
+    return res.status(500).json({ message: "An error occurred while updating the product" });
   }
 };
 
@@ -353,8 +405,10 @@ export const GenderCategory = async (req, res) => {
 
 export const UpdateGenderCategory = async (req, res) => {
   const { gender, category } = req.query;
+  const image = req.file?.filename;
+  console.log(req.file.filename);
 
-  if (!gender || !category) {
+  if (!gender || !category || !image) {
     return res.status(400).json({
       message: "All  parameters (gender, category) are required",
     });
@@ -371,7 +425,8 @@ export const UpdateGenderCategory = async (req, res) => {
   try {
     const updatedProduct = await Category.findOneAndUpdate(
       { gender, category },
-      req.body,
+      { ...req.body, categoryImages: image },
+
       { new: true }
     );
 
@@ -436,7 +491,7 @@ export const addSubCategory = async (req, res) => {
     } = req.body;
     // console.log(req.body);
     // console.log(req.files);
-    const images = req.files.map(file => file.filename);
+    const images = req.files.map((file) => file.filename);
     console.log(req.body);
 
     // Validation

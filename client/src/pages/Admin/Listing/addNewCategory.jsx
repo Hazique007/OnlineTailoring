@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import TopNav from "../../../components/TopNav";
 import Search from "../../../components/Search";
+import { IoIosAddCircle } from "react-icons/io";
 
 const AddCategory = () => {
   const [details, setDetails] = useState({
@@ -72,8 +73,8 @@ const AddCategory = () => {
         <Search />
       </div>
       <div className="flex justify-between px-[30px] mt-[23px]">
-        <h1 className="text-[14px] font-[600] font-poppins">
-          Add New Category
+        <h1 className="text-[14px] font-[600] font-poppins flex items-center gap-2">
+          <IoIosAddCircle className="text-xl" /> Add New Category
         </h1>
       </div>
 
