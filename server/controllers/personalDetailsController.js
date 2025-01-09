@@ -1,45 +1,67 @@
 import PersonalDetails from "../models/personaldetailsSchema.js";
+import multer from "multer";
+import path from "path";
+// Multer setup
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/profile-pictures/"); // Folder to save profile pictures
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
 
-// Add new personal details
+// File filter for images
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+  if (allowedTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error("Invalid file type. Only JPEG, PNG, and JPG are allowed."));
+  }
+};
+
+// Multer middleware
+export const upload = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: 5 * 1024 * 1024 }, // Limit to 5 MB
+});
 
 
-// export const addPersonalDetails = async (req, res) => {
-//   try {
-//     const { name, mobileNumber, gender, age, emailAddress, userID, profilePicture } = req.body;
+export const uploadProfilePicture = async (req, res) => {
+  try {
+    const { userID } = req.body;
+    if (!userID) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
 
-//     // Validate input
-//     if (!name || !mobileNumber || !gender || !age || !emailAddress || !userID) {
-//       return res.status(400).json({ message: 'All fields are required' });
-//     }
+    if (!req.file) {
+      return res.status(400).json({ message: "Profile picture is required" });
+    }
 
-//     // Find user by userID (optional, if needed)
-//     // const user = await User.findById(userID);
-//     if (!userID) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
+    const profilePicturePath = req.file.path;
 
-//     // Create new personal details object
-//     const newPersonalDetails = new PersonalDetails({
-//       name,
-//       mobileNumber,
-//       gender,
-//       age,
-//       emailAddress,
-//       userID,
-//       profilePicture,
-//     });
+    // Update user profile with the picture path
+    const user = await PersonalDetails.findOneAndUpdate(
+      { userID },
+      { profilePicture: profilePicturePath },
+      { new: true }
+    );
 
-//     // Save the new personal details to the database
-//     await newPersonalDetails.save();
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-//     res.status(201).json({
-//       message: 'Personal details added successfully',
-//       data: newPersonalDetails,
-//     });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Server error', error: error.message });
-//   }
-// };
+    res.status(200).json({
+      message: "Profile picture uploaded successfully",
+      data: user,
+    });
+  } catch (error) {
+    console.error("Error uploading profile picture:", error);
+    res.status(500).json({ message: "Failed to upload profile picture", error });
+  }
+};
 
 export const addOrUpdatePersonalDetails = async (req, res) => {
   try {

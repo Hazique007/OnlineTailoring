@@ -4,14 +4,14 @@
   "icons": [
     {
       "purpose": "maskable",
-      "sizes": "192x192",
-      "src": "sewing.png",
+      "sizes": "512x512",
+      "src": "/assets/sewing.png",
       "type": "image/png"
     },
     {
       "purpose": "any",
-      "sizes": "192x192",
-      "src": "sewing.png",
+      "sizes": "512x512",
+      "src": "/assets/sewing.png",
       "type": "image/png"
     }
   ],
@@ -20,18 +20,29 @@
   "dir": "auto",
   "lang": "en-US",
   "name": "Doorstep Stitching",
-  "short_name": "Doorstep Stitching",
+  "short_name": "Doorstep",
   "start_url": "/",
   "screenshots": [
     {
-      "src": "sewing.png",
-      "sizes": "640x480",
-      "type": "image/png"
+      "src": "/assets/sewing.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide"
     },
     {
-      "src": "sewing.png",
-      "sizes": "1280x960",
+      "src": "/assets/sewing.png",
+      "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+tea",
+      "url": "https://mvp-doorstep-stitching.onrender.com/tea?type=%s"
+    },
+    {
+      "protocol": "web+coffee",
+      "url": "https://mvp-doorstep-stitching.onrender.com/coffee?type=%s"
     }
   ]
 }

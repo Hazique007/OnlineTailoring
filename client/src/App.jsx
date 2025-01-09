@@ -24,8 +24,6 @@ import ProductCart from "./components/productCart";
 import TrendingProductDetails from "./components/TrendingProductDetails";
 import AllCategory from "./components/allCategory";
 import CartPage from "./components/cartpage";
-import Manifest from "../manifest.json";
-import ListingPage from "./pages/Admin/Listing/listingPage";
 
 // Context API
 import { ProductProvider } from "./Context Api/trackProduct";
@@ -39,6 +37,7 @@ import SubCategoryWise from "./pages/Admin/adminComponents/subCategoryWise";
 import EditCategory from "./pages/Admin/Listing/editCategory";
 import AddCategory from "./pages/Admin/Listing/addNewCategory";
 import AddSubCategory from "./pages/Admin/Listing/addNewSubCategory";
+import UserList from "./pages/Agent/UserList";
 
 const App = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
@@ -72,16 +71,6 @@ const App = () => {
           <Route path="/search" Component={SearchPage} />
           <Route path="/cart" Component={CartPage} />
           <Route path="/error" Component={Error} />
-          <Route path="/listing" Component={ListingPage} />
-          <Route
-            path="/listing/:gender/:category/:subCategory"
-            Component={SubCategoryWise}
-          />
-          <Route path="/listing/:gender/:category" Component={EditCategory} />
-          <Route path="/add-new-category" Component={AddCategory} />
-          <Route path="/add-new-subcategory" Component={AddSubCategory} />
-
-          <Route path="/manifest.json" Component={Manifest} />
 
           {/* Profile Sub-pages */}
           <Route path="/addresses" Component={AllAddresses} />
@@ -102,6 +91,8 @@ const App = () => {
             path="/TrendingProduct/:gender/:category"
             Component={TrendingProductDetails}
           />
+          <Route path="/userlist" Component={UserList} />
+
           <Route
             path="/FashionProduct/:gender/:category"
             Component={FashionProductDetails}

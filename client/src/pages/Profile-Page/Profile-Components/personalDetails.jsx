@@ -22,7 +22,6 @@ const PersonalDetails = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const userID = localStorage.getItem("userID");
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -51,10 +50,36 @@ const PersonalDetails = () => {
     } else {
       fetchProfile(); // Fetch profile data
     }
-  }, [userID]);
+  }, []);
 
   const handleInputChange = (e, key) => {
     setProfile({ ...profile, [key]: e.target.value });
+  };
+
+  const handleProfilePictureChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        // Validate file size (e.g., max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          toast.error("File size exceeds 5MB limit");
+          return;
+        }
+
+        // Convert image to base64
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          setProfile((prevProfile) => ({
+            ...prevProfile,
+            profilePicture: event.target.result,
+          }));
+        };
+        reader.readAsDataURL(file);
+      } catch (error) {
+        console.error("Error processing image:", error);
+        toast.error("Failed to process the image");
+      }
+    }
   };
 
   const validateFields = () => {
@@ -76,17 +101,6 @@ const PersonalDetails = () => {
     )
       return "Valid email address is required";
     return "";
-  };
-
-  const handleProfilePictureChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setProfile({ ...profile, profilePicture: event.target.result });
-      };
-      reader.readAsDataURL(file); // Convert to base64
-    }
   };
 
   const handleEditClick = () => {
@@ -119,16 +133,6 @@ const PersonalDetails = () => {
     setIsEditing(false);
   };
 
-  const dataURItoBlob = (dataURI) => {
-    const byteString = atob(dataURI.split(",")[1]);
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const uintArray = new Uint8Array(arrayBuffer);
-    for (let i = 0; i < byteString.length; i++) {
-      uintArray[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([arrayBuffer], { type: "image/jpeg" });
-  };
-
   return (
     <div className="font-poppins">
       <TopNav />
@@ -143,7 +147,7 @@ const PersonalDetails = () => {
               <input
                 type="file"
                 accept="image/*"
-                id="profile-picture"
+                id="profilePicture"
                 className="absolute inset-0 opacity-0 cursor-pointer"
                 onChange={handleProfilePictureChange}
               />
@@ -246,7 +250,6 @@ const PersonalDetails = () => {
           )}
         </div>
       </div>
-
       {/* Alert Dialog */}
       {showAlert && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
