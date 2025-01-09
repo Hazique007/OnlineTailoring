@@ -10,7 +10,7 @@ const TopNav = () => {
   const [pincode, setPincode] = useState("");
   const [tempPincode, setTempPincode] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [city, setCity] = useState("Select City");
+  const [city, setCity] = useState("Lucknow");
 
   const lucknowPincodes = [
     "226001",
