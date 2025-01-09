@@ -14,8 +14,12 @@ const Otp = () => {
   const [showOtp, setShowOtp] = useState(false);
   const [timer, setTimer] = useState(60);
   const [canResend, setCanResend] = useState(false);
-  const [termsChecked, setTermsChecked] = useState(false);
+  const [termsChecked, setTermsChecked] = useState(true);
   const navigate = useNavigate();
+
+  // Hardcoded values for testing/review purposes
+  const HARDCODED_PHONE = "911223334444"; // Replace with your testing number
+  const HARDCODED_OTP = "123456"; // Replace with your testing OTP
 
   useEffect(() => {
     if (timer === 0) {
@@ -38,16 +42,45 @@ const Otp = () => {
   };
 
   const onSignup = async () => {
+    console.log(phone);
+
+    if (phone === HARDCODED_PHONE) {
+      console.log("check");
+      
+      toast.success("Welcome to our App");
+      navigate('/home')
+      
+      return; // Exit the function completely
+    }else{
+
+      // Validate the phone number length
     if (phone.length !== 12) {
+      console.log("start2");
       toast.error("Please enter a valid 10-digit mobile number.");
       return;
     }
+  
+    // Check terms agreement
     if (!termsChecked) {
+      console.log("start3");
       toast.error("You must agree to the Terms and Conditions to proceed.");
       return;
     }
+
+
+    }
+    
+   
+  
+    
+    
+
+  
+    // If all validations pass, proceed to send the OTP
     setLoading(true);
     try {
+      console.log("entering");
+      
       const formattedPhone = "+" + phone;
       const response = await fetch(
         "https://backend-for-doorstep-stitching.onrender.com/api/send-otp",
@@ -73,6 +106,60 @@ const Otp = () => {
       toast.error("Failed to send OTP. Please try again.");
     }
   };
+  
+
+  // const onOTPVerify = async () => {
+  //   setLoading(true);
+
+  //   // if (phone === HARDCODED_PHONE && otp === HARDCODED_OTP) {
+  //   //   toast.success("OTP verified successfully");
+  //   //   localStorage.setItem("userID", "hardcodedUserID");
+  //   //   navigate("/home");
+  //   //   setLoading(false);
+  //   //   return;
+  //   // }
+
+  //   try {
+  //     if(phone===HARDCODED_PHONE){
+  //       const formattedPhone = "+" + HARDCODED_PHONE;
+  //     const response = await fetch(
+  //       "https://backend-for-doorstep-stitching.onrender.com/api/verify-otp",
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({ phoneNumber: formattedPhone, otp: 123456 }),
+  //       }
+  //     );
+
+
+  //     }else{
+
+  //       const formattedPhone = "+" + phone;
+  //     const response = await fetch(
+  //       "https://backend-for-doorstep-stitching.onrender.com/api/verify-otp",
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
+  //       }
+  //     );
+  //     }
+      
+  //     const data = await response.json();
+  //     if (data.success) {
+  //       localStorage.setItem("userID", data.user._id);
+  //       toast.success("OTP verified successfully");
+  //       navigate("/home");
+  //     } else {
+  //       toast.error("Invalid OTP. Please try again.");
+  //       setLoading(false);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during OTP verification:", error);
+  //     setLoading(false);
+  //     toast.error("Something went wrong. Please try again.");
+  //   }
+  // };
 
   const onOTPVerify = async () => {
     setLoading(true);
@@ -105,6 +192,12 @@ const Otp = () => {
   const resendOtp = async () => {
     setCanResend(false);
     setTimer(60);
+
+    if (phone === HARDCODED_PHONE) {
+      toast.success("OTP resent successfully");
+      return;
+    }
+
     try {
       const formattedPhone = "+" + phone;
       const response = await fetch(
@@ -165,8 +258,9 @@ const Otp = () => {
                     Didn’t receive the OTP?
                   </p>
                   <p
-                    className={`text-$
-                      {canResend ? "blue" : "gray"}-600 text-center pt-2 cursor-pointer`}
+                    className={`text-${
+                      canResend ? "blue" : "gray"
+                    }-600 text-center pt-2 cursor-pointer`}
                     onClick={canResend ? resendOtp : null}
                     style={{ pointerEvents: canResend ? "auto" : "none" }}
                   >
@@ -213,16 +307,16 @@ const Otp = () => {
                     />
                     <label
                       htmlFor="terms"
-                      className="text-gray-300 text-sm"
+                      className="text-gray-300 text-xs"
                     >
                       I agree to the
                       <a
                         href="https://doc-hosting.flycricket.io/glam-threads-terms-of-use/1af08242-8409-44bc-87c4-57ad3e81768b/terms"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-500 underline ml-1"
+                        className="text-blue-500 underline ml-1 text-xs"
                       >
-                        Terms and Conditions
+                        Terms and Conditions & Privacy Policy
                       </a>
                     </label>
                   </div>
@@ -234,8 +328,8 @@ const Otp = () => {
                       className={`bg-gradient-to-r from-[#9C3FE4] to-[#C65647] hover:bg-blue-700 w-48
                         text-white font-bold py-2 px-4 rounded transition-transform transform active:scale-95 
                         items-center justify-center flex gap-1 ${
-                        !termsChecked ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                          !termsChecked ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
                     >
                       {loading && (
                         <CgSpinner size={20} className="mt-1 animate-spin" />

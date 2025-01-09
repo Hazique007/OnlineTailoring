@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import imageCompression from "browser-image-compression";
 
 import TopNav from "../../../components/TopNav";
 import { FiCamera } from "react-icons/fi";
@@ -22,7 +23,6 @@ const PersonalDetails = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const userID = localStorage.getItem("userID");
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -51,10 +51,49 @@ const PersonalDetails = () => {
     } else {
       fetchProfile(); // Fetch profile data
     }
-  }, [userID]);
+  }, []);
 
   const handleInputChange = (e, key) => {
     setProfile({ ...profile, [key]: e.target.value });
+  };
+
+  const handleProfilePictureChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        // Validate file size (e.g., max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          toast.error("File size exceeds 5MB limit");
+          return;
+        }
+
+        const options = {
+          maxSizeMB: 0.2, // Limit file size to 200 KB
+          maxWidthOrHeight: 800, // Resize dimensions
+          useWebWorker: true,
+          fileType: file.type === "image/jpeg" ? "image/jpeg" : undefined, // Explicitly set file type for JPEGs
+        };
+        
+        const compressedFile = await imageCompression(file, options);
+
+        // Convert compressed image to base64
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          setProfile((prevProfile) => ({
+            ...prevProfile,
+            profilePicture: event.target.result, // Set the base64 compressed image data
+          }));
+          console.log(`Payload size: ${profile.profilePicture.length / 1024} KB`);
+          console.log(`Selected file type: ${file.type}`);
+
+
+        };
+        reader.readAsDataURL(compressedFile);
+      } catch (error) {
+        console.error("Error compressing image:", error);
+        toast.error("Failed to process the image");
+      }
+    }
   };
 
   const validateFields = () => {
@@ -78,17 +117,6 @@ const PersonalDetails = () => {
     return "";
   };
 
-  const handleProfilePictureChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setProfile({ ...profile, profilePicture: event.target.result });
-      };
-      reader.readAsDataURL(file); // Convert to base64
-    }
-  };
-
   const handleEditClick = () => {
     setIsEditing(true);
   };
@@ -109,24 +137,17 @@ const PersonalDetails = () => {
         userID,
       });
       setOriginalProfile(profile); // Update original profile on successful save
+      // toast.success("Profile updated successfully");
     } catch (error) {
       console.error("Failed to save profile:", error);
+      // toast.error("Failed to save profile");
     }
   };
+
 
   const handleCancelClick = () => {
     setProfile(originalProfile); // Revert to original profile data
     setIsEditing(false);
-  };
-
-  const dataURItoBlob = (dataURI) => {
-    const byteString = atob(dataURI.split(",")[1]);
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const uintArray = new Uint8Array(arrayBuffer);
-    for (let i = 0; i < byteString.length; i++) {
-      uintArray[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([arrayBuffer], { type: "image/jpeg" });
   };
 
   return (
@@ -143,7 +164,7 @@ const PersonalDetails = () => {
               <input
                 type="file"
                 accept="image/*"
-                id="profile-picture"
+                id="profilePicture"
                 className="absolute inset-0 opacity-0 cursor-pointer"
                 onChange={handleProfilePictureChange}
               />

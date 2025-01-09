@@ -3,13 +3,18 @@ import {
   addOrUpdatePersonalDetails,
   getPersonalDetails,
   updatePersonalDetails, 
-   editPersonalDetails 
+   editPersonalDetails ,
+   upload, uploadProfilePicture
 } from "../controllers/personalDetailsController.js";
 
 const router = express.Router();
 
 // Route to get personal details by userID
 router.get("/listpersonal", getPersonalDetails);
+
+//profile-pic
+
+router.post("/uploadProfilePicture", upload.single("profilePicture"), uploadProfilePicture);
 
 // Route to add or update personal details
 router.post("/addOrUpdate", addOrUpdatePersonalDetails);
