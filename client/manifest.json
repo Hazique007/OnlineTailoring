@@ -5,13 +5,13 @@
     {
       "purpose": "maskable",
       "sizes": "512x512",
-      "src": "https://mvp-doorstep-stitching.onrender.com/assets/sewing.png",
+      "src": "/assets/sewing.png",
       "type": "image/png"
     },
     {
       "purpose": "any",
       "sizes": "512x512",
-      "src": "/sewing.png",
+      "src": "/assets/sewing.png",
       "type": "image/png"
     }
   ],
@@ -20,17 +20,17 @@
   "dir": "auto",
   "lang": "en-US",
   "name": "Doorstep Stitching",
-  "short_name": "Doorstep Stitching ",
+  "short_name": "Doorstep Stitching",
   "start_url": "/",
   "screenshots": [
     {
-      "src": "https://mvp-doorstep-stitching.onrender.com/assets/sewing.png",
+      "src": "/assets/sewing.png",
       "sizes": "512x512",
       "type": "image/png",
       "form_factor": "wide"
     },
     {
-      "src": "https://mvp-doorstep-stitching.onrender.com/assets/sewing.png",
+      "src": "/assets/sewing.png",
       "sizes": "512x512",
       "type": "image/png"
     }
@@ -38,11 +38,11 @@
   "protocol_handlers": [
     {
       "protocol": "web+tea",
-      "url": "https://mvp-doorstep-stitching.onrender.com/tea?type=%s"
+      "url": "/tea?type=%s"
     },
     {
       "protocol": "web+coffee",
-      "url": "https://mvp-doorstep-stitching.onrender.com/coffee?type=%s"
+      "url": "/coffee?type=%s"
     }
   ]
 }
