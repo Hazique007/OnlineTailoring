@@ -5,7 +5,7 @@ import Oops from "../assets/images/oops.png";
 
 const Error = () => {
   const handleRetry = async () => {
-    // window.history.back();
+    window.history.back();
     window.location.reload();
     // console.log(window.location.hash);
   };

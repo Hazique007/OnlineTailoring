@@ -3,7 +3,7 @@ import Product from "../models/productSchema.js";
 
 export const addCategoryData = async (req, res) => {
   try {
-    const { category, gender } = req.body;
+    const { category, gender, categoryDescription } = req.body;
     // console.log(req.body);
 
     const categoryImages = req.file?.filename;
@@ -21,6 +21,7 @@ export const addCategoryData = async (req, res) => {
       category,
       gender,
       categoryImages,
+      categoryDescription,
     });
 
     const savedCategory = await newCategory.save();

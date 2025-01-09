@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const TopNav = () => {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ const TopNav = () => {
       localStorage.setItem("pincode", tempPincode);
       setIsModalOpen(false);
     } else {
-      toast.error("This pincode is not serviceable")
+      toast.error("This pincode is not serviceable");
     }
   };
 
@@ -77,7 +77,9 @@ const TopNav = () => {
         </div>
         <p
           onClick={openModal}
-          className={`${isServicible ? "text-white font-[500]" : "text-white"} leading-[18px] text-[12px] font-poppins font-[400] cursor-pointer`}
+          className={`${
+            isServicible ? "text-white font-[500]" : "text-white"
+          } leading-[18px] text-[12px] font-poppins font-[400] cursor-pointer`}
         >
           {city}
         </p>

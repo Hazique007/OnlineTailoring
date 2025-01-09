@@ -13,7 +13,8 @@ import OrderRoute from "./routes/OrderRoute.js";
 import personalDetailsRoute from "./routes/PersonalDetailsRoutes.js";
 import UserRoute from "./routes/UserRoute.js";
 import ClickRouter from "./routes/clickRoutes.js";
-
+import cartRouter from "./routes/cartRoutes.js";
+import bodyParser from "body-parser";
 dotenv.config();
 
 const app = express();
@@ -23,15 +24,22 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middleware
+
 app.use(express.json({ limit: "500mb" }));
 app.use(express.urlencoded({ limit: "500mb", extended: true }));
 app.use(cors({ credentials: true, methods: ["GET", "POST", "PUT", "DELETE"] }));
+app.use(bodyParser.json());
 
 // Serve static files from React build folder
 // app.use(express.static(path.join(__dirname, "build")));
 
 // Database connection
 database();
+// app.use(express.static(path.join(__dirname, "client")));
+// app.use(
+//   "/.well-known",
+//   express.static(path.join(__dirname, "client/.well-known"))
+// );
 
 // API Routes
 app.use("/uploads", express.static("uploads"));
@@ -41,13 +49,11 @@ app.use("/api/v1/landing", landingRouter);
 app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/fabric", fabricRouter);
 app.use("/api/v1/stats", ClickRouter);
-
+app.use("/api/v1/cart", cartRouter);
 app.use(addressRoute);
 app.use(personalDetailsRoute);
 app.use("/orders", OrderRoute);
 app.use("/api", UserRoute);
-
-
 
 // Start the server
 app.listen(PORT, () => {

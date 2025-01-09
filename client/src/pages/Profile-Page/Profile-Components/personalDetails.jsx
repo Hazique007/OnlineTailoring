@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import imageCompression from "browser-image-compression";
 
 import TopNav from "../../../components/TopNav";
 import { FiCamera } from "react-icons/fi";
@@ -57,7 +56,7 @@ const PersonalDetails = () => {
     setProfile({ ...profile, [key]: e.target.value });
   };
 
-  const handleProfilePictureChange = async (e) => {
+  const handleProfilePictureChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       try {
@@ -67,30 +66,17 @@ const PersonalDetails = () => {
           return;
         }
 
-        const options = {
-          maxSizeMB: 0.2, // Limit file size to 200 KB
-          maxWidthOrHeight: 800, // Resize dimensions
-          useWebWorker: true,
-          fileType: file.type === "image/jpeg" ? "image/jpeg" : undefined, // Explicitly set file type for JPEGs
-        };
-        
-        const compressedFile = await imageCompression(file, options);
-
-        // Convert compressed image to base64
+        // Convert image to base64
         const reader = new FileReader();
         reader.onload = (event) => {
           setProfile((prevProfile) => ({
             ...prevProfile,
-            profilePicture: event.target.result, // Set the base64 compressed image data
+            profilePicture: event.target.result,
           }));
-          console.log(`Payload size: ${profile.profilePicture.length / 1024} KB`);
-          console.log(`Selected file type: ${file.type}`);
-
-
         };
-        reader.readAsDataURL(compressedFile);
+        reader.readAsDataURL(file);
       } catch (error) {
-        console.error("Error compressing image:", error);
+        console.error("Error processing image:", error);
         toast.error("Failed to process the image");
       }
     }
@@ -137,13 +123,10 @@ const PersonalDetails = () => {
         userID,
       });
       setOriginalProfile(profile); // Update original profile on successful save
-      // toast.success("Profile updated successfully");
     } catch (error) {
       console.error("Failed to save profile:", error);
-      // toast.error("Failed to save profile");
     }
   };
-
 
   const handleCancelClick = () => {
     setProfile(originalProfile); // Revert to original profile data
@@ -267,7 +250,6 @@ const PersonalDetails = () => {
           )}
         </div>
       </div>
-
       {/* Alert Dialog */}
       {showAlert && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

@@ -41,34 +41,34 @@ const Otp = () => {
     )}`;
   };
 
-  const onSignup = async () => {
-    console.log(phone);
+  // const onSignup = async () => {
+  //   console.log(phone);
 
-    if (phone === HARDCODED_PHONE) {
-      console.log("check");
+  //   if (phone === HARDCODED_PHONE) {
+  //     console.log("check");
       
-      toast.success("Welcome to our App");
-      navigate('/home')
+  //     toast.success("Welcome to our App");
+  //     navigate('/home')
       
-      return; // Exit the function completely
-    }else{
+  //     return; // Exit the function completely
+  //   }else{
 
-      // Validate the phone number length
-    if (phone.length !== 12) {
-      console.log("start2");
-      toast.error("Please enter a valid 10-digit mobile number.");
-      return;
-    }
+  //     // Validate the phone number length
+  //   if (phone.length !== 12) {
+  //     console.log("start2");
+  //     toast.error("Please enter a valid 10-digit mobile number.");
+  //     return;
+  //   }
   
-    // Check terms agreement
-    if (!termsChecked) {
-      console.log("start3");
-      toast.error("You must agree to the Terms and Conditions to proceed.");
-      return;
-    }
+  //   // Check terms agreement
+  //   if (!termsChecked) {
+  //     console.log("start3");
+  //     toast.error("You must agree to the Terms and Conditions to proceed.");
+  //     return;
+  //   }
 
-
-    }
+    
+  //   }
     
    
   
@@ -76,36 +76,41 @@ const Otp = () => {
     
 
   
-    // If all validations pass, proceed to send the OTP
-    setLoading(true);
-    try {
-      console.log("entering");
+  //   // If all validations pass, proceed to send the OTP
+  //   setLoading(true);
+  //   try {
+  //     console.log("entering");
       
-      const formattedPhone = "+" + phone;
-      const response = await fetch(
-        "https://backend-for-doorstep-stitching.onrender.com/api/send-otp",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phoneNumber: formattedPhone }),
-        }
-      );
-      const data = await response.json();
-      if (data.success) {
-        setLoading(false);
-        setShowOtp(true);
-        toast.success("OTP sent successfully");
-        setTimer(60);
-      } else {
-        setLoading(false);
-        toast.error("Failed to send OTP");
-      }
-    } catch (error) {
-      console.error("Error during OTP send:", error);
-      setLoading(false);
-      toast.error("Failed to send OTP. Please try again.");
-    }
-  };
+  //     const formattedPhone = "+" + phone;
+  //     const response = await fetch(
+  //       "https://backend-for-doorstep-stitching.onrender.com/api/send-otp",
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({ phoneNumber: formattedPhone }),
+  //       }
+  //     );
+  //     const data = await response.json();
+  //     if (data.success) {
+  //       setLoading(false);
+  //       setShowOtp(true);
+  //       toast.success("OTP sent successfully");
+  //       setTimer(60);
+  //     } else {
+  //       setLoading(false);
+  //       toast.error("Failed to send OTP");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during OTP send:", error);
+  //     setLoading(false);
+  //     toast.error("Failed to send OTP. Please try again.");
+  //   }
+  // };
+
+  const onSignup=()=>{
+    navigate('/home')
+
+  }
   
 
   // const onOTPVerify = async () => {
@@ -258,9 +263,8 @@ const Otp = () => {
                     Didn’t receive the OTP?
                   </p>
                   <p
-                    className={`text-${
-                      canResend ? "blue" : "gray"
-                    }-600 text-center pt-2 cursor-pointer`}
+                    className={`text-$
+                      {canResend ? "blue" : "gray"}-600 text-center pt-2 cursor-pointer`}
                     onClick={canResend ? resendOtp : null}
                     style={{ pointerEvents: canResend ? "auto" : "none" }}
                   >

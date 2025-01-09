@@ -168,6 +168,7 @@ const AllAddresses = () => {
         `https://backend-for-doorstep-stitching.onrender.com/delete/${id}`,
         {
           method: "DELETE",
+          headers: { "Content-Type": "application/json" },
         }
       );
       if (response.ok) {

@@ -1,4 +1,6 @@
 import Product from "../models/productSchema.js";
+import Category from "../models/categorySchema.js";
+import { log } from "console";
 
 export const getSpecificProducts = async (req, res) => {
   try {
@@ -231,5 +233,292 @@ export const getFabricGenderPlusCategory = async (req, res) => {
       message: "An error occurred while fetching fabrics.",
       error: error.message,
     });
+  }
+};
+
+export const GenderCategorySubcategory = async (req, res) => {
+  const { gender, category, subCategory } = req.query;
+  if (!gender || !category || !subCategory) {
+    return res
+      .status(400)
+      .json({ message: "All three parameters are required" });
+  }
+
+  const products = await Product.find({
+    gender: gender,
+    category: category,
+    subCategory: subCategory,
+  });
+  if (products.length === 0) {
+    return res
+      .status(404)
+      .json({ message: "No products found for the given criteria." });
+  }
+  res.status(200).json({ message: "Successfully fetched products", products });
+};
+
+// export const UpdateGenderCategorySubcategory = async (req, res) => {
+//   const { gender, category, subCategory } = req.query;
+//   const images = req.files.map((file) => file.filename);
+
+//   if (!gender || !category || !subCategory) {
+//     return res.status(400).json({
+//       message:
+//         "All three parameters (gender, category, subCategory) are required",
+//     });
+//   }
+
+//   const validGenders = ["Male", "Female", "General"];
+//   if (!validGenders.includes(gender)) {
+//     return res.status(400).json({
+//       message:
+//         "Invalid gender value. It must be one of the following: Male, Female, General",
+//     });
+//   }
+
+//   try {
+//     const updatedProduct = await Product.findOneAndUpdate(
+//       { gender, category, subCategory },
+//       { ...req.body, images },
+//       { new: true }
+//     );
+
+//     if (!updatedProduct) {
+//       return res.status(404).json({
+//         message:
+//           "No product found with the given gender, category, and subCategory",
+//       });
+//     }
+
+//     return res.status(200).json({
+//       message: "Product updated successfully",
+//       product: updatedProduct,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res
+//       .status(500)
+//       .json({ message: "An error occurred while updating the product" });
+//   }
+// };
+export const UpdateGenderCategorySubcategory = async (req, res) => {
+  const { gender, category, subCategory } = req.query;
+
+  // Check if images were uploaded
+  const images = req.files ? req.files.map((file) => file.filename) : [];
+
+  // If no gender, category, or subCategory are provided, return an error
+  if (!gender || !category || !subCategory) {
+    return res.status(400).json({
+      message: "All three parameters (gender, category, subCategory) are required",
+    });
+  }
+
+  // Validate the gender value
+  const validGenders = ["Male", "Female", "General"];
+  if (!validGenders.includes(gender)) {
+    return res.status(400).json({
+      message: "Invalid gender value. It must be one of the following: Male, Female, General",
+    });
+  }
+
+  try {
+    // Find the existing product
+    const product = await Product.findOne({ gender, category, subCategory });
+
+    if (!product) {
+      return res.status(404).json({
+        message: "No product found with the given gender, category, and subCategory",
+      });
+    }
+
+    // Update product fields including images
+    const updatedProduct = await Product.findOneAndUpdate(
+      { gender, category, subCategory },
+      {
+        ...req.body, // Update other fields (e.g., description, price, stock, etc.)
+        images: images.length > 0 ? images : product.images, // Only replace images if new ones are uploaded
+      },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      message: "Product updated successfully",
+      product: updatedProduct,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "An error occurred while updating the product" });
+  }
+};
+
+export const CategorySubcategoryDelete = async (req, res) => {
+  const { gender, category, subCategory } = req.query;
+  if (!gender || !category || !subCategory) {
+    return res
+      .status(400)
+      .json({ message: "All three parameters are required" });
+  }
+  try {
+    const deletedProduct = await Product.findOneAndDelete({
+      gender: gender,
+      category: category,
+      subCategory: subCategory,
+    });
+    if (!deletedProduct) {
+      return res
+        .status(404)
+        .json({ message: "No product found for the given criteria" });
+    } else {
+      return res.status(200).json({
+        message: "Product deleted successfully",
+        product: deletedProduct,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred while deleting the product" });
+  }
+};
+///GenderCategory
+export const GenderCategory = async (req, res) => {
+  const { gender, category } = req.query;
+  if (!gender || !category) {
+    return res.status(400).json({ message: "All parameters are required" });
+  }
+
+  const products = await Category.find({
+    gender: gender,
+    category: category,
+  });
+  if (products.length === 0) {
+    return res
+      .status(404)
+      .json({ message: "No products found for the given criteria." });
+  }
+  res.status(200).json({ message: "Successfully fetched products", products });
+};
+
+//
+
+export const UpdateGenderCategory = async (req, res) => {
+  const { gender, category } = req.query;
+  const image = req.file?.filename;
+  console.log(req.file.filename);
+
+  if (!gender || !category || !image) {
+    return res.status(400).json({
+      message: "All  parameters (gender, category) are required",
+    });
+  }
+
+  const validGenders = ["Male", "Female", "General"];
+  if (!validGenders.includes(gender)) {
+    return res.status(400).json({
+      message:
+        "Invalid gender value. It must be one of the following: Male, Female, General",
+    });
+  }
+
+  try {
+    const updatedProduct = await Category.findOneAndUpdate(
+      { gender, category },
+      { ...req.body, categoryImages: image },
+
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({
+        message:
+          "No product found with the given gender, category, and subCategory",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Product updated successfully",
+      product: updatedProduct,
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred while updating the product" });
+  }
+};
+///
+export const CategoryDelete = async (req, res) => {
+  const { gender, category } = req.query;
+  if (!gender || !category) {
+    return res.status(400).json({ message: "All  parameters are required" });
+  }
+  try {
+    const deletedProduct = await Category.findOneAndDelete({
+      gender: gender,
+      category: category,
+    });
+    if (!deletedProduct) {
+      return res
+        .status(404)
+        .json({ message: "No product found for the given criteria" });
+    } else {
+      return res.status(200).json({
+        message: "Product deleted successfully",
+        product: deletedProduct,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred while deleting the product" });
+  }
+};
+
+export const addSubCategory = async (req, res) => {
+  try {
+    const {
+      category,
+      subCategory,
+      // images,
+      price,
+      gender,
+      description,
+      stock,
+      highlight,
+    } = req.body;
+    // console.log(req.body);
+    // console.log(req.files);
+    const images = req.files.map((file) => file.filename);
+    console.log(req.body);
+
+    // Validation
+    // if (!category || !subCategory || !images || !description || !gender) {
+    //   return res.status(400).json({ message: "All the fields are required" });
+    // }
+
+    // Create a new product instance
+    const newProduct = new Product({
+      category,
+      subCategory,
+      stock,
+      price,
+      highlight,
+      images,
+      gender,
+      description,
+    });
+
+    // Save the product
+    const savedProduct = await newProduct.save();
+    return res.status(201).json({
+      message: "Subcategory added successfully",
+      product: savedProduct,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };

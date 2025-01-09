@@ -5,7 +5,6 @@ import AuthHeader from "../../components/AuthHeader";
 const AuthLanding = () => {
   const navigate = useNavigate();
   const userID = localStorage.getItem("userID");
-  console.log(userID);
 
   useEffect(() => {
     const timer = setTimeout(() => {

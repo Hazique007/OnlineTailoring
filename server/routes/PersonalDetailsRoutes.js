@@ -2,7 +2,7 @@ import express from "express";
 import {
   addOrUpdatePersonalDetails,
   getPersonalDetails,
-  updatePersonalDetails, 
+  
    editPersonalDetails ,
    upload, uploadProfilePicture
 } from "../controllers/personalDetailsController.js";
@@ -23,6 +23,6 @@ router.post("/addOrUpdate", addOrUpdatePersonalDetails);
 router.put("/edit/:userID", editPersonalDetails);
 
 // Route to update personal details
-router.put("/update/:userID", updatePersonalDetails);
+// router.put("/update/:userID", updatePersonalDetails);
 
 export default router;
