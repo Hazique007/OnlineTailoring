@@ -30,16 +30,7 @@ app.use(express.urlencoded({ limit: "500mb", extended: true }));
 app.use(cors({ credentials: true, methods: ["GET", "POST", "PUT", "DELETE"] }));
 app.use(bodyParser.json());
 
-// Serve static files from React build folder
-// app.use(express.static(path.join(__dirname, "build")));  
-
-// Database connection
 database();
-// app.use(express.static(path.join(__dirname, "client")));
-// app.use(
-//   "/.well-known",
-//   express.static(path.join(__dirname, "client/.well-known"))
-// );
 
 // API Routes
 app.use("/uploads", express.static("uploads"));
