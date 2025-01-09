@@ -1,4 +1,5 @@
 import Landing from "../models/landingSchema.js";
+import redisClient from "../redis/redisConfig.js"; 
 
 export const addLandingPageImages = async (req, res) => {
   try {
@@ -29,6 +30,8 @@ export const addLandingPageImages = async (req, res) => {
 
     const savedLanding = await newLanding.save();
 
+    await redisClient.del("landingPageImages");
+
     res.status(201).json({
       status: "success",
       message: "Landing page images added successfully",
@@ -54,9 +57,18 @@ export const addLandingPageImages = async (req, res) => {
 
 export const getLandingPageImages = async (req, res) => {
   try {
-    const landingData = await Landing.find({});
-    // console.log(landingData);
+    const cachedData = await redisClient.get("landingPageImages");
+    if (cachedData) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        status: "success",
+        message: "Successfully fetched landing page images (from cache)",
+        data: JSON.parse(cachedData),
+      });
+    }
 
+    console.log("Cache miss");
+    const landingData = await Landing.find({});
     if (!landingData.length) {
       return res.status(404).json({
         status: "error",
@@ -71,6 +83,13 @@ export const getLandingPageImages = async (req, res) => {
         category: image.category,
       })),
     }));
+
+    // Store data in Redis with an expiration time of 1 hour (3600 seconds)
+    await redisClient.setEx(
+      "landingPageImages",
+      3600,
+      JSON.stringify(formattedData)
+    );
 
     res.status(200).json({
       status: "success",

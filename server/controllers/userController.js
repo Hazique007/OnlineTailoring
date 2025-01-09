@@ -13,6 +13,7 @@ const HARDCODED_OTP = 123456; // Replace with your hardcoded OTP
 export const sendOtp = async (req, res) => {
   try {
     const { phoneNumber } = req.body;
+    console.log(req.body);
 
     // Handle hardcoded phone number
     if (phoneNumber === HARDCODED_PHONE) {
@@ -27,7 +28,6 @@ export const sendOtp = async (req, res) => {
         //   msg: "OTP Sent Successfully (Hardcoded)",
         // });
         // res.to('/home')
-        
       } catch (dbError) {
         console.error("Error updating user OTP for hardcoded phone:", dbError);
         return res.status(500).json({
@@ -38,20 +38,16 @@ export const sendOtp = async (req, res) => {
     }
 
     // Generate OTP for other numbers
-    if(phoneNumber===HARDCODED_PHONE){
-      otp=HARDCODED_OTP
-
-    }else{
+    if (phoneNumber === HARDCODED_PHONE) {
+      otp = HARDCODED_OTP;
+    } else {
       const otp = otpGenearator.generate(6, {
         upperCaseAlphabets: false,
         specialChars: false,
         lowerCaseAlphabets: false,
       });
-  
-
-
     }
-   
+
     const cDate = new Date();
     try {
       await UserSchema.findOneAndUpdate(
@@ -95,7 +91,6 @@ export const sendOtp = async (req, res) => {
 };
 
 export const verifyOtp = async (req, res) => {
-  
   try {
     const { phoneNumber, otp } = req.body;
 

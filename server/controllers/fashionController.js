@@ -1,4 +1,5 @@
 import Fashion from "../models/fashionSchema.js";
+import redisClient from "../redis/redisConfig.js"; // Import Redis configuration
 
 // Add fashion images with category and gender
 export const addFashionImages = async (req, res) => {
@@ -46,6 +47,9 @@ export const addFashionImages = async (req, res) => {
 
     const savedFashion = await newFashion.save();
 
+    // Invalidate the Redis cache for fashion images after adding new data
+    await redisClient.del("fashionPageImages");
+
     res.status(201).json({
       status: "success",
       message: "Fashion images added successfully",
@@ -72,6 +76,19 @@ export const addFashionImages = async (req, res) => {
 // Fetch all fashion images with categories and gender
 export const getFashionPageImages = async (req, res) => {
   try {
+    // Check Redis cache first
+    const cachedData = await redisClient.get("fashionPageImages");
+    if (cachedData) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        status: "success",
+        message: "Successfully fetched fashion images (from cache)",
+        data: JSON.parse(cachedData),
+      });
+    }
+
+    console.log("Cache miss");
+    // Fetch data from MongoDB
     const fashionData = await Fashion.find({});
 
     if (!fashionData.length) {
@@ -88,6 +105,13 @@ export const getFashionPageImages = async (req, res) => {
         category: item.category,
         gender: item.gender, // Include gender in the response
       }))
+    );
+
+    // Store data in Redis with an expiration time of 1 hour (3600 seconds)
+    await redisClient.setEx(
+      "fashionPageImages",
+      3600,
+      JSON.stringify(imagesWithCategoriesAndGender)
     );
 
     res.status(200).json({

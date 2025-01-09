@@ -31,7 +31,7 @@ app.use(cors({ credentials: true, methods: ["GET", "POST", "PUT", "DELETE"] }));
 app.use(bodyParser.json());
 
 // Serve static files from React build folder
-// app.use(express.static(path.join(__dirname, "build")));
+// app.use(express.static(path.join(__dirname, "build")));  
 
 // Database connection
 database();

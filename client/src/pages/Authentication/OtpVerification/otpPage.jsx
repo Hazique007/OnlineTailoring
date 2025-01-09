@@ -46,41 +46,32 @@ const Otp = () => {
 
     if (phone === HARDCODED_PHONE) {
       console.log("check");
-      
+
       toast.success("Welcome to our App");
-      navigate('/home')
-      
+      navigate("/home");
+
       return; // Exit the function completely
-    }else{
-
+    } else {
       // Validate the phone number length
-    if (phone.length !== 12) {
-      console.log("start2");
-      toast.error("Please enter a valid 10-digit mobile number.");
-      return;
-    }
-  
-    // Check terms agreement
-    if (!termsChecked) {
-      console.log("start3");
-      toast.error("You must agree to the Terms and Conditions to proceed.");
-      return;
+      if (phone.length !== 12) {
+        console.log("start2");
+        toast.error("Please enter a valid 10-digit mobile number.");
+        return;
+      }
+
+      // Check terms agreement
+      if (!termsChecked) {
+        console.log("start3");
+        toast.error("You must agree to the Terms and Conditions to proceed.");
+        return;
+      }
     }
 
-
-    }
-    
-   
-  
-    
-    
-
-  
     // If all validations pass, proceed to send the OTP
     setLoading(true);
     try {
       console.log("entering");
-      
+
       const formattedPhone = "+" + phone;
       const response = await fetch(
         "https://backend-for-doorstep-stitching.onrender.com/api/send-otp",
@@ -106,7 +97,6 @@ const Otp = () => {
       toast.error("Failed to send OTP. Please try again.");
     }
   };
-  
 
   // const onOTPVerify = async () => {
   //   setLoading(true);
@@ -131,7 +121,6 @@ const Otp = () => {
   //       }
   //     );
 
-
   //     }else{
 
   //       const formattedPhone = "+" + phone;
@@ -144,7 +133,7 @@ const Otp = () => {
   //       }
   //     );
   //     }
-      
+
   //     const data = await response.json();
   //     if (data.success) {
   //       localStorage.setItem("userID", data.user._id);
@@ -304,10 +293,7 @@ const Otp = () => {
                       onChange={(e) => setTermsChecked(e.target.checked)}
                       className="mr-2"
                     />
-                    <label
-                      htmlFor="terms"
-                      className="text-gray-300 text-xs"
-                    >
+                    <label htmlFor="terms" className="text-gray-300 text-xs">
                       I agree to the
                       <a
                         href="https://doc-hosting.flycricket.io/glam-threads-terms-of-use/1af08242-8409-44bc-87c4-57ad3e81768b/terms"

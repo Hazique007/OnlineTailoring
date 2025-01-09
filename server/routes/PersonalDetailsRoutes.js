@@ -2,9 +2,9 @@ import express from "express";
 import {
   addOrUpdatePersonalDetails,
   getPersonalDetails,
-  updatePersonalDetails, 
-   editPersonalDetails ,
-   upload, uploadProfilePicture
+  editPersonalDetails,
+  upload,
+  uploadProfilePicture,
 } from "../controllers/personalDetailsController.js";
 
 const router = express.Router();
@@ -14,7 +14,11 @@ router.get("/listpersonal", getPersonalDetails);
 
 //profile-pic
 
-router.post("/uploadProfilePicture", upload.single("profilePicture"), uploadProfilePicture);
+router.post(
+  "/uploadProfilePicture",
+  upload.single("profilePicture"),
+  uploadProfilePicture
+);
 
 // Route to add or update personal details
 router.post("/addOrUpdate", addOrUpdatePersonalDetails);
@@ -23,6 +27,6 @@ router.post("/addOrUpdate", addOrUpdatePersonalDetails);
 router.put("/edit/:userID", editPersonalDetails);
 
 // Route to update personal details
-router.put("/update/:userID", updatePersonalDetails);
+// router.put("/update/:userID", updatePersonalDetails);
 
 export default router;

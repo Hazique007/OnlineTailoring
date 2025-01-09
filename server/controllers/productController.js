@@ -2,11 +2,12 @@ import Product from "../models/productSchema.js";
 import Category from "../models/categorySchema.js";
 import { log } from "console";
 
+import redisClient from "../redis/redisConfig.js";
+
 export const getSpecificProducts = async (req, res) => {
   try {
     const { gender, category, subCategory, fabric, size, color } = req.query;
 
-    // Build the filter object dynamically based on query parameters
     const filter = {};
     if (gender) filter.gender = gender;
     if (category) filter.category = category;
@@ -15,20 +16,31 @@ export const getSpecificProducts = async (req, res) => {
     if (size) filter.size = size;
     if (color) filter.color = color;
 
-    // Sort by price in increasing order by default
     const sort = { price: 1 };
 
-    // Query the database with the constructed filter and default sort
+    const cacheKey = `specificProducts:${JSON.stringify(req.query)}`;
+
+    const cachedData = await redisClient.get(cacheKey);
+    if (cachedData) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        message: "Successfully fetched products (from cache).",
+        products: JSON.parse(cachedData),
+      });
+    }
+
+    console.log("Cache miss");
+
     const products = await Product.find(filter).sort(sort);
 
-    // Check if products exist for the given criteria
     if (!products || products.length === 0) {
       return res.status(404).json({
         message: "No products found for the given criteria.",
       });
     }
 
-    // Return the fetched products
+    await redisClient.setEx(cacheKey, 3600, JSON.stringify(products));
+
     return res.status(200).json({
       message: "Successfully fetched products.",
       products,
@@ -36,7 +48,6 @@ export const getSpecificProducts = async (req, res) => {
   } catch (error) {
     console.error("Error occurred in getSpecificProducts:", error.message);
 
-    // Return error response
     return res.status(500).json({
       message: "An error occurred while fetching products.",
       error: error.message,
@@ -51,25 +62,59 @@ export const getByCategory = async (req, res) => {
     if (gender) filter.gender = gender;
     if (category) filter.category = category;
 
+    // Cache key
+    const cacheKey = `productsByCategory:${JSON.stringify(req.query)}`;
+
+    // Check Redis cache first
+    const cachedData = await redisClient.get(cacheKey);
+    if (cachedData) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        message: "Successfully fetched products (from cache).",
+        products: JSON.parse(cachedData),
+      });
+    }
+
+    console.log("Cache miss");
+
     const products = await Product.find(filter);
     if (products.length === 0) {
       return res
         .status(404)
         .json({ message: "No products found for the given criteria." });
     }
+
+    await redisClient.setEx(cacheKey, 3600, JSON.stringify(products));
+
     res.status(200).json({
       message: "Successfully fetched products",
       products,
     });
   } catch (error) {
-    console.error("Error occurred in getProducts:", error);
+    console.error("Error occurred in getByCategory:", error);
     res.status(500).json({ message: "Error in fetching products" });
   }
 };
 
 export const getAllCategory = async (req, res) => {
   try {
+    const cacheKey = "allCategories";
+
+    const cachedData = await redisClient.get(cacheKey);
+    if (cachedData) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        message: "Successfully fetched categories (from cache).",
+        categories: JSON.parse(cachedData),
+      });
+    }
+
+    console.log("Cache miss");
+
     const categories = await Product.distinct("category");
+
+    await redisClient.setEx(cacheKey, 3600, JSON.stringify(categories));
+
     res.status(200).json({ message: "Got it!! 👌", categories });
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -85,10 +130,32 @@ export const getGenderWiseCategory = async (req, res) => {
       return res.status(400).json({ message: "Gender is required." });
     }
 
+    // Cache key
+    const cacheKey = `genderWiseCategory:${gender}`;
+
+    // Check Redis cache first
+    const cachedData = await redisClient.get(cacheKey);
+    if (cachedData) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        message: "Categories retrieved successfully (from cache).",
+        categories: JSON.parse(cachedData),
+      });
+    }
+
+    console.log("Cache miss");
+
     const genderWiseCategories = await Product.aggregate([
       { $match: { gender } },
       { $group: { _id: "$category", images: { $push: "$images" } } },
     ]);
+
+    // Cache the result with a 1-hour expiration time
+    await redisClient.setEx(
+      cacheKey,
+      3600,
+      JSON.stringify(genderWiseCategories)
+    );
 
     res
       .status(200)
@@ -109,9 +176,31 @@ export const getAllCategoryWithImages = async (req, res) => {
       return res.status(400).json({ message: "Category is required" });
     }
 
+    // Cache key
+    const cacheKey = `categoriesWithImages:${category}`;
+
+    // Check Redis cache first
+    const cachedData = await redisClient.get(cacheKey);
+    if (cachedData) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        message: "Successfully fetched categories with images (from cache).",
+        categoriesWithImages: JSON.parse(cachedData),
+      });
+    }
+
+    console.log("Cache miss");
+
     const categoriesWithImages = await Product.find(
       { category },
       { subCategory: 1, _id: 0 }
+    );
+
+    // Cache the result with a 1-hour expiration time
+    await redisClient.setEx(
+      cacheKey,
+      3600,
+      JSON.stringify(categoriesWithImages)
     );
 
     res.status(200).json({
@@ -142,6 +231,21 @@ export const getSubcategory = async (req, res) => {
       query.category = category;
     }
 
+    // Cache key
+    const cacheKey = `subCategories:${JSON.stringify(req.query)}`;
+
+    // Check Redis cache first
+    const cachedData = await redisClient.get(cacheKey);
+    if (cachedData) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        message: "Subcategories retrieved successfully (from cache).",
+        subCategories: JSON.parse(cachedData),
+      });
+    }
+
+    console.log("Cache miss");
+
     const data = await Product.find(query, {
       subCategory: 1,
       _id: 0,
@@ -156,6 +260,9 @@ export const getSubcategory = async (req, res) => {
 
     const subCategories = data.map((item) => item.subCategory);
 
+    // Cache the result with a 1-hour expiration time
+    await redisClient.setEx(cacheKey, 3600, JSON.stringify(subCategories));
+
     res.status(200).json({
       message: "Subcategories retrieved successfully.",
       subCategories,
@@ -168,6 +275,7 @@ export const getSubcategory = async (req, res) => {
     });
   }
 };
+
 export const getGenderPlusCategory = async (req, res) => {
   try {
     const { gender, category } = req.query;
@@ -179,6 +287,22 @@ export const getGenderPlusCategory = async (req, res) => {
       });
     }
 
+    // Cache key
+    const cacheKey = `productsByGenderAndCategory:${JSON.stringify(req.query)}`;
+
+    // Check Redis cache first
+    const cachedData = await redisClient.get(cacheKey);
+    if (cachedData) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        success: true,
+        message: "Products successfully retrieved (from cache).",
+        products: JSON.parse(cachedData),
+      });
+    }
+
+    console.log("Cache miss");
+
     const products = await Product.find({ gender, category });
 
     if (!products || products.length === 0) {
@@ -187,6 +311,9 @@ export const getGenderPlusCategory = async (req, res) => {
         message: "No products found for the specified gender and category.",
       });
     }
+
+    // Cache the result with a 1-hour expiration time
+    await redisClient.setEx(cacheKey, 3600, JSON.stringify(products));
 
     res.status(200).json({
       success: true,
@@ -213,6 +340,21 @@ export const getFabricGenderPlusCategory = async (req, res) => {
   }
 
   try {
+    // Cache key
+    const cacheKey = `fabricsByGenderAndCategory:${JSON.stringify(req.query)}`;
+
+    // Check Redis cache first
+    const cachedData = await redisClient.get(cacheKey);
+    if (cachedData) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        message: "Fabrics retrieved successfully (from cache).",
+        data: JSON.parse(cachedData),
+      });
+    }
+
+    console.log("Cache miss");
+
     const products = await Product.find({ gender, category }).lean();
 
     if (!products || products.length === 0) {
@@ -221,7 +363,10 @@ export const getFabricGenderPlusCategory = async (req, res) => {
       });
     }
 
-    const fabrics = [...new Set(products.map((product) => product))];
+    const fabrics = [...new Set(products.map((product) => product.fabric))];
+
+    // Cache the result with a 1-hour expiration time
+    await redisClient.setEx(cacheKey, 3600, JSON.stringify(fabrics));
 
     res.status(200).json({
       message: "Fabrics retrieved successfully.",
@@ -257,50 +402,6 @@ export const GenderCategorySubcategory = async (req, res) => {
   res.status(200).json({ message: "Successfully fetched products", products });
 };
 
-// export const UpdateGenderCategorySubcategory = async (req, res) => {
-//   const { gender, category, subCategory } = req.query;
-//   const images = req.files.map((file) => file.filename);
-
-//   if (!gender || !category || !subCategory) {
-//     return res.status(400).json({
-//       message:
-//         "All three parameters (gender, category, subCategory) are required",
-//     });
-//   }
-
-//   const validGenders = ["Male", "Female", "General"];
-//   if (!validGenders.includes(gender)) {
-//     return res.status(400).json({
-//       message:
-//         "Invalid gender value. It must be one of the following: Male, Female, General",
-//     });
-//   }
-
-//   try {
-//     const updatedProduct = await Product.findOneAndUpdate(
-//       { gender, category, subCategory },
-//       { ...req.body, images },
-//       { new: true }
-//     );
-
-//     if (!updatedProduct) {
-//       return res.status(404).json({
-//         message:
-//           "No product found with the given gender, category, and subCategory",
-//       });
-//     }
-
-//     return res.status(200).json({
-//       message: "Product updated successfully",
-//       product: updatedProduct,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     return res
-//       .status(500)
-//       .json({ message: "An error occurred while updating the product" });
-//   }
-// };
 export const UpdateGenderCategorySubcategory = async (req, res) => {
   const { gender, category, subCategory } = req.query;
 
@@ -310,7 +411,8 @@ export const UpdateGenderCategorySubcategory = async (req, res) => {
   // If no gender, category, or subCategory are provided, return an error
   if (!gender || !category || !subCategory) {
     return res.status(400).json({
-      message: "All three parameters (gender, category, subCategory) are required",
+      message:
+        "All three parameters (gender, category, subCategory) are required",
     });
   }
 
@@ -318,7 +420,8 @@ export const UpdateGenderCategorySubcategory = async (req, res) => {
   const validGenders = ["Male", "Female", "General"];
   if (!validGenders.includes(gender)) {
     return res.status(400).json({
-      message: "Invalid gender value. It must be one of the following: Male, Female, General",
+      message:
+        "Invalid gender value. It must be one of the following: Male, Female, General",
     });
   }
 
@@ -328,7 +431,8 @@ export const UpdateGenderCategorySubcategory = async (req, res) => {
 
     if (!product) {
       return res.status(404).json({
-        message: "No product found with the given gender, category, and subCategory",
+        message:
+          "No product found with the given gender, category, and subCategory",
       });
     }
 
@@ -348,7 +452,9 @@ export const UpdateGenderCategorySubcategory = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "An error occurred while updating the product" });
+    return res
+      .status(500)
+      .json({ message: "An error occurred while updating the product" });
   }
 };
 
@@ -382,27 +488,38 @@ export const CategorySubcategoryDelete = async (req, res) => {
       .json({ message: "An error occurred while deleting the product" });
   }
 };
-///GenderCategory
+
+// GenderCategory
 export const GenderCategory = async (req, res) => {
   const { gender, category } = req.query;
   if (!gender || !category) {
     return res.status(400).json({ message: "All parameters are required" });
   }
 
-  const products = await Category.find({
-    gender: gender,
-    category: category,
-  });
-  if (products.length === 0) {
+  try {
+    const products = await Category.find({
+      gender: gender,
+      category: category,
+    });
+
+    if (products.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No products found for the given criteria." });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Successfully fetched products", products });
+  } catch (error) {
+    console.error(error);
     return res
-      .status(404)
-      .json({ message: "No products found for the given criteria." });
+      .status(500)
+      .json({ message: "An error occurred while fetching products" });
   }
-  res.status(200).json({ message: "Successfully fetched products", products });
 };
 
 //
-
 export const UpdateGenderCategory = async (req, res) => {
   const { gender, category } = req.query;
   const image = req.file?.filename;
@@ -410,7 +527,7 @@ export const UpdateGenderCategory = async (req, res) => {
 
   if (!gender || !category || !image) {
     return res.status(400).json({
-      message: "All  parameters (gender, category) are required",
+      message: "All parameters (gender, category) are required",
     });
   }
 
@@ -426,7 +543,6 @@ export const UpdateGenderCategory = async (req, res) => {
     const updatedProduct = await Category.findOneAndUpdate(
       { gender, category },
       { ...req.body, categoryImages: image },
-
       { new: true }
     );
 
@@ -436,6 +552,10 @@ export const UpdateGenderCategory = async (req, res) => {
           "No product found with the given gender, category, and subCategory",
       });
     }
+
+    // Invalidate the cache after updating
+    await redisClient.del("categories");
+    await redisClient.del(`categories:${gender}`);
 
     return res.status(200).json({
       message: "Product updated successfully",
@@ -448,22 +568,29 @@ export const UpdateGenderCategory = async (req, res) => {
       .json({ message: "An error occurred while updating the product" });
   }
 };
-///
+
+// Delete category
 export const CategoryDelete = async (req, res) => {
   const { gender, category } = req.query;
   if (!gender || !category) {
-    return res.status(400).json({ message: "All  parameters are required" });
+    return res.status(400).json({ message: "All parameters are required" });
   }
+
   try {
     const deletedProduct = await Category.findOneAndDelete({
       gender: gender,
       category: category,
     });
+
     if (!deletedProduct) {
       return res
         .status(404)
         .json({ message: "No product found for the given criteria" });
     } else {
+      // Invalidate the cache after deleting
+      await redisClient.del("categories");
+      await redisClient.del(`categories:${gender}`);
+
       return res.status(200).json({
         message: "Product deleted successfully",
         product: deletedProduct,
@@ -477,27 +604,21 @@ export const CategoryDelete = async (req, res) => {
   }
 };
 
+// Add subcategory
 export const addSubCategory = async (req, res) => {
   try {
     const {
       category,
       subCategory,
-      // images,
       price,
       gender,
       description,
       stock,
       highlight,
     } = req.body;
-    // console.log(req.body);
-    // console.log(req.files);
+
     const images = req.files.map((file) => file.filename);
     console.log(req.body);
-
-    // Validation
-    // if (!category || !subCategory || !images || !description || !gender) {
-    //   return res.status(400).json({ message: "All the fields are required" });
-    // }
 
     // Create a new product instance
     const newProduct = new Product({
@@ -513,6 +634,11 @@ export const addSubCategory = async (req, res) => {
 
     // Save the product
     const savedProduct = await newProduct.save();
+
+    // Invalidate the cache for categories
+    await redisClient.del("categories");
+    await redisClient.del(`categories:${gender}`);
+
     return res.status(201).json({
       message: "Subcategory added successfully",
       product: savedProduct,

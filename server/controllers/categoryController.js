@@ -1,14 +1,13 @@
 import Category from "../models/categorySchema.js";
 import Product from "../models/productSchema.js";
+import redisClient from "../redis/redisConfig.js"; // Import Redis configuration
 
+// Add category data
 export const addCategoryData = async (req, res) => {
   try {
     const { category, gender, categoryDescription } = req.body;
-    // console.log(req.body);
 
     const categoryImages = req.file?.filename;
-    console.log(categoryImages);
-    console.log(req.file);
 
     if (!category || !gender || !categoryImages) {
       return res.status(400).json({
@@ -26,6 +25,10 @@ export const addCategoryData = async (req, res) => {
 
     const savedCategory = await newCategory.save();
 
+    // Invalidate the cache for categories
+    await redisClient.del("categories");
+    await redisClient.del(`categories:${gender}`);
+
     res.status(201).json({
       status: "success",
       message: "Category data added successfully",
@@ -40,10 +43,25 @@ export const addCategoryData = async (req, res) => {
   }
 };
 
+// Fetch categories with images
 export const fetchCategoriesWithImages = async (req, res) => {
   try {
     const { gender } = req.query;
 
+    // Check Redis cache first
+    const cacheKey = gender ? `categories:${gender}` : "categories";
+    const cachedData = await redisClient.get(cacheKey);
+
+    if (cachedData) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        status: "success",
+        message: "Successfully fetched categories with images (from cache)",
+        categories: JSON.parse(cachedData),
+      });
+    }
+
+    console.log("Cache miss");
     let categories;
     if (gender) {
       categories = await Category.find({ gender });
@@ -58,6 +76,9 @@ export const fetchCategoriesWithImages = async (req, res) => {
       });
     }
 
+    // Cache the result with a 1-hour expiration time
+    await redisClient.setEx(cacheKey, 3600, JSON.stringify(categories));
+
     res.status(200).json({
       status: "success",
       message: "Successfully fetched categories with images",
@@ -71,6 +92,8 @@ export const fetchCategoriesWithImages = async (req, res) => {
     });
   }
 };
+
+// Get gender-wise category with products
 export const getGenderWiseCategory = async (req, res) => {
   const { gender } = req.query;
 
@@ -81,6 +104,19 @@ export const getGenderWiseCategory = async (req, res) => {
   }
 
   try {
+    // Check Redis cache first
+    const cacheKey = `genderWiseCategory:${gender}`;
+    const cachedData = await redisClient.get(cacheKey);
+
+    if (cachedData) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        message: "Categories and products retrieved successfully (from cache).",
+        data: JSON.parse(cachedData),
+      });
+    }
+
+    console.log("Cache miss");
     const categories = await Category.find({ gender }).lean();
 
     if (!categories || categories.length === 0) {
@@ -103,6 +139,9 @@ export const getGenderWiseCategory = async (req, res) => {
         };
       })
     );
+
+    // Cache the result with a 1-hour expiration time
+    await redisClient.setEx(cacheKey, 3600, JSON.stringify(data));
 
     res.status(200).json({
       message: "Categories and products retrieved successfully.",
