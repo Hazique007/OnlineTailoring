@@ -1,6 +1,6 @@
 import Category from "../models/categorySchema.js";
 import Product from "../models/productSchema.js";
-import redisClient from "../redis/redisConfig.js"; // Import Redis configuration
+import { redis } from "../redis/redisConfig.js"; // Import Redis configuration
 
 // Add category data
 export const addCategoryData = async (req, res) => {
@@ -26,8 +26,8 @@ export const addCategoryData = async (req, res) => {
     const savedCategory = await newCategory.save();
 
     // Invalidate the cache for categories
-    await redisClient.del("categories");
-    await redisClient.del(`categories:${gender}`);
+    await redis.del("categories");
+    await redis.del(`categories:${gender}`);
 
     res.status(201).json({
       status: "success",
@@ -50,14 +50,14 @@ export const fetchCategoriesWithImages = async (req, res) => {
 
     // Check Redis cache first
     const cacheKey = gender ? `categories:${gender}` : "categories";
-    const cachedData = await redisClient.get(cacheKey);
+    const cachedData = await redis.get(cacheKey);
 
     if (cachedData) {
       console.log("Cache hit");
       return res.status(200).json({
         status: "success",
         message: "Successfully fetched categories with images (from cache)",
-        categories: JSON.parse(cachedData),
+        categories: cachedData,
       });
     }
 
@@ -77,7 +77,7 @@ export const fetchCategoriesWithImages = async (req, res) => {
     }
 
     // Cache the result with a 1-hour expiration time
-    await redisClient.setEx(cacheKey, 3600, JSON.stringify(categories));
+    await redis.set(cacheKey, JSON.stringify(categories), { ex: 3600 });
 
     res.status(200).json({
       status: "success",
@@ -106,13 +106,13 @@ export const getGenderWiseCategory = async (req, res) => {
   try {
     // Check Redis cache first
     const cacheKey = `genderWiseCategory:${gender}`;
-    const cachedData = await redisClient.get(cacheKey);
+    const cachedData = await redis.get(cacheKey);
 
     if (cachedData) {
       console.log("Cache hit");
       return res.status(200).json({
         message: "Categories and products retrieved successfully (from cache).",
-        data: JSON.parse(cachedData),
+        data: cachedData,
       });
     }
 
@@ -141,7 +141,7 @@ export const getGenderWiseCategory = async (req, res) => {
     );
 
     // Cache the result with a 1-hour expiration time
-    await redisClient.setEx(cacheKey, 3600, JSON.stringify(data));
+    await redis.set(cacheKey, JSON.stringify(data), { ex: 3600 });
 
     res.status(200).json({
       message: "Categories and products retrieved successfully.",

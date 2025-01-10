@@ -1,5 +1,5 @@
 import Trending from "../models/trendingSchema.js";
-import redisClient from "../redis/redisConfig.js"; 
+import { redis } from "../redis/redisConfig.js";
 export const addTrendingImages = async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
@@ -45,7 +45,7 @@ export const addTrendingImages = async (req, res) => {
     const savedTrending = await newTrending.save();
 
     // Clear the Redis cache for trending page images after adding new data
-    await redisClient.del("trendingPageImages");
+    await redis.del("trendingPageImages");
 
     res.status(201).json({
       status: "success",
@@ -74,13 +74,13 @@ export const addTrendingImages = async (req, res) => {
 export const getTrendingPageImages = async (req, res) => {
   try {
     // Check Redis cache first
-    const cachedData = await redisClient.get("trendingPageImages");
+    const cachedData = await redis.get("trendingPageImages");
     if (cachedData) {
       console.log("Cache hit");
       return res.status(200).json({
         status: "success",
         message: "Successfully fetched Trending page images (from cache)",
-        data: JSON.parse(cachedData),
+        data: cachedData,
       });
     }
 
@@ -104,11 +104,9 @@ export const getTrendingPageImages = async (req, res) => {
     );
 
     // Store data in Redis with an expiration time of 1 hour (3600 seconds)
-    await redisClient.setEx(
-      "trendingPageImages",
-      3600,
-      JSON.stringify(formattedData)
-    );
+    await redis.set("trendingPageImages", JSON.stringify(formattedData), {
+      ex: 3600,
+    });
 
     res.status(200).json({
       status: "success",

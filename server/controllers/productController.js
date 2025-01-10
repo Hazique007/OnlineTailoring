@@ -2,7 +2,7 @@ import Product from "../models/productSchema.js";
 import Category from "../models/categorySchema.js";
 import { log } from "console";
 
-import redisClient from "../redis/redisConfig.js";
+import { redis } from "../redis/redisConfig.js";
 
 export const getSpecificProducts = async (req, res) => {
   try {
@@ -20,12 +20,12 @@ export const getSpecificProducts = async (req, res) => {
 
     const cacheKey = `specificProducts:${JSON.stringify(req.query)}`;
 
-    const cachedData = await redisClient.get(cacheKey);
+    const cachedData = await redis.get(cacheKey);
     if (cachedData) {
       console.log("Cache hit");
       return res.status(200).json({
         message: "Successfully fetched products (from cache).",
-        products: JSON.parse(cachedData),
+        products: cachedData,
       });
     }
 
@@ -39,7 +39,7 @@ export const getSpecificProducts = async (req, res) => {
       });
     }
 
-    await redisClient.setEx(cacheKey, 3600, JSON.stringify(products));
+    await redis.set(cacheKey, JSON.stringify(products), { ex: 3600 });
 
     return res.status(200).json({
       message: "Successfully fetched products.",
@@ -66,12 +66,12 @@ export const getByCategory = async (req, res) => {
     const cacheKey = `productsByCategory:${JSON.stringify(req.query)}`;
 
     // Check Redis cache first
-    const cachedData = await redisClient.get(cacheKey);
+    const cachedData = await redis.get(cacheKey);
     if (cachedData) {
       console.log("Cache hit");
       return res.status(200).json({
         message: "Successfully fetched products (from cache).",
-        products: JSON.parse(cachedData),
+        products: cachedData,
       });
     }
 
@@ -84,7 +84,7 @@ export const getByCategory = async (req, res) => {
         .json({ message: "No products found for the given criteria." });
     }
 
-    await redisClient.setEx(cacheKey, 3600, JSON.stringify(products));
+    await redis.set(cacheKey, JSON.stringify(products), { ex: 3600 });
 
     res.status(200).json({
       message: "Successfully fetched products",
@@ -100,12 +100,12 @@ export const getAllCategory = async (req, res) => {
   try {
     const cacheKey = "allCategories";
 
-    const cachedData = await redisClient.get(cacheKey);
+    const cachedData = await redis.get(cacheKey);
     if (cachedData) {
       console.log("Cache hit");
       return res.status(200).json({
         message: "Successfully fetched categories (from cache).",
-        categories: JSON.parse(cachedData),
+        categories: cachedData,
       });
     }
 
@@ -113,7 +113,7 @@ export const getAllCategory = async (req, res) => {
 
     const categories = await Product.distinct("category");
 
-    await redisClient.setEx(cacheKey, 3600, JSON.stringify(categories));
+    await redis.set(cacheKey, JSON.stringify(categories), { ex: 3600 });
 
     res.status(200).json({ message: "Got it!! 👌", categories });
   } catch (error) {
@@ -134,12 +134,12 @@ export const getGenderWiseCategory = async (req, res) => {
     const cacheKey = `genderWiseCategory:${gender}`;
 
     // Check Redis cache first
-    const cachedData = await redisClient.get(cacheKey);
+    const cachedData = await redis.get(cacheKey);
     if (cachedData) {
       console.log("Cache hit");
       return res.status(200).json({
         message: "Categories retrieved successfully (from cache).",
-        categories: JSON.parse(cachedData),
+        categories: cachedData,
       });
     }
 
@@ -151,11 +151,9 @@ export const getGenderWiseCategory = async (req, res) => {
     ]);
 
     // Cache the result with a 1-hour expiration time
-    await redisClient.setEx(
-      cacheKey,
-      3600,
-      JSON.stringify(genderWiseCategories)
-    );
+    await redis.set(cacheKey, JSON.stringify(genderWiseCategories), {
+      ex: 3600,
+    });
 
     res
       .status(200)
@@ -180,12 +178,12 @@ export const getAllCategoryWithImages = async (req, res) => {
     const cacheKey = `categoriesWithImages:${category}`;
 
     // Check Redis cache first
-    const cachedData = await redisClient.get(cacheKey);
+    const cachedData = await redis.get(cacheKey);
     if (cachedData) {
       console.log("Cache hit");
       return res.status(200).json({
         message: "Successfully fetched categories with images (from cache).",
-        categoriesWithImages: JSON.parse(cachedData),
+        categoriesWithImages: cachedData,
       });
     }
 
@@ -197,11 +195,9 @@ export const getAllCategoryWithImages = async (req, res) => {
     );
 
     // Cache the result with a 1-hour expiration time
-    await redisClient.setEx(
-      cacheKey,
-      3600,
-      JSON.stringify(categoriesWithImages)
-    );
+    await redis.set(cacheKey, JSON.stringify(categoriesWithImages), {
+      ex: 3600,
+    });
 
     res.status(200).json({
       message: "Got it!! 👌",
@@ -235,12 +231,12 @@ export const getSubcategory = async (req, res) => {
     const cacheKey = `subCategories:${JSON.stringify(req.query)}`;
 
     // Check Redis cache first
-    const cachedData = await redisClient.get(cacheKey);
+    const cachedData = await redis.get(cacheKey);
     if (cachedData) {
       console.log("Cache hit");
       return res.status(200).json({
         message: "Subcategories retrieved successfully (from cache).",
-        subCategories: JSON.parse(cachedData),
+        subCategories: cachedData,
       });
     }
 
@@ -261,7 +257,7 @@ export const getSubcategory = async (req, res) => {
     const subCategories = data.map((item) => item.subCategory);
 
     // Cache the result with a 1-hour expiration time
-    await redisClient.setEx(cacheKey, 3600, JSON.stringify(subCategories));
+    await redis.set(cacheKey, JSON.stringify(subCategories), { ex: 3600 });
 
     res.status(200).json({
       message: "Subcategories retrieved successfully.",
@@ -291,13 +287,13 @@ export const getGenderPlusCategory = async (req, res) => {
     const cacheKey = `productsByGenderAndCategory:${JSON.stringify(req.query)}`;
 
     // Check Redis cache first
-    const cachedData = await redisClient.get(cacheKey);
+    const cachedData = await redis.get(cacheKey);
     if (cachedData) {
       console.log("Cache hit");
       return res.status(200).json({
         success: true,
         message: "Products successfully retrieved (from cache).",
-        products: JSON.parse(cachedData),
+        products: cachedData,
       });
     }
 
@@ -313,7 +309,7 @@ export const getGenderPlusCategory = async (req, res) => {
     }
 
     // Cache the result with a 1-hour expiration time
-    await redisClient.setEx(cacheKey, 3600, JSON.stringify(products));
+    await redis.set(cacheKey, JSON.stringify(products), { ex: 3600 });
 
     res.status(200).json({
       success: true,
@@ -344,12 +340,12 @@ export const getFabricGenderPlusCategory = async (req, res) => {
     const cacheKey = `fabricsByGenderAndCategory:${JSON.stringify(req.query)}`;
 
     // Check Redis cache first
-    const cachedData = await redisClient.get(cacheKey);
+    const cachedData = await redis.get(cacheKey);
     if (cachedData) {
       console.log("Cache hit");
       return res.status(200).json({
         message: "Fabrics retrieved successfully (from cache).",
-        data: JSON.parse(cachedData),
+        data: cachedData,
       });
     }
 
@@ -366,7 +362,7 @@ export const getFabricGenderPlusCategory = async (req, res) => {
     const fabrics = [...new Set(products.map((product) => product.fabric))];
 
     // Cache the result with a 1-hour expiration time
-    await redisClient.setEx(cacheKey, 3600, JSON.stringify(fabrics));
+    await redis.set(cacheKey, JSON.stringify(fabrics), { ex: 3600 });
 
     res.status(200).json({
       message: "Fabrics retrieved successfully.",
@@ -554,8 +550,8 @@ export const UpdateGenderCategory = async (req, res) => {
     }
 
     // Invalidate the cache after updating
-    await redisClient.del("categories");
-    await redisClient.del(`categories:${gender}`);
+    await redis.del("categories");
+    await redis.del(`categories:${gender}`);
 
     return res.status(200).json({
       message: "Product updated successfully",
@@ -588,8 +584,8 @@ export const CategoryDelete = async (req, res) => {
         .json({ message: "No product found for the given criteria" });
     } else {
       // Invalidate the cache after deleting
-      await redisClient.del("categories");
-      await redisClient.del(`categories:${gender}`);
+      await redis.del("categories");
+      await redis.del(`categories:${gender}`);
 
       return res.status(200).json({
         message: "Product deleted successfully",
@@ -636,8 +632,8 @@ export const addSubCategory = async (req, res) => {
     const savedProduct = await newProduct.save();
 
     // Invalidate the cache for categories
-    await redisClient.del("categories");
-    await redisClient.del(`categories:${gender}`);
+    await redis.del("categories");
+    await redis.del(`categories:${gender}`);
 
     return res.status(201).json({
       message: "Subcategory added successfully",
