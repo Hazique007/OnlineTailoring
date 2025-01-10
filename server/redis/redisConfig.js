@@ -17,8 +17,9 @@
 
 // export default client;
 import { Redis } from "@upstash/redis";
-
+import dotenv from "dotenv";
+dotenv.config();
 export const redis = new Redis({
-  url: "https://evident-peacock-36436.upstash.io",
-  token: "AY5UAAIjcDFlODRmMjMxODYzNjU0ODM5OGY0NWQ3MDcxM2Q1ZjE3ZnAxMA",
+  url: process.env.REDIS_URL,
+  token: process.env.REDIS_TOKEN,
 });
