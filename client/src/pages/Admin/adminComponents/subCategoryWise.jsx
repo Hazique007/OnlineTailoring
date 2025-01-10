@@ -16,7 +16,7 @@ const SubCategoryWise = () => {
   const getDetails = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/v1/products/GenderCategorySubcategory",
+        "https://final-backend-cache-2.onrender.com/api/v1/products/GenderCategorySubcategory",
         {
           params: { gender, category, subCategory },
         }
@@ -65,7 +65,7 @@ const SubCategoryWise = () => {
 
     try {
       const response = await axios.put(
-        "http://localhost:3000/api/v1/products/UpdateGenderCategorySubcategory",
+        "https://final-backend-cache-2.onrender.com/api/v1/products/UpdateGenderCategorySubcategory",
         formData,
         {
           params: { gender, category, subCategory },
@@ -91,7 +91,7 @@ const SubCategoryWise = () => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        "http://localhost:3000/api/v1/products/CategorySubcategoryDelete",
+        "https://final-backend-cache-2.onrender.com/api/v1/products/CategorySubcategoryDelete",
         {
           params: { gender, category, subCategory },
         }
@@ -284,7 +284,7 @@ const SubCategoryWise = () => {
               <img
                 className="w-[70px] h-[70px] object-fit rounded-[10px]"
                 key={index}
-                src={`http://localhost:3000/uploads/${image}`.replace(
+                src={`https://final-backend-cache-2.onrender.com/uploads/${image}`.replace(
                   /\\/g,
                   "/"
                 )}
