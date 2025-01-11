@@ -30,6 +30,7 @@ const Customize = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [scrolling, setScrolling] = useState(false);
   const scrollTimeoutRef = useRef(null);
+  const scrollContainerRef = useRef(null); // Added ref for scroll container
 
   const handleProceed = () => {
     navigate("/ordersummary");
@@ -71,13 +72,23 @@ const Customize = () => {
   };
 
   useEffect(() => {
-    const container = document.querySelector("#carouselContainer");
+    const container = scrollContainerRef.current;
     container.addEventListener("wheel", handleScroll);
 
     return () => {
       container.removeEventListener("wheel", handleScroll);
     };
   }, [scrolling]);
+
+  // Horizontal scroll to specific index
+  const scrollToIndex = (index) => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        left: index * scrollContainerRef.current.offsetWidth,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <div>
@@ -94,13 +105,14 @@ const Customize = () => {
           </h1>
 
           <div
+            ref={scrollContainerRef} // Added ref here
             id="carouselContainer"
-            className="relative w-[92vw] sm:w-full h-[282px] sm:h-[350px] overflow-hidden rounded-[10px] px-4"
+            className="relative w-[92vw] sm:w-full h-[282px] sm:h-[350px] overflow-x-hidden overflow-y-hidden snap-x snap-mandatory scroll-smooth rounded-[10px] px-4"
           >
             <img
               src={`https://final-backend-cache-2.onrender.com/uploads/${productItem.images[currentImageIndex]}`}
               alt="Customize clothing"
-              className="w-full h-full object-cover rounded-[20px]"
+              className="w-full h-full object-fit rounded-[20px]"
             />
             <button
               onClick={handlePrevImage}
