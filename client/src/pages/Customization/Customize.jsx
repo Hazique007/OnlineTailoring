@@ -95,12 +95,12 @@ const Customize = () => {
 
           <div
             id="carouselContainer"
-            className="relative w-[92vw] h-[282px] overflow-hidden rounded-[10px] px-4"
+            className="relative w-[92vw] sm:w-full h-[282px] sm:h-[350px] overflow-hidden rounded-[10px] px-4"
           >
             <img
               src={`https://final-backend-cache-2.onrender.com/uploads/${productItem.images[currentImageIndex]}`}
               alt="Customize clothing"
-              className="w-full h-full object-fit rounded-[20px]"
+              className="w-full h-full object-cover rounded-[20px]"
             />
             <button
               onClick={handlePrevImage}
@@ -151,7 +151,7 @@ const Customize = () => {
                 <p className="text-[#AA3DF3] font-[700] text-[12px]">Style</p>
               </div>
               <div className="flex flex-col items-center gap-1">
-                <img src={C2} className="c2 w-50px] h-[50px]" />
+                <img src={C2} className="c2 w-[50px] h-[50px]" />
                 <p className="text-[#10E36C] font-[700] text-[12px]">
                   Look and Feel
                 </p>
