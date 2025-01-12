@@ -38,6 +38,7 @@ import EditCategory from "./pages/Admin/Listing/editCategory";
 import AddCategory from "./pages/Admin/Listing/addNewCategory";
 import AddSubCategory from "./pages/Admin/Listing/addNewSubCategory";
 import UserList from "./pages/Agent/UserList";
+import Listing from "./pages/Admin/Listing/listingPage";
 
 const App = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
@@ -98,6 +99,7 @@ const App = () => {
             Component={FashionProductDetails}
           />
           <Route path="/stats" Component={ClickStats} />
+          <Route path="/listing" Component={Listing} />
 
           {/* Fallback Route */}
           <Route path="*" Component={NotFound} />
