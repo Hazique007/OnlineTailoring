@@ -7,6 +7,7 @@ import {
   fetchCategoriesWithImages,
   addCategoryData,
   getGenderWiseCategory,
+  deletedCategory,
 } from "../controllers/categoryController.js";
 
 const router = express.Router();
@@ -51,5 +52,6 @@ const upload = multer({
 router.get("/fetchcategories", fetchCategoriesWithImages);
 router.post("/addCategoryData", upload.single("image"), addCategoryData);
 router.get("/getGenderWiseCategory", getGenderWiseCategory);
+router.get("/deleteCategory", deletedCategory);
 
 export default router;

@@ -431,13 +431,14 @@ export const UpdateGenderCategorySubcategory = async (req, res) => {
           "No product found with the given gender, category, and subCategory",
       });
     }
-
+        
     // Update product fields including images
     const updatedProduct = await Product.findOneAndUpdate(
       { gender, category, subCategory },
       {
         ...req.body, // Update other fields (e.g., description, price, stock, etc.)
-        images: images.length > 0 ? images : product.images, // Only replace images if new ones are uploaded
+        images: images.length > 0 ? images : product.images,
+         // Only replace images if new ones are uploaded
       },
       { new: true }
     );
@@ -616,6 +617,14 @@ export const addSubCategory = async (req, res) => {
     const images = req.files.map((file) => file.filename);
     console.log(req.body);
 
+    // Fetch the category data
+    const categoryData = await Category.findOne({ gender, category });
+    console.log(categoryData);
+
+    if (!categoryData) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
     // Create a new product instance
     const newProduct = new Product({
       category,
@@ -626,7 +635,9 @@ export const addSubCategory = async (req, res) => {
       images,
       gender,
       description,
+      categoryDescription: categoryData.categoryDescription, // Accessing the correct field
     });
+    console.log(newProduct);
 
     // Save the product
     const savedProduct = await newProduct.save();

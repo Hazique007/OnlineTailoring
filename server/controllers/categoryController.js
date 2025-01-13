@@ -155,3 +155,26 @@ export const getGenderWiseCategory = async (req, res) => {
     });
   }
 };
+
+export const deletedCategory = async (req, res) => {
+  const { gender, category } = req.query;
+  try {
+    const deletedCategory = await Category.findOneAndDelete({
+      gender: gender,
+      category: category,
+    });
+
+    if (!deletedCategory) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    return res.status(200).json({
+      message: "Successfully deleted",
+      deletedCategory,
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Server error", error: error.message });
+  }
+};
