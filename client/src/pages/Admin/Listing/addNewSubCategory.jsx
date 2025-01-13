@@ -55,6 +55,7 @@ const AddSubCategory = () => {
     formData.append("price", details.price);
     formData.append("gender", details.gender);
     formData.append("description", details.description);
+
     formData.append("stock", details.stock);
     formData.append("highlight", details.highlight);
 
