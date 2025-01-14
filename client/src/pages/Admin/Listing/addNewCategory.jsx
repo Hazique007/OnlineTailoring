@@ -42,7 +42,7 @@ const AddCategory = () => {
 
     try {
       const response = await axios.post(
-        "https://backend-for-doorstep-stitching.onrender.com/api/v1/category/addCategoryData",
+        "https://apnadarzi.onrender.com/api/v1/category/addCategoryData",
         formData,
         {
           headers: {

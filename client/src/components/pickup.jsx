@@ -77,7 +77,7 @@ const Pickup = () => {
       const updatedAddress = { ...newAddress, userID: currentUserID };
 
       const response = await fetch(
-        "https://backend-for-doorstep-stitching.onrender.com/addAddressbyuserID",
+        "https://apnadarzi.onrender.com/addAddressbyuserID",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

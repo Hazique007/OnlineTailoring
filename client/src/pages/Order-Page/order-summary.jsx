@@ -41,7 +41,7 @@ const OrderSummary = () => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "https://backend-for-doorstep-stitching.onrender.com/getAddressByUser",
+          "https://apnadarzi.onrender.com/getAddressByUser",
           {
             params: { userID },
           }
@@ -100,7 +100,7 @@ const OrderSummary = () => {
 
     try {
       const response = await axios.post(
-        "https://backend-for-doorstep-stitching.onrender.com/orders/create",
+        "https://apnadarzi.onrender.com/orders/create",
         orderData
       );
       navigate("/orderSuccessful");
@@ -114,7 +114,7 @@ const OrderSummary = () => {
   const handleRemoveOrder = async (orderId) => {
     try {
       await axios.delete(
-        `https://backend-for-doorstep-stitching.onrender.com/orders/${orderId}`
+        `https://apnadarzi.onrender.com/orders/${orderId}`
       );
       alert("Order removed successfully.");
       // Update UI by removing the order from the list

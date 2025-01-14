@@ -10,7 +10,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
     try {
       setLoading(true);
       await axios.delete(
-        `https://backend-for-doorstep-stitching.onrender.com/orders/${order._id}`
+        `https://apnadarzi.onrender.com/orders/${order._id}`
       );
       removeOrder(order._id);
       setLoading(false);
@@ -60,7 +60,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
         }}
       >
         <img
-          src={`https://backend-for-doorstep-stitching.onrender.com/uploads/${images?.[0]}`}
+          src={`https://apnadarzi.onrender.com/uploads/${images?.[0]}`}
           alt="Product"
           style={{
             width: "100%",

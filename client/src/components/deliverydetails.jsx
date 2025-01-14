@@ -18,7 +18,7 @@ const Delivery = ({ onProceed }) => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "https://backend-for-doorstep-stitching.onrender.com/getAddressByUser",
+          "https://apnadarzi.onrender.com/getAddressByUser",
           {
             params: { userID },
           }
@@ -49,7 +49,7 @@ const Delivery = ({ onProceed }) => {
   const handleAddAddress = async () => {
     try {
       const response = await fetch(
-        "https://backend-for-doorstep-stitching.onrender.com/add",
+        "https://apnadarzi.onrender.com/add",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

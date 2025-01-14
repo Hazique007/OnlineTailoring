@@ -22,7 +22,7 @@ const Styling = ({ heading, gender }) => {
   const getCategory = async () => {
     try {
       const response = await axios.get(
-        "https://backend-for-doorstep-stitching.onrender.com/api/v1/category/fetchcategories",
+        "https://apnadarzi.onrender.com/api/v1/category/fetchcategories",
         {
           params: { gender },
         }
@@ -43,7 +43,7 @@ const Styling = ({ heading, gender }) => {
   const handleImageClick = async (gender, category) => {
     try {
       await axios.post(
-        "https://backend-for-doorstep-stitching.onrender.com/api/v1/stats/trackClick",
+        "https://apnadarzi.onrender.com/api/v1/stats/trackClick",
         {
           gender,
           category,

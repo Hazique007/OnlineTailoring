@@ -16,7 +16,7 @@ const SubCategoryWise = () => {
   const getDetails = async () => {
     try {
       const response = await axios.get(
-        "https://backend-for-doorstep-stitching.onrender.com/api/v1/products/GenderCategorySubcategory",
+        "https://apnadarzi.onrender.com/api/v1/products/GenderCategorySubcategory",
         {
           params: { gender, category, subCategory },
         }
@@ -65,7 +65,7 @@ const SubCategoryWise = () => {
 
     try {
       const response = await axios.put(
-        "https://backend-for-doorstep-stitching.onrender.com/api/v1/products/UpdateGenderCategorySubcategory",
+        "https://apnadarzi.onrender.com/api/v1/products/UpdateGenderCategorySubcategory",
         formData,
         {
           params: { gender, category, subCategory },
@@ -91,7 +91,7 @@ const SubCategoryWise = () => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        "https://backend-for-doorstep-stitching.onrender.com/api/v1/products/CategorySubcategoryDelete",
+        "https://apnadarzi.onrender.com/api/v1/products/CategorySubcategoryDelete",
         {
           params: { gender, category, subCategory },
         }
@@ -284,7 +284,7 @@ const SubCategoryWise = () => {
               <img
                 className="w-[70px] h-[70px] object-fit rounded-[10px]"
                 key={index}
-                src={`https://backend-for-doorstep-stitching.onrender.com/uploads/${image}`.replace(
+                src={`https://apnadarzi.onrender.com/uploads/${image}`.replace(
                   /\\/g,
                   "/"
                 )}

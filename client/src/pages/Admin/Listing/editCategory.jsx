@@ -17,7 +17,7 @@ const EditCategory = () => {
   const getDetails = async () => {
     try {
       const response = await axios.get(
-        "https://backend-for-doorstep-stitching.onrender.com/api/v1/products/GenderCategory",
+        "https://apnadarzi.onrender.com/api/v1/products/GenderCategory",
         {
           params: { gender, category },
         }
@@ -63,7 +63,7 @@ const EditCategory = () => {
       }
 
       const response = await axios.put(
-        "https://backend-for-doorstep-stitching.onrender.com/api/v1/products/UpdateGenderCategory",
+        "https://apnadarzi.onrender.com/api/v1/products/UpdateGenderCategory",
         formData,
         {
           params: { gender, category, subCategory },

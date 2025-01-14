@@ -67,7 +67,7 @@ const AddSubCategory = () => {
 
     try {
       const response = await axios.post(
-        "https://backend-for-doorstep-stitching.onrender.com/api/v1/products/add-subcategory",
+        "https://apnadarzi.onrender.com/api/v1/products/add-subcategory",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

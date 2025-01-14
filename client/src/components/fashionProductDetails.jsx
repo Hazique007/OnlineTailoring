@@ -22,7 +22,7 @@ const FashionProductDetails = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://backend-for-doorstep-stitching.onrender.com/api/v1/products/getGenderPlusCategory`,
+          `https://apnadarzi.onrender.com/api/v1/products/getGenderPlusCategory`,
           {
             params: { gender, category },
           }

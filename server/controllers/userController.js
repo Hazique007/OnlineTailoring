@@ -15,33 +15,33 @@ export const sendOtp = async (req, res) => {
     const { phoneNumber } = req.body;
 
     // Handle hardcoded phone number
-    if (phoneNumber === HARDCODED_PHONE) {
-      try {
-        // await UserSchema.findOneAndUpdate(
-        //   { phoneNumber },
-        //   { otp: HARDCODED_OTP, otpExpiration: new Date(Date.now() + 5 * 60 * 1000) }, // OTP valid for 5 minutes
-        //   { upsert: true, new: true, setDefaultsOnInsert: true }
-        // );
-        // return res.status(201).json({
-        //   success: true,
-        //   msg: "OTP Sent Successfully (Hardcoded)",
-        // });
-        // res.to('/home')
+    // if (phoneNumber === HARDCODED_PHONE) {
+    //   try {
+    //     // await UserSchema.findOneAndUpdate(
+    //     //   { phoneNumber },
+    //     //   { otp: HARDCODED_OTP, otpExpiration: new Date(Date.now() + 5 * 60 * 1000) }, // OTP valid for 5 minutes
+    //     //   { upsert: true, new: true, setDefaultsOnInsert: true }
+    //     // );
+    //     // return res.status(201).json({
+    //     //   success: true,
+    //     //   msg: "OTP Sent Successfully (Hardcoded)",
+    //     // });
+    //     // res.to('/home')
         
-      } catch (dbError) {
-        console.error("Error updating user OTP for hardcoded phone:", dbError);
-        return res.status(500).json({
-          success: false,
-          msg: "Database error while saving hardcoded OTP.",
-        });
-      }
-    }
+    //   } catch (dbError) {
+    //     console.error("Error updating user OTP for hardcoded phone:", dbError);
+    //     return res.status(500).json({
+    //       success: false,
+    //       msg: "Database error while saving hardcoded OTP.",
+    //     });
+    //   }
+    // }
 
     // Generate OTP for other numbers
-    if(phoneNumber===HARDCODED_PHONE){
-      otp=HARDCODED_OTP
+    // if(phoneNumber===HARDCODED_PHONE){
+    //   otp=HARDCODED_OTP
 
-    }else{
+    // }else{
       const otp = otpGenearator.generate(6, {
         upperCaseAlphabets: false,
         specialChars: false,
@@ -50,7 +50,7 @@ export const sendOtp = async (req, res) => {
   
 
 
-    }
+    
    
     const cDate = new Date();
     try {
