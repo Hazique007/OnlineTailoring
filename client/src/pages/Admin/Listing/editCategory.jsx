@@ -23,6 +23,8 @@ const EditCategory = () => {
           params: { gender, category },
         }
       );
+      console.log(response);
+
       setDetails(response.data.products[0]);
       setPreviewImage(response.data.products[0]?.image);
     } catch (error) {
@@ -73,7 +75,7 @@ const EditCategory = () => {
       );
 
       if (response.status === 200) {
-        toast.success("Product updated successfully!");
+        toast.success("Category updated successfully!");
         getDetails();
         setIsEdit(false);
       } else {
