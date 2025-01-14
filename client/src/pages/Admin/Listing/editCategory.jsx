@@ -214,11 +214,17 @@ const EditCategory = () => {
           >
             Image
           </label>
-          {previewImage && (
+          {previewImage ? (
             <img
               src={previewImage}
               alt="Preview"
-              className="w-[100px] h-[100px] object-cover rounded-md"
+              className="w-[70px] h-[70px] object-cover rounded-md"
+            />
+          ) : (
+            <img
+              src={` https://final-backend-cache-2.onrender.com/uploads/${details.categoryImages}`}
+              alt="Preview"
+              className="w-[70px] h-[70px] object-cover rounded-md"
             />
           )}
           <input

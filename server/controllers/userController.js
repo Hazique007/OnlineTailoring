@@ -7,8 +7,8 @@ const accountSid = process.env.TWILIO_ACC_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const TwilioClient = new twilio(accountSid, authToken);
 
-const HARDCODED_PHONE = "911223334444"; // Replace with your hardcoded number
-const HARDCODED_OTP = 123456; // Replace with your hardcoded OTP
+const HARDCODED_PHONE = "911223334444";
+const HARDCODED_OTP = 123456;
 
 export const sendOtp = async (req, res) => {
   try {
