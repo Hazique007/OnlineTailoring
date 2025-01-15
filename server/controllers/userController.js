@@ -61,10 +61,10 @@ const TwilioClient = new twilio(accountSid, authToken);
 
 export const verifyOtp = async (req, res) => {
   try {
-    const { phoneNumber, otp } = req.body;
-    const OtpData = await UserSchema.findOne({
+    const { phoneNumber } = req.body;
+    const OtpData = await Otp.findOne({
       phoneNumber,
-      otp,
+ 
     });
 
     if (!OtpData) {

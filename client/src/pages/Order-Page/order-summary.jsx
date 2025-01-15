@@ -41,7 +41,7 @@ const OrderSummary = () => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "https://final-backend-cache-2.onrender.com/getAddressByUser",
+          "http://localhost:3000/getAddressByUser",
           {
             params: { userID },
           }
@@ -100,7 +100,7 @@ const OrderSummary = () => {
 
     try {
       const response = await axios.post(
-        "https://final-backend-cache-2.onrender.com/orders/create",
+        "http://localhost:3000/orders/create",
         orderData
       );
       navigate("/orderSuccessful");
@@ -114,7 +114,7 @@ const OrderSummary = () => {
   const handleRemoveOrder = async (orderId) => {
     try {
       await axios.delete(
-        `https://final-backend-cache-2.onrender.com/orders/${orderId}`
+        `http://localhost:3000/orders/${orderId}`
       );
       alert("Order removed successfully.");
       // Update UI by removing the order from the list

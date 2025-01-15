@@ -43,40 +43,31 @@ const Otp = () => {
    const onOTPVerify = async () => {
     setLoading(true);
 
-    if (phone === HARDCODED_PHONE && otp === HARDCODED_OTP) {
-      toast.success("OTP verified successfully");
-      localStorage.setItem("userID", "hardcodedUserID");
-      navigate("/home");
-      setLoading(false);
-      return;
-    }
+    // if (phone === HARDCODED_PHONE && otp === HARDCODED_OTP) {
+    //   toast.success("OTP verified successfully");
+    //   localStorage.setItem("userID", "hardcodedUserID");
+    //   navigate("/home");
+    //   setLoading(false);
+    //   return;
+    // }
 
     try {
-      if(phone===HARDCODED_PHONE){
-        const formattedPhone = "+" + HARDCODED_PHONE;
-      const response = await fetch(
-        "https://final-backend-cache-2.onrender.com/api/verify-otp",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phoneNumber: formattedPhone, otp: 123456 }),
-        }
-      );
-
-      }else{
+     
 
         const formattedPhone = "+" + phone;
       const response = await fetch(
-        "https://final-backend-cache-2.onrender.com/api/verify-otp",
+        "http://localhost:3000/api/verify-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
         }
       );
-      }
+      
 
       const data = await response.json();
+      console.log(data);
+      
       if (data.success) {
         localStorage.setItem("userID", data.user._id);
         toast.success("OTP verified successfully");
@@ -125,7 +116,7 @@ const Otp = () => {
 
   //     const formattedPhone = "+" + phone;
   //     const response = await fetch(
-  //       "https://final-backend-cache-2.onrender.com/api/send-otp",
+  //       "http://localhost:3000/api/send-otp",
   //       {
   //         method: "POST",
   //         headers: { "Content-Type": "application/json" },
@@ -192,7 +183,7 @@ const Otp = () => {
       
       const formattedPhone = "+" + phone;
       const response = await fetch(
-        "https://final-backend-cache-2.onrender.com/api/send-otp",
+        "http://localhost:3000/api/send-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -241,7 +232,7 @@ const Otp = () => {
   //     if(phone===HARDCODED_PHONE){
   //       const formattedPhone = "+" + HARDCODED_PHONE;
   //     const response = await fetch(
-  //       "https://final-backend-cache-2.onrender.com/api/verify-otp",
+  //       "http://localhost:3000/api/verify-otp",
   //       {
   //         method: "POST",
   //         headers: { "Content-Type": "application/json" },
@@ -253,7 +244,7 @@ const Otp = () => {
 
   //       const formattedPhone = "+" + phone;
   //     const response = await fetch(
-  //       "https://final-backend-cache-2.onrender.com/api/verify-otp",
+  //       "http://localhost:3000/api/verify-otp",
   //       {
   //         method: "POST",
   //         headers: { "Content-Type": "application/json" },
@@ -287,7 +278,7 @@ const Otp = () => {
   //     console.log("api fetching");
       
   //     const response = await fetch(
-  //       "https://final-backend-cache-2.onrender.com/api/verify-otp",
+  //       "http://localhost:3000/api/verify-otp",
   //       {
   //         method: "POST",
   //         headers: { "Content-Type": "application/json" },
@@ -324,7 +315,7 @@ const Otp = () => {
     try {
       const formattedPhone = "+" + phone;
       const response = await fetch(
-        "https://final-backend-cache-2.onrender.com/api/send-otp",
+        "http://localhost:3000/api/send-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

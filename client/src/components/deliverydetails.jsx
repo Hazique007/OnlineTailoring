@@ -18,7 +18,7 @@ const Delivery = ({ onProceed }) => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "https://final-backend-cache-2.onrender.com/getAddressByUser",
+          "http://localhost:3000/getAddressByUser",
           {
             params: { userID },
           }
@@ -49,7 +49,7 @@ const Delivery = ({ onProceed }) => {
   const handleAddAddress = async () => {
     try {
       const response = await fetch(
-        "https://final-backend-cache-2.onrender.com/add",
+        "http://localhost:3000/add",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
