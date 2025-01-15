@@ -17,6 +17,7 @@ import HelpAndSupport from "./pages/Profile-Page/Profile-Components/helpandsuppo
 import AllAddresses from "./pages/Profile-Page/Profile-Components/allAddresses";
 import PersonalDetails from "./pages/Profile-Page/Profile-Components/personalDetails";
 import orderHistory from "./pages/Profile-Page/Profile-Components/orderHistory";
+import EditAgent from "./pages/Agent/EditAgent";
 
 // Components
 import CategoryPage from "./components/categoryPage";
@@ -38,6 +39,7 @@ import EditCategory from "./pages/Admin/Listing/editCategory";
 import AddCategory from "./pages/Admin/Listing/addNewCategory";
 import AddSubCategory from "./pages/Admin/Listing/addNewSubCategory";
 import UserList from "./pages/Agent/UserList";
+import ListingPage from "./pages/Admin/Listing/listingPage";
 
 const App = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
@@ -71,6 +73,7 @@ const App = () => {
           <Route path="/search" Component={SearchPage} />
           <Route path="/cart" Component={CartPage} />
           <Route path="/error" Component={Error} />
+          <Route path="/edit-agent" Component={EditAgent}/>
 
           {/* Profile Sub-pages */}
           <Route path="/addresses" Component={AllAddresses} />
@@ -98,7 +101,14 @@ const App = () => {
             Component={FashionProductDetails}
           />
           <Route path="/stats" Component={ClickStats} />
-
+          <Route path="/listing" Component={ListingPage} />
+          <Route
+            path="/listing/:gender/:category/:subCategory"
+            Component={SubCategoryWise}
+          />
+          <Route path="/listing/:gender/:category" Component={EditCategory} />
+          <Route path="/add-new-category" Component={AddCategory} />
+          <Route path="/add-new-subcategory" Component={AddSubCategory} />
           {/* Fallback Route */}
           <Route path="*" Component={NotFound} />
         </Routes>

@@ -55,6 +55,7 @@ const AddSubCategory = () => {
     formData.append("price", details.price);
     formData.append("gender", details.gender);
     formData.append("description", details.description);
+
     formData.append("stock", details.stock);
     formData.append("highlight", details.highlight);
 
@@ -67,7 +68,7 @@ const AddSubCategory = () => {
 
     try {
       const response = await axios.post(
-        "https://apnadarzi.onrender.com/api/v1/products/add-subcategory",
+        "https://final-backend-cache-2.onrender.com/api/v1/products/add-subcategory",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

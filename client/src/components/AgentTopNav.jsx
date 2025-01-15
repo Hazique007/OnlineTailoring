@@ -1,11 +1,14 @@
 import React from 'react';
 import { IoIosArrowBack } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 
 const AgentTopNav = ({ onLogout }) => {
   const handleBackClick = () => {
     navigate(-1);
   };
+
+  const navigate = useNavigate()
 
   return (
     <div>

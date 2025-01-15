@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   phoneNumber: {
     type: String,
     unique: true,
@@ -9,7 +9,6 @@ const UserSchema = new mongoose.Schema({
   otp: {
     type: Number,
     required: true,
-    // default: null,
   },
   otpExpiration: {
     type: Date,
@@ -17,7 +16,12 @@ const UserSchema = new mongoose.Schema({
     get: (otpExpiration) => otpExpiration.getTime(),
     set: (otpExpiration) => new Date(otpExpiration),
   },
+  role: {
+    type: String,
+    enum: ['user', 'admin', 'agent'],
+    default: 'user', // Default value
+  },
 });
 
-const Otp = mongoose.model("Otp", UserSchema);
+const Otp = mongoose.models.Otp || mongoose.model("Otp", userSchema);
 export default Otp;

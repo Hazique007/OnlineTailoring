@@ -15,7 +15,7 @@ const OrderHistoryPage = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          "https://apnadarzi.onrender.com/orders/getOrdersByUser",
+          "https://final-backend-cache-2.onrender.com/orders/getOrdersByUser",
           {
             params: { userID: userID },
           }
@@ -58,7 +58,7 @@ const OrderHistoryPage = () => {
       </div>
       <div className="flex-1 flex justify-center items-center">
         {orders.length === 0 ? (
-          <div className="text-center text-gray-500 text-center">
+          <div className=" text-gray-500 text-center">
             No order history
           </div>
         ) : (

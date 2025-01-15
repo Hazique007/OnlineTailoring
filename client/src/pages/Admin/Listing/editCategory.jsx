@@ -12,18 +12,21 @@ const EditCategory = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null); // New state for image
   const [previewImage, setPreviewImage] = useState(null); // For image preview
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false); // For delete confirmation
 
   // Get product details
   const getDetails = async () => {
     try {
       const response = await axios.get(
-        "https://apnadarzi.onrender.com/api/v1/products/GenderCategory",
+        "https://final-backend-cache-2.onrender.com/api/v1/products/GenderCategory",
         {
           params: { gender, category },
         }
       );
+      console.log(response);
+
       setDetails(response.data.products[0]);
-      setPreviewImage(response.data.products[0]?.image); // Set the current image for preview
+      setPreviewImage(response.data.products[0]?.image);
     } catch (error) {
       console.error("Error fetching product details:", error);
       toast.error("Error fetching product details.");
@@ -63,7 +66,7 @@ const EditCategory = () => {
       }
 
       const response = await axios.put(
-        "https://apnadarzi.onrender.com/api/v1/products/UpdateGenderCategory",
+        "https://final-backend-cache-2.onrender.com/api/v1/products/UpdateGenderCategory",
         formData,
         {
           params: { gender, category, subCategory },
@@ -72,7 +75,7 @@ const EditCategory = () => {
       );
 
       if (response.status === 200) {
-        toast.success("Product updated successfully!");
+        toast.success("Category updated successfully!");
         getDetails();
         setIsEdit(false);
       } else {
@@ -81,6 +84,38 @@ const EditCategory = () => {
     } catch (error) {
       console.error("Error updating product:", error);
       toast.error("Error updating product. Please try again.");
+    }
+  };
+
+  // Handle delete request
+  const handleDelete = async () => {
+    try {
+      // console.log("dataaa", gender, category);
+
+      const response = await axios.get(
+        "https://final-backend-cache-2.onrender.com/api/v1/category/deleteCategory",
+        {
+          params: { gender, category },
+        }
+      );
+      // console.log("Response:", response);
+
+      if (response.status === 200) {
+        toast.success("Category deleted successfully!");
+      } else {
+        toast.error("Failed to delete category.");
+      }
+    } catch (error) {
+      console.error(
+        "Errorrrrr deleting category:",
+        error.response || error.message
+      );
+      toast.error(
+        error.response?.data?.message ||
+          "Error deleting category. Please try again."
+      );
+    } finally {
+      setShowDeleteConfirm(false);
     }
   };
 
@@ -181,11 +216,17 @@ const EditCategory = () => {
           >
             Image
           </label>
-          {previewImage && (
+          {previewImage ? (
             <img
               src={previewImage}
               alt="Preview"
-              className="w-[100px] h-[100px] object-cover rounded-md"
+              className="w-[70px] h-[70px] object-cover rounded-md"
+            />
+          ) : (
+            <img
+              src={` https://final-backend-cache-2.onrender.com/uploads/${details.categoryImages}`}
+              alt="Preview"
+              className="w-[70px] h-[70px] object-cover rounded-md"
             />
           )}
           <input
@@ -201,13 +242,44 @@ const EditCategory = () => {
       </div>
 
       {isEdit && (
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center px-7">
           <button
             onClick={handleSave}
             className="font-[400] text-[12px] bg-[#D4A706] text-white w-[200px] h-[27px] rounded-[10px] mt-[30px] self-center"
           >
             Save
           </button>
+          <button
+            onClick={() => setShowDeleteConfirm(true)}
+            className="font-[400] text-[12px] bg-[#FF0000] text-white w-[200px] h-[27px] rounded-[10px] mt-[30px] ml-4"
+          >
+            Delete
+          </button>
+        </div>
+      )}
+
+      {/* Delete Confirmation Dialog */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-5 rounded-lg shadow-md">
+            <p className="text-[14px] font-poppins">
+              Are you sure you want to delete this category?
+            </p>
+            <div className="flex justify-end gap-4 mt-4">
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                className="px-4 py-2 bg-gray-300 rounded-md"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 bg-[#FF0000] text-white rounded-md"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

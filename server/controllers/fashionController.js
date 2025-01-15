@@ -1,4 +1,5 @@
 import Fashion from "../models/fashionSchema.js";
+import { redis } from "../redis/redisConfig.js"; // Import Redis configuration
 
 // Add fashion images with category and gender
 export const addFashionImages = async (req, res) => {
@@ -33,18 +34,14 @@ export const addFashionImages = async (req, res) => {
       gender,
     }));
 
-    if (fashionItems.length === 0) {
-      return res.status(400).json({
-        status: "error",
-        message: "No valid images uploaded. Please upload valid image files.",
-      });
-    }
-
     const newFashion = new Fashion({
       fashionImages: fashionItems,
     });
 
     const savedFashion = await newFashion.save();
+
+    // Invalidate the Redis cache for fashion images after adding new data
+    await redis.del("fashionPageImages");
 
     res.status(201).json({
       status: "success",
@@ -72,6 +69,21 @@ export const addFashionImages = async (req, res) => {
 // Fetch all fashion images with categories and gender
 export const getFashionPageImages = async (req, res) => {
   try {
+    // Check Redis cache first
+    console.log("Checking cache for fashion images");
+
+    const cachedData = await redis.get("fashionPageImages");
+    if (cachedData) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        status: "success",
+        message: "Successfully fetched fashion images (from cache)",
+        data: cachedData, // Parse the cached JSON string
+      });
+    }
+
+    console.log("Cache miss");
+    // Fetch data from MongoDB
     const fashionData = await Fashion.find({});
 
     if (!fashionData.length) {
@@ -88,6 +100,13 @@ export const getFashionPageImages = async (req, res) => {
         category: item.category,
         gender: item.gender, // Include gender in the response
       }))
+    );
+
+    // Store data in Redis with an expiration time of 1 hour (3600 seconds)
+    await redis.set(
+      "fashionPageImages",
+      JSON.stringify(imagesWithCategoriesAndGender),
+      { EX: 3600 }
     );
 
     res.status(200).json({

@@ -40,6 +40,115 @@ const Otp = () => {
       "0"
     )}`;
   };
+   const onOTPVerify = async () => {
+    setLoading(true);
+
+    if (phone === HARDCODED_PHONE && otp === HARDCODED_OTP) {
+      toast.success("OTP verified successfully");
+      localStorage.setItem("userID", "hardcodedUserID");
+      navigate("/home");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      if(phone===HARDCODED_PHONE){
+        const formattedPhone = "+" + HARDCODED_PHONE;
+      const response = await fetch(
+        "https://final-backend-cache-2.onrender.com/api/verify-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phoneNumber: formattedPhone, otp: 123456 }),
+        }
+      );
+
+      }else{
+
+        const formattedPhone = "+" + phone;
+      const response = await fetch(
+        "https://final-backend-cache-2.onrender.com/api/verify-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
+        }
+      );
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        localStorage.setItem("userID", data.user._id);
+        toast.success("OTP verified successfully");
+        navigate("/home");
+      } else {
+        toast.error("Invalid OTP. Please try again.");
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error during OTP verification:", error);
+      setLoading(false);
+      toast.error("Something went wrong. Please try again.");
+     }
+   };
+
+  // const onSignup = async () => {
+  //   console.log(phone);
+
+  //   if (phone === HARDCODED_PHONE) {
+  //     console.log("check");
+
+  //     toast.success("Welcome to our App");
+  //     navigate("/home");
+
+  //     return; // Exit the function completely
+  //   } else {
+  //     // Validate the phone number length
+  //     if (phone.length !== 12) {
+  //       console.log("start2");
+  //       toast.error("Please enter a valid 10-digit mobile number.");
+  //       return;
+  //     }
+
+  //     // Check terms agreement
+  //     if (!termsChecked) {
+  //       console.log("start3");
+  //       toast.error("You must agree to the Terms and Conditions to proceed.");
+  //       return;
+  //     }
+  //   }
+
+  //   // If all validations pass, proceed to send the OTP
+  //   setLoading(true);
+  //   try {
+  //     console.log("entering");
+
+  //     const formattedPhone = "+" + phone;
+  //     const response = await fetch(
+  //       "https://final-backend-cache-2.onrender.com/api/send-otp",
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({ phoneNumber: formattedPhone }),
+  //       }
+  //     );
+  //     const data = await response.json();
+  //     if (data.success) {
+  //       setLoading(false);
+  //       setShowOtp(true);
+  //       toast.success("OTP sent successfully");
+  //       setTimer(60);
+  //     } else {
+  //       setLoading(false);
+  //       toast.error("Failed to send OTP");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during OTP send:", error);
+  //     setLoading(false);
+  //     toast.error("Failed to send OTP. Please try again.");
+  //   }
+  // };
+
 
   const onSignup = async () => {
     console.log(phone);
@@ -83,7 +192,7 @@ const Otp = () => {
       
       const formattedPhone = "+" + phone;
       const response = await fetch(
-        "https://apnadarzi.onrender.com/api/send-otp",
+        "https://final-backend-cache-2.onrender.com/api/send-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -132,7 +241,7 @@ const Otp = () => {
   //     if(phone===HARDCODED_PHONE){
   //       const formattedPhone = "+" + HARDCODED_PHONE;
   //     const response = await fetch(
-  //       "https://apnadarzi.onrender.com/api/verify-otp",
+  //       "https://final-backend-cache-2.onrender.com/api/verify-otp",
   //       {
   //         method: "POST",
   //         headers: { "Content-Type": "application/json" },
@@ -140,12 +249,11 @@ const Otp = () => {
   //       }
   //     );
 
-
   //     }else{
 
   //       const formattedPhone = "+" + phone;
   //     const response = await fetch(
-  //       "https://apnadarzi.onrender.com/api/verify-otp",
+  //       "https://final-backend-cache-2.onrender.com/api/verify-otp",
   //       {
   //         method: "POST",
   //         headers: { "Content-Type": "application/json" },
@@ -153,7 +261,7 @@ const Otp = () => {
   //       }
   //     );
   //     }
-      
+
   //     const data = await response.json();
   //     if (data.success) {
   //       localStorage.setItem("userID", data.user._id);
@@ -169,38 +277,40 @@ const Otp = () => {
   //     toast.error("Something went wrong. Please try again.");
   //   }
   // };
-
-  const onOTPVerify = async () => {
-    setLoading(true);
-    try {
-      const formattedPhone = "+" + phone;
-      console.log("api fetching");
+  // const onSignup = async () => {
+  //   navigate("/home");
+  // };
+  // const onOTPVerify = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const formattedPhone = "+" + phone;
+  //     console.log("api fetching");
       
-      const response = await fetch(
-        "https://apnadarzi.onrender.com/api/verify-otp",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
-        }
-      );
-      const data = await response.json();
-      console.log(data);
+  //     const response = await fetch(
+  //       "https://final-backend-cache-2.onrender.com/api/verify-otp",
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
+  //       }
+  //     );
+  //     const data = await response.json();
+  //     console.log(data);
       
-      if (data.success) {
-        localStorage.setItem("userID", data.user._id);
-        toast.success("OTP verified successfully");
-        navigate("/home");
-      } else {
-        toast.error("Invalid OTP. Please try again.");
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error("Error during OTP verification:", error);
-      setLoading(false);
-      toast.error("Something went wrong. Please try again.");
-    }
-  };
+  //     if (data.success) {
+  //       localStorage.setItem("userID", data.user._id);
+  //       toast.success("OTP verified successfully");
+  //       navigate("/home");
+  //     } else {
+  //       toast.error("Invalid OTP. Please try again.");
+  //       setLoading(false);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during OTP verification:", error);
+  //     setLoading(false);
+  //     toast.error("Something went wrong. Please try again.");
+  //   }
+  // };
 
   const resendOtp = async () => {
     setCanResend(false);
@@ -214,7 +324,7 @@ const Otp = () => {
     try {
       const formattedPhone = "+" + phone;
       const response = await fetch(
-        "https://apnadarzi.onrender.com/api/send-otp",
+        "https://final-backend-cache-2.onrender.com/api/send-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -315,10 +425,7 @@ const Otp = () => {
                       onChange={(e) => setTermsChecked(e.target.checked)}
                       className="mr-2"
                     />
-                    <label
-                      htmlFor="terms"
-                      className="text-gray-300 text-xs"
-                    >
+                    <label htmlFor="terms" className="text-gray-300 text-xs">
                       I agree to the
                       <a
                         href="https://doc-hosting.flycricket.io/glam-threads-terms-of-use/1af08242-8409-44bc-87c4-57ad3e81768b/terms"

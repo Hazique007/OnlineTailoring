@@ -1,6 +1,5 @@
 import Trending from "../models/trendingSchema.js";
-
-// Add trending images with category and gender
+import { redis } from "../redis/redisConfig.js";
 export const addTrendingImages = async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
@@ -45,6 +44,9 @@ export const addTrendingImages = async (req, res) => {
 
     const savedTrending = await newTrending.save();
 
+    // Clear the Redis cache for trending page images after adding new data
+    await redis.del("trendingPageImages");
+
     res.status(201).json({
       status: "success",
       message: "Trending page images added successfully",
@@ -71,6 +73,19 @@ export const addTrendingImages = async (req, res) => {
 // Fetch all trending images with their categories and gender
 export const getTrendingPageImages = async (req, res) => {
   try {
+    // Check Redis cache first
+    const cachedData = await redis.get("trendingPageImages");
+    if (cachedData) {
+      console.log("Cache hit");
+      return res.status(200).json({
+        status: "success",
+        message: "Successfully fetched Trending page images (from cache)",
+        data: cachedData,
+      });
+    }
+
+    console.log("Cache miss");
+    // Fetch data from MongoDB
     const trendingData = await Trending.find({});
 
     if (!trendingData.length) {
@@ -87,6 +102,11 @@ export const getTrendingPageImages = async (req, res) => {
         gender: trendingItem.gender, // Include gender in the response
       }))
     );
+
+    // Store data in Redis with an expiration time of 1 hour (3600 seconds)
+    await redis.set("trendingPageImages", JSON.stringify(formattedData), {
+      ex: 3600,
+    });
 
     res.status(200).json({
       status: "success",

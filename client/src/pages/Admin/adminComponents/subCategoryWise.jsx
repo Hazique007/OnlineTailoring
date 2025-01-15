@@ -16,7 +16,7 @@ const SubCategoryWise = () => {
   const getDetails = async () => {
     try {
       const response = await axios.get(
-        "https://apnadarzi.onrender.com/api/v1/products/GenderCategorySubcategory",
+        "https://final-backend-cache-2.onrender.com/api/v1/products/GenderCategorySubcategory",
         {
           params: { gender, category, subCategory },
         }
@@ -65,7 +65,7 @@ const SubCategoryWise = () => {
 
     try {
       const response = await axios.put(
-        "https://apnadarzi.onrender.com/api/v1/products/UpdateGenderCategorySubcategory",
+        "https://final-backend-cache-2.onrender.com/api/v1/products/UpdateGenderCategorySubcategory",
         formData,
         {
           params: { gender, category, subCategory },
@@ -91,7 +91,7 @@ const SubCategoryWise = () => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        "https://apnadarzi.onrender.com/api/v1/products/CategorySubcategoryDelete",
+        "https://final-backend-cache-2.onrender.com/api/v1/products/CategorySubcategoryDelete",
         {
           params: { gender, category, subCategory },
         }
@@ -284,7 +284,7 @@ const SubCategoryWise = () => {
               <img
                 className="w-[70px] h-[70px] object-fit rounded-[10px]"
                 key={index}
-                src={`https://apnadarzi.onrender.com/uploads/${image}`.replace(
+                src={`https://final-backend-cache-2.onrender.com/uploads/${image}`.replace(
                   /\\/g,
                   "/"
                 )}
@@ -319,11 +319,25 @@ const SubCategoryWise = () => {
 
       {/* Modal Confirmation */}
       {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <p>Are you sure you want to delete this product?</p>
-            <button onClick={confirmDelete}>Yes</button>
-            <button onClick={closeModal}>No</button>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg shadow-lg w-[300px] p-6">
+            <p className="text-lg font-poppins mb-4 text-center">
+              Are you sure you want to delete this product?
+            </p>
+            <div className="flex justify-between">
+              <button
+                className="px-4 py-1 bg-red-500 text-white text-md rounded-sm hover:bg-red-600"
+                onClick={confirmDelete}
+              >
+                Yes
+              </button>
+              <button
+                className="px-4 py-1 bg-yellow-500 text-white text-md rounded-sm hover:bg-yellow-600"
+                onClick={closeModal}
+              >
+                No
+              </button>
+            </div>
           </div>
         </div>
       )}

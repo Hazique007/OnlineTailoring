@@ -65,7 +65,7 @@ const productSchema = new mongoose.Schema({
   },
   categoryDescription: {
     type: String,
-    // required: [true, "Category description is required"],
+    required: [true, "Category description is required"],
     // trim: true,
   },
   highlight: {
