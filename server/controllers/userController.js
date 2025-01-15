@@ -8,7 +8,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const TwilioClient = new twilio(accountSid, authToken);
 
 const HARDCODED_PHONE = "911223334444"; // Replace with your hardcoded number
-const HARDCODED_OTP = 123456; // Replace with your hardcoded OTP
+// const HARDCODED_OTP = 123456; // Replace with your hardcoded OTP
 
 export const sendOtp = async (req, res) => {
   try {
@@ -95,21 +95,12 @@ export const sendOtp = async (req, res) => {
 };
 
 export const verifyOtp = async (req, res) => {
-  
   try {
     const { phoneNumber, otp } = req.body;
-
-    // Handle hardcoded phone number and OTP
-    if (phoneNumber === HARDCODED_PHONE && otp === HARDCODED_OTP) {
-      return res.status(200).json({
-        success: true,
-        msg: "OTP verified successfully (Hardcoded)",
-        user: { phoneNumber, userId: "hardcodedUserId" }, // Mock user ID for testing
-      });
-    }
-
-    // Verify OTP for other numbers
-    const OtpData = await UserSchema.findOne({ phoneNumber, otp });
+    const OtpData = await UserSchema.findOne({
+      phoneNumber,
+      otp,
+    });
 
     if (!OtpData) {
       return res.status(500).json({
@@ -118,13 +109,13 @@ export const verifyOtp = async (req, res) => {
       });
     }
 
-    const isOtpExpired = await otpVerification(OtpData.otpExpiration);
-    if (isOtpExpired) {
-      return res.status(500).json({
-        success: false,
-        msg: "OTP has expired",
-      });
-    }
+    // const isotpExpired = await otpVerification(OtpData.otpExpiration);
+    // if (isotpExpired) {
+    //   return res.status(500).json({
+    //     success: false,
+    //     msg: "OTP has expired",
+    //   });
+    // }
 
     return res.status(200).json({
       success: true,

@@ -92,7 +92,7 @@ const Otp = () => {
       );
       const data = await response.json();
       console.log(data
-        
+
       );
       
       if (data.success) {
@@ -174,6 +174,8 @@ const Otp = () => {
     setLoading(true);
     try {
       const formattedPhone = "+" + phone;
+      console.log("api fetching");
+      
       const response = await fetch(
         "https://apnadarzi.onrender.com/api/verify-otp",
         {
@@ -183,6 +185,8 @@ const Otp = () => {
         }
       );
       const data = await response.json();
+      console.log(data);
+      
       if (data.success) {
         localStorage.setItem("userID", data.user._id);
         toast.success("OTP verified successfully");
@@ -202,10 +206,10 @@ const Otp = () => {
     setCanResend(false);
     setTimer(60);
 
-    if (phone === HARDCODED_PHONE) {
-      toast.success("OTP resent successfully");
-      return;
-    }
+    // if (phone === HARDCODED_PHONE) {
+    //   toast.success("OTP resent successfully");
+    //   return;
+    // }
 
     try {
       const formattedPhone = "+" + phone;
@@ -248,7 +252,7 @@ const Otp = () => {
               {showOtp ? (
                 <>
                   <p className="text-white text-center pt-10 text-[12px]">
-                    Verification OTP is sent to your mobile number
+                    Verification OTP is sent to your mobile number +{phone}
                   </p>
 
                   <div className="flex justify-center items-center pt-10">
@@ -267,14 +271,12 @@ const Otp = () => {
                     Didn’t receive the OTP?
                   </p>
                   <p
-                    className={`text-$
-                      {canResend ? "blue" : "gray"}-600 text-center pt-2 cursor-pointer`}
-                    onClick={canResend ? resendOtp : null}
-                    style={{ pointerEvents: canResend ? "auto" : "none" }}
-                  >
-                    Resend OTP
-                  </p>
-
+                  className={`text-${canResend ? 'blue' : 'gray'}-600 text-center pt-2 cursor-pointer`}
+                  onClick={canResend ? resendOtp : null}
+                  style={{ pointerEvents: canResend ? 'auto' : 'none' }}
+                >
+                  Resend OTP
+                </p>
                   <p className="text-white text-center pt-2">
                     {formatTime(timer)}
                   </p>
