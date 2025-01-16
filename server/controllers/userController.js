@@ -8,6 +8,56 @@ const accountSid = process.env.TWILIO_ACC_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const TwilioClient = new twilio(accountSid, authToken);
 
+
+
+export const verifyOtp = async (req, res) => {
+  try {
+    const { phoneNumber, otp } = req.body;
+console.log(req.body);
+
+    // Find OTP data for the given phone number and OTP
+    const OtpData = await Otp.findOne({
+      phoneNumber,
+      otp,
+    });
+console.log(OtpData);
+
+    // If no OTP data found, return error
+    if (!OtpData) {
+      return res.status(400).json({
+        success: false,
+        msg: "You entered the wrong OTP!",
+      });
+    }
+
+    // Check if OTP is expired
+    // const isOtpExpired = await otpVerification(OtpData.otpExpiration);
+    // console.log(isOtpExpired); // Log if needed for debugging
+
+    // // If OTP is expired, return error
+    // if (isOtpExpired) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     msg: "OTP has expired",
+    //   });
+    // }
+    
+    // If OTP is valid, return success response
+    return res.status(200).json({
+      success: true,
+      msg: "OTP verified successfully",
+      user: OtpData,
+    });
+  } catch (error) {
+    // Log error for debugging and return general error message
+    console.error("Error in verifyOtp function:", error);
+    return res.status(500).json({
+      success: false,
+      msg: "Error during OTP verification. Please try again.",
+});
+}
+};
+
 // export const sendOtp = async (req, res) => {
 //   try {
 //     const { phoneNumber } = req.body;
@@ -59,42 +109,43 @@ const TwilioClient = new twilio(accountSid, authToken);
 //   }
 // };
 
-export const verifyOtp = async (req, res) => {
-  try {
-    const { phoneNumber } = req.body;
-    const OtpData = await Otp.findOne({
-      phoneNumber,
+// export const verifyOtp = async (req, res) => {
+//   try {
+//     const { phoneNumber,otp } = req.body;
+//     const OtpData = await Otp.findOne({
+//       phoneNumber,
+//       otp
  
-    });
+//     });
 
-    if (!OtpData) {
-      return res.status(500).json({
-        success: false,
-        msg: "You entered the wrong OTP!",
-      });
-    }
+//     if (!OtpData) {
+//       return res.status(500).json({
+//         success: false,
+//         msg: "You entered the wrong OTP!",
+//       });
+//     }
 
-    const isotpExpired = await otpVerification(OtpData.otpExpiration);
-    if (isotpExpired) {
-      return res.status(500).json({
-        success: false,
-        msg: "OTP has expired",
-      });
-    }
+//     const isotpExpired = await otpVerification(OtpData.otpExpiration);
+//     if (isotpExpired) {
+//       return res.status(500).json({
+//         success: false,
+//         msg: "OTP has expired",
+//       });
+//     }
 
-    return res.status(200).json({
-      success: true,
-      msg: "OTP verified successfully",
-      user: OtpData,
-    });
-  } catch (error) {
-    console.error("Error in verifyOtp function:", error);
-    return res.status(500).json({
-      success: false,
-      msg: "Error during OTP verification. Please try again.",
-    });
-  }
-};
+//     return res.status(200).json({
+//       success: true,
+//       msg: "OTP verified successfully",
+//       user: OtpData,
+//     });
+//   } catch (error) {
+//     console.error("Error in verifyOtp function:", error);
+//     return res.status(500).json({
+//       success: false,
+//       msg: "Error during OTP verification. Please try again.",
+//     });
+//   }
+// };
 
 // export const sendOtp = async (req, res) => {
 //   try {
