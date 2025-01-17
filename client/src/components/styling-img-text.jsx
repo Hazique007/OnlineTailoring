@@ -10,7 +10,7 @@ const StylingImageText = ({ img, text, onClick, link }) => {
         <img
           onClick={onClick}
           className="w-[10vw] object-fit  h-[10vw] rounded-sm"
-          src={`http://localhost:3000/uploads/${img}`}
+          src={`https://final-backend-cache-2.onrender.com/uploads/${img}`}
           alt=""
         />
       </div>

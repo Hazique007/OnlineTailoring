@@ -14,7 +14,9 @@ const CustomProductPage = ({ gender }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/products/allProducts/${gender || ""}`
+          `https://final-backend-cache-2.onrender.com/api/v1/products/allProducts/${
+            gender || ""
+          }`
         );
         setData(response.data.products);
       } catch (error) {
