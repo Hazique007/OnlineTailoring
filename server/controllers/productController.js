@@ -2,7 +2,7 @@ import Product from "../models/productSchema.js";
 import Category from "../models/categorySchema.js";
 import { log } from "console";
 
-// import { redis } from "../redis/redisConfig.js";
+import { redis } from "../redis/redisConfig.js";
 
 export const getSpecificProducts = async (req, res) => {
   try {
@@ -431,14 +431,14 @@ export const UpdateGenderCategorySubcategory = async (req, res) => {
           "No product found with the given gender, category, and subCategory",
       });
     }
-        
+
     // Update product fields including images
     const updatedProduct = await Product.findOneAndUpdate(
       { gender, category, subCategory },
       {
         ...req.body, // Update other fields (e.g., description, price, stock, etc.)
         images: images.length > 0 ? images : product.images,
-         // Only replace images if new ones are uploaded
+        // Only replace images if new ones are uploaded
       },
       { new: true }
     );
