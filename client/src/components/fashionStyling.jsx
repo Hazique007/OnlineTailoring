@@ -9,7 +9,7 @@ const Fashion = () => {
   const fetchFashionImages = async () => {
     try {
       const { data } = await axios.get(
-        "https://final-backend-cache-2.onrender.com/api/v1/landing/getFashionPageImages"
+        "http://localhost:3000/api/v1/landing/getFashionPageImages"
       );
       if (data.status !== "success") {
         navigate("/error");
@@ -35,13 +35,10 @@ const Fashion = () => {
 
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post(
-        "https://final-backend-cache-2.onrender.com/api/v1/stats/trackClick",
-        {
-          gender,
-          category,
-        }
-      );
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
       navigate(`/FashionProduct/${gender}/${category}`);
     } catch (err) {
       console.error("Error tracking click:", err);
@@ -56,7 +53,7 @@ const Fashion = () => {
     image.fashionImage ? (
       <img
         className="h-[45vw] w-[45vw] object-cover rounded-[10px]"
-        src={`https://final-backend-cache-2.onrender.com/uploads/${image.fashionImage}`}
+        src={`http://localhost:3000/uploads/${image.fashionImage}`}
         alt={image.category || "Fashion Item"}
       />
     ) : (
@@ -83,7 +80,7 @@ const Fashion = () => {
                 <>
                   <img
                     className="h-[45vw] w-[45vw] object-cover rounded-[10px]"
-                    src={`https://final-backend-cache-2.onrender.com/uploads/${image.fashionImage}`}
+                    src={`http://localhost:3000/uploads/${image.fashionImage}`}
                     alt={image.category}
                   />
                 </>

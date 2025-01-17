@@ -10,8 +10,9 @@ const Trending = () => {
   const getTrendingImages = async () => {
     try {
       const { data } = await axios.get(
-        "https://final-backend-cache-2.onrender.com/api/v1/landing/getTrendingPageImages"
+        "http://localhost:3000/api/v1/landing/getTrendingPageImages"
       );
+      console.log(data);
 
       if (data?.status !== "success") {
         navigate("/error");
@@ -34,7 +35,7 @@ const Trending = () => {
   // const getTrendingImages = async () => {
   //   try {
   //     const { data } = await axios.get(
-  //       "https://final-backend-cache-2.onrender.com/api/v1/landing/getTrendingPageImages"
+  //       "http://localhost:3000/api/v1/landing/getTrendingPageImages"
   //     );
 
   //     if (data.status !== "success") {
@@ -58,7 +59,7 @@ const Trending = () => {
 
   // const getProductOnClickTrendingImages = async (gender, category) => {
   //   const response = await axios.get(
-  //     "https://final-backend-cache-2.onrender.com/api/v1/products/getGenderPlusCategory",
+  //     "http://localhost:3000/api/v1/products/getGenderPlusCategory",
   //     {
   //       params: { gender, category },
   //     }
@@ -73,13 +74,10 @@ const Trending = () => {
 
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post(
-        "https://final-backend-cache-2.onrender.com/api/v1/stats/trackClick",
-        {
-          gender,
-          category,
-        }
-      );
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
       navigate(`/TrendingProduct/${gender}/${category}`);
     } catch (error) {
       console.error("Error tracking click:", error);
@@ -107,7 +105,7 @@ const Trending = () => {
               {item.trendingImage ? (
                 <img
                   className="h-[45vw] w-[45vw]  object-cover rounded-lg"
-                  src={`https://final-backend-cache-2.onrender.com/uploads/${item.trendingImage}`}
+                  src={`http://localhost:3000/uploads/${item.trendingImage}`}
                   alt={`Trending Image ${index + 1} - ${item.category}`}
                 />
               ) : (
