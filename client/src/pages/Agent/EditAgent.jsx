@@ -20,7 +20,7 @@ const EditAgent = () => {
   useEffect(() => {
     const fetchOrderData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/orders/getOrderbyID', {
+        const response = await axios.get('https://final-backend-cache-2.onrender.com/orders/getOrderbyID', {
           params: { orderID },
         });
         const { fabricPickedUp, measurementDone, apparelDelivered, paymentReceived } = response.data.order;
@@ -44,7 +44,7 @@ const EditAgent = () => {
   useEffect(() => {
     const fetchAgentOrder = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/agent/agentorder', {
+        const response = await axios.get('https://final-backend-cache-2.onrender.com/agent/agentorder', {
           params: { orderID, userID },
         });
         const order = response.data.order[0]; // Assuming order is an array
@@ -72,7 +72,7 @@ const EditAgent = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/agent/updateagentorder',
+        'https://final-backend-cache-2.onrender.com/agent/updateagentorder',
         { updateData },
         {
           params: { userID, orderID },

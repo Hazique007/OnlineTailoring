@@ -20,7 +20,7 @@ const AllCategory = () => {
 
       const maleResponse = await axios.get(
 
-        "http://localhost:3000/api/v1/category/fetchcategories",
+        "https://final-backend-cache-2.onrender.com/api/v1/category/fetchcategories",
 
 
         { params: { gender: "Male" } }
@@ -28,7 +28,7 @@ const AllCategory = () => {
 
       const femaleResponse = await axios.get(
 
-        "http://localhost:3000/api/v1/category/fetchcategories",
+        "https://final-backend-cache-2.onrender.com/api/v1/category/fetchcategories",
 
         { params: { gender: "Female" } }
       );
@@ -59,7 +59,7 @@ const AllCategory = () => {
       await axios.post(
 
 
-        "http://localhost:3000/api/v1/stats/trackClick",
+        "https://final-backend-cache-2.onrender.com/api/v1/stats/trackClick",
 
         {
           gender,
@@ -109,7 +109,7 @@ const AllCategory = () => {
                     <img
 
 
-                      src={`http://localhost:3000/uploads/${category.categoryImages}`}
+                      src={`https://final-backend-cache-2.onrender.com/uploads/${category.categoryImages}`}
 
                       alt={`${category.category}`}
                       className="w-16 h-16 object-cover mx-auto rounded"
@@ -145,7 +145,7 @@ const AllCategory = () => {
                     <img
 
 
-                      src={`http://localhost:3000/uploads/${category.categoryImages}`}
+                      src={`https://final-backend-cache-2.onrender.com/uploads/${category.categoryImages}`}
 
                       alt={`${category.category}`}
                       className="w-16 h-16 object-contain mx-auto rounded"

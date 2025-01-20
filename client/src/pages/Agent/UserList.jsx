@@ -11,7 +11,7 @@ const UserList = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/orders/grouped");
+        const response = await axios.get("https://final-backend-cache-2.onrender.com/orders/grouped");
         setOrders(response.data);
         setIsLoading(false);
       } catch (error) {

@@ -22,7 +22,7 @@ const Styling = ({ heading, gender }) => {
   const getCategory = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/v1/category/fetchcategories",
+        "https://final-backend-cache-2.onrender.com/api/v1/category/fetchcategories",
         {
           params: { gender },
         }
@@ -43,7 +43,7 @@ const Styling = ({ heading, gender }) => {
   const handleImageClick = async (gender, category) => {
     try {
       await axios.post(
-        "http://localhost:3000/api/v1/stats/trackClick",
+        "https://final-backend-cache-2.onrender.com/api/v1/stats/trackClick",
         {
           gender,
           category,
