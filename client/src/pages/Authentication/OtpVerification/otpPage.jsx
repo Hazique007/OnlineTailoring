@@ -40,7 +40,7 @@ const Otp = () => {
       "0"
     )}`;
   };
-   const onOTPVerify = async () => {
+  const onOTPVerify = async () => {
     setLoading(true);
 
     // if (phone === HARDCODED_PHONE && otp === HARDCODED_OTP) {
@@ -52,22 +52,19 @@ const Otp = () => {
     // }
 
     try {
-     
-
-        const formattedPhone = "+" + phone;
+      const formattedPhone = "+" + phone;
       const response = await fetch(
-        "https://final-backend-cache-2.onrender.com/api/verify-otp",
+        "https://apna-darzi-samar.onrender.com/api/verify-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
         }
       );
-      
 
       const data = await response.json();
       console.log(data);
-      
+
       if (data.success) {
         localStorage.setItem("userID", data.user._id);
         toast.success("OTP verified successfully");
@@ -80,7 +77,7 @@ const Otp = () => {
       console.error("Error during OTP verification:", error);
       setLoading(false);
       toast.error("Something went wrong. Please try again.");
-  }
+    }
   };
 
   // const onSignup = async () => {
@@ -116,7 +113,7 @@ const Otp = () => {
 
   //     const formattedPhone = "+" + phone;
   //     const response = await fetch(
-  //       "https://final-backend-cache-2.onrender.com/api/send-otp",
+  //       "https://apna-darzi-samar.onrender.com/api/send-otp",
   //       {
   //         method: "POST",
   //         headers: { "Content-Type": "application/json" },
@@ -140,50 +137,40 @@ const Otp = () => {
   //   }
   // };
 
-
   const onSignup = async () => {
     console.log(phone);
 
     if (phone === HARDCODED_PHONE) {
       console.log("check");
-      
+
       toast.success("Welcome to our App");
-      navigate('/home')
-      
+      navigate("/home");
+
       return; // Exit the function completely
-    }else{
-
+    } else {
       // Validate the phone number length
-    if (phone.length !== 12) {
-      console.log("start2");
-      toast.error("Please enter a valid 10-digit mobile number.");
-      return;
-    }
-  
-    // Check terms agreement
-    if (!termsChecked) {
-      console.log("start3");
-      toast.error("You must agree to the Terms and Conditions to proceed.");
-      return;
+      if (phone.length !== 12) {
+        console.log("start2");
+        toast.error("Please enter a valid 10-digit mobile number.");
+        return;
+      }
+
+      // Check terms agreement
+      if (!termsChecked) {
+        console.log("start3");
+        toast.error("You must agree to the Terms and Conditions to proceed.");
+        return;
+      }
     }
 
-    
-    }
-    
-   
-  
-    
-    
-
-  
     // If all validations pass, proceed to send the OTP
     setLoading(true);
     try {
       console.log("entering");
-      
+
       const formattedPhone = "+" + phone;
       const response = await fetch(
-        "https://final-backend-cache-2.onrender.com/api/send-otp",
+        "https://apna-darzi-samar.onrender.com/api/send-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -191,10 +178,8 @@ const Otp = () => {
         }
       );
       const data = await response.json();
-      console.log(data
+      console.log(data);
 
-      );
-      
       if (data.success) {
         setLoading(false);
         setShowOtp(true);
@@ -215,7 +200,6 @@ const Otp = () => {
   //   navigate('/home')
 
   // }
-  
 
   // const onOTPVerify = async () => {
   //   setLoading(true);
@@ -232,7 +216,7 @@ const Otp = () => {
   //     if(phone===HARDCODED_PHONE){
   //       const formattedPhone = "+" + HARDCODED_PHONE;
   //     const response = await fetch(
-  //       "https://final-backend-cache-2.onrender.com/api/verify-otp",
+  //       "https://apna-darzi-samar.onrender.com/api/verify-otp",
   //       {
   //         method: "POST",
   //         headers: { "Content-Type": "application/json" },
@@ -244,7 +228,7 @@ const Otp = () => {
 
   //       const formattedPhone = "+" + phone;
   //     const response = await fetch(
-  //       "https://final-backend-cache-2.onrender.com/api/verify-otp",
+  //       "https://apna-darzi-samar.onrender.com/api/verify-otp",
   //       {
   //         method: "POST",
   //         headers: { "Content-Type": "application/json" },
@@ -276,9 +260,9 @@ const Otp = () => {
   //   try {
   //     const formattedPhone = "+" + phone;
   //     console.log("api fetching");
-      
+
   //     const response = await fetch(
-  //       "https://final-backend-cache-2.onrender.com/api/verify-otp",
+  //       "https://apna-darzi-samar.onrender.com/api/verify-otp",
   //       {
   //         method: "POST",
   //         headers: { "Content-Type": "application/json" },
@@ -287,7 +271,7 @@ const Otp = () => {
   //     );
   //     const data = await response.json();
   //     console.log(data);
-      
+
   //     if (data.success) {
   //       localStorage.setItem("userID", data.user._id);
   //       toast.success("OTP verified successfully");
@@ -315,7 +299,7 @@ const Otp = () => {
     try {
       const formattedPhone = "+" + phone;
       const response = await fetch(
-        "https://final-backend-cache-2.onrender.com/api/send-otp",
+        "https://apna-darzi-samar.onrender.com/api/send-otp",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -372,12 +356,14 @@ const Otp = () => {
                     Didn’t receive the OTP?
                   </p>
                   <p
-                  className={`text-${canResend ? 'blue' : 'gray'}-600 text-center pt-2 cursor-pointer`}
-                  onClick={canResend ? resendOtp : null}
-                  style={{ pointerEvents: canResend ? 'auto' : 'none' }}
-                >
-                  Resend OTP
-                </p>
+                    className={`text-${
+                      canResend ? "blue" : "gray"
+                    }-600 text-center pt-2 cursor-pointer`}
+                    onClick={canResend ? resendOtp : null}
+                    style={{ pointerEvents: canResend ? "auto" : "none" }}
+                  >
+                    Resend OTP
+                  </p>
                   <p className="text-white text-center pt-2">
                     {formatTime(timer)}
                   </p>
@@ -455,4 +441,4 @@ const Otp = () => {
   );
 };
 
-export default Otp;
+export default Otp;

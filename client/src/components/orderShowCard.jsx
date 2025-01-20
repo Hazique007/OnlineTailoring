@@ -17,7 +17,7 @@ const OrderShowCard = ({ order }) => {
     const fetchOrderData = async () => {
       try {
         const response = await axios.get(
-          "https://final-backend-cache-2.onrender.com/orders/getorder"
+          "https://apna-darzi-samar.onrender.com/orders/getorder"
         );
         console.log(response);
         setLoading(false);
@@ -43,7 +43,7 @@ const OrderShowCard = ({ order }) => {
   }
 
   const productImage = productData?.images?.[0]
-    ? `https://final-backend-cache-2.onrender.com/uploads/${productData.images[0]}`
+    ? `https://apna-darzi-samar.onrender.com/uploads/${productData.images[0]}`
     : "placeholder-image.png";
 
   return (

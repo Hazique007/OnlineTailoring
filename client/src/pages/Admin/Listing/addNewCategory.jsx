@@ -42,7 +42,7 @@ const AddCategory = () => {
 
     try {
       const response = await axios.post(
-        "https://final-backend-cache-2.onrender.com/api/v1/category/addCategoryData",
+        "https://apna-darzi-samar.onrender.com/api/v1/category/addCategoryData",
         formData,
         {
           headers: {

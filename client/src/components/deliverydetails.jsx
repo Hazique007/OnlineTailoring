@@ -18,7 +18,7 @@ const Delivery = ({ onProceed }) => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "https://final-backend-cache-2.onrender.com/getAddressByUser",
+          "https://apna-darzi-samar.onrender.com/getAddressByUser",
           {
             params: { userID },
           }
@@ -49,7 +49,7 @@ const Delivery = ({ onProceed }) => {
   const handleAddAddress = async () => {
     try {
       const response = await fetch(
-        "https://final-backend-cache-2.onrender.com/add",
+        "https://apna-darzi-samar.onrender.com/add",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

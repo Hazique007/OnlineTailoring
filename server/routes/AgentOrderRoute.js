@@ -1,0 +1,24 @@
+import express from 'express';
+import { 
+  createAgentOrder, 
+  getAndUpdateAgentOrder, 
+  getAgentOrder, 
+  updateAgentOrder 
+} from '../controllers/agentController.js';
+
+const router = express.Router();
+
+// Route to create a new agent order
+router.post('/createagentorder', createAgentOrder);
+
+// Route to fetch and update an agent order (combined logic)
+router.get('/getandupdate', getAndUpdateAgentOrder);
+
+// Route to fetch a specific agent order by ID
+router.get('/agentorder', getAgentOrder);
+
+// Route to update a specific agent order by ID
+router.post('/updateagentorder', updateAgentOrder);
+
+export default router;
+

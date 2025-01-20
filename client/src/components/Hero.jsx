@@ -17,7 +17,7 @@ const Hero = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        "https://final-backend-cache-2.onrender.com/api/v1/landing/getLandingPageImages"
+        "https://apna-darzi-samar.onrender.com/api/v1/landing/getLandingPageImages"
       );
       if (data.status !== "success") {
         navigate("/error");
@@ -86,7 +86,7 @@ const Hero = () => {
   const handleImageClick = async (gender, category) => {
     try {
       await axios.post(
-        "https://final-backend-cache-2.onrender.com/api/v1/stats/trackClick",
+        "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
         {
           gender,
           category,
@@ -125,7 +125,7 @@ const Hero = () => {
               className="w-full h-[182px] flex-shrink-0 snap-center"
             >
               <img
-                src={`https://final-backend-cache-2.onrender.com/uploads/${image.image}`}
+                src={`https://apna-darzi-samar.onrender.com/uploads/${image.image}`}
                 onClick={() => handleImageClick(image.gender, image.category)}
                 className="h-[182px] w-full rounded-[5px] cursor-pointer"
                 alt={`Hero Image ${index + 1}`}

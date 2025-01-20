@@ -10,7 +10,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
     try {
       setLoading(true);
       await axios.delete(
-        `https://final-backend-cache-2.onrender.com/orders/${order._id}`
+        `https://apna-darzi-samar.onrender.com/orders/${order._id}`
       );
       removeOrder(order._id);
       setLoading(false);
@@ -60,7 +60,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
         }}
       >
         <img
-          src={`https://final-backend-cache-2.onrender.com/uploads/${images?.[0]}`}
+          src={`https://apna-darzi-samar.onrender.com/uploads/${images?.[0]}`}
           alt="Product"
           style={{
             width: "100%",

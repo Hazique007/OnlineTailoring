@@ -12,7 +12,7 @@ const CategoryPage = () => {
   const getCategory = async () => {
     try {
       const response = await axios.get(
-        "https://final-backend-cache-2.onrender.com/api/v1/category/fetchcategories",
+        "https://apna-darzi-samar.onrender.com/api/v1/category/fetchcategories",
         {
           params: { gender },
         }
@@ -55,7 +55,7 @@ const CategoryPage = () => {
               >
                 <div className="relative w-[100px] h-[100px]">
                   <img
-                    src={`https://final-backend-cache-2.onrender.com/uploads/${element.categoryImages}`}
+                    src={`https://apna-darzi-samar.onrender.com/uploads/${element.categoryImages}`}
                     alt={`${element.category} image`}
                     className="w-full h-full object-fit rounded-md border-2 border-gray-200"
                   />

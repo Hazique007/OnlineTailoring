@@ -13,7 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
-  const API_BASE_URL = "https://final-backend-cache-2.onrender.com";
+  const API_BASE_URL = "https://apna-darzi-samar.onrender.com";
   const userID = localStorage.getItem("userID");
   const [loading, setLoading] = useState(true); // Set loading to true initially
   const [profile, setProfile] = useState(null); // Set initial profile to null

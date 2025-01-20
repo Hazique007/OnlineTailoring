@@ -1,19 +1,27 @@
-import React, { useState } from 'react';
-import TopNav from '../../components/TopNav';
-import AgentTopNav from '../../components/AgentTopNav';
-import Search from '../../components/Search';
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import AgentTopNav from "../../components/AgentTopNav";
+import Search from "../../components/Search";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const UserList = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [orders, setOrders] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleEditClick = () => {
-    setIsDialogOpen(true);
-  };
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get("https://apna-darzi-samar.onrender.com/orders/grouped");
+        setOrders(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        setIsLoading(false);
+      }
+    };
 
-  const handleDialogClose = () => {
-    setIsDialogOpen(false);
-  };
+    fetchOrders();
+  }, []); // Run only once on component mount
 
   return (
     <div>
@@ -22,104 +30,37 @@ const UserList = () => {
         <Search />
       </div>
 
-      <div className="p-4">
-        <div className="w-full bg-white border-black border-2 p-2 px-3 rounded-xl">
-          12th October
-        </div>
+      {isLoading ? (
+        <div className="text-center mt-10">Loading...</div>
+      ) : (
+        Object.keys(orders).map((date) => (
+          <div key={date} className="p-4">
+            <div className="w-full bg-white border-black border-2 p-2 px-3 rounded-xl mb-4">{date}</div>
 
-        <div className="justify-between p-2 flex mt-2">
-          <div>Farhan Jafri - Tuxedo</div>
-          <div className="text-green-500">Done</div>
-          <div className="cursor-pointer text-blue-500" >
-           <Link to='/edit-agent'>
-           Edit
-           
-           </Link>
-          </div>
-        </div>
-      </div>  
+            {orders[date].map((order) => (
+              <div key={order._id} className="flex justify-between items-center p-3 rounded-xl mb-2">
+                <div className="w-[40vw] overflow-hidden text-ellipsis whitespace-nowrap">
+                  {order.userName} - {order.category}
+                </div>
 
-      <div className="p-4">
-        <div className="w-full bg-white border-black border-2 p-2 px-3 rounded-xl">
-          12th October
-        </div>
-
-        <div className="justify-between p-2 flex mt-2">
-          <div>Farhan Jafri - Tuxedo</div>
-          <div className="text-green-500">Done</div>
-          <div className="cursor-pointer text-blue-500" >
-           <Link to='/edit-agent'>
-           Edit
-           
-           </Link>
-          </div>
-        </div>
-      </div>
-
-
-       <div className="p-4">
-        <div className="w-full bg-white border-black border-2 p-2 px-3 rounded-xl">
-          12th October
-        </div>
-
-        <div className="justify-between p-2 flex mt-2">
-          <div>Farhan Jafri - Tuxedo</div>
-          <div className="text-green-500">Done</div>
-          <div className="cursor-pointer text-blue-500" >
-           <Link to='/edit-agent'>
-           Edit
-           
-           </Link>
-          </div>
-        </div>
-      </div>      
-
-      {/* Dialog Box */}
-      {/* {isDialogOpen && (
-
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white w-[90%] max-w-md p-6 rounded-xl shadow-lg">
-            <h2 className="text-xl font-bold mb-4">Edit Details</h2>
-            <form>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Customer Name
-                </label>
-                <input
-                  type="text"
-                  className="w-full border-2 border-gray-300 rounded-lg p-2"
-                  defaultValue="Farhan Jafri"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Product
-                </label>
-                <input
-                  type="text"
-                  className="w-full border-2 border-gray-300 rounded-lg p-2"
-                  defaultValue="Tuxedo"
-                />
-              </div>
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  className="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2"
-                  onClick={handleDialogClose}
+                <div
+                  className={`w-[20vw] text-center py-2 ${
+                    order.status === "done" ? "text-green-700" : "text-orange-700"
+                  } rounded-xl`}
                 >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-                >
-                  Save
-                </button>
+                  {order.status || "pending"}
+                </div>
+
+                <div className="w-[20vw] text-center cursor-pointer">
+                  <Link to={`/edit-agent/${order._id}`} className="text-blue-500 hover:text-blue-700">
+                    Edit
+                  </Link>
+                </div>
               </div>
-            </form>
+            ))}
           </div>
-        </div>
-      )} */}
+        ))
+      )}
     </div>
   );
 };

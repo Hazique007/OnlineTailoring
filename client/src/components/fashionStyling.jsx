@@ -10,7 +10,7 @@ const Fashion = () => {
   const fetchFashionImages = async () => {
     try {
       const { data } = await axios.get(
-        "https://final-backend-cache-2.onrender.com/api/v1/landing/getFashionPageImages"
+        "https://apna-darzi-samar.onrender.com/api/v1/landing/getFashionPageImages"
       );
       if (data.status !== "success") {
         navigate("/error");
@@ -37,7 +37,7 @@ const Fashion = () => {
   const handleImageClick = async (gender, category) => {
     try {
       await axios.post(
-        "https://final-backend-cache-2.onrender.com/api/v1/stats/trackClick",
+        "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
         {
           gender,
           category,
@@ -81,7 +81,7 @@ const Fashion = () => {
                 <>
                   <img
                     className="h-[171px] w-[164px] object-cover rounded-[10px]"
-                    src={`https://final-backend-cache-2.onrender.com/uploads/${image.fashionImage}`}
+                    src={`https://apna-darzi-samar.onrender.com/uploads/${image.fashionImage}`}
                     alt={image.category}
                   />
                 </>
