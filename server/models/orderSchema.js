@@ -16,6 +16,12 @@ const OrderSchema = new mongoose.Schema(
       ref: 'Otp',
       required: true,
     },
+    status:{
+      type:String,
+      enum:['pending', 'done'],
+      default:'pending'
+
+    },
     category: {
       type: String,
       required: true,
@@ -76,6 +82,7 @@ const OrderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
     deliveryDate: {
       type: String, // Stored as a string in dd/mm/yyyy format
       default: () => formatDate(new Date()), // Automatically format the date

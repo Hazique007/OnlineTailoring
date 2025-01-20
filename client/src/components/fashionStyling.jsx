@@ -4,17 +4,19 @@ import axios from "axios";
 
 const Fashion = () => {
   const [fashionImages, setFashionImages] = useState([]);
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
 
   const fetchFashionImages = async () => {
     try {
       const { data } = await axios.get(
-        "https://final-backend-cache-2.onrender.com/api/v1/landing/getFashionPageImages"
+        "http://localhost:3000/api/v1/landing/getFashionPageImages"
       );
       if (data.status !== "success") {
         navigate("/error");
         return;
       }
+
       const images = data.data;
       const placeholders = Array.from(
         { length: 8 - images.length },
@@ -29,19 +31,16 @@ const Fashion = () => {
       setFashionImages([...images, ...placeholders]);
     } catch (err) {
       console.error("Error fetching fashion images:", err);
-      navigate("/error");
+      setError(true);
     }
   };
 
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post(
-        "https://final-backend-cache-2.onrender.com/api/v1/stats/trackClick",
-        {
-          gender,
-          category,
-        }
-      );
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
       navigate(`/FashionProduct/${gender}/${category}`);
     } catch (err) {
       console.error("Error tracking click:", err);
@@ -52,16 +51,13 @@ const Fashion = () => {
     fetchFashionImages();
   }, []);
 
-  const renderImage = (image) =>
-    image.fashionImage ? (
-      <img
-        className="h-[45vw] w-[45vw] object-cover rounded-[10px]"
-        src={`https://final-backend-cache-2.onrender.com/uploads/${image.fashionImage}`}
-        alt={image.category || "Fashion Item"}
-      />
-    ) : (
-      <div className="h-[30vh] w-full bg-gray-300 rounded-[10px] animate-pulse"></div>
+  if (error) {
+    return (
+      <div className="text-center text-red-500 mt-10">
+        <p>Error loading fashion images. Please try again later.</p>
+      </div>
     );
+  }
 
   return (
     <div className="px-[15px] mt-10 rounded-[10px]">
@@ -80,13 +76,11 @@ const Fashion = () => {
               }
             >
               {image.fashionImage ? (
-                <>
-                  <img
-                    className="h-[45vw] w-[45vw] object-cover rounded-[10px]"
-                    src={`https://final-backend-cache-2.onrender.com/uploads/${image.fashionImage}`}
-                    alt={image.category}
-                  />
-                </>
+                <img
+                  className="h-[45vw] w-[45vw] object-cover rounded-[10px]"
+                  src={`http://localhost:3000/uploads/${image.fashionImage}`}
+                  alt={image.category || "Fashion Item"}
+                />
               ) : (
                 <div className="h-[30vh] w-full bg-gray-300 rounded-[10px] animate-pulse"></div>
               )}

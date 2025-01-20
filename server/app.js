@@ -14,6 +14,7 @@ import personalDetailsRoute from "./routes/PersonalDetailsRoutes.js";
 import UserRoute from "./routes/UserRoute.js";
 import ClickRouter from "./routes/clickRoutes.js";
 import cartRouter from "./routes/cartRoutes.js";
+import AgentOrderRoute from "./routes/AgentOrderRoute.js"
 import bodyParser from "body-parser";
 dotenv.config();
 
@@ -56,6 +57,7 @@ app.use(addressRoute);
 app.use(personalDetailsRoute);
 app.use("/orders", OrderRoute);
 app.use("/api", UserRoute);
+app.use("/agent",AgentOrderRoute)
 
 // Start the server
 app.listen(PORT, () => {

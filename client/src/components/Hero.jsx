@@ -17,47 +17,22 @@ const Hero = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        "https://final-backend-cache-2.onrender.com/api/v1/landing/getLandingPageImages"
+        "http://localhost:3000/api/v1/landing/getLandingPageImages"
       );
       if (data.status !== "success") {
         navigate("/error");
+        return;
       }
 
-      if (data) {
-        const images = await data.data?.flatMap((item) => item.bannerImages);
-        setLandingArray(images);
-        // console.log(images);
-      } else {
-        setLandingArray([]); // Ensure fallback to an empty array
-      }
+      const images = data.data?.flatMap((item) => item.bannerImages) || [];
+      setLandingArray(images);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching landing images:", error);
-      setLandingArray([]); // Handle API failure gracefully
+      setLandingArray([]);
       setLoading(false);
     }
   };
-
-  // const getLandingImages = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const { data } = await axios.get(
-  //       "https://final-backend-cache-2.onrender.com/api/v1/landing/getLandingPageImages"
-  //     );
-  //     if (data.status !== "success") {
-  //       navigate("/error");
-  //     }
-
-  //     if (data) {
-  //       const images = data.data.flatMap((item) => item.bannerImages);
-  //       setLandingArray(images);
-  //     }
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.error("Error fetching landing images:", error);
-  //     navigate("/error");
-  //   }
-  // };
 
   useEffect(() => {
     getLandingImages();
@@ -70,7 +45,7 @@ const Hero = () => {
         setCurrentIndex((prevIndex) => {
           const nextIndex =
             prevIndex === landingArray.length - 1 ? 0 : prevIndex + 1;
-          scrollToIndex(nextIndex); // Scroll immediately after updating the index
+          scrollToIndex(nextIndex);
           return nextIndex;
         });
       }, 3500); // Scroll every 3.5 seconds
@@ -110,13 +85,10 @@ const Hero = () => {
   // Navigate to product page
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post(
-        "https://final-backend-cache-2.onrender.com/api/v1/stats/trackClick",
-        {
-          gender,
-          category,
-        }
-      );
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
       navigate(`/product/${gender}/${category}`);
     } catch (error) {
       console.error("Error tracking click:", error);
@@ -150,7 +122,7 @@ const Hero = () => {
               className="w-full h-[182px] flex-shrink-0 snap-center"
             >
               <img
-                src={`https://final-backend-cache-2.onrender.com/uploads/${image.image}`}
+                src={`http://localhost:3000/uploads/${image.image}`}
                 onClick={() => handleImageClick(image.gender, image.category)}
                 className="h-[182px] w-full rounded-[5px] cursor-pointer"
                 alt={`Hero Image ${index + 1}`}
