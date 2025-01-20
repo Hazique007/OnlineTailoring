@@ -17,7 +17,7 @@ const Hero = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        "http://localhost:3000/api/v1/landing/getLandingPageImages"
+        "https://apna-darzi-samar.onrender.com/api/v1/landing/getLandingPageImages"
       );
       if (data.status !== "success") {
         navigate("/error");
@@ -85,10 +85,13 @@ const Hero = () => {
   // Navigate to product page
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
-        gender,
-        category,
-      });
+      await axios.post(
+        "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
+        {
+          gender,
+          category,
+        }
+      );
       navigate(`/product/${gender}/${category}`);
     } catch (error) {
       console.error("Error tracking click:", error);
@@ -122,7 +125,7 @@ const Hero = () => {
               className="w-full h-[182px] flex-shrink-0 snap-center"
             >
               <img
-                src={`http://localhost:3000/uploads/${image.image}`}
+                src={`https://apna-darzi-samar.onrender.com/uploads/${image.image}`}
                 onClick={() => handleImageClick(image.gender, image.category)}
                 className="h-[182px] w-full rounded-[5px] cursor-pointer"
                 alt={`Hero Image ${index + 1}`}

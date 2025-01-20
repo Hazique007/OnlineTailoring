@@ -18,7 +18,7 @@ const EditCategory = () => {
   const getDetails = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/v1/products/GenderCategory",
+        "https://apna-darzi-samar.onrender.com/api/v1/products/GenderCategory",
         {
           params: { gender, category },
         }
@@ -66,7 +66,7 @@ const EditCategory = () => {
       }
 
       const response = await axios.put(
-        "http://localhost:3000/api/v1/products/UpdateGenderCategory",
+        "https://apna-darzi-samar.onrender.com/api/v1/products/UpdateGenderCategory",
         formData,
         {
           params: { gender, category, subCategory },
@@ -93,7 +93,7 @@ const EditCategory = () => {
       // console.log("dataaa", gender, category); my name is smar
 
       const response = await axios.get(
-        "http://localhost:3000/api/v1/category/deleteCategory",
+        "https://apna-darzi-samar.onrender.com/api/v1/category/deleteCategory",
         {
           params: { gender, category },
         }
@@ -224,7 +224,7 @@ const EditCategory = () => {
             />
           ) : (
             <img
-              src={` http://localhost:3000/uploads/${details.categoryImages}`}
+              src={` https://apna-darzi-samar.onrender.com/uploads/${details.categoryImages}`}
               alt="Preview"
               className="w-[70px] h-[70px] object-cover rounded-md"
             />

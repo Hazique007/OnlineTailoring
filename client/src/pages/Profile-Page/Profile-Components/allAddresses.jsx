@@ -51,7 +51,7 @@ const AllAddresses = () => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/getAddressByUser",
+          "https://apna-darzi-samar.onrender.com/getAddressByUser",
           {
             params: { userID: userID },
           }
@@ -112,11 +112,14 @@ const AllAddresses = () => {
       // Assuming userID is available, you can either pass it from state or props
       const updatedAddress = { ...newAddress, userID: currentUserID }; // Add userID to the address object
 
-      const response = await fetch("http://localhost:3000/addAddressbyuserID", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedAddress),
-      });
+      const response = await fetch(
+        "https://apna-darzi-samar.onrender.com/addAddressbyuserID",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedAddress),
+        }
+      );
       console.log(updatedAddress);
 
       console.log(response);
@@ -143,7 +146,7 @@ const AllAddresses = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:3000/update/${editingAddress._id}`,
+        `https://apna-darzi-samar.onrender.com/update/${editingAddress._id}`,
         editingAddress
       );
       if (response.data) {
@@ -161,10 +164,13 @@ const AllAddresses = () => {
 
   const handleDeleteAddress = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/delete/${id}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await fetch(
+        `https://apna-darzi-samar.onrender.com/delete/${id}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       if (response.ok) {
         setAddresses(addresses.filter((addr) => addr._id !== id));
       } else {

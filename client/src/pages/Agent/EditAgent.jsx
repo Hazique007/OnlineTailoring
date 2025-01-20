@@ -29,7 +29,7 @@ const EditAgent = () => {
 
       // Fetch order details
       const orderResponse = await axios.get(
-        "http://localhost:3000/orders/getOrderbyID",
+        "https://apna-darzi-samar.onrender.com/orders/getOrderbyID",
         {
           params: { orderID },
         }
@@ -37,7 +37,7 @@ const EditAgent = () => {
 
       // Fetch agent-specific order status
       const agentResponse = await axios.get(
-        "http://localhost:3000/agent/agentorder",
+        "https://apna-darzi-samar.onrender.com/agent/agentorder",
         {
           params: { orderID, userID },
         }
@@ -83,7 +83,7 @@ const EditAgent = () => {
   const handleSubmit = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/agent/updateagentorder",
+        "https://apna-darzi-samar.onrender.com/agent/updateagentorder",
         {
           updateData: orderData.status,
         },

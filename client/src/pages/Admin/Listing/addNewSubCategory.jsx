@@ -68,7 +68,7 @@ const AddSubCategory = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/products/add-subcategory",
+        "https://apna-darzi-samar.onrender.com/api/v1/products/add-subcategory",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
