@@ -98,6 +98,7 @@ const EditAgent = () => {
         const allCompleted = Object.values(orderData.status).every(
           (status) => status
         );
+
         toast.success(allCompleted ? "Order Completed" : "Order Updated");
 
         // Refetch data after successful update
