@@ -1,26 +1,24 @@
-import Otp from '../models/UserSchema.js';
-import otpVerification from '../helpers/otpValidate.js';
-import otpGenerator from 'otp-generator';
-import twilio from 'twilio';
-import mongoose from 'mongoose';
+import Otp from "../models/UserSchema.js";
+import otpVerification from "../helpers/otpValidate.js";
+import otpGenerator from "otp-generator";
+import twilio from "twilio";
+import mongoose from "mongoose";
 
 const accountSid = process.env.TWILIO_ACC_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const TwilioClient = new twilio(accountSid, authToken);
 
-
-
 export const verifyOtp = async (req, res) => {
   try {
     const { phoneNumber, otp } = req.body;
-console.log(req.body);
+    console.log(req.body);
 
     // Find OTP data for the given phone number and OTP
     const OtpData = await Otp.findOne({
       phoneNumber,
       otp,
     });
-console.log(OtpData);
+    console.log(OtpData);
 
     // If no OTP data found, return error
     if (!OtpData) {
@@ -41,7 +39,7 @@ console.log(OtpData);
     //     msg: "OTP has expired",
     //   });
     // }
-    
+
     // If OTP is valid, return success response
     return res.status(200).json({
       success: true,
@@ -54,8 +52,8 @@ console.log(OtpData);
     return res.status(500).json({
       success: false,
       msg: "Error during OTP verification. Please try again.",
-});
-}
+    });
+  }
 };
 
 // export const sendOtp = async (req, res) => {
@@ -115,7 +113,7 @@ console.log(OtpData);
 //     const OtpData = await Otp.findOne({
 //       phoneNumber,
 //       otp
- 
+
 //     });
 
 //     if (!OtpData) {
@@ -154,7 +152,7 @@ console.log(OtpData);
 
 //     if (phoneNumber === HARDCODED_PHONE) {
 //       try {
-      
+
 //       } catch (dbError) {
 //         console.error("Error updating user OTP for hardcoded phone:", dbError);
 //         return res.status(500).json({
@@ -221,7 +219,6 @@ export const sendOtp = async (req, res) => {
   try {
     const { phoneNumber } = req.body;
     console.log(phoneNumber);
-    
 
     // if (!phoneNumber || typeof phoneNumber !== "string") {
     //   return res.status(400).json({
@@ -236,7 +233,6 @@ export const sendOtp = async (req, res) => {
       lowerCaseAlphabets: false,
     });
     console.log(otp);
-    
 
     const cDate = new Date();
 
@@ -295,16 +291,15 @@ export const sendOtp = async (req, res) => {
   }
 };
 
-export const getUserdetials =async(req,res)=>{
+export const getUserdetials = async (req, res) => {
   const { userID } = req.query;
+
   try {
-    const user = await UserSchema.findOne({ userID });
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    const user = await Otp.findById(userID);
+
+    if (!user) return res.status(404).json({ message: "User not found" });
     res.json(user);
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching user details' });
+    res.status(500).json({ error: "Error fetching user details" });
   }
-
-
-
-}
+};

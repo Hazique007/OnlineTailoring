@@ -22,6 +22,7 @@ const EditAgent = () => {
   });
 
   const [isLoading, setIsLoading] = useState(true);
+  const [done, setDone] = useState(false);
 
   const fetchAllOrderData = async () => {
     try {
@@ -29,7 +30,7 @@ const EditAgent = () => {
 
       // Fetch order details
       const orderResponse = await axios.get(
-        "https://apna-darzi-samar.onrender.com/orders/getOrderbyID",
+        "http://localhost:3000/orders/getOrderbyID",
         {
           params: { orderID },
         }
@@ -37,11 +38,12 @@ const EditAgent = () => {
 
       // Fetch agent-specific order status
       const agentResponse = await axios.get(
-        "https://apna-darzi-samar.onrender.com/agent/agentorder",
+        "http://localhost:3000/agent/agentorder",
         {
           params: { orderID, userID },
         }
       );
+      console.log(agentResponse);
 
       // Safely access the agent order data
       const agentOrder = agentResponse.data?.order?.[0] || {};
@@ -58,6 +60,7 @@ const EditAgent = () => {
           paymentReceived: Boolean(agentOrder.paymentReceived),
         },
       });
+      // console.log("orderData", orderData);
     } catch (error) {
       console.error("Error fetching data:", error);
       toast.error("Failed to fetch order details");
@@ -83,7 +86,7 @@ const EditAgent = () => {
   const handleSubmit = async () => {
     try {
       const response = await axios.post(
-        "https://apna-darzi-samar.onrender.com/agent/updateagentorder",
+        "http://localhost:3000/agent/updateagentorder",
         {
           updateData: orderData.status,
         },

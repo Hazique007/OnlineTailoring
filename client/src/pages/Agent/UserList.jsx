@@ -12,7 +12,7 @@ const UserList = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          "https://apna-darzi-samar.onrender.com/orders/grouped"
+          "http://localhost:3000/orders/grouped"
         );
         setOrders(response.data);
         setIsLoading(false);

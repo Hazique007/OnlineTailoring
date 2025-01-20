@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import TopNav from "../../components/TopNav";
 import Navbar from "../../components/Navbar";
 import axios from "axios";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import { MdDeliveryDining } from "react-icons/md";
+
 import { BeatLoader } from "react-spinners";
 import {
   FiHome,
@@ -13,13 +16,23 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
-  const API_BASE_URL = "https://apna-darzi-samar.onrender.com";
+  const API_BASE_URL = "http://localhost:3000";
   const userID = localStorage.getItem("userID");
   const [loading, setLoading] = useState(true); // Set loading to true initially
   const [profile, setProfile] = useState(null); // Set initial profile to null
+  const [role, setRole] = useState("user");
 
   const navigate = useNavigate();
-
+  const getRole = async () => {
+    const response = await axios.get(
+      "http://localhost:3000/api/getUserDetails",
+      {
+        params: { userID: userID },
+      }
+    );
+    console.log("response", response);
+    setRole(response.data.role);
+  };
   // Use effect to fetch the profile only if the userID exists
   useEffect(() => {
     if (!userID) {
@@ -49,7 +62,7 @@ const ProfilePage = () => {
         setLoading(false); // Set loading to false after fetching is complete
       }
     };
-
+    getRole();
     fetchProfile();
   }, [userID]); // Re-run this effect when userID changes
 
@@ -68,7 +81,36 @@ const ProfilePage = () => {
     navigate("/otp");
   };
 
+  // {role === "admin"
+  //   ? {
+  //       label: "Admin",
+  //       icon: <MdOutlineAdminPanelSettings className="text-black text-lg" />,
+  //       onClick: () => navigate("/listing"),
+  //     }
+  //   : ""},
+
   const options = [
+    ...(role === "admin"
+      ? [
+          {
+            label: "Admin",
+            icon: (
+              <MdOutlineAdminPanelSettings className="text-black text-lg" />
+            ),
+            onClick: () => navigate("/listing"),
+          },
+        ]
+      : []),
+    ...(role === "agent"
+      ? [
+          {
+            label: "Agent",
+            icon: <MdDeliveryDining className="text-black text-lg" />,
+            onClick: () => navigate("/userlist"),
+          },
+        ]
+      : []),
+
     {
       label: "My Addresses",
       icon: <FiHome className="text-black text-lg" />,

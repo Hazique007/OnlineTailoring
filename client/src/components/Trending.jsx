@@ -9,7 +9,7 @@ const Trending = () => {
   const getTrendingImages = async () => {
     try {
       const { data } = await axios.get(
-        "https://apna-darzi-samar.onrender.com/api/v1/landing/getTrendingPageImages"
+        "http://localhost:3000/api/v1/landing/getTrendingPageImages"
       );
 
       if (data?.status !== "success") {
@@ -32,13 +32,10 @@ const Trending = () => {
 
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post(
-        "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
-        {
-          gender,
-          category,
-        }
-      );
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
       navigate(`/TrendingProduct/${gender}/${category}`);
     } catch (error) {
       console.error("Error tracking click:", error);
@@ -65,7 +62,7 @@ const Trending = () => {
               {item.trendingImage ? (
                 <img
                   className="h-[45vw] w-[45vw] object-cover rounded-lg"
-                  src={`https://apna-darzi-samar.onrender.com/uploads/${item.trendingImage}`}
+                  src={`http://localhost:3000/uploads/${item.trendingImage}`}
                   alt={`Trending Image ${index + 1} - ${item.category}`}
                 />
               ) : (
