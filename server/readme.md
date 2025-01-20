@@ -145,13 +145,13 @@ NODE_ENV: The environment in which the server is running (development or product
 PUBLIC_URL: The public URL of the client application.
 
 ### Dependencies:-
-Express
-Mongoose
-Multer
-Twilio
-Redis
-Body-parser
-Cors
-Dotenv
-Path
+Express,
+Mongoose,
+Multer,
+Twilio,
+Redis,
+Body-parser,
+Cors,
+Dotenv,
+Path,
 URL
