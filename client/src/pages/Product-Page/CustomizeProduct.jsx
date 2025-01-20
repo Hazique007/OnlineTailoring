@@ -14,7 +14,7 @@ const CustomProductPage = ({ gender }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://apna-darzi-samar.onrender.com/api/v1/products/allProducts/${
+          `http://localhost:3000/api/v1/products/allProducts/${
             gender || ""
           }`
         );

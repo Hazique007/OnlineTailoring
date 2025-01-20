@@ -18,11 +18,7 @@ const Delivery = ({ onProceed }) => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-<<<<<<< HEAD
-          "https://apna-darzi-samar.onrender.com/getAddressByUser",
-=======
-          "https://apna-darzi-samar.onrender.com/getAddressByUser",
->>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
+          "http://localhost:3000/getAddressByUser",
           {
             params: { userID },
           }
@@ -53,11 +49,7 @@ const Delivery = ({ onProceed }) => {
   const handleAddAddress = async () => {
     try {
       const response = await fetch(
-<<<<<<< HEAD
-        "https://apna-darzi-samar.onrender.com/add",
-=======
-        "https://apna-darzi-samar.onrender.com/add",
->>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
+        "http://localhost:3000/add",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

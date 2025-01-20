@@ -15,19 +15,11 @@ const SearchStyle = ({ gender }) => {
 
       const [maleResponse, femaleResponse] = await Promise.all([
         axios.get(
-<<<<<<< HEAD
-          "https://apna-darzi-samar.onrender.com/api/v1/category/getGenderWiseCategory",
+          "http://localhost:3000/api/v1/category/getGenderWiseCategory",
           { params: { gender: "Male" } }
         ),
         axios.get(
-          "https://apna-darzi-samar.onrender.com/api/v1/category/getGenderWiseCategory",
-=======
-          "https://apna-darzi-samar.onrender.com/api/v1/category/getGenderWiseCategory",
-          { params: { gender: "Male" } }
-        ),
-        axios.get(
-          "https://apna-darzi-samar.onrender.com/api/v1/category/getGenderWiseCategory",
->>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
+          "http://localhost:3000/api/v1/category/getGenderWiseCategory",
           { params: { gender: "Female" } }
         ),
       ]);
@@ -78,11 +70,7 @@ const SearchStyle = ({ gender }) => {
       const handleImageClick = async (gender, category, subCategory) => {
         try {
           await axios.post(
-<<<<<<< HEAD
-            "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
-=======
-            "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
->>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
+            "http://localhost:3000/api/v1/stats/trackClick",
             {
               gender,
               category,

@@ -22,11 +22,7 @@ const Styling = ({ heading, gender }) => {
   const getCategory = async () => {
     try {
       const response = await axios.get(
-<<<<<<< HEAD
-        "https://apna-darzi-samar.onrender.com/api/v1/category/fetchcategories",
-=======
-        "https://apna-darzi-samar.onrender.com/api/v1/category/fetchcategories",
->>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
+        "http://localhost:3000/api/v1/category/fetchcategories",
         {
           params: { gender },
         }
@@ -47,11 +43,7 @@ const Styling = ({ heading, gender }) => {
   const handleImageClick = async (gender, category) => {
     try {
       await axios.post(
-<<<<<<< HEAD
-        "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
-=======
-        "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
->>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
+        "http://localhost:3000/api/v1/stats/trackClick",
         {
           gender,
           category,

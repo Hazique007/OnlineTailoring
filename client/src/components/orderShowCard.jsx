@@ -17,11 +17,7 @@ const OrderShowCard = ({ order }) => {
     const fetchOrderData = async () => {
       try {
         const response = await axios.get(
-<<<<<<< HEAD
-          "https://apna-darzi-samar.onrender.com/orders/getorder"
-=======
-          "https://apna-darzi-samar.onrender.com/orders/getorder"
->>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
+          "http://localhost:3000/orders/getorder"
         );
         console.log(response);
         setLoading(false);
@@ -47,11 +43,7 @@ const OrderShowCard = ({ order }) => {
   }
 
   const productImage = productData?.images?.[0]
-<<<<<<< HEAD
-    ? `https://apna-darzi-samar.onrender.com/uploads/${productData.images[0]}`
-=======
-    ? `https://apna-darzi-samar.onrender.com/uploads/${productData.images[0]}`
->>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
+    ? `http://localhost:3000/uploads/${productData.images[0]}`
     : "placeholder-image.png";
 
   return (
