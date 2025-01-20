@@ -9,7 +9,7 @@ const EditAgent = () => {
   const handleCheckboxChange = (e) => {
     setIsFabricPicked(e.target.checked);
   };
-
+  
   return (
     <div>
         

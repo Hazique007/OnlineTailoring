@@ -1,8 +1,8 @@
-import Otp from "../models/userSchema.js";
-import otpVerification from "../helpers/otpValidate.js";
-import otpGenerator from "otp-generator";
-import twilio from "twilio";
-import mongoose from "mongoose";
+import Otp from '../models/UserSchema.js';
+import otpVerification from '../helpers/otpValidate.js';
+import otpGenerator from 'otp-generator';
+import twilio from 'twilio';
+import mongoose from 'mongoose';
 
 const accountSid = process.env.TWILIO_ACC_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -154,7 +154,7 @@ console.log(OtpData);
 
 //     if (phoneNumber === HARDCODED_PHONE) {
 //       try {
-
+      
 //       } catch (dbError) {
 //         console.error("Error updating user OTP for hardcoded phone:", dbError);
 //         return res.status(500).json({
@@ -221,6 +221,7 @@ export const sendOtp = async (req, res) => {
   try {
     const { phoneNumber } = req.body;
     console.log(phoneNumber);
+    
 
     // if (!phoneNumber || typeof phoneNumber !== "string") {
     //   return res.status(400).json({
@@ -235,6 +236,7 @@ export const sendOtp = async (req, res) => {
       lowerCaseAlphabets: false,
     });
     console.log(otp);
+    
 
     const cDate = new Date();
 
@@ -293,13 +295,16 @@ export const sendOtp = async (req, res) => {
   }
 };
 
-export const getUserdetials = async (req, res) => {
+export const getUserdetials =async(req,res)=>{
   const { userID } = req.query;
   try {
     const user = await UserSchema.findOne({ userID });
-    if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) return res.status(404).json({ message: 'User not found' });
     res.json(user);
   } catch (error) {
-    res.status(500).json({ error: "Error fetching user details" });
+    res.status(500).json({ error: 'Error fetching user details' });
   }
-};
+
+
+
+}

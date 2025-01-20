@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 const userSchema = new mongoose.Schema({
   phoneNumber: {
     type: String,
@@ -11,12 +12,14 @@ const userSchema = new mongoose.Schema({
   },
   otpExpiration: {
     type: Date,
-    default: () => new Date(Date.now() + 5 * 60 * 1000), // Set expiration to 5 minutes from now
+    default: Date.now,
+    get: (otpExpiration) => otpExpiration.getTime(),
+    set: (otpExpiration) => new Date(otpExpiration),
   },
   role: {
     type: String,
-    enum: ["user", "admin", "agent"],
-    default: "user",
+    enum: ['user', 'admin', 'agent'],
+    default: 'user', // Default value
   },
 });
 
