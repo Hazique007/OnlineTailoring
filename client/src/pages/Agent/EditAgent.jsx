@@ -22,7 +22,6 @@ const EditAgent = () => {
   });
 
   const [isLoading, setIsLoading] = useState(true);
-  const [done, setDone] = useState(false);
 
   const fetchAllOrderData = async () => {
     try {

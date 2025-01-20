@@ -248,6 +248,7 @@ export const deleteOrder = async (req, res) => {
 
 // Save an address associated with a user
 
+// Update status to 'done' using query parameters from the frontend
 export const updateOrderStatustoDone = async (req, res) => {
   try {
     const { orderID, userID } = req.query;
@@ -260,25 +261,18 @@ export const updateOrderStatustoDone = async (req, res) => {
 
     const order = await Order.findOne({ _id: orderID, userID });
 
-    // If the order is not found, return an error
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    // Update the status of the order
-    order.status = "done";
+    order.status = "done"; // Update order status
 
-    // Save the updated order
-    await order.save();
+    await order.save(); // Save the updated order
 
-    // Return the updated order in the response
-    res
-      .status(200)
-      .json({ message: "Order status updated successfully", order });
+    res.status(200).json({ message: "Order status updated successfully", order });
   } catch (error) {
     console.error("Error in updating order status:", error);
-    res
-      .status(500)
-      .json({ message: "Error updating order status", error: error.message });
+    res.status(500).json({ message: "Error updating order status", error: error.message });
   }
 };
+

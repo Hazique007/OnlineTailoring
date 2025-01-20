@@ -4,7 +4,7 @@ import Search from "../../components/Search";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const UserList = () => {
+const UserList = ({ done }) => {
   const [orders, setOrders] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
