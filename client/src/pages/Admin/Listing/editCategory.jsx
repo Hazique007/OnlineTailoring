@@ -90,7 +90,7 @@ const EditCategory = () => {
   // Handle delete request
   const handleDelete = async () => {
     try {
-      // console.log("dataaa", gender, category);
+      // console.log("dataaa", gender, category); my name is smar
 
       const response = await axios.get(
         "https://apna-darzi-samar.onrender.com/api/v1/category/deleteCategory",

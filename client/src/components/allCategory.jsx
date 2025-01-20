@@ -19,12 +19,20 @@ const AllCategory = () => {
       setLoading(true);
 
       const maleResponse = await axios.get(
+<<<<<<< HEAD
         "https://apna-darzi-samar.onrender.com/api/v1/category/fetchcategories",
+=======
+        "https://apna-darzi-samar.onrender.com/api/v1/category/fetchcategories",
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
         { params: { gender: "Male" } }
       );
 
       const femaleResponse = await axios.get(
+<<<<<<< HEAD
         "https://apna-darzi-samar.onrender.com/api/v1/category/fetchcategories",
+=======
+        "https://apna-darzi-samar.onrender.com/api/v1/category/fetchcategories",
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
         { params: { gender: "Female" } }
       );
       if (
@@ -52,7 +60,11 @@ const AllCategory = () => {
   const handleCategoryClick = async (gender, category) => {
     try {
       await axios.post(
+<<<<<<< HEAD
         "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
+=======
+        "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
         {
           gender,
           category,
@@ -99,7 +111,11 @@ const AllCategory = () => {
                     className="group relative bg-gray-100 p-3 rounded-lg shadow hover:shadow-md transform transition-all duration-200 hover:scale-105 cursor-pointer"
                   >
                     <img
+<<<<<<< HEAD
                       src={`https://apna-darzi-samar.onrender.com/uploads/${category.categoryImages}`}
+=======
+                      src={`https://apna-darzi-samar.onrender.com/uploads/${category.categoryImages}`}
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
                       alt={`${category.category}`}
                       className="w-16 h-16 object-cover mx-auto rounded"
                     />
@@ -132,7 +148,11 @@ const AllCategory = () => {
                     className="group relative bg-gray-100 p-3 rounded-lg shadow hover:shadow-md transform transition-all duration-200 hover:scale-105 cursor-pointer"
                   >
                     <img
+<<<<<<< HEAD
                       src={`https://apna-darzi-samar.onrender.com/uploads/${category.categoryImages}`}
+=======
+                      src={`https://apna-darzi-samar.onrender.com/uploads/${category.categoryImages}`}
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
                       alt={`${category.category}`}
                       className="w-16 h-16 object-contain mx-auto rounded"
                     />

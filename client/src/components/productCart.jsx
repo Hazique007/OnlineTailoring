@@ -152,7 +152,11 @@ const ProductCart = ({
               className={`h-full w-full flex-shrink-0 object-fit rounded-lg snap-center cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
                 currentIndex === index ? "ring-2 ring-blue-500" : ""
               }`}
+<<<<<<< HEAD
               src={`https://apna-darzi-samar.onrender.com/uploads/${image}`}
+=======
+              src={`https://apna-darzi-samar.onrender.com/uploads/${image}`}
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
               alt={`Product ${index + 1}`}
             />
           ))}

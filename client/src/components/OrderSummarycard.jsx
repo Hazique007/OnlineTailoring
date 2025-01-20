@@ -10,7 +10,11 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
     try {
       setLoading(true);
       await axios.delete(
+<<<<<<< HEAD
         `https://apna-darzi-samar.onrender.com/orders/${order._id}`
+=======
+        `https://apna-darzi-samar.onrender.com/orders/${order._id}`
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
       );
       removeOrder(order._id);
       setLoading(false);
@@ -60,7 +64,11 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
         }}
       >
         <img
+<<<<<<< HEAD
           src={`https://apna-darzi-samar.onrender.com/uploads/${images?.[0]}`}
+=======
+          src={`https://apna-darzi-samar.onrender.com/uploads/${images?.[0]}`}
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
           alt="Product"
           style={{
             width: "100%",

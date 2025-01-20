@@ -10,6 +10,7 @@ const Trending = () => {
   const getTrendingImages = async () => {
     try {
       const { data } = await axios.get(
+<<<<<<< HEAD
         "https://apna-darzi-samar.onrender.com/api/v1/landing/getTrendingPageImages"
       );
 
@@ -28,13 +29,64 @@ const Trending = () => {
       }
     } catch (error) {
       console.error("Error fetching trending items:", error);
+=======
+        "https://apna-darzi-samar.onrender.com/api/v1/landing/getTrendingPageImages"
+      );
+      console.log(data);
+
+      if (data?.status !== "success") {
+        navigate("/error");
+        return;
+      }
+
+      const items = Array.isArray(data?.data) ? [...data.data] : [];
+      while (items.length < 4) {
+        items.push({ trendingImage: null, category: "Placeholder" });
+      }
+
+      setTrendingItems(items);
+    } catch (error) {
+      console.error("Error fetching trending items:", error);
+      setTrendingItems([]);
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
       navigate("/error");
     }
   };
 
+<<<<<<< HEAD
   // const getProductOnClickTrendingImages = async (gender, category) => {
   //   const response = await axios.get(
   //     "https://apna-darzi-samar.onrender.com/api/v1/products/getGenderPlusCategory",
+=======
+  // const getTrendingImages = async () => {
+  //   try {
+  //     const { data } = await axios.get(
+  //       "https://apna-darzi-samar.onrender.com/api/v1/landing/getTrendingPageImages"
+  //     );
+
+  //     if (data.status !== "success") {
+  //       navigate("/error");
+  //     }
+
+  //     if (data && data.data.length > 0) {
+  //       const items = data.data;
+
+  //       while (items.length < 4) {
+  //         items.push({ trendingImage: null, category: "Placeholder" });
+  //       }
+
+  //       setTrendingItems(items);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching trending items:", error);
+  //     navigate("/error");
+  //   }
+  // };
+
+  // const getProductOnClickTrendingImages = async (gender, category) => {
+  //   const response = await axios.get(
+  //     "https://apna-darzi-samar.onrender.com/api/v1/products/getGenderPlusCategory",
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
   //     {
   //       params: { gender, category },
   //     }
@@ -50,7 +102,11 @@ const Trending = () => {
   const handleImageClick = async (gender, category) => {
     try {
       await axios.post(
+<<<<<<< HEAD
         "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
+=======
+        "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
         {
           gender,
           category,
@@ -71,7 +127,11 @@ const Trending = () => {
       <h1 className="font-poppins ml-1 font-bold text-[12px] leading-[18px]">
         Trending
       </h1>
+<<<<<<< HEAD
 
+=======
+      {/* //h-[171px] w-[164px] */}
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
       <div className="grid grid-cols-2 gap-4 mt-4">
         {trendingItems.length > 0 ? (
           trendingItems.map((item, index) => (
@@ -82,8 +142,13 @@ const Trending = () => {
             >
               {item.trendingImage ? (
                 <img
+<<<<<<< HEAD
                   className="h-[171px] w-[164px]  object-cover rounded-lg"
                   src={`https://apna-darzi-samar.onrender.com/uploads/${item.trendingImage}`}
+=======
+                  className="h-[45vw] w-[45vw]  object-cover rounded-lg"
+                  src={`https://apna-darzi-samar.onrender.com/uploads/${item.trendingImage}`}
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
                   alt={`Trending Image ${index + 1} - ${item.category}`}
                 />
               ) : (

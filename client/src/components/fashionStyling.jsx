@@ -4,12 +4,16 @@ import axios from "axios";
 
 const Fashion = () => {
   const [fashionImages, setFashionImages] = useState([]);
+<<<<<<< HEAD
   const [error, setError] = useState(false);
+=======
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
   const navigate = useNavigate();
 
   const fetchFashionImages = async () => {
     try {
       const { data } = await axios.get(
+<<<<<<< HEAD
         "https://apna-darzi-samar.onrender.com/api/v1/landing/getFashionPageImages"
       );
       if (data.status !== "success") {
@@ -30,6 +34,28 @@ const Fashion = () => {
     } catch (error) {
       console.error("Error fetching fashion images:", error);
       setError(true);
+=======
+        "https://apna-darzi-samar.onrender.com/api/v1/landing/getFashionPageImages"
+      );
+      if (data.status !== "success") {
+        navigate("/error");
+        return;
+      }
+      const images = data.data;
+      const placeholders = Array.from(
+        { length: 8 - images.length },
+        (_, i) => ({
+          fashionImage: null,
+          category: "Placeholder",
+          gender: "Unknown",
+          _id: `placeholder-${i}`,
+        })
+      );
+
+      setFashionImages([...images, ...placeholders]);
+    } catch (err) {
+      console.error("Error fetching fashion images:", err);
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
       navigate("/error");
     }
   };
@@ -37,15 +63,24 @@ const Fashion = () => {
   const handleImageClick = async (gender, category) => {
     try {
       await axios.post(
+<<<<<<< HEAD
         "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
+=======
+        "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
         {
           gender,
           category,
         }
       );
       navigate(`/FashionProduct/${gender}/${category}`);
+<<<<<<< HEAD
     } catch (error) {
       console.error("Error tracking click:", error);
+=======
+    } catch (err) {
+      console.error("Error tracking click:", err);
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
     }
   };
 
@@ -53,6 +88,7 @@ const Fashion = () => {
     fetchFashionImages();
   }, []);
 
+<<<<<<< HEAD
   if (error) {
     return (
       <div className="text-center text-red-500 mt-10">
@@ -60,6 +96,18 @@ const Fashion = () => {
       </div>
     );
   }
+=======
+  const renderImage = (image) =>
+    image.fashionImage ? (
+      <img
+        className="h-[45vw] w-[45vw] object-cover rounded-[10px]"
+        src={`https://apna-darzi-samar.onrender.com/uploads/${image.fashionImage}`}
+        alt={image.category || "Fashion Item"}
+      />
+    ) : (
+      <div className="h-[30vh] w-full bg-gray-300 rounded-[10px] animate-pulse"></div>
+    );
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
 
   return (
     <div className="px-[15px] mt-10 rounded-[10px]">
@@ -80,8 +128,13 @@ const Fashion = () => {
               {image.fashionImage ? (
                 <>
                   <img
+<<<<<<< HEAD
                     className="h-[171px] w-[164px] object-cover rounded-[10px]"
                     src={`https://apna-darzi-samar.onrender.com/uploads/${image.fashionImage}`}
+=======
+                    className="h-[45vw] w-[45vw] object-cover rounded-[10px]"
+                    src={`https://apna-darzi-samar.onrender.com/uploads/${image.fashionImage}`}
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
                     alt={image.category}
                   />
                 </>

@@ -77,7 +77,11 @@ const Pickup = () => {
       const updatedAddress = { ...newAddress, userID: currentUserID };
 
       const response = await fetch(
+<<<<<<< HEAD
         "https://apna-darzi-samar.onrender.com/addAddressbyuserID",
+=======
+        "https://apna-darzi-samar.onrender.com/addAddressbyuserID",
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

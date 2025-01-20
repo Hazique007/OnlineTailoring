@@ -72,20 +72,6 @@ const ProductPage = () => {
         <p className="text-[#898282] font-[400]  text-[12px] pr-3 font-poppins mb-4">
           {subCategory ? subCategoryDescription : categoryDescription}
         </p>
-        {/* <div className="filter-sort mt-[21px] flex items-center justify-end gap-7 h-[22px] pr-[20px]">
-          <div className="flex h-[25px] gap-3 items-center">
-            <p className="text-[#898282] font-[400] text-[12px] font-poppins">
-              Sort
-            </p>
-            <LuArrowDownUp color="#000" fontSize={14} />
-          </div>
-          <div className="flex h-[25px] gap-3 font-[400] text-[12px] font-poppins items-center">
-            <p className="text-[#898282] font-[400] text-[12px] font-poppins">
-              Filters
-            </p>
-            <FaFilter color="#000" fontSize={10} />
-          </div>
-        </div> */}
 
         {data.length > 0 ? (
           <div className="grid grid-cols-2 gap-2 pb-24">

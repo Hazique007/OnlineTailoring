@@ -17,23 +17,64 @@ const Hero = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
+<<<<<<< HEAD
         "https://apna-darzi-samar.onrender.com/api/v1/landing/getLandingPageImages"
+=======
+        "https://apna-darzi-samar.onrender.com/api/v1/landing/getLandingPageImages"
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
       );
       if (data.status !== "success") {
         navigate("/error");
       }
 
       if (data) {
+<<<<<<< HEAD
         const images = data.data.flatMap((item) => item.bannerImages);
         setLandingArray(images);
+=======
+        const images = await data.data?.flatMap((item) => item.bannerImages);
+        setLandingArray(images);
+        // console.log(images);
+      } else {
+        setLandingArray([]); // Ensure fallback to an empty array
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
       }
       setLoading(false);
     } catch (error) {
       console.error("Error fetching landing images:", error);
+<<<<<<< HEAD
       navigate("/error");
     }
   };
 
+=======
+      setLandingArray([]); // Handle API failure gracefully
+      setLoading(false);
+    }
+  };
+
+  // const getLandingImages = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const { data } = await axios.get(
+  //       "https://apna-darzi-samar.onrender.com/api/v1/landing/getLandingPageImages"
+  //     );
+  //     if (data.status !== "success") {
+  //       navigate("/error");
+  //     }
+
+  //     if (data) {
+  //       const images = data.data.flatMap((item) => item.bannerImages);
+  //       setLandingArray(images);
+  //     }
+  //     setLoading(false);
+  //   } catch (error) {
+  //     console.error("Error fetching landing images:", error);
+  //     navigate("/error");
+  //   }
+  // };
+
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
   useEffect(() => {
     getLandingImages();
   }, []);
@@ -86,7 +127,11 @@ const Hero = () => {
   const handleImageClick = async (gender, category) => {
     try {
       await axios.post(
+<<<<<<< HEAD
         "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
+=======
+        "https://apna-darzi-samar.onrender.com/api/v1/stats/trackClick",
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
         {
           gender,
           category,
@@ -125,7 +170,11 @@ const Hero = () => {
               className="w-full h-[182px] flex-shrink-0 snap-center"
             >
               <img
+<<<<<<< HEAD
                 src={`https://apna-darzi-samar.onrender.com/uploads/${image.image}`}
+=======
+                src={`https://apna-darzi-samar.onrender.com/uploads/${image.image}`}
+>>>>>>> 5c1d25b4698bbbca0647f2913e6267be934741d8
                 onClick={() => handleImageClick(image.gender, image.category)}
                 className="h-[182px] w-full rounded-[5px] cursor-pointer"
                 alt={`Hero Image ${index + 1}`}
