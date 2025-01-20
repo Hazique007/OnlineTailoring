@@ -130,3 +130,28 @@ To run the server, use the following command:
 
 ```sh
 npm start
+
+The client will start on the port specified in the vite.config.js file or default to port 3000.
+
+Environment Variables
+Make sure to set the following environment variables in your .env file:
+
+TWILIO_ACC_SID: Your Twilio account SID.
+TWILIO_AUTH_TOKEN: Your Twilio auth token.
+TWILIO_PHONE_NUMBER: Your Twilio phone number.
+PORT: The port on which the server will run.
+NODE_ENV: The environment in which the server is running (development or production).
+
+PUBLIC_URL: The public URL of the client application.
+
+Dependencies:-
+Express
+Mongoose
+Multer
+Twilio
+Redis
+Body-parser
+Cors
+Dotenv
+Path
+URL
