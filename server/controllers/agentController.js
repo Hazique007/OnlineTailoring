@@ -1,5 +1,6 @@
 import AgentOrder from "../models/agentOrderSchema.js"; // Import the AgentOrder model
 import Otp from "../models/userSchema.js"
+import Order from "../models/orderSchema.js";
 
 // Create a new agent order associated with a user
 export const createAgentOrder = async (req, res) => {
@@ -64,18 +65,19 @@ export const getAndUpdateAgentOrder = async (req, res) => {
 
 
 export const getAgentOrder = async (req, res) => {
-  const { orderID,userID } = req.query; // Get the order ID from the request params
+  const { orderID, userID } = req.query;
 
   try {
-    // Fetch the agent order by ID
-    const order = await AgentOrder.find({orderID, userID}); // Populate user data if needed
+    const order = await AgentOrder.find({ orderID, userID });
 
     if (!order) {
       return res.status(404).json({ message: "Agent order not found" });
     }
 
-    // Return the fetched order
-    res.status(200).json({ message: "Agent order fetched successfully", order });
+    res.status(200).json({
+      message: "Agent order fetched successfully",
+      order,
+    });
   } catch (error) {
     console.error("Error fetching agent order:", error);
     res.status(500).json({ message: "Error fetching agent order", error });
@@ -114,6 +116,64 @@ export const getAgentOrder = async (req, res) => {
 
 
 
+// export const updateAgentOrder = async (req, res) => {
+//   const { orderID, userID } = req.query; // Extract orderID and userID from query params
+//   const updateData = req.body.updateData; // Extract update data from the request body
+
+//   try {
+//     // Validate input
+//     if (!userID || !orderID) {
+//       return res.status(400).json({ message: "userID and orderID are required" });
+//     }
+
+//     if (updateData && Object.keys(updateData).length === 0) {
+//       return res.status(400).json({ message: "No update data provided" });
+//     }
+
+//     // Check if the user exists
+//     const userExists = await Otp.findById(userID); // Assuming 'User' is your user schema
+//     if (!userExists) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     // Find and update the order if it exists
+//     let agentOrder = await AgentOrder.findOneAndUpdate(
+//       { orderID, userID }, // Query condition to match orderID and userID
+//       updateData, // Update data
+//       { new: true } // Return the updated document
+//     ).populate("userID");
+
+//     if (agentOrder) {
+//       return res.status(200).json({
+//         message: "Agent order updated successfully",
+//         order: agentOrder,
+//       });
+//     } else {
+//       // If the order does not exist, create a new one
+//       agentOrder = new AgentOrder({
+//         fabricPickedUp: false, // Default values
+//         measurementDone: false,
+//         apparelDelivered: false,
+//         paymentReceived: false,
+//         userID,
+//         orderID,
+//         ...updateData, // Apply any initial updates if provided
+//       });
+
+//       const newAgentOrder = await agentOrder.save();
+
+//       return res.status(201).json({
+//         message: "Agent order created successfully",
+//         order: newAgentOrder,
+//       });
+//     }
+//   } catch (error) {
+//     console.error("Error processing agent order:", error);
+//     res.status(500).json({ message: "Error processing agent order", error });
+//   }
+// };
+
+
 export const updateAgentOrder = async (req, res) => {
   const { orderID, userID } = req.query; // Extract orderID and userID from query params
   const updateData = req.body.updateData; // Extract update data from the request body
@@ -129,36 +189,62 @@ export const updateAgentOrder = async (req, res) => {
     }
 
     // Check if the user exists
-    const userExists = await Otp.findById(userID); // Assuming 'User' is your user schema
+    const userExists = await Otp.findById(userID); // Assuming 'Otp' is your user schema
     if (!userExists) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Find and update the order if it exists
+    // Find and update the agent order
     let agentOrder = await AgentOrder.findOneAndUpdate(
-      { orderID, userID }, // Query condition to match orderID and userID
-      updateData, // Update data
-      { new: true } // Return the updated document
+      { orderID, userID },
+      updateData,
+      { new: true }
     ).populate("userID");
 
     if (agentOrder) {
+      // Dynamically update the order status based on the current fields
+      const { fabricPickedUp, measurementDone, apparelDelivered, paymentReceived } = agentOrder;
+
+      if (fabricPickedUp && measurementDone && apparelDelivered && paymentReceived) {
+        agentOrder.status = "done"; // Update status to "done" when all conditions are true
+      } else {
+        agentOrder.status = "pending"; // Otherwise, keep the status as "pending"
+      }
+
+      // Save the updated agent order
+      await agentOrder.save();
+
+      // Also update the status in the corresponding Order schema without changing other fields
+      const associatedOrder = await Order.findById(orderID);
+      if (associatedOrder) {
+        associatedOrder.status = agentOrder.status; // Only update the status field
+        await associatedOrder.save(); // Save the updated status in the order
+      }
+
       return res.status(200).json({
         message: "Agent order updated successfully",
         order: agentOrder,
       });
     } else {
-      // If the order does not exist, create a new one
+      // If the agent order does not exist, create a new one
       agentOrder = new AgentOrder({
-        fabricPickedUp: false, // Default values
+        fabricPickedUp: false,
         measurementDone: false,
         apparelDelivered: false,
         paymentReceived: false,
         userID,
         orderID,
-        ...updateData, // Apply any initial updates if provided
+        ...updateData,
       });
 
       const newAgentOrder = await agentOrder.save();
+
+      // Only create a new order if it doesn't exist
+      const associatedOrder = await Order.findById(orderID);
+      if (!associatedOrder) {
+        // Optionally handle the case where the order doesn't exist, or you can skip this part.
+        return res.status(404).json({ message: "Order not found" });
+      }
 
       return res.status(201).json({
         message: "Agent order created successfully",
@@ -168,6 +254,34 @@ export const updateAgentOrder = async (req, res) => {
   } catch (error) {
     console.error("Error processing agent order:", error);
     res.status(500).json({ message: "Error processing agent order", error });
+  }
+};
+
+
+
+export const getAgentDetails = async (req, res) => {
+  const { orderID, userID } = req.query; // Extracting the orderID and userID from the query parameters
+
+  try {
+    // Validate input
+    if (!orderID || !userID) {
+      return res.status(400).json({ message: "orderID and userID are required" });
+    }
+
+    // Fetch the agent order using orderID and userID
+    const agentOrder = await AgentOrder.findOne({ orderID, userID }).populate("userID orderID");
+
+    // Check if agentOrder is found
+    if (!agentOrder) {
+      return res.status(404).json({ message: "Agent order not found" });
+    }
+
+    // Return the agent order details
+    return res.status(200).json({ message: "Agent order found", data: agentOrder });
+
+  } catch (error) {
+    console.error("Error fetching agent order details:", error);
+    res.status(500).json({ message: "Error fetching agent order details", error });
   }
 };
 

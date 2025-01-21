@@ -58,9 +58,7 @@ const OrderHistoryPage = () => {
       </div>
       <div className="flex-1 flex justify-center items-center">
         {orders.length === 0 ? (
-          <div className=" text-gray-500 text-center">
-            No order history
-          </div>
+          <div className=" text-gray-500 text-center">No order history</div>
         ) : (
           <div className="pb-10 ">
             <div>

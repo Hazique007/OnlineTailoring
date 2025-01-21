@@ -21,16 +21,16 @@ const Hero = () => {
       );
       if (data.status !== "success") {
         navigate("/error");
+        return;
       }
 
-      if (data) {
-        const images = data.data.flatMap((item) => item.bannerImages);
-        setLandingArray(images);
-      }
+      const images = data.data?.flatMap((item) => item.bannerImages) || [];
+      setLandingArray(images);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching landing images:", error);
-      navigate("/error");
+      setLandingArray([]);
+      setLoading(false);
     }
   };
 
@@ -45,7 +45,7 @@ const Hero = () => {
         setCurrentIndex((prevIndex) => {
           const nextIndex =
             prevIndex === landingArray.length - 1 ? 0 : prevIndex + 1;
-          scrollToIndex(nextIndex); // Scroll immediately after updating the index
+          scrollToIndex(nextIndex);
           return nextIndex;
         });
       }, 3500); // Scroll every 3.5 seconds
@@ -85,13 +85,10 @@ const Hero = () => {
   // Navigate to product page
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post(
-        "http://localhost:3000/api/v1/stats/trackClick",
-        {
-          gender,
-          category,
-        }
-      );
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
       navigate(`/product/${gender}/${category}`);
     } catch (error) {
       console.error("Error tracking click:", error);

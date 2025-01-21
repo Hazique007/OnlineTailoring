@@ -42,13 +42,10 @@ const Styling = ({ heading, gender }) => {
 
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post(
-        "http://localhost:3000/api/v1/stats/trackClick",
-        {
-          gender,
-          category,
-        }
-      );
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
 
       navigate(`/product/${gender}/${category}`);
     } catch (error) {

@@ -9,7 +9,7 @@ const StylingImageText = ({ img, text, onClick, link }) => {
       <div className="hover:bg-white">
         <img
           onClick={onClick}
-          className="w-[34px] object-fit  h-[34px] rounded-sm"
+          className="w-[10vw] object-fit  h-[10vw] rounded-sm"
           src={`http://localhost:3000/uploads/${img}`}
           alt=""
         />

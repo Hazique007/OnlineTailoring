@@ -4,7 +4,6 @@ import axios from "axios";
 
 const Trending = () => {
   const [trendingItems, setTrendingItems] = useState([]);
-  const [data, setData] = useState([]);
   const navigate = useNavigate();
 
   const getTrendingImages = async () => {
@@ -13,49 +12,30 @@ const Trending = () => {
         "http://localhost:3000/api/v1/landing/getTrendingPageImages"
       );
 
-      if (data.status !== "success") {
+      if (data?.status !== "success") {
         navigate("/error");
+        return;
       }
 
-      if (data && data.data.length > 0) {
-        const items = data.data;
-
-        while (items.length < 4) {
-          items.push({ trendingImage: null, category: "Placeholder" });
-        }
-
-        setTrendingItems(items);
+      const items = Array.isArray(data?.data) ? [...data.data] : [];
+      while (items.length < 4) {
+        items.push({ trendingImage: null, category: "Placeholder" });
       }
+
+      setTrendingItems(items);
     } catch (error) {
       console.error("Error fetching trending items:", error);
+      setTrendingItems([]);
       navigate("/error");
     }
   };
 
-  // const getProductOnClickTrendingImages = async (gender, category) => {
-  //   const response = await axios.get(
-  //     "http://localhost:3000/api/v1/products/getGenderPlusCategory",
-  //     {
-  //       params: { gender, category },
-  //     }
-  //   );
-  //   // console.log(response.data);
-  //   setData(response.data.products);
-  //   console.log(data);
-  // };
-  // useEffect(() => {
-  //   getProductOnClickTrendingImages();
-  // }, [gender, category]);
-
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post(
-        "http://localhost:3000/api/v1/stats/trackClick",
-        {
-          gender,
-          category,
-        }
-      );
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
       navigate(`/TrendingProduct/${gender}/${category}`);
     } catch (error) {
       console.error("Error tracking click:", error);
@@ -81,7 +61,7 @@ const Trending = () => {
             >
               {item.trendingImage ? (
                 <img
-                  className="h-[171px] w-[164px]  object-cover rounded-lg"
+                  className="h-[45vw] w-[45vw] object-cover rounded-lg"
                   src={`http://localhost:3000/uploads/${item.trendingImage}`}
                   alt={`Trending Image ${index + 1} - ${item.category}`}
                 />

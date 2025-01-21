@@ -19,6 +19,7 @@ import PersonalDetails from "./pages/Profile-Page/Profile-Components/personalDet
 import orderHistory from "./pages/Profile-Page/Profile-Components/orderHistory";
 import EditAgent from "./pages/Agent/EditAgent";
 
+
 // Components
 import CategoryPage from "./components/categoryPage";
 import ProductCart from "./components/productCart";
@@ -40,6 +41,7 @@ import AddCategory from "./pages/Admin/Listing/addNewCategory";
 import AddSubCategory from "./pages/Admin/Listing/addNewSubCategory";
 import UserList from "./pages/Agent/UserList";
 import ListingPage from "./pages/Admin/Listing/listingPage";
+import orderPlacedSuccess from "./pages/Order-Page/orderPlacedSuccess";
 
 const App = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
@@ -69,10 +71,11 @@ const App = () => {
           <Route path="/fabric" Component={FabricPage} />
           <Route path="/customize" Component={Customize} />
           <Route path="/ordersummary" Component={OrderSummary} />
-          <Route path="/orderSuccessful" Component={OrderSuccessful} />
+          <Route path="/orderSuccessful/:userID/:orderID" Component={OrderSuccessful} />
           <Route path="/search" Component={SearchPage} />
           <Route path="/cart" Component={CartPage} />
           <Route path="/error" Component={Error} />
+          <Route path="/orderplaced" Component={orderPlacedSuccess} />
           <Route path="/edit-agent/:orderID" Component={EditAgent}/>
 
           {/* Profile Sub-pages */}

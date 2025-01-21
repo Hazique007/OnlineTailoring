@@ -14,38 +14,36 @@ const Fashion = () => {
       );
       if (data.status !== "success") {
         navigate("/error");
+        return;
       }
-      const images = data.data;
 
-      while (images.length < 8) {
-        images.push({
+      const images = data.data;
+      const placeholders = Array.from(
+        { length: 8 - images.length },
+        (_, i) => ({
           fashionImage: null,
           category: "Placeholder",
           gender: "Unknown",
-          _id: `placeholder-${images.length}`,
-        });
-      }
+          _id: `placeholder-${i}`,
+        })
+      );
 
-      setFashionImages(images);
-    } catch (error) {
-      console.error("Error fetching fashion images:", error);
+      setFashionImages([...images, ...placeholders]);
+    } catch (err) {
+      console.error("Error fetching fashion images:", err);
       setError(true);
-      navigate("/error");
     }
   };
 
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post(
-        "http://localhost:3000/api/v1/stats/trackClick",
-        {
-          gender,
-          category,
-        }
-      );
+      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+        gender,
+        category,
+      });
       navigate(`/FashionProduct/${gender}/${category}`);
-    } catch (error) {
-      console.error("Error tracking click:", error);
+    } catch (err) {
+      console.error("Error tracking click:", err);
     }
   };
 
@@ -78,13 +76,11 @@ const Fashion = () => {
               }
             >
               {image.fashionImage ? (
-                <>
-                  <img
-                    className="h-[171px] w-[164px] object-cover rounded-[10px]"
-                    src={`http://localhost:3000/uploads/${image.fashionImage}`}
-                    alt={image.category}
-                  />
-                </>
+                <img
+                  className="h-[45vw] w-[45vw] object-cover rounded-[10px]"
+                  src={`http://localhost:3000/uploads/${image.fashionImage}`}
+                  alt={image.category || "Fashion Item"}
+                />
               ) : (
                 <div className="h-[30vh] w-full bg-gray-300 rounded-[10px] animate-pulse"></div>
               )}

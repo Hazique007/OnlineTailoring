@@ -1,103 +1,133 @@
-import React, { useState, useEffect } from 'react';
-import AgentTopNav from '../../components/AgentTopNav';
-import Search from '../../components/Search';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState, useEffect } from "react";
+import AgentTopNav from "../../components/AgentTopNav";
+import Search from "../../components/Search";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EditAgent = () => {
   const { orderID } = useParams();
   const userID = localStorage.getItem("userID");
-  const [orderData, setOrderData] = useState(null);
-  const [isFabricPicked, setIsFabricPicked] = useState();
-  const [isMeasurementsDone, setIsMeasurementsDone] = useState();
-  const [isApparelDelivered, setIsApparelDelivered] = useState();
-  const [isPaymentReceived, setIsPaymentReceived] = useState();
-  const [user, setUser] = useState('');
 
-  // Fetch initial order data
-  useEffect(() => {
-    const fetchOrderData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/orders/getOrderbyID', {
+  const [orderData, setOrderData] = useState({
+    user: null,
+    order: null,
+    status: {
+      fabricPickedUp: false,
+      measurementDone: false,
+      apparelDelivered: false,
+      paymentReceived: false,
+    },
+  });
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchAllOrderData = async () => {
+    try {
+      setIsLoading(true);
+
+      // Fetch order details
+      const orderResponse = await axios.get(
+        "http://localhost:3000/orders/getOrderbyID",
+        {
           params: { orderID },
-        });
-        const { fabricPickedUp, measurementDone, apparelDelivered, paymentReceived } = response.data.order;
+        }
+      );
 
-        setOrderData(response.data.order);
-        setUser(response.data.user[0]);
-        setIsFabricPicked(fabricPickedUp);
-        setIsMeasurementsDone(measurementDone);
-        setIsApparelDelivered(apparelDelivered);
-        setIsPaymentReceived(paymentReceived);
-      } catch (error) {
-        console.error('Error fetching order data:', error);
-        toast.error('Failed to fetch order details');
-      }
-    };
-
-    fetchOrderData();
-  }, [orderID]);
-
-  // Fetch agent order details for checkboxes
-  useEffect(() => {
-    const fetchAgentOrder = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/agent/agentorder', {
+      // Fetch agent-specific order status
+      const agentResponse = await axios.get(
+        "http://localhost:3000/agent/agentorder",
+        {
           params: { orderID, userID },
-        });
-        const order = response.data.order[0]; // Assuming order is an array
-        setIsFabricPicked(order.fabricPickedUp);
-        setIsMeasurementsDone(order.measurementDone);
-        setIsApparelDelivered(order.apparelDelivered);
-        setIsPaymentReceived(order.paymentReceived);
-      } catch (error) {
-        console.error('Error fetching agent order:', error);
-        toast.error('Failed to fetch agent order details');
-      }
-    };
+        }
+      );
+      console.log(agentResponse);
 
-    fetchAgentOrder();
+      // Safely access the agent order data
+      const agentOrder = agentResponse.data?.order?.[0] || {};
+      const orderDetails = orderResponse.data?.order || {};
+      const userData = orderResponse.data?.user?.[0] || {};
+
+      setOrderData({
+        user: userData,
+        order: orderDetails,
+        status: {
+          fabricPickedUp: Boolean(agentOrder.fabricPickedUp),
+          measurementDone: Boolean(agentOrder.measurementDone),
+          apparelDelivered: Boolean(agentOrder.apparelDelivered),
+          paymentReceived: Boolean(agentOrder.paymentReceived),
+        },
+      });
+      // console.log("orderData", orderData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      toast.error("Failed to fetch order details");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllOrderData();
   }, [orderID, userID]);
 
-  // Handle submit to update the order
-  const handleSubmit = async () => {
-    const updateData = {
-      fabricPickedUp: isFabricPicked,
-      measurementDone: isMeasurementsDone,
-      apparelDelivered: isApparelDelivered,
-      paymentReceived: isPaymentReceived,
-    };
+  const handleStatusChange = (field, value) => {
+    setOrderData((prev) => ({
+      ...prev,
+      status: {
+        ...prev.status,
+        [field]: value,
+      },
+    }));
+  };
 
+  const handleSubmit = async () => {
     try {
+      const allCompleted = Object.values(orderData.status).every(
+        (status) => status
+      );
+  
       const response = await axios.post(
-        'http://localhost:3000/agent/updateagentorder',
-        { updateData },
+        "http://localhost:3000/agent/updateagentorder",
+        {
+          updateData: orderData.status,
+          status: allCompleted ? "done" : "pending", // Add this to update the status
+        },
         {
           params: { userID, orderID },
         }
       );
-
+  
       if (response.status === 200 || response.status === 201) {
-        const message =
-          updateData.fabricPickedUp &&
-          updateData.measurementDone &&
-          updateData.apparelDelivered &&
-          updateData.paymentReceived
-            ? 'Order Completed'
-            : 'Order Updated';
-        toast.success(message);
+        toast.success(allCompleted ? "Order Completed" : "Order Updated");
+  
+        // Refetch data after successful update
+        await fetchAllOrderData();
       }
     } catch (error) {
-      console.error('Error updating order status:', error);
-      toast.error('Error updating order status');
+      console.error("Error updating order status:", error);
+      toast.error("Error updating order status");
     }
   };
+  
 
-  // If the orderData is not yet loaded, show a loading message
-  if (!orderData) {
-    return <div>Loading...</div>;
+  // if (isLoading) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       Loading...
+  //     </div>
+  //   );
+  // }
+
+  const { user, order, status } = orderData;
+
+  if (!user || !order) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        No order data found
+      </div>
+    );
   }
 
   return (
@@ -108,7 +138,7 @@ const EditAgent = () => {
       </div>
       <div className="p-4">
         <div className="w-full bg-white border-black border-2 p-2 px-3 mt-3 rounded-xl">
-          {user.name} - {orderData.subCategory}
+          {user.name} - {order.subCategory}
         </div>
 
         <div className="flex justify-between mt-5">
@@ -116,8 +146,10 @@ const EditAgent = () => {
           <input
             type="checkbox"
             className="w-5 h-5"
-            checked={isFabricPicked}
-            onChange={(e) => setIsFabricPicked(e.target.checked)}
+            checked={status.fabricPickedUp}
+            onChange={(e) =>
+              handleStatusChange("fabricPickedUp", e.target.checked)
+            }
           />
         </div>
 
@@ -126,9 +158,11 @@ const EditAgent = () => {
           <input
             type="checkbox"
             className="w-5 h-5"
-            checked={isMeasurementsDone}
-            disabled={!isFabricPicked}
-            onChange={(e) => setIsMeasurementsDone(e.target.checked)}
+            checked={status.measurementDone}
+            disabled={!status.fabricPickedUp}
+            onChange={(e) =>
+              handleStatusChange("measurementDone", e.target.checked)
+            }
           />
         </div>
 
@@ -137,9 +171,11 @@ const EditAgent = () => {
           <input
             type="checkbox"
             className="w-5 h-5"
-            checked={isApparelDelivered}
-            disabled={!isMeasurementsDone}
-            onChange={(e) => setIsApparelDelivered(e.target.checked)}
+            checked={status.apparelDelivered}
+            disabled={!status.measurementDone}
+            onChange={(e) =>
+              handleStatusChange("apparelDelivered", e.target.checked)
+            }
           />
         </div>
 
@@ -148,9 +184,11 @@ const EditAgent = () => {
           <input
             type="checkbox"
             className="w-5 h-5"
-            checked={isPaymentReceived}
-            disabled={!isApparelDelivered}
-            onChange={(e) => setIsPaymentReceived(e.target.checked)}
+            checked={status.paymentReceived}
+            disabled={!status.apparelDelivered}
+            onChange={(e) =>
+              handleStatusChange("paymentReceived", e.target.checked)
+            }
           />
         </div>
       </div>
@@ -159,7 +197,7 @@ const EditAgent = () => {
         <button
           className="bg-white border-black border-2 w-full flex text-center justify-center rounded-xl p-1"
           onClick={handleSubmit}
-          disabled={!isFabricPicked && !isMeasurementsDone && !isApparelDelivered && !isPaymentReceived}
+          disabled={!Object.values(status).some((status) => status)}
         >
           Submit
         </button>

@@ -1,6 +1,6 @@
 import Order from "../models/orderSchema.js";
-import PersonalDetails from "../models/personaldetailsSchema.js"
-import Otp from "../models/userSchema.js"
+import PersonalDetails from "../models/personaldetailsSchema.js";
+// import Otp from "../models/userSchema.js";
 
 // Create a new order associated with a user
 export const createOrder = async (req, res) => {
@@ -26,11 +26,12 @@ export const createOrder = async (req, res) => {
     } = req.body;
 
     console.log(req.body);
-    
 
     // Validate that userID is provided
     if (!userID) {
-      return res.status(400).json({ message: "UserID is required to create an order" });
+      return res
+        .status(400)
+        .json({ message: "UserID is required to create an order" });
     }
 
     const newOrder = new Order({
@@ -54,22 +55,23 @@ export const createOrder = async (req, res) => {
     });
 
     await newOrder.save();
-    res.status(201).json({ message: "Order created successfully", order: newOrder });
+    res
+      .status(201)
+      .json({ message: "Order created successfully", order: newOrder });
   } catch (error) {
     res.status(500).json({ message: "Error creating from backend", error });
   }
 };
 
-
-
 // Update the status of an order
 export const updateOrderStatus = async (req, res) => {
   try {
-    const { orderID } = req.query; // Get orderID and status from the request body
+    const { orderID } = req.query;
 
-    // Validate that both orderID and status are provided
-    if (!orderID ) {
-      return res.status(400).json({ message: "OrderID and status are required" });
+    if (!orderID || !userID) {
+      return res
+        .status(400)
+        .json({ message: "OrderID and userID are required" });
     }
 
     // Validate that the status is either "pending" or "done"
@@ -86,13 +88,15 @@ export const updateOrderStatus = async (req, res) => {
     }
 
     // Update the status of the order
-    order.status = "done"; 
+    order.status = "done";
 
     // Save the updated order
     await order.save();
 
     // Return the updated order in the response
-    res.status(200).json({ message: "Order status updated successfully", order });
+    res
+      .status(200)
+      .json({ message: "Order status updated successfully", order });
   } catch (error) {
     res.status(500).json({ message: "Error updating order status", error });
   }
@@ -108,7 +112,6 @@ export const getOrders = async (req, res) => {
   }
 };
 
-
 // Fetch all orders grouped by deliveryDate
 export const getOrdersGroupedByDate = async (req, res) => {
   try {
@@ -118,7 +121,9 @@ export const getOrdersGroupedByDate = async (req, res) => {
     console.log("User IDs from orders:", userIds);
 
     // Fetch all user details from PersonalDetails using userIDs from Otp
-    const personalDetails = await PersonalDetails.find({ userID: { $in: userIds } }).lean();
+    const personalDetails = await PersonalDetails.find({
+      userID: { $in: userIds },
+    }).lean();
     console.log("PersonalDetails fetched:", personalDetails);
 
     // Map userID to name for quick lookup
@@ -154,10 +159,6 @@ export const getOrdersGroupedByDate = async (req, res) => {
   }
 };
 
-
-
-
-
 // Get orders by userID
 
 export const getOrdersByUser = async (req, res) => {
@@ -166,7 +167,9 @@ export const getOrdersByUser = async (req, res) => {
 
     // Validate that userID is provided
     if (!userID) {
-      return res.status(400).json({ message: "UserID is required to fetch orders" });
+      return res
+        .status(400)
+        .json({ message: "UserID is required to fetch orders" });
     }
 
     // Find orders where userID matches
@@ -177,11 +180,7 @@ export const getOrdersByUser = async (req, res) => {
   }
 };
 
-
 // Get order by ID
-
-
-
 
 export const getOrderById = async (req, res) => {
   try {
@@ -190,14 +189,13 @@ export const getOrderById = async (req, res) => {
     // Fetch the order by its ID
     const order = await Order.findById(orderID);
     console.log(order);
-    
-    
+
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
 
     // Fetch the user details from PersonalDetails using userID from the order
-    const user = await PersonalDetails.find({userID:order.userID});
+    const user = await PersonalDetails.find({ userID: order.userID });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -205,7 +203,8 @@ export const getOrderById = async (req, res) => {
 
     // Prepare the response with order and user information
     const response = {
-      user , order
+      user,
+      order,
     };
 
     res.status(200).json(response);
@@ -214,16 +213,20 @@ export const getOrderById = async (req, res) => {
   }
 };
 
-
-
 // Update an order
 export const updateOrder = async (req, res) => {
   try {
-    const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate("userID", "phoneNumber");
+    const updatedOrder = await Order.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    ).populate("userID", "phoneNumber");
     if (!updatedOrder) {
       return res.status(404).json({ message: "Order not found" });
     }
-    res.status(200).json({ message: "Order updated successfully", order: updatedOrder });
+    res
+      .status(200)
+      .json({ message: "Order updated successfully", order: updatedOrder });
   } catch (error) {
     res.status(500).json({ message: "Error updating order", error });
   }
@@ -241,10 +244,35 @@ export const deleteOrder = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error deleting order", error });
   }
-
 };
-
 
 // Save an address associated with a user
 
+// Update status to 'done' using query parameters from the frontend
+export const updateOrderStatustoDone = async (req, res) => {
+  try {
+    const { orderID, userID } = req.query;
+
+    if (!orderID || !userID) {
+      return res
+        .status(400)
+        .json({ message: "OrderID and userID are required" });
+    }
+
+    const order = await Order.findOne({ _id: orderID, userID });
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    order.status = "done"; // Update order status
+
+    await order.save(); // Save the updated order
+
+    res.status(200).json({ message: "Order status updated successfully", order });
+  } catch (error) {
+    console.error("Error in updating order status:", error);
+    res.status(500).json({ message: "Error updating order status", error: error.message });
+  }
+};
 

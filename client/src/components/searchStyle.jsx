@@ -69,13 +69,10 @@ const SearchStyle = ({ gender }) => {
       //Track Click
       const handleImageClick = async (gender, category, subCategory) => {
         try {
-          await axios.post(
-            "http://localhost:3000/api/v1/stats/trackClick",
-            {
-              gender,
-              category,
-            }
-          );
+          await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+            gender,
+            category,
+          });
           console.log("Clicked");
 
           // navigate(`/product/${gender}/${category}/${subCategory}?`);
