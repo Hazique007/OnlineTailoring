@@ -188,7 +188,7 @@ export const getOrderById = async (req, res) => {
 
     // Fetch the order by its ID
     const order = await Order.findById(orderID);
-    console.log(order);
+    // console.log(order);
 
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
@@ -246,12 +246,9 @@ export const deleteOrder = async (req, res) => {
   }
 };
 
-// Save an address associated with a user
-
-// Update status to 'done' using query parameters from the frontend
 export const updateOrderStatustoDone = async (req, res) => {
   try {
-    const { orderID, userID } = req.query;
+    const { orderID, userID } = req.body;
 
     if (!orderID || !userID) {
       return res
@@ -265,14 +262,17 @@ export const updateOrderStatustoDone = async (req, res) => {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    order.status = "done"; // Update order status
+    order.status = "done";
 
-    await order.save(); // Save the updated order
+    await order.save();
 
-    res.status(200).json({ message: "Order status updated successfully", order });
+    res
+      .status(200)
+      .json({ message: "Order status updated successfully", order });
   } catch (error) {
     console.error("Error in updating order status:", error);
-    res.status(500).json({ message: "Error updating order status", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error updating order status", error: error.message });
   }
 };
-
