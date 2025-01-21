@@ -27,16 +27,24 @@ const EditAgent = () => {
     try {
       setIsLoading(true);
 
+      // Fetch order details
       const orderResponse = await axios.get(
         "http://localhost:3000/orders/getOrderbyID",
-        { params: { orderID } }
+        {
+          params: { orderID },
+        }
       );
 
+      // Fetch agent-specific order status
       const agentResponse = await axios.get(
         "http://localhost:3000/agent/agentorder",
-        { params: { orderID, userID } }
+        {
+          params: { orderID, userID },
+        }
       );
+      console.log(agentResponse);
 
+      // Safely access the agent order data
       const agentOrder = agentResponse.data?.order?.[0] || {};
       const orderDetails = orderResponse.data?.order || {};
       const userData = orderResponse.data?.user?.[0] || {};
@@ -51,64 +59,12 @@ const EditAgent = () => {
           paymentReceived: Boolean(agentOrder.paymentReceived),
         },
       });
+      // console.log("orderData", orderData);
     } catch (error) {
       console.error("Error fetching data:", error);
       toast.error("Failed to fetch order details");
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const updateStatus = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/orders/updateOrderStatustoDone",
-
-        {
-          orderID,
-          userID,
-        }
-      );
-
-      if (response.status === 200 || response.status === 201) {
-        toast.success("Order status updated to 'done'");
-      } else {
-        throw new Error("Failed to update order status to 'done'");
-      }
-    } catch (error) {
-      console.error("Error updating order status:", error);
-      toast.error("Error updating order status to 'done'");
-    }
-  };
-
-  const handleSubmit = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/agent/updateagentorder",
-        {
-          updateData: orderData.status,
-        },
-        {
-          params: { userID, orderID },
-        }
-      );
-
-      if (response.status === 200 || response.status === 201) {
-        const allCompleted = Object.values(orderData.status).every(
-          (status) => status
-        );
-
-        if (allCompleted) {
-          await updateStatus();
-        } else {
-          toast.success("Order updated successfully");
-        }
-
-        await fetchAllOrderData();
-      }
-    } catch (error) {
-      console.error("Error updating agent order status:", error);
-      toast.error("Error updating agent order status");
     }
   };
 
@@ -125,6 +81,44 @@ const EditAgent = () => {
       },
     }));
   };
+
+  const handleSubmit = async () => {
+    try {
+      const allCompleted = Object.values(orderData.status).every(
+        (status) => status
+      );
+  
+      const response = await axios.post(
+        "http://localhost:3000/agent/updateagentorder",
+        {
+          updateData: orderData.status,
+          status: allCompleted ? "done" : "pending", // Add this to update the status
+        },
+        {
+          params: { userID, orderID },
+        }
+      );
+  
+      if (response.status === 200 || response.status === 201) {
+        toast.success(allCompleted ? "Order Completed" : "Order Updated");
+  
+        // Refetch data after successful update
+        await fetchAllOrderData();
+      }
+    } catch (error) {
+      console.error("Error updating order status:", error);
+      toast.error("Error updating order status");
+    }
+  };
+  
+
+  // if (isLoading) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       Loading...
+  //     </div>
+  //   );
+  // }
 
   const { user, order, status } = orderData;
 
@@ -214,4 +208,4 @@ const EditAgent = () => {
   );
 };
 
-export default EditAgent;
+export default EditAgent;

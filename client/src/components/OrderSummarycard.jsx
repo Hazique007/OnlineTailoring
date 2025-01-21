@@ -9,7 +9,11 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
   const handleRemove = async () => {
     try {
       setLoading(true);
-      await axios.delete(`http://localhost:3000/orders/${order._id}`);
+      await axios.delete(
+
+        `http://localhost:3000/orders/${order._id}`
+
+      );
       removeOrder(order._id);
       setLoading(false);
     } catch (error) {

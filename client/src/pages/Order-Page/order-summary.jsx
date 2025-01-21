@@ -113,7 +113,9 @@ const OrderSummary = () => {
 
   const handleRemoveOrder = async (orderId) => {
     try {
-      await axios.delete(`http://localhost:3000/orders/${orderId}`);
+      await axios.delete(
+        `http://localhost:3000/orders/${orderId}`
+      );
       alert("Order removed successfully.");
       // Update UI by removing the order from the list
       const updatedOrders = orders.filter((order) => order._id !== orderId);

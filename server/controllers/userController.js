@@ -1,8 +1,8 @@
-import Otp from "../models/UserSchema.js";
-import otpVerification from "../helpers/otpValidate.js";
-import otpGenerator from "otp-generator";
-import twilio from "twilio";
-import mongoose from "mongoose";
+import Otp from '../models/userSchema.js';
+import otpVerification from '../helpers/otpValidate.js';
+import otpGenerator from 'otp-generator';
+import twilio from 'twilio';
+import mongoose from 'mongoose';
 
 const accountSid = process.env.TWILIO_ACC_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;

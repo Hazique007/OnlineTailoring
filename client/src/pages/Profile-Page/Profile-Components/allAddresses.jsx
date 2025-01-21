@@ -112,11 +112,14 @@ const AllAddresses = () => {
       // Assuming userID is available, you can either pass it from state or props
       const updatedAddress = { ...newAddress, userID: currentUserID }; // Add userID to the address object
 
-      const response = await fetch("http://localhost:3000/addAddressbyuserID", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedAddress),
-      });
+      const response = await fetch(
+        "http://localhost:3000/addAddressbyuserID",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedAddress),
+        }
+      );
       console.log(updatedAddress);
 
       console.log(response);
@@ -161,10 +164,13 @@ const AllAddresses = () => {
 
   const handleDeleteAddress = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/delete/${id}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await fetch(
+        `http://localhost:3000/delete/${id}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       if (response.ok) {
         setAddresses(addresses.filter((addr) => addr._id !== id));
       } else {

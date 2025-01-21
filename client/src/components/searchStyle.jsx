@@ -16,9 +16,11 @@ const SearchStyle = ({ gender }) => {
       const [maleResponse, femaleResponse] = await Promise.all([
         axios.get(
           "http://localhost:3000/api/v1/category/getGenderWiseCategory",
+          "http://localhost:3000/api/v1/category/getGenderWiseCategory",
           { params: { gender: "Male" } }
         ),
         axios.get(
+          "http://localhost:3000/api/v1/category/getGenderWiseCategory",
           "http://localhost:3000/api/v1/category/getGenderWiseCategory",
           { params: { gender: "Female" } }
         ),
