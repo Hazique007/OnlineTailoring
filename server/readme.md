@@ -131,7 +131,7 @@ To run the server, use the following command:
 ```sh
 npm start
 
-The client will start on the port specified in the vite.config.js file or default to port 3000.
+ The client will start on the port specified in the vite.config.js file or default to port 3000.
 
 Environment Variables
 Make sure to set the following environment variables in your .env file:

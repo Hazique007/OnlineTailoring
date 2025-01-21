@@ -77,7 +77,7 @@ const Pickup = () => {
       const updatedAddress = { ...newAddress, userID: currentUserID };
 
       const response = await fetch(
-        "https://final-backend-cache-2.onrender.com/addAddressbyuserID",
+        "http://localhost:3000/addAddressbyuserID",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
