@@ -126,14 +126,18 @@ This API provides various endpoints for managing users, products, orders, profil
 
 ## Running the Server
 
-To run the server, use the following command:
+# To run the server, use the following command:
 
-```sh
+
 npm start
 
+<<<<<<< HEAD
  The client will start on the port specified in the vite.config.js file or default to port 3000.
+=======
+## The client will start on the port specified in the vite.config.js file or default to port 3000.
+>>>>>>> a39b5fc8824e7730d8c9759d29c95ef869a3e142
 
-Environment Variables
+### Environment Variables
 Make sure to set the following environment variables in your .env file:
 
 TWILIO_ACC_SID: Your Twilio account SID.
@@ -144,14 +148,14 @@ NODE_ENV: The environment in which the server is running (development or product
 
 PUBLIC_URL: The public URL of the client application.
 
-Dependencies:-
-Express
-Mongoose
-Multer
-Twilio
-Redis
-Body-parser
-Cors
-Dotenv
-Path
+### Dependencies:-
+Express,
+Mongoose,
+Multer,
+Twilio,
+Redis,
+Body-parser,
+Cors,
+Dotenv,
+Path,
 URL
