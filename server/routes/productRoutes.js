@@ -1,6 +1,7 @@
 import express from "express";
 import multer from "multer";
 import { fileURLToPath } from "url";
+import { checkRole } from "../middlewares/checkrole.js";
 import path from "path";
 import fs from "fs";
 import {
@@ -69,17 +70,18 @@ router.get("/getGenderPlusCategory", getGenderPlusCategory);
 router.get("/GenderCategorySubcategory", GenderCategorySubcategory);
 router.put(
   "/UpdateGenderCategorySubcategory",
+  checkRole,
   upload.array("images"),
   UpdateGenderCategorySubcategory
 );
-router.delete("/CategorySubcategoryDelete", CategorySubcategoryDelete);
+router.delete("/CategorySubcategoryDelete",checkRole, CategorySubcategoryDelete);
 router.get("/GenderCategory", GenderCategory);
 router.put(
-  "/UpdateGenderCategory",
+  "/UpdateGenderCategory",checkRole,
   upload.single("image"),
   UpdateGenderCategory
 );
-router.delete("/CategoryDelete", CategoryDelete);
-router.post("/add-subcategory", upload.array("images"), addSubCategory);
+router.delete("/CategoryDelete",checkRole, CategoryDelete);
+router.post("/add-subcategory",checkRole, upload.array("images"), addSubCategory);
 
 export default router;

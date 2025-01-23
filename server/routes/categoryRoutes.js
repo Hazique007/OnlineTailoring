@@ -1,6 +1,7 @@
 import express from "express";
 import multer from "multer";
 import { fileURLToPath } from "url";
+import { checkRole } from "../middlewares/checkrole.js";
 import path from "path";
 import fs from "fs";
 import {
@@ -50,8 +51,13 @@ const upload = multer({
 });
 
 router.get("/fetchcategories", fetchCategoriesWithImages);
-router.post("/addCategoryData", upload.single("image"), addCategoryData);
+router.post(
+  "/addCategoryData",
+  checkRole,
+  upload.single("image"),
+  addCategoryData
+);
 router.get("/getGenderWiseCategory", getGenderWiseCategory);
-router.get("/deleteCategory", deletedCategory);
+router.get("/deleteCategory", checkRole, deletedCategory);
 
 export default router;

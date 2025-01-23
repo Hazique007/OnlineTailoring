@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  useNavigate,
+  useNavigation,
+} from "react-router-dom";
 
 // Pages
 import LandingPage from "./pages/Landing-Page/landing";
@@ -40,16 +46,18 @@ import AddCategory from "./pages/Admin/Listing/addNewCategory";
 import AddSubCategory from "./pages/Admin/Listing/addNewSubCategory";
 import UserList from "./pages/Agent/UserList";
 import ListingPage from "./pages/Admin/Listing/listingPage";
+import orderPlacedSuccess from "./pages/Order-Page/orderPlacedSuccess";
 
 const App = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
+  // const navigate = useNavigation();
 
-  useEffect(() => {
-    const handleOffline = () => navigate("/error");
+  // useEffect(() => {
+  //   const handleOffline = () => navigate("/error");
 
-    window.addEventListener("offline", handleOffline);
-    return () => window.removeEventListener("offline", handleOffline);
-  }, []);
+  //   window.addEventListener("offline", handleOffline);
+  //   return () => window.removeEventListener("offline", handleOffline);
+  // }, []);
 
   return (
     <ProductProvider>
@@ -69,11 +77,15 @@ const App = () => {
           <Route path="/fabric" Component={FabricPage} />
           <Route path="/customize" Component={Customize} />
           <Route path="/ordersummary" Component={OrderSummary} />
-          <Route path="/orderSuccessful" Component={OrderSuccessful} />
+          <Route
+            path="/orderSuccessful/:userID/:orderID"
+            Component={OrderSuccessful}
+          />
           <Route path="/search" Component={SearchPage} />
           <Route path="/cart" Component={CartPage} />
           <Route path="/error" Component={Error} />
-          <Route path="/edit-agent/:orderID" Component={EditAgent}/>
+          <Route path="/orderplaced" Component={orderPlacedSuccess} />
+          <Route path="/edit-agent/:orderID" Component={EditAgent} />
 
           {/* Profile Sub-pages */}
           <Route path="/addresses" Component={AllAddresses} />

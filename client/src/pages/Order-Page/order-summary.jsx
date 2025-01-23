@@ -12,7 +12,7 @@ import OrderSummaryCard from "../../components/orderShowCard";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const OrderSummary = () => {
+const OrderSummary = ({}) => {
   const navigate = useNavigate();
   const [showSummary, setShowSummary] = useState(true);
   const summarySectionRef = useRef(null);
@@ -103,7 +103,7 @@ const OrderSummary = () => {
         "http://localhost:3000/orders/create",
         orderData
       );
-      navigate("/orderSuccessful");
+      navigate("/orderplaced");
     } catch (error) {
       toast.error(
         "An error occurred while placing the order. Please try again."
@@ -113,9 +113,7 @@ const OrderSummary = () => {
 
   const handleRemoveOrder = async (orderId) => {
     try {
-      await axios.delete(
-        `http://localhost:3000/orders/${orderId}`
-      );
+      await axios.delete(`http://localhost:3000/orders/${orderId}`);
       alert("Order removed successfully.");
       // Update UI by removing the order from the list
       const updatedOrders = orders.filter((order) => order._id !== orderId);

@@ -1,161 +1,217 @@
-# Online Tailoring Service API
+# Doorstep Stitching API Documentation
 
-This API provides various endpoints for managing users, products, orders, profiles, addresses, and more for an online tailoring service.
+## Overview
 
-## Table of Contents
+This API provides endpoints for managing products, categories, fabrics, addresses, orders, user details, and agent orders for the Doorstep Stitching application.
 
-- [User Routes](#user-routes)
-- [Product Routes](#product-routes)
-- [Order Routes](#order-routes)
-- [Profile Routes](#profile-routes)
-- [Address Routes](#address-routes)
-- [Cart Routes](#cart-routes)
-- [Agent Order Routes](#agent-order-routes)
-- [Landing Page Routes](#landing-page-routes)
-- [Trending Routes](#trending-routes)
-- [Fashion Routes](#fashion-routes)
-- [Category Routes](#category-routes)
-- [Click Routes](#click-routes)
-- [Order Summary Routes](#order-summary-routes)
-- [Personal Details Routes](#personal-details-routes)
+## Base URL
 
-## User Routes
+```
+http://localhost:3000
+```
 
-- **POST /api/send-otp**: Send OTP to the user's phone number.
-- **POST /api/verify-otp**: Verify the OTP sent to the user's phone number.
-- **GET /api/getUserDetails**: Get user details.
+## Authentication
 
-## Product Routes
+Some endpoints may require authentication. Ensure to include the necessary headers if required.
 
-- **GET /api/v1/products/allProducts**: Get specific products.
-- **GET /api/v1/products/getAllCategory**: Get all categories.
-- **GET /api/v1/products/getAllCategoryWithImages**: Get all categories with images.
-- **GET /api/v1/products/getGenderWiseCategory**: Get gender-wise categories.
-- **GET /api/v1/products/getSubcategory**: Get subcategories.
-- **GET /api/v1/products/getGenderPlusCategory**: Get gender plus category.
-- **GET /api/v1/products/GenderCategorySubcategory**: Get products by gender, category, and subcategory.
-- **PUT /api/v1/products/UpdateGenderCategorySubcategory**: Update gender, category, and subcategory with images.
-- **DELETE /api/v1/products/CategorySubcategoryDelete**: Delete category and subcategory.
-- **GET /api/v1/products/GenderCategory**: Get gender category.
-- **PUT /api/v1/products/UpdateGenderCategory**: Update gender category with image.
-- **DELETE /api/v1/products/CategoryDelete**: Delete category.
-- **POST /api/v1/products/add-subcategory**: Add subcategory with images.
+## Endpoints
 
-## Order Routes
+### Products
 
-- **POST /orders/create**: Create a new order.
-- **PUT /orders/updatestatus**: Update the status of an order.
-- **GET /orders/getorder**: Get all orders.
-- **GET /orders/getOrdersByUser**: Get orders by user ID.
-- **GET /orders/grouped**: Get orders grouped by delivery date.
-- **GET /orders/getOrderbyID**: Get a specific order by ID.
-- **PUT /orders/:id**: Update an order by ID.
-- **DELETE /orders/:id**: Delete an order by ID.
+#### Get All Products
 
-## Profile Routes
+- **URL:** `/api/v1/products`
+- **Method:** `GET`
+- **Response:**
+  - **Status:** `200 OK`
+  - **Body:** Array of product objects
 
-- **POST /profile**: Create a new profile.
-- **GET /profile/:userId**: Get a user's profile.
-- **PUT /profile/:userId**: Update a user's profile.
-- **POST /profile/:userId/addresses**: Add an address to a user's profile.
-- **POST /profile/:userId/orders**: Add an order to a user's profile.
-- **POST /profile/:userId/help-and-support**: Add a support ticket.
-- **GET /profile/:userId/notifications**: Get all notifications.
-- **PUT /profile/:userId/notifications/:notificationId/read**: Mark a notification as read.
+#### Get Product by ID
 
-## Address Routes
+- **URL:** `/api/v1/products/:id`
+- **Method:** `GET`
+- **Response:**
+  - **Status:** `200 OK`
+  - **Body:** Product object
 
-- **POST /addAddressbyuserID**: Add a new address.
-- **GET /list**: Get all addresses.
-- **PUT /edit/:id**: Edit an existing address.
-- **GET /getAddressByUser**: Get addresses by user ID.
-- **PUT /update/:id**: Update an address.
-- **DELETE /delete/:id**: Delete an address.
+### Categories
 
-## Cart Routes
+#### Get All Categories
 
-- **POST /add-to-cart**: Add a product to the cart.
+- **URL:** `/api/v1/category`
+- **Method:** `GET`
+- **Response:**
+  - **Status:** `200 OK`
+  - **Body:** Array of category objects
 
-## Agent Order Routes
+### Fabrics
 
-- **POST /createagentorder**: Create a new agent order.
-- **GET /getandupdate**: Fetch and update an agent order.
-- **GET /agentorder**: Fetch a specific agent order by ID.
-- **POST /updateagentorder**: Update a specific agent order by ID.
+#### Get All Fabrics
 
-## Landing Page Routes
+- **URL:** `/api/v1/fabric`
+- **Method:** `GET`
+- **Response:**
+  - **Status:** `200 OK`
+  - **Body:** Array of fabric objects
 
-- **POST /addLandingPageImages**: Add landing page images.
-- **GET /getLandingPageImages**: Get landing page images.
+### Addresses
 
-## Trending Routes
+#### Add Address
 
-- **POST /addTrendingImages**: Add trending images.
-- **GET /getTrendingPageImages**: Get trending page images.
+- **URL:** `/api/v1/address`
+- **Method:** `POST`
+- **Request:**
+  - **Headers:** `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "name": "string",
+      "address1": "string",
+      "address2": "string",
+      "pincode": "string",
+      "userID": "string"
+    }
+    ```
+- **Response:**
+  - **Status:** `201 Created`
+  - **Body:** Address object
 
-## Fashion Routes
+#### Get Addresses
 
-- **POST /addFashionImages**: Add fashion images.
-- **GET /getFashionPageImages**: Get fashion page images.
+- **URL:** `/api/v1/address`
+- **Method:** `GET`
+- **Response:**
+  - **Status:** `200 OK`
+  - **Body:** Array of address objects
 
-## Category Routes
+### Orders
 
-- **GET /fetchcategories**: Fetch categories with images.
-- **POST /addCategoryData**: Add category data.
-- **GET /getGenderWiseCategory**: Get gender-wise categories.
-- **GET /deleteCategory**: Delete a category.
+#### Create Order
 
-## Click Routes
+- **URL:** `/orders`
+- **Method:** `POST`
+- **Request:**
+  - **Headers:** `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "userID": "string",
+      "items": [
+        {
+          "productID": "string",
+          "quantity": "number"
+        }
+      ],
+      "totalPrice": "number"
+    }
+    ```
+- **Response:**
+  - **Status:** `201 Created`
+  - **Body:** Order object
 
-- **POST /trackClick**: Track a click.
-- **GET /getClickStats**: Get click statistics.
+### Users
 
-## Order Summary Routes
+#### Register User
 
-- **POST /ordersummary**: Create a new order summary.
-- **GET /ordersummary/:userId**: Get order summary by user ID.
-- **PUT /ordersummary/:id**: Update an order summary.
-- **DELETE /ordersummary/:id**: Delete an order summary.
+- **URL:** `/api/register`
+- **Method:** `POST`
+- **Request:**
+  - **Headers:** `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "phoneNumber": "string",
+      "otp": "string"
+    }
+    ```
+- **Response:**
+  - **Status:** `201 Created`
+  - **Body:** User object
 
-## Personal Details Routes
+### Cart
 
-- **GET /listpersonal**: Get personal details by user ID.
-- **POST /uploadProfilePicture**: Upload profile picture.
-- **POST /addOrUpdate**: Add or update personal details.
-- **PUT /edit/:userID**: Edit personal details.
+#### Add to Cart
+
+- **URL:** `/api/v1/cart`
+- **Method:** `POST`
+- **Request:**
+  - **Headers:** `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "userID": "string",
+      "productId": "string"
+    }
+    ```
+- **Response:**
+  - **Status:** `201 Created`
+  - **Body:** Cart object
+
+### Agent Orders
+
+#### Create Agent Order
+
+- **URL:** `/agent`
+- **Method:** `POST`
+- **Request:**
+  - **Headers:** `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "userID": "string",
+      "fabricPickedUp": "boolean",
+      "measurementDone": "boolean",
+      "apparelDelivered": "boolean",
+      "paymentReceived": "boolean"
+    }
+    ```
+- **Response:**
+  - **Status:** `201 Created`
+  - **Body:** Agent order object
+
+## Flowchart
+
+```mermaid
+graph TD;
+    A[Client] -->|Request| B[API Server];
+    B -->|Response| A;
+    B --> C[Database];
+    C --> B;
+```
+
+## Error Handling
+
+All error responses will have the following structure:
+
+```json
+{
+  "message": "string",
+  "error": "string"
+}
+```
+
+## Environment Variables
+
+Ensure to set the following environment variables in your `.env` file:
+
+```
+PORT=3000
+MONGO_URI=your_mongo_uri
+TWILIO_ACC_SID=your_twilio_account_sid
+TWILIO_AUTH_TOKEN=your_twilio_auth_token
+REDIS_URL=your_redis_url
+REDIS_TOKEN=your_redis_token
+TWILIO_PHONE_NUMBER=your_twilio_phone_number
+```
 
 ## Running the Server
 
-# To run the server, use the following command:
+To start the server, run:
 
-
+```
 npm start
+```
 
-<<<<<<< HEAD
- The client will start on the port specified in the vite.config.js file or default to port 3000.
-=======
-## The client will start on the port specified in the vite.config.js file or default to port 3000.
->>>>>>> a39b5fc8824e7730d8c9759d29c95ef869a3e142
+## License
 
-### Environment Variables
-Make sure to set the following environment variables in your .env file:
-
-TWILIO_ACC_SID: Your Twilio account SID.
-TWILIO_AUTH_TOKEN: Your Twilio auth token.
-TWILIO_PHONE_NUMBER: Your Twilio phone number.
-PORT: The port on which the server will run.
-NODE_ENV: The environment in which the server is running (development or production).
-
-PUBLIC_URL: The public URL of the client application.
-
-### Dependencies:-
-Express,
-Mongoose,
-Multer,
-Twilio,
-Redis,
-Body-parser,
-Cors,
-Dotenv,
-Path,
-URL
+This project is licensed under the MIT License.

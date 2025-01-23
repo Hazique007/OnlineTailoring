@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { BeatLoader } from "react-spinners";
+import { Link } from "react-router-dom";
 
 const OrderSummaryCard = ({ order, removeOrder }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const userID = localStorage.getItem("userID")
 
   const handleRemove = async () => {
     try {
       setLoading(true);
-      await axios.delete(
-
-        `http://localhost:3000/orders/${order._id}`
-
-      );
+      await axios.delete(`http://localhost:3000/orders/${order._id}`);
       removeOrder(order._id);
       setLoading(false);
     } catch (error) {
@@ -37,7 +35,8 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
   const { images, name, price, fabric, _id, deliveryDate } = order;
 
   return (
-    <div
+    <Link to={`/orderSuccessful/${userID}/${order._id}`}
+    
       style={{
         display: "flex",
         flexWrap: "wrap",
@@ -156,7 +155,7 @@ const OrderSummaryCard = ({ order, removeOrder }) => {
           </button> */}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

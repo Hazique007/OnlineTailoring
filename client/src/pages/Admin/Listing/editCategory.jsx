@@ -13,12 +13,13 @@ const EditCategory = () => {
   const [selectedImage, setSelectedImage] = useState(null); // New state for image
   const [previewImage, setPreviewImage] = useState(null); // For image preview
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false); // For delete confirmation
+  const userID = localStorage.getItem("userID");
 
   // Get product details
   const getDetails = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/v1/products/GenderCategory",
+        `http://localhost:3000/api/v1/products/GenderCategory?userID=${userID}`,
         {
           params: { gender, category },
         }
@@ -66,7 +67,7 @@ const EditCategory = () => {
       }
 
       const response = await axios.put(
-        "http://localhost:3000/api/v1/products/UpdateGenderCategory",
+        `http://localhost:3000/api/v1/products/UpdateGenderCategory?userID=${userID}`,
         formData,
         {
           params: { gender, category, subCategory },
@@ -93,7 +94,7 @@ const EditCategory = () => {
       // console.log("dataaa", gender, category); my name is smar
 
       const response = await axios.get(
-        "http://localhost:3000/api/v1/category/deleteCategory",
+        `http://localhost:3000/api/v1/category/deleteCategory?userID=${userID}`,
         {
           params: { gender, category },
         }

@@ -76,7 +76,6 @@ export const fetchCategoriesWithImages = async (req, res) => {
       });
     }
 
-    // Cache the result with a 1-hour expiration time
     await redis.set(cacheKey, JSON.stringify(categories), { ex: 3600 });
 
     res.status(200).json({
@@ -93,7 +92,6 @@ export const fetchCategoriesWithImages = async (req, res) => {
   }
 };
 
-// Get gender-wise category with products
 export const getGenderWiseCategory = async (req, res) => {
   const { gender } = req.query;
 
@@ -104,7 +102,6 @@ export const getGenderWiseCategory = async (req, res) => {
   }
 
   try {
-    // Check Redis cache first
     const cacheKey = `genderWiseCategory:${gender}`;
     const cachedData = await redis.get(cacheKey);
 
@@ -140,7 +137,6 @@ export const getGenderWiseCategory = async (req, res) => {
       })
     );
 
-    // Cache the result with a 1-hour expiration time
     await redis.set(cacheKey, JSON.stringify(data), { ex: 3600 });
 
     res.status(200).json({

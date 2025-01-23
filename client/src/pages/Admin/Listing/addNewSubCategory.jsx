@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { IoIosAddCircle } from "react-icons/io";
 
 const AddSubCategory = () => {
+  const userID = localStorage.getItem("userID");
   const [details, setDetails] = useState({
     category: "",
     subCategory: "",
@@ -68,7 +69,7 @@ const AddSubCategory = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/products/add-subcategory",
+        `http://localhost:3000/api/v1/products/add-subcategory?userID=${userID}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -88,7 +89,10 @@ const AddSubCategory = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Error adding subcategory.");
+      toast.error(
+        error.response?.data?.message ||
+          "Error adding subcategory. Please try again."
+      );
     }
   };
 

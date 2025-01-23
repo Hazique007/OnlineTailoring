@@ -6,6 +6,7 @@ import Search from "../../../components/Search";
 import { toast } from "react-toastify";
 
 const SubCategoryWise = () => {
+  const userID = localStorage.getItem("userID");
   const { gender, category, subCategory } = useParams();
   const [details, setDetails] = useState({});
   const [isEdit, setIsEdit] = useState(false);
@@ -24,7 +25,10 @@ const SubCategoryWise = () => {
       setDetails(response.data.products[0]);
     } catch (error) {
       console.error("Error fetching product details:", error);
-      toast.error("Error fetching product details.");
+      toast.error(
+        error.response?.data?.message ||
+          "Error fetching category. Please try again."
+      );
     }
   };
 
@@ -65,7 +69,7 @@ const SubCategoryWise = () => {
 
     try {
       const response = await axios.put(
-        "http://localhost:3000/api/v1/products/UpdateGenderCategorySubcategory",
+        `http://localhost:3000/api/v1/products/UpdateGenderCategorySubcategory?userID=${userID}`,
         formData,
         {
           params: { gender, category, subCategory },
@@ -79,7 +83,9 @@ const SubCategoryWise = () => {
         getDetails();
         setIsEdit(false);
       } else {
-        toast.error("Failed to update product.");
+        toast.error(
+          error.response?.data?.message || "Update Error. Please try again."
+        );
       }
     } catch (error) {
       console.error("Error updating product:", error);

@@ -4,8 +4,10 @@ import { toast } from "react-toastify";
 import TopNav from "../../../components/TopNav";
 import Search from "../../../components/Search";
 import { IoIosAddCircle } from "react-icons/io";
+import { useParams } from "react-router-dom";
 
 const AddCategory = () => {
+  const params = useParams();
   const [details, setDetails] = useState({
     category: "",
     gender: "Male",
@@ -29,7 +31,7 @@ const AddCategory = () => {
       image: e.target.files[0], // Save the image file
     }));
   };
-
+  const userID = localStorage.getItem("userID");
   // Handle save request
   const handleSave = async () => {
     const formData = new FormData();
@@ -42,8 +44,9 @@ const AddCategory = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/category/addCategoryData",
+        `http://localhost:3000/api/v1/category/addCategoryData?userID=${userID}`,
         formData,
+
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -62,7 +65,10 @@ const AddCategory = () => {
       }
     } catch (error) {
       console.error("Error adding category:", error);
-      toast.error("Error adding category. Please try again.");
+      toast.error(
+        error.response?.data?.message ||
+          "Error adding category. Please try again."
+      );
     }
   };
 
