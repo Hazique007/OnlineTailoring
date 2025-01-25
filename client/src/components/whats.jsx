@@ -15,7 +15,7 @@ const WhatsApp = () => {
         </p>
       </div>
       <a
-        href="https://wa.me/917758838825"
+        href="https://wa.me/918920039125"
         target="_blank"
         hrefLang=""
         className="text-[#1043F9] flex justify-end w-[30vw] text-[10px] font-[400] font-poppins"

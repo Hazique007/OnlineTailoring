@@ -26,7 +26,7 @@ const HelpAndSupport = () => {
           <strong>Email:</strong> <a href="mailto:test@test.com" className="text-blue-500 hover:underline">theglamthreads21@gmail.com</a>
         </p>
         <p className="text-gray-800 mt-2">
-          <strong>Phone:</strong> <a href="tel:+7758838825" className="text-blue-500 hover:underline">7758838825</a>
+          <strong>Phone:</strong> <a href="tel:+7758838825" className="text-blue-500 hover:underline">8920039125</a>
         </p>
         <p className="text-gray-600 mt-4">
           We’ll be happy to assist you with your queries immediately.

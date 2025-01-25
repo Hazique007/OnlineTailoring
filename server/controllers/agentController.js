@@ -285,3 +285,33 @@ export const getAgentDetails = async (req, res) => {
   }
 };
 
+
+export const getAddressByNumber = async (req, res) => {
+  const { phoneNumber } = req.query;
+  if (!phoneNumber) {
+    return res.status(400).json({ message: "Phone number is required" });
+  }
+  console.log(phoneNumber);
+
+  try {
+    const user = await Otp.findOne({ phoneNumber: "+" + phoneNumber });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const getAddress = await Address.find({ userID: user._id });
+    if (!getAddress.length) {
+      return res.status(404).json({ message: "Address not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Successfully got address", getAddress });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "Server error", error: error.message });
+  }
+};
+

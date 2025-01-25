@@ -9,7 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 const EditAgent = () => {
   const { orderID } = useParams();
   const userID = localStorage.getItem("userID");
-
+  const [mobile, setMobile] = useState(null);
+  const [userAddress, setUserAddress] = useState();
   const [orderData, setOrderData] = useState({
     user: null,
     order: null,
@@ -20,60 +21,43 @@ const EditAgent = () => {
       paymentReceived: false,
     },
   });
-
   const [isLoading, setIsLoading] = useState(true);
-
-  // State for the selected address
   const [selectedAddress, setSelectedAddress] = useState(null);
 
-  // Fetch selected address from localStorage
-  useEffect(() => {
-    const addressID = localStorage.getItem("selectedAddress");
-    if (addressID) {
-      // Fetch the address from the server using the ID (if necessary)
-      const fetchAddress = async () => {
-        try {
-          const response = await axios.get(
-            "http://localhost:3000/getAddressByUser",
-            {
-              params: { userID },
-            }
-          );
-          const address = response.data.data.find(
-            (address) => address._id === addressID
-          );
-          setSelectedAddress(address);
-        } catch (error) {
-          console.error("Error fetching address:", error);
-        }
-      };
-
-      fetchAddress();
+  const getAddress = async (mobile) => {
+    try {
+      const response = await axios.get(
+       ` https://apnadarzi-5.onrender.com/agent/getAddressByNumber?phoneNumber=91${mobile}`
+      );
+      console.log(response.data.getAddress[0]);
+      setUserAddress(response.data.getAddress[0]);
+      // console.log(userAddress);
+    } catch (error) {
+      console.error("Error fetching address:", error);
+      toast.error("Failed to fetch address");
     }
-  }, [userID]);
+  };
+
+  useEffect(() => {
+    if (mobile) {
+      getAddress(mobile);
+    }
+  }, [mobile]);
 
   const fetchAllOrderData = async () => {
     try {
       setIsLoading(true);
 
-      // Fetch order details
       const orderResponse = await axios.get(
         "https://apnadarzi-5.onrender.com/orders/getOrderbyID",
-        {
-          params: { orderID },
-        }
+        { params: { orderID } }
       );
 
-      // Fetch agent-specific order status
       const agentResponse = await axios.get(
         "https://apnadarzi-5.onrender.com/agent/agentorder",
-        {
-          params: { orderID, userID },
-        }
+        { params: { orderID, userID } }
       );
-      console.log(agentResponse);
 
-      // Safely access the agent order data
       const agentOrder = agentResponse.data?.order?.[0] || {};
       const orderDetails = orderResponse.data?.order || {};
       const userData = orderResponse.data?.user?.[0] || {};
@@ -88,10 +72,11 @@ const EditAgent = () => {
           paymentReceived: Boolean(agentOrder.paymentReceived),
         },
       });
-      console.log("userData", userData);
+
+      setMobile(userData.mobileNumber);
     } catch (error) {
-      console.error("Error fetching data:", error);
-      toast.error("Failed to fetch order details");
+      console.error("Error fetching order data:", error);
+      toast.error("Failed to fetch order data");
     } finally {
       setIsLoading(false);
     }
@@ -121,17 +106,13 @@ const EditAgent = () => {
         "https://apnadarzi-5.onrender.com/agent/updateagentorder",
         {
           updateData: orderData.status,
-          status: allCompleted ? "done" : "pending", // Add this to update the status
+          status: allCompleted ? "done" : "pending",
         },
-        {
-          params: { userID, orderID },
-        }
+        { params: { userID, orderID } }
       );
 
       if (response.status === 200 || response.status === 201) {
         toast.success(allCompleted ? "Order Completed" : "Order Updated");
-
-        // Refetch data after successful update
         await fetchAllOrderData();
       }
     } catch (error) {
@@ -141,6 +122,14 @@ const EditAgent = () => {
   };
 
   const { user, order, status } = orderData;
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
+  }
 
   if (!user || !order) {
     return (
@@ -157,24 +146,21 @@ const EditAgent = () => {
         <Search />
       </div>
       <div className="p-4">
-        <div className="w-full bg-white border-black border-2 p-2 px-3 mt-3 rounded-xl h-[150px]">
-          <div className="font-semibold">
-             {user.name} - {order.subCategory}
+        <div className="w-full bg-white flex flex-col justify-evenly border-black border-2 p-2 px-3 mt-3 rounded-xl h-[150px]">
+          <div className="font-[500] text-[16px]">
+            {user.name} - {order.subCategory}
           </div>
-         
-          <div className="font-semibold ">
-            {user.mobileNumber}
-          </div>
-          {/* Display the selected address under the phone number */}
-          {selectedAddress && (
-            <div className="font-semibold">
-              Address - 
-              
-              <div>
-              {selectedAddress.address1}, {selectedAddress.address2}, Pincode: {selectedAddress.pincode}
+
+          <div className="font-[500] text-[16px]">{user.mobileNumber}</div>
+          {
+            <div className="font-semibold flex gap-2 text-[16px]">
+              {/* Address: */}
+              <div className="font-[500]">
+                {userAddress?.name} , {userAddress?.address1} ,{" "}
+                {userAddress?.address2} , {userAddress?.pincode}
               </div>
             </div>
-          )}
+          }
         </div>
 
         <div className="flex justify-between mt-5">
