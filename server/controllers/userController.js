@@ -275,6 +275,7 @@ export const sendOtp = async (req, res) => {
       return res.status(500).json({
         success: false,
         msg: "Error sending OTP via Twilio.",
+        twilioError
       });
     }
 
