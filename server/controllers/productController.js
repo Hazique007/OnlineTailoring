@@ -492,51 +492,112 @@ export const GenderCategory = async (req, res) => {
   }
 };
 
+// export const UpdateGenderCategory = async (req, res) => {
+//   const { gender, category } = req.query;
+//   const image = req.file?.filename;
+//   console.log(req.file.filename);
+
+//   if (!gender || !category || !image) {
+//     return res.status(400).json({
+//       message: "All parameters (gender, category) are required",
+//     });
+//   }
+
+//   const validGenders = ["Male", "Female", "General"];
+//   if (!validGenders.includes(gender)) {
+//     return res.status(400).json({
+//       message:
+//         "Invalid gender value. It must be one of the following: Male, Female, General",
+//     });
+//   }
+
+//   try {
+//     const updatedProduct = await Category.findOneAndUpdate(
+//       { gender, category },
+//       { ...req.body, categoryImages: image },
+//       { new: true }
+//     );
+
+//     if (!updatedProduct) {
+//       return res.status(404).json({
+//         message:
+//           "No product found with the given gender, category, and subCategory",
+//       });
+//     }
+
+//     await redis.del("categories");
+//     await redis.del(`categories:${gender}`);
+
+//     return res.status(200).json({
+//       message: "Product updated successfully",
+//       product: updatedProduct,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res
+//       .status(500)
+//       .json({ message: "An error occurred while updating the product" });
+//   }
+// };
+
 export const UpdateGenderCategory = async (req, res) => {
   const { gender, category } = req.query;
   const image = req.file?.filename;
-  console.log(req.file.filename);
+
+  console.log(req.file?.filename);
 
   if (!gender || !category || !image) {
     return res.status(400).json({
-      message: "All parameters (gender, category) are required",
+      message: "All parameters (gender, category, image) are required",
     });
   }
 
   const validGenders = ["Male", "Female", "General"];
   if (!validGenders.includes(gender)) {
     return res.status(400).json({
-      message:
-        "Invalid gender value. It must be one of the following: Male, Female, General",
+      message: "Invalid gender value. It must be one of the following: Male, Female, General",
     });
   }
 
   try {
+    // Update category data
     const updatedProduct = await Category.findOneAndUpdate(
       { gender, category },
       { ...req.body, categoryImages: image },
       { new: true }
     );
 
+    // Update product descriptions
+    const updateProductDescription = await Product.updateMany(
+      { gender, category },
+      { categoryDescription: req.body.categoryDescription },
+      { new: true }
+    );
+
     if (!updatedProduct) {
       return res.status(404).json({
-        message:
-          "No product found with the given gender, category, and subCategory",
+        message: "No product found with the given gender and category",
       });
     }
 
-    await redis.del("categories");
-    await redis.del(`categories:${gender}`);
+    // Invalidate Redis cache
+    try {
+      await redis.del("categories");
+      await redis.del(`categories:${gender}`);
+    } catch (redisError) {
+      console.error("Redis error:", redisError);
+    }
 
     return res.status(200).json({
       message: "Product updated successfully",
       product: updatedProduct,
     });
   } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .json({ message: "An error occurred while updating the product" });
+    console.error("Update Error:", error.message);
+    return res.status(500).json({
+      message: "An error occurred while updating the product",
+      error: error.message,
+    });
   }
 };
 
