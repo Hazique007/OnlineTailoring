@@ -76,7 +76,7 @@ const Pickup = () => {
     try {
       const updatedAddress = { ...newAddress, userID: currentUserID };
 
-      const response = await fetch("http://localhost:3000/addAddressbyuserID", {
+      const response = await fetch("https://apnadarzi-5.onrender.com/addAddressbyuserID", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedAddress),

@@ -9,7 +9,7 @@ const Trending = () => {
   const getTrendingImages = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:3000/api/v1/landing/getTrendingPageImages"
+        "https://apnadarzi-5.onrender.com/api/v1/landing/getTrendingPageImages"
       );
 
       if (data?.status !== "success") {
@@ -32,7 +32,7 @@ const Trending = () => {
 
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post("http://localhost:3000/api/v1/stats/trackClick", {
+      await axios.post("https://apnadarzi-5.onrender.com/api/v1/stats/trackClick", {
         gender,
         category,
       });
@@ -62,7 +62,7 @@ const Trending = () => {
               {item.trendingImage ? (
                 <img
                   className="h-[45vw] w-[45vw] object-cover rounded-lg"
-                  src={`http://localhost:3000/uploads/${item.trendingImage}`}
+                  src={`https://apnadarzi-5.onrender.com/uploads/${item.trendingImage}`}
                   alt={`Trending Image ${index + 1} - ${item.category}`}
                 />
               ) : (

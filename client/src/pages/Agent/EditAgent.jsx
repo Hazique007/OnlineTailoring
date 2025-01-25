@@ -23,13 +23,42 @@ const EditAgent = () => {
 
   const [isLoading, setIsLoading] = useState(true);
 
+  // State for the selected address
+  const [selectedAddress, setSelectedAddress] = useState(null);
+
+  // Fetch selected address from localStorage
+  useEffect(() => {
+    const addressID = localStorage.getItem("selectedAddress");
+    if (addressID) {
+      // Fetch the address from the server using the ID (if necessary)
+      const fetchAddress = async () => {
+        try {
+          const response = await axios.get(
+            "http://localhost:3000/getAddressByUser",
+            {
+              params: { userID },
+            }
+          );
+          const address = response.data.data.find(
+            (address) => address._id === addressID
+          );
+          setSelectedAddress(address);
+        } catch (error) {
+          console.error("Error fetching address:", error);
+        }
+      };
+
+      fetchAddress();
+    }
+  }, [userID]);
+
   const fetchAllOrderData = async () => {
     try {
       setIsLoading(true);
 
       // Fetch order details
       const orderResponse = await axios.get(
-        "http://localhost:3000/orders/getOrderbyID",
+        "https://apnadarzi-5.onrender.com/orders/getOrderbyID",
         {
           params: { orderID },
         }
@@ -37,7 +66,7 @@ const EditAgent = () => {
 
       // Fetch agent-specific order status
       const agentResponse = await axios.get(
-        "http://localhost:3000/agent/agentorder",
+        "https://apnadarzi-5.onrender.com/agent/agentorder",
         {
           params: { orderID, userID },
         }
@@ -59,7 +88,7 @@ const EditAgent = () => {
           paymentReceived: Boolean(agentOrder.paymentReceived),
         },
       });
-      // console.log("orderData", orderData);
+      console.log("userData", userData);
     } catch (error) {
       console.error("Error fetching data:", error);
       toast.error("Failed to fetch order details");
@@ -87,9 +116,9 @@ const EditAgent = () => {
       const allCompleted = Object.values(orderData.status).every(
         (status) => status
       );
-  
+
       const response = await axios.post(
-        "http://localhost:3000/agent/updateagentorder",
+        "https://apnadarzi-5.onrender.com/agent/updateagentorder",
         {
           updateData: orderData.status,
           status: allCompleted ? "done" : "pending", // Add this to update the status
@@ -98,10 +127,10 @@ const EditAgent = () => {
           params: { userID, orderID },
         }
       );
-  
+
       if (response.status === 200 || response.status === 201) {
         toast.success(allCompleted ? "Order Completed" : "Order Updated");
-  
+
         // Refetch data after successful update
         await fetchAllOrderData();
       }
@@ -110,15 +139,6 @@ const EditAgent = () => {
       toast.error("Error updating order status");
     }
   };
-  
-
-  // if (isLoading) {
-  //   return (
-  //     <div className="flex justify-center items-center h-screen">
-  //       Loading...
-  //     </div>
-  //   );
-  // }
 
   const { user, order, status } = orderData;
 
@@ -137,8 +157,24 @@ const EditAgent = () => {
         <Search />
       </div>
       <div className="p-4">
-        <div className="w-full bg-white border-black border-2 p-2 px-3 mt-3 rounded-xl">
-          {user.name} - {order.subCategory}
+        <div className="w-full bg-white border-black border-2 p-2 px-3 mt-3 rounded-xl h-[150px]">
+          <div className="font-semibold">
+             {user.name} - {order.subCategory}
+          </div>
+         
+          <div className="font-semibold ">
+            {user.mobileNumber}
+          </div>
+          {/* Display the selected address under the phone number */}
+          {selectedAddress && (
+            <div className="font-semibold">
+              Address - 
+              
+              <div>
+              {selectedAddress.address1}, {selectedAddress.address2}, Pincode: {selectedAddress.pincode}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="flex justify-between mt-5">
@@ -208,4 +244,4 @@ const EditAgent = () => {
   );
 };
 
-export default EditAgent;
+export default EditAgent;

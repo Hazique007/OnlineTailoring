@@ -16,7 +16,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
-  const API_BASE_URL = "http://localhost:3000";
+  const API_BASE_URL = "https://apnadarzi-5.onrender.com";
   const userID = localStorage.getItem("userID");
   const [loading, setLoading] = useState(true); // Set loading to true initially
   const [profile, setProfile] = useState(null); // Set initial profile to null
@@ -25,7 +25,7 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const getRole = async () => {
     const response = await axios.get(
-      "http://localhost:3000/api/getUserDetails",
+      "https://apnadarzi-5.onrender.com/api/getUserDetails",
       {
         params: { userID: userID },
       }

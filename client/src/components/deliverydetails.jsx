@@ -18,7 +18,7 @@ const Delivery = ({ onProceed }) => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/getAddressByUser",
+          "https://apnadarzi-5.onrender.com/getAddressByUser",
           {
             params: { userID },
           }
@@ -48,7 +48,7 @@ const Delivery = ({ onProceed }) => {
   // Add a new address
   const handleAddAddress = async () => {
     try {
-      const response = await fetch("http://localhost:3000/add", {
+      const response = await fetch("https://apnadarzi-5.onrender.com/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newAddress),

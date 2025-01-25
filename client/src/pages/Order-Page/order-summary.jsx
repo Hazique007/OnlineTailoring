@@ -41,7 +41,7 @@ const OrderSummary = ({}) => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/getAddressByUser",
+          "https://apnadarzi-5.onrender.com/getAddressByUser",
           {
             params: { userID },
           }
@@ -100,7 +100,7 @@ const OrderSummary = ({}) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/orders/create",
+        "https://apnadarzi-5.onrender.com/orders/create",
         orderData
       );
       navigate("/orderplaced");
@@ -113,7 +113,7 @@ const OrderSummary = ({}) => {
 
   const handleRemoveOrder = async (orderId) => {
     try {
-      await axios.delete(`http://localhost:3000/orders/${orderId}`);
+      await axios.delete(`https://apnadarzi-5.onrender.com/orders/${orderId}`);
       alert("Order removed successfully.");
       // Update UI by removing the order from the list
       const updatedOrders = orders.filter((order) => order._id !== orderId);
