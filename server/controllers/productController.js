@@ -546,7 +546,7 @@ export const UpdateGenderCategory = async (req, res) => {
 
   console.log(req.file?.filename);
 
-  if (!gender || !category || !image) {
+  if (!gender && !category && !image) {
     return res.status(400).json({
       message: "All parameters (gender, category, image) are required",
     });
@@ -555,7 +555,8 @@ export const UpdateGenderCategory = async (req, res) => {
   const validGenders = ["Male", "Female", "General"];
   if (!validGenders.includes(gender)) {
     return res.status(400).json({
-      message: "Invalid gender value. It must be one of the following: Male, Female, General",
+      message:
+        "Invalid gender value. It must be one of the following: Male, Female, General",
     });
   }
 

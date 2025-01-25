@@ -32,11 +32,11 @@ app.use(express.urlencoded({ limit: "500mb", extended: true }));
 // const isProduction = process.env.NODE_ENV === "production";
 
 app.use(
-  cors({
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    origin:"*",
-  })
+  cors(
+    // credentials: true,
+    // methods: ["GET", "POST", "PUT", "DELETE"],
+    // origin:"*",
+  )
 );
 
 app.use(bodyParser.json());
