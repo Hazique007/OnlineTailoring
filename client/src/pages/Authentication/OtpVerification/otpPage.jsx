@@ -53,7 +53,7 @@ const Otp = () => {
 
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch("https://apnadarzi-5.onrender.com/api/verify-otp", {
+      const response = await fetch("https://apnadarzi-9.onrender.com/api/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phoneNumber: formattedPhone, otp: otp }),
@@ -110,7 +110,7 @@ const Otp = () => {
 
   //     const formattedPhone = "+" + phone;
   //     const response = await fetch(
-  //       "https://apnadarzi-5.onrender.com/api/send-otp",
+  //       "https://apnadarzi-9.onrender.com/api/send-otp",
   //       {
   //         method: "POST",
   //         headers: { "Content-Type": "application/json" },
@@ -166,7 +166,7 @@ const Otp = () => {
       console.log("entering");
 
       const formattedPhone = "+" + phone;
-      const response = await fetch("https://apnadarzi-5.onrender.com/api/send-otp", {
+      const response = await fetch("https://apnadarzi-9.onrender.com/api/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phoneNumber: formattedPhone }),
@@ -210,7 +210,7 @@ const Otp = () => {
   //     if(phone===HARDCODED_PHONE){
   //       const formattedPhone = "+" + HARDCODED_PHONE;
   //     const response = await fetch(
-  //       "https://apnadarzi-5.onrender.com/api/verify-otp",
+  //       "https://apnadarzi-9.onrender.com/api/verify-otp",
   //       {
   //         method: "POST",
   //         headers: { "Content-Type": "application/json" },
@@ -222,7 +222,7 @@ const Otp = () => {
 
   //       const formattedPhone = "+" + phone;
   //     const response = await fetch(
-  //       "https://apnadarzi-5.onrender.com/api/verify-otp",
+  //       "https://apnadarzi-9.onrender.com/api/verify-otp",
   //       {
   //         method: "POST",
   //         headers: { "Content-Type": "application/json" },
@@ -256,7 +256,7 @@ const Otp = () => {
   //     console.log("api fetching");
 
   //     const response = await fetch(
-  //       "https://apnadarzi-5.onrender.com/api/verify-otp",
+  //       "https://apnadarzi-9.onrender.com/api/verify-otp",
   //       {
   //         method: "POST",
   //         headers: { "Content-Type": "application/json" },
@@ -292,7 +292,7 @@ const Otp = () => {
 
     try {
       const formattedPhone = "+" + phone;
-      const response = await fetch("https://apnadarzi-5.onrender.com/api/send-otp", {
+      const response = await fetch("https://apnadarzi-9.onrender.com/api/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phoneNumber: formattedPhone }),

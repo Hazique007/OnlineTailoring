@@ -22,7 +22,7 @@ const OrderSuccessful = () => {
   const fetchOrderStatus = async () => {
     try {
       const response = await axios.get(
-        `https://apnadarzi-5.onrender.com/agent/agentorderdetails?orderID=${orderID}&userID=${userID}`
+        `https://apnadarzi-9.onrender.com/agent/agentorderdetails?orderID=${orderID}&userID=${userID}`
       );
       console.log(response.data);
 

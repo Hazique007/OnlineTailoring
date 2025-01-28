@@ -14,7 +14,7 @@ const CustomProductPage = ({ gender }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://apnadarzi-5.onrender.com/api/v1/products/allProducts/${gender || ""}`
+          `https://apnadarzi-9.onrender.com/api/v1/products/allProducts/${gender || ""}`
         );
         setData(response.data.products);
       } catch (error) {

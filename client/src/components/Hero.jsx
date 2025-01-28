@@ -17,7 +17,7 @@ const Hero = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        "https://apnadarzi-5.onrender.com/api/v1/landing/getLandingPageImages"
+        "https://apnadarzi-9.onrender.com/api/v1/landing/getLandingPageImages"
       );
       if (data.status !== "success") {
         navigate("/error");
@@ -85,7 +85,7 @@ const Hero = () => {
   // Navigate to product page
   const handleImageClick = async (gender, category) => {
     try {
-      await axios.post("https://apnadarzi-5.onrender.com/api/v1/stats/trackClick", {
+      await axios.post("https://apnadarzi-9.onrender.com/api/v1/stats/trackClick", {
         gender,
         category,
       });
@@ -122,7 +122,7 @@ const Hero = () => {
               className="w-full h-[182px] flex-shrink-0 snap-center"
             >
               <img
-                src={`https://apnadarzi-5.onrender.com/uploads/${image.image}`}
+                src={`https://apnadarzi-9.onrender.com/uploads/${image.image}`}
                 onClick={() => handleImageClick(image.gender, image.category)}
                 className="h-[182px] w-full rounded-[5px] cursor-pointer"
                 alt={`Hero Image ${index + 1}`}

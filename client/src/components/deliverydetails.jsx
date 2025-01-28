@@ -10,7 +10,7 @@ const Delivery = ({ selectedAddress, onSelect }) => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "https://apnadarzi-5.onrender.com/getAddressByUser",
+          "https://apnadarzi-9.onrender.com/getAddressByUser",
           { params: { userID } }
         );
 

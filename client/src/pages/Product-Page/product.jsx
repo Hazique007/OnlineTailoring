@@ -22,7 +22,7 @@ const ProductPage = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://apnadarzi-5.onrender.com/api/v1/products/allProducts`,
+          `https://apnadarzi-9.onrender.com/api/v1/products/allProducts`,
           {
             params: { gender, category, subCategory },
           }

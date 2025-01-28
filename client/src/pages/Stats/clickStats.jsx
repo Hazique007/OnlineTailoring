@@ -31,7 +31,7 @@ const ClickStats = () => {
     const fetchStats = async () => {
       try {
         const response = await axios.get(
-          "https://apnadarzi-5.onrender.com/api/v1/stats/getClickStats"
+          "https://apnadarzi-9.onrender.com/api/v1/stats/getClickStats"
         );
 
         const fetchedStats = response.data.stats;

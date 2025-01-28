@@ -22,7 +22,7 @@ const TrendingProductDetails = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://apnadarzi-5.onrender.com/api/v1/products/getGenderPlusCategory`,
+          `https://apnadarzi-9.onrender.com/api/v1/products/getGenderPlusCategory`,
           {
             params: { gender, category },
           }

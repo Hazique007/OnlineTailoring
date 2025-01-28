@@ -29,11 +29,11 @@ const EditAgent = () => {
     try {
       setIsLoading(true);
 
-      const orderResponse = await axios.get("https://apnadarzi-5.onrender.com/orders/getOrderbyID", {
+      const orderResponse = await axios.get("https://apnadarzi-9.onrender.com/orders/getOrderbyID", {
         params: { orderID },
       });
 
-      const agentResponse = await axios.get("https://apnadarzi-5.onrender.com/agent/agentorder", {
+      const agentResponse = await axios.get("https://apnadarzi-9.onrender.com/agent/agentorder", {
         params: { orderID, userID },
       });
 
@@ -80,7 +80,7 @@ const EditAgent = () => {
       const allCompleted = Object.values(orderData.status).every((status) => status);
 
       const response = await axios.post(
-        "https://apnadarzi-5.onrender.com/agent/updateagentorder",
+        "https://apnadarzi-9.onrender.com/agent/updateagentorder",
         {
           updateData: orderData.status,
           status: allCompleted ? "done" : "pending",

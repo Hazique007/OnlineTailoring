@@ -41,7 +41,7 @@ const OrderSummary = () => {
     const fetchAddresses = async () => {
       try {
         const response = await axios.get(
-          "https://apnadarzi-5.onrender.com/getAddressByUser",
+          "https://apnadarzi-9.onrender.com/getAddressByUser",
           { params: { userID } }
         );
 
@@ -112,7 +112,7 @@ const OrderSummary = () => {
     
 
     try {
-      await axios.post("https://apnadarzi-5.onrender.com/orders/create", orderData);
+      await axios.post("https://apnadarzi-9.onrender.com/orders/create", orderData);
       navigate("/orderplaced");
     } catch (error) {
       toast.error("An error occurred while placing the order. Please try again.");
