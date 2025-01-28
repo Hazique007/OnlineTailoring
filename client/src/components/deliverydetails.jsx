@@ -14,17 +14,32 @@ const Delivery = ({ selectedAddress, onSelect }) => {
           { params: { userID } }
         );
 
-        if (response.data && response.data.data.length > 0) {
+        console.log("API Response:", response); // Debugging
+
+        // Ensure response is JSON
+        if (!response.data || typeof response.data !== "object") {
+          throw new Error("Invalid API response format");
+        }
+
+        if (response.data.data && response.data.data.length > 0) {
           let fetchedAddresses = response.data.data;
 
           // Retrieve saved address from local storage
-          const savedAddress = JSON.parse(localStorage.getItem("selectedAddress"));
-
+          let savedAddress = localStorage.getItem("selectedAddress");
           let selected;
+
           if (savedAddress) {
-            selected = fetchedAddresses.find(addr => addr._id === savedAddress._id);
-          } else {
-            // Select the first address by default if no saved address
+            try {
+              savedAddress = JSON.parse(savedAddress);
+              selected = fetchedAddresses.find(addr => addr._id === savedAddress._id);
+            } catch (e) {
+              console.error("Error parsing local storage address:", e);
+              localStorage.removeItem("selectedAddress"); // Remove corrupted data
+            }
+          }
+
+          if (!selected) {
+            // Select the first address by default if no valid saved address
             selected = fetchedAddresses[0];
             localStorage.setItem("selectedAddress", JSON.stringify(selected));
           }
