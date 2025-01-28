@@ -83,6 +83,14 @@ const OrderSchema = new mongoose.Schema(
       required: true,
     },
 
+    addressID:{
+      type: mongoose.Schema.ObjectId,
+      ref : 'Address',
+      require:true
+
+    },
+
+
     deliveryDate: {
       type: String, // Stored as a string in dd/mm/yyyy format
       default: () => formatDate(new Date()), // Automatically format the date

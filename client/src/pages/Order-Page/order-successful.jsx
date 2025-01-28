@@ -72,71 +72,37 @@ const OrderSuccessful = () => {
       </h2>
 
       <div className="flex flex-col items-start space-y-6 mt-10 mx-auto w-3/4">
-        {/* Step 1: Order Placed */}
-        <div className="flex items-center pt-5">
-          <FaCheckCircle className="text-[#4CAF50] text-[30px] mr-4" />
-          <span className="text-xl font-poppins">Order Placed - Done</span>
-        </div>
-
-        {/* Step 2: Fabric Pickup */}
+        {/* Step 1: Order Placed - Always Done */}
         <div className="flex items-center">
-          {orderStatus.fabricPickedUp ? (
-            <FaCheckCircle className="text-[#4CAF50] text-[30px] mr-4" />
-          ) : (
-            <IoMdHourglass className="text-[#D4A706] text-[30px] mr-4" />
-          )}
-          <span className="text-xl font-poppins">
-            Fabric Pickup{orderStatus.fabricPickedUp && " - Done"}
+          <FaCheckCircle className="text-[#4CAF50] text-[22px] mr-4" />
+          <span className="text-base font-poppins font-[500] text-[#4CAF50]">
+            Order Placed - Done
           </span>
         </div>
 
-        {/* Step 3: Measurement Done */}
-        <div className="flex items-center">
-          {orderStatus.measurementDone ? (
-            <FaCheckCircle className="text-[#4CAF50] text-[30px] mr-4" />
-          ) : (
-            <IoMdHourglass className="text-[#D4A706] text-[30px] mr-4" />
-          )}
-          <span className="text-xl font-poppins">
-            Measurement{orderStatus.measurementDone && " - Done"}
-          </span>
-        </div>
-
-        {/* Step 4: Apparel Delivery */}
-        <div className="flex items-center">
-          {orderStatus.apparelDelivered ? (
-            <FaCheckCircle className="text-[#4CAF50] text-[30px] mr-4" />
-          ) : (
-            <IoMdHourglass className="text-[#D4A706] text-[30px] mr-4" />
-          )}
-          <span className="text-xl font-poppins">
-            Apparel Delivery{orderStatus.apparelDelivered && " - Done"}
-          </span>
-        </div>
-
-        {/* Step 5: Payment Received */}
-        <div className="flex items-center">
-          {orderStatus.paymentReceived ? (
-            <FaCheckCircle className="text-[#4CAF50] text-[30px] mr-4" />
-          ) : (
-            <IoMdHourglass className="text-[#D4A706] text-[30px] mr-4" />
-          )}
-          <span className="text-xl font-poppins">
-            Payment{orderStatus.paymentReceived && " - Done"}
-          </span>
-        </div>
-
-        {/* Step 6: Order Completed */}
-        <div className="flex items-center">
-          {orderStatus.paymentReceived ? (
-            <FaCheckCircle className="text-[#4CAF50] text-[30px] mr-4" />
-          ) : (
-            <IoMdHourglass className="text-[#D4A706] text-[30px] mr-4" />
-          )}
-          <span className="text-xl font-poppins">
-            Order Completed{orderStatus.paymentReceived && " - Done"}
-          </span>
-        </div>
+        {/* Dynamic Order Steps */}
+        {[
+          { label: "Fabric Pickup", status: orderStatus.fabricPickedUp },
+          { label: "Measurement", status: orderStatus.measurementDone },
+          { label: "Apparel Delivery", status: orderStatus.apparelDelivered },
+          { label: "Payment", status: orderStatus.paymentReceived },
+          { label: "Order Completed", status: orderStatus.paymentReceived },
+        ].map((step, index) => (
+          <div key={index} className="flex items-center">
+            {step.status ? (
+              <FaCheckCircle className="text-[#4CAF50] text-[22px] mr-4" />
+            ) : (
+              <IoMdHourglass className="text-[#D4A706] text-[22px] mr-4" />
+            )}
+            <span
+              className={`text-base font-poppins font-[500] ${
+                step.status ? "text-[#4CAF50]" : "text-[#D4A706]"
+              }`}
+            >
+              {step.label} - {step.status ? "Done" : "Pending"}
+            </span>
+          </div>
+        ))}
       </div>
 
       <div className="flex items-center justify-center mt-20">

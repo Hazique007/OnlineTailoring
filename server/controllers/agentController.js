@@ -1,6 +1,7 @@
 import AgentOrder from "../models/agentOrderSchema.js"; // Import the AgentOrder model
 import Otp from "../models/userSchema.js"
 import Order from "../models/orderSchema.js";
+ import Address from "../models/addresschema.js"
 
 // Create a new agent order associated with a user
 export const createAgentOrder = async (req, res) => {
@@ -291,27 +292,32 @@ export const getAddressByNumber = async (req, res) => {
   if (!phoneNumber) {
     return res.status(400).json({ message: "Phone number is required" });
   }
-  console.log(phoneNumber);
+
+  console.log("Received phoneNumber:", phoneNumber);
 
   try {
+    // Check if the user exists
     const user = await Otp.findOne({ phoneNumber: "+" + phoneNumber });
+    console.log("User found:", user);
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // Get address using the userID
     const getAddress = await Address.find({ userID: user._id });
+    console.log("Address found:", getAddress);
+
     if (!getAddress.length) {
       return res.status(404).json({ message: "Address not found" });
     }
 
-    return res
-      .status(200)
-      .json({ message: "Successfully got address", getAddress });
+    return res.status(200).json({ message: "Successfully got address", getAddress });
   } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .json({ message: "Server error", error: error.message });
+    console.error("Error in getAddressByNumber:", error);
+
+    return res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 

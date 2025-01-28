@@ -39,22 +39,22 @@ const OrderPlacedSuccess = () => {
       <div className="flex flex-col items-start space-y-6 mt-10 mx-auto w-3/4">
         {/* Step 1: Order Placed */}
         <div className="flex items-center">
-          <FaCheckCircle className="text-[#4CAF50] text-[30px] mr-4" />
-          <span className="text-xl font-poppins text-[#4CAF50]">Order Placed - Done</span>
+          <FaCheckCircle className="text-[#4CAF50] text-[22px] mr-4" />
+          <span className="text-lg font-poppins text-[#4CAF50]">Order Placed - Done</span>
         </div>
 
         {/* Remaining Steps */}
         {[
-          "Fabric Pickup",
-          "Measurement",
-          "Stitching",
-          "Apparel Delivery",
-          "Payment",
-          "Order Completed",
+          "Fabric Pickup - pending",
+          "Measurement - pending",
+          "Stitching - pending",
+          "Apparel Delivery - pending",
+          "Payment - pending",
+          "Order Completed - pending",
         ].map((step, index) => (
           <div key={index} className="flex items-center">
-            <IoMdHourglass className="text-[#D4A706] text-[30px] mr-4" />
-            <span className="text-xl font-poppins text-[#D4A706]">{step}</span>
+            <IoMdHourglass className="text-[#D4A706] text-[22px] mr-4" />
+            <span className="text-lg font-poppins text-[#D4A706]">{step}</span>
           </div>
         ))}
       </div>

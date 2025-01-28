@@ -18,6 +18,9 @@ const UserList = () => {
         params: { page, limit: 10 },
       });
 
+      console.log(response.data);
+      
+
       if (response.data) {
         setOrders(response.data.groupedOrders || {});
         setTotalPages(response.data.totalPages || 1);

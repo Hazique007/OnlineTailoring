@@ -10,7 +10,6 @@ const EditAgent = () => {
   const { orderID } = useParams();
   const userID = localStorage.getItem("userID");
   const [mobile, setMobile] = useState(null);
-  const [userAddress, setUserAddress] = useState();
   const [orderData, setOrderData] = useState({
     user: null,
     order: null,
@@ -22,41 +21,21 @@ const EditAgent = () => {
     },
   });
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedAddress, setSelectedAddress] = useState(null);
-
-  const getAddress = async (mobile) => {
-    try {
-      const response = await axios.get(
-       ` https://apnadarzi-5.onrender.com/agent/getAddressByNumber?phoneNumber=91${mobile}`
-      );
-      console.log(response.data.getAddress[0]);
-      setUserAddress(response.data.getAddress[0]);
-      // console.log(userAddress);
-    } catch (error) {
-      console.error("Error fetching address:", error);
-      toast.error("Failed to fetch address");
-    }
-  };
-
-  useEffect(() => {
-    if (mobile) {
-      getAddress(mobile);
-    }
-  }, [mobile]);
+  const [selectedAddress, setSelectedAddress] = useState(
+    JSON.parse(localStorage.getItem("selectedAddress")) || null
+  );
 
   const fetchAllOrderData = async () => {
     try {
       setIsLoading(true);
 
-      const orderResponse = await axios.get(
-        "https://apnadarzi-5.onrender.com/orders/getOrderbyID",
-        { params: { orderID } }
-      );
+      const orderResponse = await axios.get("https://apnadarzi-5.onrender.com/orders/getOrderbyID", {
+        params: { orderID },
+      });
 
-      const agentResponse = await axios.get(
-        "https://apnadarzi-5.onrender.com/agent/agentorder",
-        { params: { orderID, userID } }
-      );
+      const agentResponse = await axios.get("https://apnadarzi-5.onrender.com/agent/agentorder", {
+        params: { orderID, userID },
+      });
 
       const agentOrder = agentResponse.data?.order?.[0] || {};
       const orderDetails = orderResponse.data?.order || {};
@@ -98,9 +77,7 @@ const EditAgent = () => {
 
   const handleSubmit = async () => {
     try {
-      const allCompleted = Object.values(orderData.status).every(
-        (status) => status
-      );
+      const allCompleted = Object.values(orderData.status).every((status) => status);
 
       const response = await axios.post(
         "https://apnadarzi-5.onrender.com/agent/updateagentorder",
@@ -124,19 +101,11 @@ const EditAgent = () => {
   const { user, order, status } = orderData;
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        Loading...
-      </div>
-    );
+    return <div className="flex justify-center items-center h-screen">Loading...</div>;
   }
 
   if (!user || !order) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        No order data found
-      </div>
-    );
+    return <div className="flex justify-center items-center h-screen">No order data found</div>;
   }
 
   return (
@@ -152,15 +121,12 @@ const EditAgent = () => {
           </div>
 
           <div className="font-[500] text-[16px]">{user.mobileNumber}</div>
-          {
-            <div className="font-semibold flex gap-2 text-[16px]">
-              {/* Address: */}
-              <div className="font-[500]">
-                {userAddress?.name} , {userAddress?.address1} ,{" "}
-                {userAddress?.address2} , {userAddress?.pincode}
-              </div>
+
+          <div className="font-semibold flex gap-2 text-[16px]">
+            <div className="font-[500]">
+              {selectedAddress?.name} , {selectedAddress?.address1} , {selectedAddress?.address2} , {selectedAddress?.pincode}
             </div>
-          }
+          </div>
         </div>
 
         <div className="flex justify-between mt-5">
@@ -169,9 +135,7 @@ const EditAgent = () => {
             type="checkbox"
             className="w-5 h-5"
             checked={status.fabricPickedUp}
-            onChange={(e) =>
-              handleStatusChange("fabricPickedUp", e.target.checked)
-            }
+            onChange={(e) => handleStatusChange("fabricPickedUp", e.target.checked)}
           />
         </div>
 
@@ -182,9 +146,7 @@ const EditAgent = () => {
             className="w-5 h-5"
             checked={status.measurementDone}
             disabled={!status.fabricPickedUp}
-            onChange={(e) =>
-              handleStatusChange("measurementDone", e.target.checked)
-            }
+            onChange={(e) => handleStatusChange("measurementDone", e.target.checked)}
           />
         </div>
 
@@ -195,9 +157,7 @@ const EditAgent = () => {
             className="w-5 h-5"
             checked={status.apparelDelivered}
             disabled={!status.measurementDone}
-            onChange={(e) =>
-              handleStatusChange("apparelDelivered", e.target.checked)
-            }
+            onChange={(e) => handleStatusChange("apparelDelivered", e.target.checked)}
           />
         </div>
 
@@ -208,9 +168,7 @@ const EditAgent = () => {
             className="w-5 h-5"
             checked={status.paymentReceived}
             disabled={!status.apparelDelivered}
-            onChange={(e) =>
-              handleStatusChange("paymentReceived", e.target.checked)
-            }
+            onChange={(e) => handleStatusChange("paymentReceived", e.target.checked)}
           />
         </div>
       </div>

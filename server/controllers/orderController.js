@@ -5,6 +5,7 @@ export const createOrder = async (req, res) => {
   try {
     const {
       userID, 
+      addressID,
       category,
       status,
       categoryDescription,
@@ -20,6 +21,7 @@ export const createOrder = async (req, res) => {
       sizes,
       stock,
       subCategory,
+      
     } = req.body;
 
     console.log(req.body);
@@ -32,6 +34,7 @@ export const createOrder = async (req, res) => {
 
     const newOrder = new Order({
       userID, 
+      addressID,
       category,
       categoryDescription,
       colors,
@@ -98,10 +101,11 @@ export const getOrders = async (req, res) => {
 
 export const getOrdersGroupedByDate = async (req, res) => {
   try {
-    const { page, limit = 10 } = req.query; 
+    const { page = 1, limit = 10 } = req.query; // Ensure default values
     const skip = (page - 1) * limit;
 
     const orders = await Order.find()
+      .populate("addressID") // <-- Ensures address details are included
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(parseInt(limit, 10))
